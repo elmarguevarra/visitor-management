@@ -54,6 +54,8 @@ export default {
         .then((response) => {
           console.log(response)
           this.response = response
+          this.formData.visitorName = ''
+          this.errorMsg = ''
         })
         .catch((error) => {
           console.log(error)
