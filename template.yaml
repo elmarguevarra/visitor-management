@@ -129,7 +129,7 @@ Resources:
     Type: AWS::Serverless::SimpleTable
     Properties:
       PrimaryKey:
-        Name: id
+        Name: registrationId
         Type: String
       ProvisionedThroughput:
         ReadCapacityUnits: 2
