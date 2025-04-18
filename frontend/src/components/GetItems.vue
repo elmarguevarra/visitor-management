@@ -2,7 +2,8 @@
   <div>
     <button @click="getItems">Get All Visitors</button>
     <div v-for="visitor in visitors" :key="visitor.registrationId">      
-      <h4>{{ visitor.registrationId }} || {{ visitor.visitorName }}</h4>            
+      <h5>Registration ID: {{ visitor.registrationId }} Visitor Name: {{ visitor.visitorName }}</h5>
+      <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="200" height="200">            
     </div>
     <h3 class="error" v-if="errorMsg">{{ errorMsg }}</h3>
   </div>

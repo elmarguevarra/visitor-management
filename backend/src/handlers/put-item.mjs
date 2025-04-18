@@ -62,6 +62,7 @@ export const putItemHandler = async (event) => {
           residentId: residentId,
           visitorName: visitorName,
           registrationTime: new Date().toISOString(),
+          qrCodeDataURL: qrCodeDataURL
       },
     };
 
