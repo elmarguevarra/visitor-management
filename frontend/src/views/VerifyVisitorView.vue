@@ -7,26 +7,28 @@
           type="text" 
           id="registrationId" 
           v-model="formData.registrationId"
+          readonly
         />
-      </div>
-      <div>
-        <button type="submit">Get Registration</button>
       </div>
     </form>
     <h3 v-if="visitor.registrationId">
-      {{ visitor.registrationId }} . {{ visitor.visitorName }}
+      Visitor {{ visitor.visitorName }} successfully verified
+    </h3>
+    <h3 v-else>
+      No visitor found or verification failed
     </h3>      
     <h3 class="error" v-if="errorMsg">{{ errorMsg }}</h3>
   </div>
+  
 </template>
 
 <script>
 import axios from 'axios';
 
 export default {
-  name: 'GetItemById',  
+  name: 'VerifyVisitorView',  
   props: {
-    initialId: {
+    registrationId: { 
       type: String,
       default: ''
     }
@@ -38,13 +40,13 @@ export default {
         visitorName: ''
       },
       formData: {
-        registrationId: this.initialId || '',
+        registrationId: this.registrationId || '',
       },      
       errorMsg: '',
     };
   },
   watch: {
-    initialId(newVal) {
+    registrationId(newVal) { 
       if (newVal) {
         this.formData.registrationId = newVal;
         this.fetchData(newVal);
@@ -52,16 +54,6 @@ export default {
     }
   },
   methods: {
-    async getItemsById() {
-      const id = this.formData.registrationId;
-      if (!id) {
-        this.errorMsg = 'Please enter an ID';
-        return;
-      }
-      await this.fetchData(id);
-      this.$emit('search', id);
-    },
-
     async fetchData(id) {
       try {
         const response = await axios.get(
@@ -77,8 +69,8 @@ export default {
     }
   },
   mounted() {
-    if (this.initialId) {
-      this.fetchData(this.initialId);
+    if (this.registrationId) { 
+      this.fetchData(this.registrationId);
     }
   }
 };

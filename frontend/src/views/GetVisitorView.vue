@@ -18,19 +18,14 @@
     </h3>      
     <h3 class="error" v-if="errorMsg">{{ errorMsg }}</h3>
   </div>
+  <router-link to="/">Back to Home</router-link>
 </template>
 
 <script>
 import axios from 'axios';
 
 export default {
-  name: 'GetItemById',  
-  props: {
-    initialId: {
-      type: String,
-      default: ''
-    }
-  },
+  name: 'GetVisitorView',  
   data() {
     return {
       visitor: {
@@ -38,18 +33,10 @@ export default {
         visitorName: ''
       },
       formData: {
-        registrationId: this.initialId || '',
+        registrationId: '',
       },      
       errorMsg: '',
     };
-  },
-  watch: {
-    initialId(newVal) {
-      if (newVal) {
-        this.formData.registrationId = newVal;
-        this.fetchData(newVal);
-      }
-    }
   },
   methods: {
     async getItemsById() {
@@ -74,11 +61,6 @@ export default {
         this.visitor = { registrationId: '', visitorName: '' };
         this.errorMsg = error.response?.data?.message || 'Error retrieving data';
       }
-    }
-  },
-  mounted() {
-    if (this.initialId) {
-      this.fetchData(this.initialId);
     }
   }
 };

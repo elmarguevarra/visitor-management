@@ -2,7 +2,8 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import ResidentView from './views/ResidentView.vue'; 
-import GuardView from './views/GuardView.vue';  
+import GetVisitorView from './views/GetVisitorView.vue';  
+import VerifyVisitorView from './views/VerifyVisitorView.vue';
 
 const routes = [
   {
@@ -13,7 +14,13 @@ const routes = [
   {
     path: '/get-visitor',
     name: 'GetVisitor',
-    component: GuardView
+    component: GetVisitorView
+  },
+  {
+    path: '/verify-visitor/:registrationId',
+    name: 'VerifyVisitorView',
+    component: VerifyVisitorView,
+    props: true
   }
 ];
 
