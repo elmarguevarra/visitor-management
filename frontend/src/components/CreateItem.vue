@@ -15,7 +15,7 @@
       </div>
       <div>
         <label for="visitorName">Visitor Name</label>
-        <input type="text" id="visitorName" v-model="formData.visitorName"/>
+        <input type="text" id="visitorName" v-model="formData.visitorName" required/>
       </div>            
       <div>
         <button>Register</button>
