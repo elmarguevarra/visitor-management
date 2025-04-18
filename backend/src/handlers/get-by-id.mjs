@@ -32,13 +32,13 @@ export const getByIdHandler = async (event) => {
   console.info('received:', event);
  
   // Get id from pathParameters from APIGateway because of `/{id}` at template.yaml
-  const id = event.pathParameters.id;
+  const registrationId = event.pathParameters.id;
  
   // Get the item from the table
   // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#get-property
   var params = {
     TableName : tableName,
-    Key: { id: id },
+    Key: { registrationId: registrationId },
   };
 
   try {

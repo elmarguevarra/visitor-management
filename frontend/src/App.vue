@@ -9,7 +9,7 @@
   <h3>Register Visitor</h3>
   <CreateItem class="form-section"/>
   <hr />  
-  <h3>Get Visitor By ID</h3>
+  <h3>Get Visitor Registration</h3>
   <GetItemById class="form-section"/>
   <hr />    
   <h3>Get All Visitors</h3>
