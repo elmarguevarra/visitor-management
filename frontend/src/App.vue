@@ -4,29 +4,16 @@
         <img :src="'./logo.png'" />
       </div>
   </div>
-  <h2>Hi, I Am SAM</h2>
+  <h2>Smart Gate</h2>
   <hr />  
-  <h3>Register Visitor</h3>
-  <CreateItem class="form-section"/>
-  <hr />  
-  <h3>Get Visitor Registration</h3>
-  <GetItemById class="form-section"/>
-  <hr />    
-  <h3>Get All Visitors</h3>
-  <GetItems class="form-section"/>
+
+  <router-view></router-view>
+
 </template>
 
 <script>
-import CreateItem from './components/CreateItem'
-import GetItems from './components/GetItems'
-import GetItemById from './components/GetItemById'
 export default {
-  name: 'App',
-  components: {
-    GetItems,
-    CreateItem,
-    GetItemById,
-  },
+  name: 'App'
 }
 </script>
 
