@@ -40,8 +40,10 @@ export const putItemHandler = async (event) => {
     const contact = body.contact; // Assuming you're passing contact information
     const registrationId = Math.random().toString(36).substring(2, 15); // Generate a simple unique ID for the visitor
 
-    const FRONTEND_BASE_URL = process.env.VUE_APP_FRONTEND_BASE_URL;
+    // const FRONTEND_BASE_URL = process.env.VUE_APP_FRONTEND_BASE_URL;
+    const FRONTEND_BASE_URL = "http://192.168.190.51:8080"
     const qrCodeData = `${FRONTEND_BASE_URL}/verify-visitor/${registrationId}`;
+    console.log("process.env.VUE_APP_FRONTEND_BASE_URL", process.env.VUE_APP_FRONTEND_BASE_URL)
 
     let qrCodeDataURL = null;
     try {
