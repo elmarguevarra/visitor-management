@@ -166,7 +166,7 @@ Resources:
                     [
                       'arn:aws:cloudfront::',
                       !Ref 'AWS::AccountId',
-                      distribution/,
+                      ':distribution/',
                       !Ref CloudFrontDistribution,
                     ],
                   ]
@@ -214,6 +214,7 @@ Resources:
               - CA
               - GB
               - DE
+              - PH
         ViewerCertificate:
           CloudFrontDefaultCertificate: true
   CloudFrontOriginAccessControl:
