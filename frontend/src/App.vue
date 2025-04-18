@@ -6,13 +6,13 @@
   </div>
   <h2>Hi, I Am SAM</h2>
   <hr />  
-  <h3>Create User</h3>
+  <h3>Register Visitor</h3>
   <CreateItem class="form-section"/>
   <hr />  
-  <h3>Get User By ID</h3>
+  <h3>Get Visitor By ID</h3>
   <GetItemById class="form-section"/>
   <hr />    
-  <h3>Get All Users</h3>
+  <h3>Get All Visitors</h3>
   <GetItems class="form-section"/>
 </template>
 

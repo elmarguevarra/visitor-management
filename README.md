@@ -123,7 +123,7 @@ docker run --rm -p 8000:8000 -v /tmp:/data amazon/dynamodb-local
 ```
 2. Create the DynamoDB table (sample command below): 
 ```
-aws dynamodb create-table --table-name SampleTable --attribute-definitions AttributeName=id,AttributeType=S --key-schema AttributeName=id,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://127.0.0.1:8000
+aws dynamodb create-table --table-name SampleTable --attribute-definitions AttributeName=registrationId,AttributeType=S --key-schema AttributeName=registrationId,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://127.0.0.1:8000
 ```
 3. Retrieve the ip address of your docker container running dynamodb local:
 ```
@@ -151,7 +151,7 @@ sam local start-api --env-vars env.json --host 0.0.0.0 --debug
 ```
 aws dynamodb put-item \
     --table-name SampleTable \
-    --item '{"id": {"S": "A1234"}, "name": {"S": "randeepx"}}' \
+    --item '{"registationId": {"S": "A1234"}, "visitorName": {"S": "randeepx"}}' \
     --endpoint-url http://127.0.0.1:8000
 ```
 7. How to scan your table for items

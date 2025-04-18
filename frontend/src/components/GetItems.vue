@@ -1,8 +1,8 @@
 <template>
   <div>
-    <button @click="getItems">Get User</button>
-    <div v-for="user in users" :key="user.id">      
-      <h4>{{ user.id }} || {{ user.name }}</h4>            
+    <button @click="getItems">Get All Visitors</button>
+    <div v-for="visitor in visitors" :key="visitor.registrationId">      
+      <h4>{{ visitor.registrationId }} || {{ visitor.visitorName }}</h4>            
     </div>
     <h3 class="error" v-if="errorMsg">{{ errorMsg }}</h3>
   </div>
@@ -16,7 +16,7 @@ export default {
   
   data() {
     return {
-      users: [],
+      visitors: [],
       errorMsg: '',
     }
   },
@@ -26,7 +26,7 @@ export default {
         .get(process.env.VUE_APP_API_ENDPOINT)
         .then((response) => {
           console.log(response)
-          this.users = response.data
+          this.visitors = response.data
         })
         .catch((error) => {
           console.log(error)

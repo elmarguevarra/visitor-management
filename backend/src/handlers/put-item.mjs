@@ -34,10 +34,8 @@ export const putItemHandler = async (event) => {
 
     // Get id and name from the body of the request
     const body = JSON.parse(event.body);
-    const id = body.id;
-    const name = body.name;
 
-    const visitorName = body.name; // Assuming 'name' represents the visitor's name
+    const visitorName = body.visitorName;
     const residentId = body.residentId; // Assuming you're passing the resident's ID
     const contact = body.contact; // Assuming you're passing contact information
     const registrationId = Math.random().toString(36).substring(2, 15); // Generate a simple unique ID for the visitor
@@ -59,7 +57,14 @@ export const putItemHandler = async (event) => {
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#put-property
     var params = {
         TableName : tableName,
-        Item: { id : id, name: name }
+        Item: {
+          registrationId: registrationId,
+          residentId: residentId,
+          visitorName: visitorName,
+          registrationTime: new Date().toISOString(),
+          qrCodeDataURL: qrCodeDataURL // Store the QR code data URL
+          // Alternatively, you could just store the registrationId in the QR code and not the data URL in the DB
+      },
     };
 
     try {
@@ -74,6 +79,12 @@ export const putItemHandler = async (event) => {
         throw err;
       }
 
+    const responseBody = {
+        message: 'Visitor registered successfully!',
+        registrationId: registrationId,
+        qrCodeDataURL: qrCodeDataURL // Include the QR code data URL in the response
+    };
+
     const response = {
         statusCode: 200,
         headers: {
@@ -81,7 +92,7 @@ export const putItemHandler = async (event) => {
             "Access-Control-Allow-Origin": "*", //DO NOT USE THIS VALUE IN PRODUCTION - https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(responseBody)
     };
 
     // All log statements are written to CloudWatch

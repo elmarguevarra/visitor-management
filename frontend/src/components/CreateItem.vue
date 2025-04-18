@@ -2,18 +2,31 @@
   <div>
     <form @submit.prevent="createItem">
       <div>
-        <label for="userId">User ID </label>
-        <input type="text" id="userId" v-model="formData.id" />
+        <label for="residentId">Resident ID </label>
+        <input type="text" id="residentId" v-model="formData.residentId" readonly='true' />
       </div>
       <div>
-        <label for="userName">User Name</label>
-        <input type="text" id="userName" v-model="formData.name" />
-      </div>      
+        <label for="residentName">Resident Name</label>
+        <input type="text" id="residentName" v-model="formData.residentName" readonly='true'/>
+      </div>
       <div>
-        <button>Create User</button>
+        <label for="residentContact">Resident Contact</label>
+        <input type="text" id="residentContact" v-model="formData.residentContact" readonly='true'/>
+      </div>
+      <div>
+        <label for="visitorName">Visitor Name</label>
+        <input type="text" id="visitorName" v-model="formData.visitorName"/>
+      </div>            
+      <div>
+        <button>Register</button>
       </div>
     </form>
-    <h3 v-if="response"> User created</h3>
+    <div v-if="response && response.data && response.data.qrCodeDataURL">
+      <h3>Visitor registered successfully!</h3>
+      <h4>QR Code:</h4>
+      <img :src="response.data.qrCodeDataURL" alt="Visitor QR Code" width="200" height="200">
+      <p>Registration ID: {{ response.data.registrationId }}</p>
+    </div>
     <h3 class="error" v-if="errorMsg">{{ errorMsg }}</h3>
   </div>
 </template>
@@ -25,8 +38,10 @@ export default {
   data() {
     return {
       formData: {
-        id: '',
-        name: '',
+        residentId: '1234',
+        residentName: 'Elmar Guevarra',
+        residentContact: '+6309123456',
+        visitorName: '',
       },
       errorMsg: '',
       response: '',
