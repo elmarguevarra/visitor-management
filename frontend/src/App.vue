@@ -1,7 +1,7 @@
 <template>
   <div>
       <div id="logo">
-        <img :src="'./logo.png'" />
+        <img src="/logo.png" />
       </div>
   </div>
   <h2>Smart Gate</h2>

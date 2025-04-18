@@ -21,6 +21,11 @@ const routes = [
     name: 'VerifyVisitorView',
     component: VerifyVisitorView,
     props: true
+  },
+  {
+    path: '/:pathMatch(.*)*', 
+    name: 'NotFound',
+    redirect: '/'
   }
 ];
 
