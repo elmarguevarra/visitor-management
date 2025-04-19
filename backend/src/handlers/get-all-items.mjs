@@ -38,6 +38,14 @@ export const getAllItemsHandler = async (event) => {
         TableName : tableName
     };
 
+    if (residentId) {
+        console.info(`Filtering by residentId: ${residentId}`);
+        params.FilterExpression = "residentId = :residentIdValue";
+        params.ExpressionAttributeValues = {
+            ":residentIdValue": residentId
+        };
+    }
+    
     try {
         const data = await ddbDocClient.send(new ScanCommand(params));
         var items = data.Items;

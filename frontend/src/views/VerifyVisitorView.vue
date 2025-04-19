@@ -18,8 +18,10 @@
       <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
       Verifying visitor...
     </div>
-    <div v-if="visitor.registrationId && !isLoading" class="alert alert-success mt-3">
-      Visitor <strong>{{ visitor.visitorName }}</strong> successfully verified for visit today ({{ visitor.visitDate }}).
+    <div v-if="visitor.registrationId && !isLoading" :class="{'alert-success': isVisitToday, 'alert-warning': isVisitInFuture,'alert-danger': isVisitExpired}" class="alert mt-3">
+      <span v-if="isVisitToday">{{ visitor.visitorName }}'s visit is for today ({{ formatDate(visitor.visitDate) }}).</span>
+      <span v-else-if="isVisitInFuture">{{ visitor.visitorName }}'s visit is on {{ formatDate(visitor.visitDate) }}.</span>
+      <span v-else-if="isVisitExpired">{{ visitor.visitorName }}'s visit expired on {{ formatDate(visitor.visitDate) }}.</span>
     </div>
     <div v-else-if="formData.registrationId && errorMsg === '' && !isLoading" class="alert alert-warning mt-3">
       No visitor found or verification failed.
@@ -43,7 +45,8 @@ export default {
     return {
       visitor: {
         registrationId: '',
-        visitorName: ''
+        visitorName: '',
+        visitDate: ''
       },
       formData: {
         registrationId: this.registrationId || '',
@@ -51,6 +54,32 @@ export default {
       errorMsg: '',
       isLoading: false, // Add loading state
     };
+  },
+  computed: {
+    visitDateObject() {
+      return this.visitor.visitDate ? new Date(this.visitor.visitDate) : null;
+    },
+    isVisitToday() {
+      if (!this.visitDateObject) return false;
+      const today = new Date();
+      return (
+        this.visitDateObject.getFullYear() === today.getFullYear() &&
+        this.visitDateObject.getMonth() === today.getMonth() &&
+        this.visitDateObject.getDate() === today.getDate()
+      );
+    },
+    isVisitInFuture() {
+      if (!this.visitDateObject) return false;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return this.visitDateObject > today;
+    },
+    isVisitExpired() {
+      if (!this.visitDateObject) return false;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return this.visitDateObject < today;
+    }
   },
   watch: {
     registrationId(newVal) {
@@ -71,7 +100,7 @@ export default {
         this.errorMsg = '';
       } catch (error) {
         console.error(error);
-        this.visitor = { registrationId: '', visitorName: '' };
+        this.visitor = { registrationId: '', visitorName: '', visitDate: '' };
         this.errorMsg = error.response?.data?.message || 'Error retrieving data';
       } finally {
         this.isLoading = false; // Set loading to false when fetching completes
@@ -80,7 +109,12 @@ export default {
     // The form submission is disabled as verification happens automatically
     getItemsById() {
       // This function is intentionally left empty as the verification is triggered by the prop
-    }
+    },
+    formatDate(dateString) {
+      if (!dateString) return '';
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    },
   },
   mounted() {
     if (this.registrationId) {

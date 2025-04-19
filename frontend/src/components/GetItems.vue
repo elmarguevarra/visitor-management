@@ -4,10 +4,12 @@
       <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
       Load visitor list
     </button>
-    <div v-for="visitor in visitors" :key="visitor.registrationId" class="card mb-3">
+
+    <h5 v-if="todayVisitors.length > 0" class="mt-4">Today's Visitors</h5>
+    <div v-for="visitor in todayVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
         <h5 class="card-title text-center mb-2">
-          {{ visitor.visitorName }} on {{ visitor.visitDate }}
+          {{ visitor.visitorName }} on {{ formatDate(visitor.visitDate) }}
         </h5>
         <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
         <p class="card-text text-center mb-0">
@@ -15,6 +17,36 @@
         </p>
       </div>
     </div>
+    <p v-if="todayVisitors.length === 0 && visitors.length > 0" class="text-muted">No visitors today.</p>
+    
+    <h5 v-if="upcomingVisitors.length > 0" class="mt-4">Upcoming Visitors</h5>
+    <div v-for="visitor in upcomingVisitors" :key="visitor.registrationId" class="card mb-3">
+      <div class="card-body d-flex flex-column align-items-center">
+        <h5 class="card-title text-center mb-2">
+          {{ visitor.visitorName }} on {{ formatDate(visitor.visitDate) }}
+        </h5>
+        <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
+        <p class="card-text text-center mb-0">
+          Registration ID: {{ visitor.registrationId }}
+        </p>
+      </div>
+    </div>
+    <p v-if="upcomingVisitors.length === 0 && visitors.length > 0" class="text-muted">No upcoming visitors.</p>
+
+    <h5 v-if="expiredVisitors.length > 0" class="mt-4">Past Visitors</h5>
+    <div v-for="visitor in expiredVisitors" :key="visitor.registrationId" class="card mb-3">
+      <div class="card-body d-flex flex-column align-items-center">
+        <h5 class="card-title text-center mb-2">
+          {{ visitor.visitorName }} on {{ formatDate(visitor.visitDate) }}
+        </h5>
+        <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
+        <p class="card-text text-center mb-0">
+          Registration ID: {{ visitor.registrationId }}
+        </p>
+      </div>
+    </div>
+    <p v-if="expiredVisitors.length === 0 && visitors.length > 0" class="text-muted">No past visitors.</p>
+
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
   </div>
 </template>
@@ -32,6 +64,34 @@ export default {
       isLoading: false,
     };
   },
+  computed: {
+    upcomingVisitors() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Set to the beginning of today
+      return this.visitors.filter(visitor => {
+        const visitDate = new Date(visitor.visitDate);
+        return visitDate > today;
+      });
+    },
+    todayVisitors() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      return this.visitors.filter(visitor => {
+        const visitDate = new Date(visitor.visitDate);
+        return visitDate >= today && visitDate < tomorrow;
+      });
+    },
+    expiredVisitors() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return this.visitors.filter(visitor => {
+        const visitDate = new Date(visitor.visitDate);
+        return visitDate < today;
+      });
+    },
+  },
   methods: {
     getItems() {
       this.isLoading = true;
@@ -48,6 +108,10 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+    },
+    formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
     },
   },
 };
