@@ -25,7 +25,7 @@
         <h5 class="card-title">
           Registration ID: {{ visitor.registrationId }}
         </h5>
-        <p class="card-text">Visitor: {{ visitor.visitorName }} on {{ visitor.visitDate }}</p>
+        <p class="card-text">{{ visitor.visitorName }} on {{ formatDate(visitor.visitDate) }}</p>
       </div>
     </div>
     <div v-else-if="searchPerformed && !visitor.registrationId && !isLoading" class="alert alert-warning mt-3">
@@ -83,6 +83,11 @@ export default {
         this.errorMsg = error.response?.data?.message || 'Error retrieving data';
       }
     },
+    formatDate(dateString) {
+      if (!dateString) return '';
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    }
   },
 };
 </script>

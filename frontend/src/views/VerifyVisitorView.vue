@@ -22,7 +22,7 @@
       <span v-if="isVisitToday">Verified <strong>{{ visitor.visitorName }}'s</strong> visit today <strong>{{ formatDate(visitor.visitDate) }}</strong>.</span>
     </div>
     <div v-else-if="(formData.registrationId && !isLoading && !isVisitToday && errorMsg === '')" class="alert alert-warning mt-3">
-      No visitor registered for today.
+      No matching visitor registration found for today.
     </div>
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
   </div>
