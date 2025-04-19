@@ -19,7 +19,7 @@
 
     <footer class="bg-light py-3 mt-4 text-center shadow-sm">
       <div class="container">
-        <p class="mb-0">&copy; 2025 alphinecodetech. All rights reserved.</p>
+        <p class="mb-0">&copy; 2025 AlphineCodeTech. All rights reserved.</p>
       </div>
     </footer>
   </div>
