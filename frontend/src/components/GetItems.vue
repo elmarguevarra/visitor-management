@@ -102,7 +102,7 @@ export default {
       this.isLoading = true;
       let apiUrl = process.env.VUE_APP_API_ENDPOINT;
       if (this.residentId) {
-        apiUrl += `?residentId=${this.residentId}`;
+        apiUrl += `visitors?residentId=${this.residentId}`;
       }
       axios
         .get(apiUrl)

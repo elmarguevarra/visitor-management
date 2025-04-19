@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      residentId: this.residentId,
+      residentIdForGetItems: null,
     };
   },
   methods: {
