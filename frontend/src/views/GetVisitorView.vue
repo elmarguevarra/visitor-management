@@ -28,6 +28,9 @@
         <p class="card-text">Visitor Name: {{ visitor.visitorName }} on {{ visitor.visitDate }}</p>
       </div>
     </div>
+    <div v-else-if="searchPerformed && !visitor.registrationId" class="alert alert-warning mt-3">
+      No registration found.
+    </div>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
   </div>
@@ -48,12 +51,14 @@ export default {
         registrationId: '',
       },
       errorMsg: '',
-      isLoading: false, // Add loading state
+      isLoading: false,
+      searchPerformed: false
     };
   },
   methods: {
     async getItemsById() {
-      this.isLoading = true; // Set loading to true when fetching starts
+      this.isLoading = true;
+      this.searchPerformed = true; 
       const id = this.formData.registrationId;
       if (!id) {
         this.errorMsg = 'Please enter an ID';
