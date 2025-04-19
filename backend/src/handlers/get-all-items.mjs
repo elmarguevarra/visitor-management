@@ -31,6 +31,9 @@ export const getAllItemsHandler = async (event) => {
     // All log statements are written to CloudWatch
     console.info('received:', event);
 
+    const body = JSON.parse(event.body);
+    const residentId = body.residentId;
+
     // get all items from the table (only first 1MB data, you can use `LastEvaluatedKey` to get the rest of data)
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#scan-property
     // https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html
@@ -45,7 +48,7 @@ export const getAllItemsHandler = async (event) => {
             ":residentIdValue": residentId
         };
     }
-    
+
     try {
         const data = await ddbDocClient.send(new ScanCommand(params));
         var items = data.Items;
