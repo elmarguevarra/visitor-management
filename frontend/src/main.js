@@ -5,9 +5,8 @@ import ResidentView from './views/ResidentView.vue';
 import GetVisitorView from './views/GetVisitorView.vue';  
 import VerifyVisitorView from './views/VerifyVisitorView.vue';
 
-import './styles/global.css';
-import './styles/banner.css';
-import './styles/variables.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const routes = [
   {

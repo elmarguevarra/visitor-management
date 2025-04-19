@@ -1,40 +1,49 @@
 <template>
-  <div>    
-    <form @submit.prevent="getItemsById">
-      <div>
-        <label for="registrationId">Registration ID</label>
-        <input 
-          type="text" 
-          id="registrationId" 
+  <div class="container mt-4">
+    <h2>Get Visitor Details</h2>
+    <form @submit.prevent="getItemsById" class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label for="registrationId" class="form-label">Registration ID</label>
+        <input
+          type="text"
+          class="form-control"
+          id="registrationId"
           v-model="formData.registrationId"
+          required
         />
       </div>
-      <div>
-        <button type="submit" class='primary-button'>Get Registration</button>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Get Registration</button>
       </div>
     </form>
-    <h3 v-if="visitor.registrationId">
-      {{ visitor.registrationId }} . {{ visitor.visitorName }}
-    </h3>      
-    <h3 class="error" v-if="errorMsg">{{ errorMsg }}</h3>
+
+    <div v-if="visitor.registrationId" class="card mt-3">
+      <div class="card-body">
+        <h5 class="card-title">
+          Registration ID: {{ visitor.registrationId }}
+        </h5>
+        <p class="card-text">Visitor Name: {{ visitor.visitorName }}</p>
+      </div>
+    </div>
+
+    <h3 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h3>
   </div>
-  <router-link to="/">Back to Home</router-link>
 </template>
 
 <script>
 import axios from 'axios';
 
 export default {
-  name: 'GetVisitorView',  
+  name: 'GetVisitorView',
   data() {
     return {
       visitor: {
         registrationId: '',
-        visitorName: ''
+        visitorName: '',
       },
       formData: {
         registrationId: '',
-      },      
+      },
       errorMsg: '',
     };
   },
@@ -61,23 +70,7 @@ export default {
         this.visitor = { registrationId: '', visitorName: '' };
         this.errorMsg = error.response?.data?.message || 'Error retrieving data';
       }
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style scoped>
-.route-btn {
-  margin-left: 10px;
-  background-color: #e6e6e6;
-}
-
-.error {
-  color: #ff4444;
-  margin-top: 15px;
-}
-
-form {
-  margin: 20px 0;
-}
-</style>

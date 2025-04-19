@@ -1,34 +1,39 @@
 <template>
-  <div>    
-    <form @submit.prevent="getItemsById">
-      <div>
-        <label for="registrationId">Registration ID</label>
-        <input 
-          type="text" 
-          id="registrationId" 
+  <div class="container mt-4">
+    <h2>Verify Visitor</h2>
+    <form @submit.prevent="getItemsById" class="row g-3 mb-3">
+      <div class="col-md-6">
+        <label for="registrationId" class="form-label">Registration ID</label>
+        <input
+          type="text"
+          class="form-control"
+          id="registrationId"
           v-model="formData.registrationId"
           readonly
         />
       </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary" disabled>Verify</button>
+      </div>
     </form>
-    <h3 v-if="visitor.registrationId">
-      Visitor {{ visitor.visitorName }} successfully verified
-    </h3>
-    <h3 v-else>
-      No visitor found or verification failed
-    </h3>      
-    <h3 class="error" v-if="errorMsg">{{ errorMsg }}</h3>
+
+    <div v-if="visitor.registrationId" class="alert alert-success mt-3">
+      Visitor <strong>{{ visitor.visitorName }}</strong> successfully verified.
+    </div>
+    <div v-else-if="formData.registrationId && errorMsg === ''" class="alert alert-warning mt-3">
+      No visitor found or verification failed.
+    </div>
+    <h3 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h3>
   </div>
-  
 </template>
 
 <script>
 import axios from 'axios';
 
 export default {
-  name: 'VerifyVisitorView',  
+  name: 'VerifyVisitorView',
   props: {
-    registrationId: { 
+    registrationId: {
       type: String,
       default: ''
     }
@@ -41,12 +46,12 @@ export default {
       },
       formData: {
         registrationId: this.registrationId || '',
-      },      
+      },
       errorMsg: '',
     };
   },
   watch: {
-    registrationId(newVal) { 
+    registrationId(newVal) {
       if (newVal) {
         this.formData.registrationId = newVal;
         this.fetchData(newVal);
@@ -66,28 +71,16 @@ export default {
         this.visitor = { registrationId: '', visitorName: '' };
         this.errorMsg = error.response?.data?.message || 'Error retrieving data';
       }
+    },
+    // The form submission is disabled as verification happens automatically
+    getItemsById() {
+      // This function is intentionally left empty as the verification is triggered by the prop
     }
   },
   mounted() {
-    if (this.registrationId) { 
+    if (this.registrationId) {
       this.fetchData(this.registrationId);
     }
   }
 };
 </script>
-
-<style scoped>
-.route-btn {
-  margin-left: 10px;
-  background-color: #e6e6e6;
-}
-
-.error {
-  color: #ff4444;
-  margin-top: 15px;
-}
-
-form {
-  margin: 20px 0;
-}
-</style>
