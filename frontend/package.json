@@ -1,8 +1,8 @@
 {
-  "name": "sam-starter-fontend",
+  "name": "visitor-management",
   "version": "1.0.0",
-  "description": "Frontend app for the Innovator Island workshop.",
-  "author": "Randeep Singh <randeepx@amazon.com>, Ben Peterson <benpte@amazon.com>",
+  "description": "Frontend app for visitor-management system",
+  "author": "Elmar Guevarra",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
