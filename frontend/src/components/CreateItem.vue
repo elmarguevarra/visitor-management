@@ -29,7 +29,7 @@
     <div v-if="response && response.data && response.data.qrCodeDataURL" class="mt-4 d-flex flex-column align-items-center">
       <img :src="response.data.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
       <p class="mt-2 mb-0 text-center">Registration ID: {{ response.data.registrationId }}</p>
-      <h6 class="alert alert-success mt-3">Visitor registered successfully!</h6>
+      <h6 class="alert alert-success mt-3">Visitor <strong>{{ response.data.visitorName }}</strong> successfully registered.</h6>
     </div>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>

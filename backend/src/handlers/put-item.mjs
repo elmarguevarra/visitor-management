@@ -83,6 +83,7 @@ export const putItemHandler = async (event) => {
 
     const responseBody = {
         registrationId: registrationId,
+        visitorName: visitorName,
         qrCodeDataURL: qrCodeDataURL
     };
 
