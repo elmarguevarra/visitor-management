@@ -1,7 +1,6 @@
 <template>
   <div class="container mt-4">
     <h3>Verify Visitor</h3>
-    <br />
     <form @submit.prevent="getItemsById" class="row g-3 mb-3">
       <div class="col-md-6">
         <label for="registrationId" class="form-label">Registration ID</label>
