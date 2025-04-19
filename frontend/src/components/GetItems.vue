@@ -74,7 +74,7 @@ export default {
       const today = new Date();
       today.setHours(0, 0, 0, 0); // Set to the beginning of today
       return this.visitors.filter(visitor => {
-        const visitDate = new Date(visitor.visitDate);
+        const visitDate = new Date(visitor.visitDate).setHours(0, 0, 0, 0);
         return visitDate > today;
       });
     },
@@ -84,7 +84,7 @@ export default {
       const tomorrow = new Date(today);
       tomorrow.setDate(tomorrow.getDate() + 1);
       return this.visitors.filter(visitor => {
-        const visitDate = new Date(visitor.visitDate);
+        const visitDate = new Date(visitor.visitDate).setHours(0, 0, 0, 0);
         return visitDate >= today && visitDate < tomorrow;
       });
     },
@@ -92,7 +92,7 @@ export default {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       return this.visitors.filter(visitor => {
-        const visitDate = new Date(visitor.visitDate);
+        const visitDate = new Date(visitor.visitDate).setHours(0, 0, 0, 0);
         return visitDate < today;
       });
     },
