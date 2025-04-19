@@ -13,7 +13,10 @@
         />
       </div>
       <div class="col-12">
-        <button type="submit" class="btn btn-primary">Get Registration</button>
+        <button type="submit" class="btn btn-primary" :disabled="isLoading">
+          <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          Get Registration
+        </button>
       </div>
     </form>
 
@@ -26,7 +29,7 @@
       </div>
     </div>
 
-    <h3 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h3>
+    <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
   </div>
 </template>
 
@@ -45,17 +48,21 @@ export default {
         registrationId: '',
       },
       errorMsg: '',
+      isLoading: false, // Add loading state
     };
   },
   methods: {
     async getItemsById() {
+      this.isLoading = true; // Set loading to true when fetching starts
       const id = this.formData.registrationId;
       if (!id) {
         this.errorMsg = 'Please enter an ID';
+        this.isLoading = false; // Reset loading state
         return;
       }
       await this.fetchData(id);
       this.$emit('search', id);
+      this.isLoading = false; // Reset loading state after fetching
     },
 
     async fetchData(id) {

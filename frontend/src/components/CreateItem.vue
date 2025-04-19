@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h3>Register Visitor</h3>
     <form @submit.prevent="createItem" class="row g-3">
       <div class="col-md-6">
         <label for="residentId" class="form-label">Resident ID</label>
@@ -18,7 +19,10 @@
         <input type="text" class="form-control" id="visitorName" v-model="formData.visitorName" required />
       </div>
       <div class="col-12">
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-primary" :disabled="isLoading">
+          <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          Register
+        </button>
       </div>
     </form>
 
@@ -29,21 +33,15 @@
       <p class="mt-2">Registration ID: {{ response.data.registrationId }}</p>
     </div>
 
-    <h3 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h3>
+    <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-// If you were using Ant Design Vue button, you would remove this import
-// import { Button as AButton } from 'ant-design-vue';
 
 export default {
   name: 'CreateItem',
-  // If you were using Ant Design Vue button, you would remove this component registration
-  // components: {
-  //   AButton,
-  // },
   data() {
     return {
       formData: {
@@ -54,10 +52,12 @@ export default {
       },
       errorMsg: '',
       response: '',
+      isLoading: false, // Add a loading state
     };
   },
   methods: {
     createItem() {
+      this.isLoading = true; // Set loading to true when the process starts
       axios
         .post(process.env.VUE_APP_API_ENDPOINT, this.formData)
         .then((response) => {
@@ -69,6 +69,9 @@ export default {
         .catch((error) => {
           console.log(error);
           this.errorMsg = 'Error posting data';
+        })
+        .finally(() => {
+          this.isLoading = false; // Set loading to false when the process completes (success or error)
         });
     },
   },
