@@ -18,13 +18,11 @@
       <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
       Verifying visitor...
     </div>
-    <div v-if="visitor.registrationId && !isLoading" :class="{'alert-success': isVisitToday, 'alert-warning': isVisitInFuture,'alert-danger': isVisitExpired}" class="alert mt-3">
-      <span v-if="isVisitToday">{{ visitor.visitorName }}'s visit is for today ({{ formatDate(visitor.visitDate) }}).</span>
-      <span v-else-if="isVisitInFuture">{{ visitor.visitorName }}'s visit is on {{ formatDate(visitor.visitDate) }}.</span>
-      <span v-else-if="isVisitExpired">{{ visitor.visitorName }}'s visit expired on {{ formatDate(visitor.visitDate) }}.</span>
+    <div v-else-if="formData.registrationId && !isLoading && isVisitToday" class="alert alert-success mt-3">
+      <span v-if="isVisitToday">Verified <strong>{{ visitor.visitorName }}'s</strong> visit today <strong>{{ formatDate(visitor.visitDate) }}</strong>.</span>
     </div>
-    <div v-else-if="formData.registrationId && errorMsg === '' && !isLoading" class="alert alert-warning mt-3">
-      No visitor found or verification failed.
+    <div v-else-if="(formData.registrationId && !isLoading && !isVisitToday && errorMsg === '')" class="alert alert-warning mt-3">
+      No visitor registered for today.
     </div>
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
   </div>
@@ -67,18 +65,6 @@ export default {
         this.visitDateObject.getMonth() === today.getMonth() &&
         this.visitDateObject.getDate() === today.getDate()
       );
-    },
-    isVisitInFuture() {
-      if (!this.visitDateObject) return false;
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      return this.visitDateObject > today;
-    },
-    isVisitExpired() {
-      if (!this.visitDateObject) return false;
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      return this.visitDateObject < today;
     }
   },
   watch: {
