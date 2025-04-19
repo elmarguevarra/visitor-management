@@ -1,9 +1,9 @@
 <template>
   <div class="container mt-4">
-    <h2 class="mb-4">Register Visitor</h2>
+    <h3 class="mb-3">Register visitor</h3>
     <CreateItem class="mb-4 border p-3 rounded shadow-sm" />
-    <hr class="my-5" />
-    <h2 class="mb-4">Get All Visitors</h2>
+    <br />
+    <h3 class="mb-3">Get all visitors</h3>
     <GetItems class="mb-4 border p-3 rounded shadow-sm" />
   </div>
 </template>

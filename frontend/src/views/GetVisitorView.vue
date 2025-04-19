@@ -1,6 +1,7 @@
 <template>
   <div class="container mt-4">
-    <h2>Get Visitor Details</h2>
+    <h3>Get visitor details</h3>
+    <br />
     <form @submit.prevent="getItemsById" class="row g-3 mb-4">
       <div class="col-md-6">
         <label for="registrationId" class="form-label">Registration ID</label>
@@ -15,7 +16,7 @@
       <div class="col-12">
         <button type="submit" class="btn btn-primary" :disabled="isLoading">
           <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-          Get Registration
+          Get registration
         </button>
       </div>
     </form>

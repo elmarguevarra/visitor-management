@@ -2,7 +2,7 @@
   <div>
     <button @click="getItems" class="btn btn-primary mb-3" :disabled="isLoading">
       <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-      Get All Visitors
+      Load visitor list
     </button>
     <div v-for="visitor in visitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
