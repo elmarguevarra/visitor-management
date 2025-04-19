@@ -79,5 +79,8 @@ export default {
         });
     },
   },
+  mounted() {
+    this.$emit('resident-id-updated', this.formData.residentId);
+  },
 };
 </script>

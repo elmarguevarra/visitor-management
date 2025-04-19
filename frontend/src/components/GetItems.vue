@@ -18,7 +18,7 @@
       </div>
     </div>
     <p v-if="todayVisitors.length === 0 && visitors.length > 0" class="text-muted">No visitors today.</p>
-    
+
     <h5 v-if="upcomingVisitors.length > 0" class="mt-4">Upcoming Visitors</h5>
     <div v-for="visitor in upcomingVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
@@ -56,7 +56,12 @@ import axios from 'axios';
 
 export default {
   name: 'GetItems',
-
+  props: {
+    residentId: {
+      type: String,
+      required: true
+    },
+  },
   data() {
     return {
       visitors: [],
@@ -95,8 +100,12 @@ export default {
   methods: {
     getItems() {
       this.isLoading = true;
+      let apiUrl = process.env.VUE_APP_API_ENDPOINT;
+      if (this.residentId) {
+        apiUrl += `?residentId=${this.residentId}`;
+      }
       axios
-        .get(process.env.VUE_APP_API_ENDPOINT)
+        .get(apiUrl)
         .then((response) => {
           console.log(response);
           this.visitors = response.data;
