@@ -3,7 +3,7 @@
     <h3 class="mb-3">Register visitor</h3>
     <CreateItem class="mb-4 border p-3 rounded shadow-sm" @resident-id-updated="updateResidentId" />
     <br />
-    <h3 class="mb-3">Get all visitors</h3>
+    <h3 class="mb-3">Get my visitors</h3>
     <GetUserItems class="mb-4 border p-3 rounded shadow-sm" :residentId="residentIdForGetItems" />
   </div>
 </template>
