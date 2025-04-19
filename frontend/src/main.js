@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: ResidentView  // Now uses dedicated component
+    component: ResidentView
   },
   {
     path: '/get-visitor',
