@@ -20,7 +20,7 @@
       </div>
     </form>
 
-    <div v-if="visitor.registrationId" class="card mt-3">
+    <div v-if="searchPerformed && visitor.registrationId && !isLoading" class="card mt-3">
       <div class="card-body">
         <h5 class="card-title">
           Registration ID: {{ visitor.registrationId }}
@@ -28,7 +28,7 @@
         <p class="card-text">Visitor Name: {{ visitor.visitorName }} on {{ visitor.visitDate }}</p>
       </div>
     </div>
-    <div v-else-if="searchPerformed && !visitor.registrationId" class="alert alert-warning mt-3">
+    <div v-else-if="searchPerformed && !visitor.registrationId && !isLoading" class="alert alert-warning mt-3">
       No registration found.
     </div>
 
