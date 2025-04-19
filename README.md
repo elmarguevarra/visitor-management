@@ -70,6 +70,7 @@ The following outputs will be displayed in the outputs when the deployment is co
 ## Deploy the Front End
 For convenience, the included deploy_frontend.sh bash script can be run to automatically deploy your front end website to your AWS account. Run using the following command:
 ```bash
+chmod +x deploy_frontend.sh
 ./deploy_frontend.sh
 ```
 

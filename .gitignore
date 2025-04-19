@@ -387,4 +387,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# aws cli Installer
+awscliv2.zipunzip
+
 # End of https://www.toptal.com/developers/gitignore/api/osx,sam,linux,python,windows,node

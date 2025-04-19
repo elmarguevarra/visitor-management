@@ -129,7 +129,7 @@ Resources:
     Type: AWS::Serverless::SimpleTable
     Properties:
       PrimaryKey:
-        Name: id
+        Name: registrationId
         Type: String
       ProvisionedThroughput:
         ReadCapacityUnits: 2
@@ -166,7 +166,7 @@ Resources:
                     [
                       'arn:aws:cloudfront::',
                       !Ref 'AWS::AccountId',
-                      distribution/,
+                      ':distribution/',
                       !Ref CloudFrontDistribution,
                     ],
                   ]
@@ -214,8 +214,18 @@ Resources:
               - CA
               - GB
               - DE
+              - PH
         ViewerCertificate:
           CloudFrontDefaultCertificate: true
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+            ErrorCachingMinTTL: 0
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+            ErrorCachingMinTTL: 0
   CloudFrontOriginAccessControl:
     Type: AWS::CloudFront::OriginAccessControl
     Properties:
