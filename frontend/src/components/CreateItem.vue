@@ -18,7 +18,7 @@
         <input type="text" id="visitorName" v-model="formData.visitorName" required/>
       </div>            
       <div>
-        <button>Register</button>
+        <button class='primary-button'>Register</button>
       </div>
     </form>
     <div v-if="response && response.data && response.data.qrCodeDataURL">

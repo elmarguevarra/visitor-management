@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="getItems">Get All Visitors</button>
+    <button @click="getItems" class='primary-button'>Get All Visitors</button>
     <div v-for="visitor in visitors" :key="visitor.registrationId">      
       <h5>Registration ID: {{ visitor.registrationId }} Visitor Name: {{ visitor.visitorName }}</h5>
       <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="200" height="200">            

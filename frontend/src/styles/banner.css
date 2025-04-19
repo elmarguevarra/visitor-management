@@ -1,0 +1,18 @@
+/* Banner Section */
+.banner-container {
+    margin-bottom: 2rem;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    /* To contain the border-radius of the image */
+    box-shadow: var(--box-shadow);
+}
+
+.banner-image {
+    display: block;
+    /* Remove extra space below image */
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    /* Slightly increased max height */
+    object-fit: cover;
+}

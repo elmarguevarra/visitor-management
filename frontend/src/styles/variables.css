@@ -1,0 +1,28 @@
+:root {
+    --primary-font: 'Poppins', 'Segoe UI', Arial, sans-serif;
+    --secondary-font: 'Inter', 'Segoe UI', Arial, sans-serif;
+    --font-size-base: 1rem;
+    /* 16px */
+    --font-size-lg: 2.25rem;
+    /* 36px for h1 */
+    --font-size-md: 1.5rem;
+    /* 24px for h2 */
+    --font-size-sm: 1.125rem;
+    /* 18px for h3 */
+    --line-height-base: 1.6;
+    --line-height-heading: 1.25;
+    --font-weight-heading: 600;
+    --font-weight-body: 400;
+    --letter-spacing-heading: 0.01em;
+    --letter-spacing-body: 0.02em;
+    --primary-color: #007bff;
+    /* Example primary color - you might not have defined one explicitly */
+    --secondary-color: #6c757d;
+    /* Example secondary color */
+    --text-color: #343a40;
+    --border-color: #dee2e6;
+    --border-radius: 0.25rem;
+    --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --primary-color-rgb: 0, 123, 255;
+    /* For rgba - you might not be using this yet */
+}

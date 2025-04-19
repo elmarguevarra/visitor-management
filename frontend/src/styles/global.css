@@ -1,0 +1,187 @@
+body {
+    font-family: var(--secondary-font);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+    color: var(--text-color);
+    background: #f8f9fa;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--primary-font);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #222;
+    /* You had a specific color here */
+}
+
+h1 {
+    font-size: var(--font-size-lg);
+}
+
+h2 {
+    font-size: var(--font-size-md);
+}
+
+h3 {
+    font-size: var(--font-size-sm);
+}
+
+p,
+label,
+input,
+button {
+    font-family: var(--secondary-font);
+    font-weight: var(--font-weight-body);
+    letter-spacing: var(--letter-spacing-body);
+    font-size: var(--font-size-base);
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    /* You had this directly in the label style */
+    color: #495057;
+    /* You had a specific color here */
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease-in-out;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    /* Assuming you'll use this */
+    box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
+    /* Assuming you'll use this */
+}
+
+.error {
+    color: #dc3545;
+    background-color: #f8d7da;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #f5c6cb;
+    border-radius: var(--border-radius);
+}
+
+/* Button Styles */
+button {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius);
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.primary-button {
+    color: #fff;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.primary-button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.secondary-button {
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.secondary-button:hover {
+    background-color: #545b62;
+    border-color: #4e555b;
+    color: #fff;
+}
+
+.route-btn {
+    margin-left: 0.5rem;
+    /* You might need to adjust how you "compose" in plain CSS */
+    /* One way is to simply include the base styles: */
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.route-btn:hover {
+    background-color: #545b62;
+    border-color: #4e555b;
+    color: #fff;
+}
+
+/* Responsive Design - Moved to global for broader application */
+@media (max-width: 768px) {
+    body {
+        /* You might want to adjust base font size for smaller screens here */
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    h3 {
+        font-size: 1.05rem;
+    }
+
+    p,
+    label,
+    input,
+    button {
+        font-size: 0.9rem;
+    }
+
+    label {
+        font-size: 0.9rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="password"],
+    button {
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .route-btn {
+        margin-left: 0.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+}
