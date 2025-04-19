@@ -24,9 +24,9 @@ const tableName = process.env.SAMPLE_TABLE;
 /**
  * A simple example includes a HTTP get method to get all items from a DynamoDB table.
  */
-export const getAllItemsHandler = async (event) => {
+export const getUserItemsHandler = async (event) => {
     if (event.httpMethod !== 'GET') {
-        throw new Error(`getAllItems only accept GET method, you tried: ${event.httpMethod}`);
+        throw new Error(`getUserItems only accept GET method, you tried: ${event.httpMethod}`);
     }
     // All log statements are written to CloudWatch
     console.info('received:', event);

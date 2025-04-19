@@ -94,7 +94,7 @@ Run functions locally and invoke them with the `sam local invoke` command.
 
 ```bash
 my-application$ sam local invoke putItemFunction --event events/event-post-item.json
-my-application$ sam local invoke getAllItemsFunction --event events/event-get-all-items.json
+my-application$ sam local invoke getUserItemsFunction --event events/event-get-user-items.json
 ```
 
 The AWS SAM CLI can also emulate your application's API. Use the `sam local start-api` command to run the API locally on port 3000.
@@ -187,10 +187,10 @@ Update `template.yaml` to add a dead-letter queue to your application. In the **
 Resources:
   MyQueue:
     Type: AWS::SQS::Queue
-  getAllItemsFunction:
+  getUserItemsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/get-all-items.getAllItemsHandler
+      Handler: src/handlers/get-user-items.getUserItemsHandler
       Runtime: nodejs20.x
       DeadLetterQueue:
         Type: SQS 

@@ -25,7 +25,7 @@
         <h5 class="card-title">
           Registration ID: {{ visitor.registrationId }}
         </h5>
-        <p class="card-text">Visitor Name: {{ visitor.visitorName }} on {{ visitor.visitDate }}</p>
+        <p class="card-text">Visitor: {{ visitor.visitorName }} on {{ visitor.visitDate }}</p>
       </div>
     </div>
     <div v-else-if="searchPerformed && !visitor.registrationId && !isLoading" class="alert alert-warning mt-3">

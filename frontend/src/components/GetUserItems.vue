@@ -55,7 +55,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'GetItems',
+  name: 'GetUserItems',
   props: {
     residentId: {
       type: String,
