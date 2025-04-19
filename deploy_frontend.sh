@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Get user input for stack name
-read -p "Enter the name of the CloudFormation stack: " stack_name
+# Hardcoded stack name
+stack_name="visitor-management"
 
 # Get the API Gateway URL from the stack
 api_gateway_endpoint=$(aws cloudformation describe-stacks --stack-name "$stack_name" --query "Stacks[0].Outputs[?OutputKey=='APIGatewayEndpoint'].OutputValue" --output text)
