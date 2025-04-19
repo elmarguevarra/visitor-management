@@ -82,7 +82,6 @@ export const putItemHandler = async (event) => {
       }
 
     const responseBody = {
-        message: 'Visitor registered successfully!',
         registrationId: registrationId,
         qrCodeDataURL: qrCodeDataURL
     };
