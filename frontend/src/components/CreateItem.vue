@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3>Register Visitor</h3>
     <form @submit.prevent="createItem" class="row g-3">
       <div class="col-md-6">
         <label for="residentId" class="form-label">Resident ID</label>
