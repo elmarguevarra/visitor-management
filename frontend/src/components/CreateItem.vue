@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h3>Register Visitor</h3>
     <form @submit.prevent="createItem" class="row g-3">
       <div class="col-md-6">
         <label for="residentId" class="form-label">Resident ID</label>
@@ -25,11 +26,11 @@
       </div>
     </form>
 
-    <div v-if="response && response.data && response.data.qrCodeDataURL" class="mt-4">
+    <div v-if="response && response.data && response.data.qrCodeDataURL" class="mt-4 d-flex flex-column align-items-center">
       <h3>Visitor registered successfully!</h3>
-      <h4>QR Code:</h4>
-      <img :src="response.data.qrCodeDataURL" alt="Visitor QR Code" width="200" height="200" class="img-thumbnail">
-      <p class="mt-2">Registration ID: {{ response.data.registrationId }}</p>
+      <h4 class="mb-2">QR Code:</h4>
+      <img :src="response.data.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
+      <p class="mt-2 mb-0 text-center">Registration ID: {{ response.data.registrationId }}</p>
     </div>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
