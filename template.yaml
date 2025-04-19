@@ -87,7 +87,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /{id}
+            Path: /visitor/{id}
             Method: GET
             RestApiId:
               Ref: ApiGatewayApi

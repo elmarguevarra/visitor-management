@@ -80,7 +80,7 @@ export default {
       this.isLoading = true; // Set loading to true when fetching starts
       try {
         const response = await axios.get(
-          `${process.env.VUE_APP_API_ENDPOINT}${id}`
+          `${process.env.VUE_APP_API_ENDPOINT}visitor/${id}`
         );
         this.visitor = response.data;
         this.errorMsg = '';

@@ -4,7 +4,7 @@ const API_ENDPOINT = process.env.VUE_APP_API_ENDPOINT
 console.log('API_ENDPOINT', API_ENDPOINT)
 
 export const getItemHandler = (): RestHandler[] => [
-  rest.get(`${API_ENDPOINT}:registrationId`, (req, res, ctx) => {
+  rest.get(`${API_ENDPOINT}visitor/:registrationId`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
