@@ -136,6 +136,13 @@ button {
     color: #fff;
 }
 
+.content-wrapper {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
 /* Responsive Design - Moved to global for broader application */
 @media (max-width: 768px) {
     body {

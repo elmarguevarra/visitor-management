@@ -10,7 +10,7 @@
         />
       </div>
       <div>
-        <button type="submit">Get Registration</button>
+        <button type="submit" class='primary-button'>Get Registration</button>
       </div>
     </form>
     <h3 v-if="visitor.registrationId">
