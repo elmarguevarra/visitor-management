@@ -26,7 +26,7 @@
         <h5 class="card-title">
           Registration ID: {{ visitor.registrationId }}
         </h5>
-        <p class="card-text">Visitor Name: {{ visitor.visitorName }}</p>
+        <p class="card-text">Visitor Name: {{ visitor.visitorName }} on {{ visitor.visitDate }}</p>
       </div>
     </div>
 

@@ -20,7 +20,7 @@
       Verifying visitor...
     </div>
     <div v-if="visitor.registrationId && !isLoading" class="alert alert-success mt-3">
-      Visitor <strong>{{ visitor.visitorName }}</strong> successfully verified.
+      Visitor <strong>{{ visitor.visitorName }}</strong> successfully verified for visit today ({{ visitor.visitDate }}).
     </div>
     <div v-else-if="formData.registrationId && errorMsg === '' && !isLoading" class="alert alert-warning mt-3">
       No visitor found or verification failed.

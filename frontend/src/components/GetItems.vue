@@ -7,7 +7,7 @@
     <div v-for="visitor in visitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
         <h5 class="card-title text-center mb-2">
-          {{ visitor.visitorName }}
+          {{ visitor.visitorName }} on {{ visitor.visitDate }}
         </h5>
         <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
         <p class="card-text text-center mb-0">

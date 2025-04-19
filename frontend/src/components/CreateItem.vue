@@ -17,6 +17,10 @@
         <label for="visitorName" class="form-label">Visitor Name</label>
         <input type="text" class="form-control" id="visitorName" v-model="formData.visitorName" required />
       </div>
+      <div class="col-md-6">
+        <label for="visitDate" class="form-label">Visit Date</label>
+        <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required />
+      </div>
       <div class="col-12">
         <button type="submit" class="btn btn-primary" :disabled="isLoading">
           <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
@@ -28,7 +32,7 @@
     <div v-if="response && response.data && response.data.qrCodeDataURL" class="mt-4 d-flex flex-column align-items-center">
       <img :src="response.data.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
       <p class="mt-2 mb-0 text-center">Registration ID: {{ response.data.registrationId }}</p>
-      <h6 class="alert alert-success mt-3">Visitor <strong>{{ response.data.visitorName }}</strong> successfully registered.</h6>
+      <h6 class="alert alert-success mt-3">Visitor <strong>{{ response.data.visitorName }}</strong> successfully registered for visit on <strong>{{ response.data.visitDate }}</strong></h6>
     </div>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
@@ -47,6 +51,7 @@ export default {
         residentName: 'Elmar Guevarra',
         residentContact: '+6309123456',
         visitorName: '',
+        visitDate: ''
       },
       errorMsg: '',
       response: '',
@@ -62,6 +67,7 @@ export default {
           console.log(response);
           this.response = response;
           this.formData.visitorName = '';
+          this.formData.visitDate = '';
           this.errorMsg = '';
         })
         .catch((error) => {

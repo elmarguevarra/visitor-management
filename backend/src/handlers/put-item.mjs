@@ -36,6 +36,7 @@ export const putItemHandler = async (event) => {
     const body = JSON.parse(event.body);
 
     const visitorName = body.visitorName;
+    const visitDate = body.visitDate;
     const residentId = body.residentId; // Assuming you're passing the resident's ID
     const contact = body.contact; // Assuming you're passing contact information
     const registrationId = Math.random().toString(36).substring(2, 15); // Generate a simple unique ID for the visitor
@@ -64,6 +65,7 @@ export const putItemHandler = async (event) => {
           registrationId: registrationId,
           residentId: residentId,
           visitorName: visitorName,
+          visitDate: visitDate,
           registrationTime: new Date().toISOString(),
           qrCodeDataURL: qrCodeDataURL
       },
@@ -84,6 +86,7 @@ export const putItemHandler = async (event) => {
     const responseBody = {
         registrationId: registrationId,
         visitorName: visitorName,
+        visitDate: visitDate,
         qrCodeDataURL: qrCodeDataURL
     };
 
