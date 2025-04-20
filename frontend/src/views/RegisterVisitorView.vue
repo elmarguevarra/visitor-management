@@ -9,7 +9,7 @@
 import CreateItem from '../components/CreateItem';
 
 export default {
-  name: 'ResidentView',
+  name: 'RegisterVisitorView',
   components: {
     CreateItem,
   },

@@ -45,10 +45,11 @@ import axios from 'axios';
 
 export default {
   name: 'CreateItem',
+  inject: ['residentId'],
   data() {
     return {
       formData: {
-        residentId: '1234',
+        residentId: this.residentId,
         residentName: 'Elmar Guevarra',
         residentContact: '+6309123456',
         visitorName: '',

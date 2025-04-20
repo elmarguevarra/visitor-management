@@ -2,7 +2,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import ResidentView from './views/ResidentView.vue'
+import RegisterVisitorView from './views/RegisterVisitorView.vue'
 import GetVisitorView from './views/GetVisitorView.vue'
 import VerifyVisitorView from './views/VerifyVisitorView.vue'
 import ListVisitorsView from './views/ListVisitorsView.vue'
@@ -19,8 +19,8 @@ console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: ResidentView,
+    name: 'Register',
+    component: RegisterVisitorView,
   },
   {
     path: '/get-visitor',
