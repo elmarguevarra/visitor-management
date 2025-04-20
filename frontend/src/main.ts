@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import ResidentView from './views/ResidentView.vue'
 import GetVisitorView from './views/GetVisitorView.vue'
 import VerifyVisitorView from './views/VerifyVisitorView.vue'
+import ListVisitorsView from './views/ListVisitorsView.vue'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
@@ -25,6 +26,11 @@ const routes = [
     path: '/get-visitor',
     name: 'GetVisitor',
     component: GetVisitorView,
+  },
+  {
+    path: '/list-visitors',
+    name: 'ListVisitors',
+    component: ListVisitorsView,
   },
   {
     path: '/verify-visitor/:registrationId',

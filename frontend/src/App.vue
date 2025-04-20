@@ -16,13 +16,10 @@
                 <router-link to="/" class="nav-link py-1" active-class="active">Register</router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/about" class="nav-link py-1" active-class="active">Visitors</router-link>
+                <router-link to="/list-visitors" class="nav-link py-1" active-class="active">Visitors</router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/services" class="nav-link py-1" active-class="active">Search</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/contact" class="nav-link py-1" active-class="active">Verify</router-link>
+                <router-link to="/get-visitor" class="nav-link py-1" active-class="active">Search</router-link>
               </li>
             </ul>
           </div>
@@ -58,6 +55,54 @@
 <script>
 export default {
   name: 'App',
+  provide() {
+    return {
+      residentId: this.currentResidentId,
+      setResidentId: this.updateResidentId,
+      isAuthenticated: this.isLoggedIn, // Example: track authentication status
+      login: this.simulateLogin,       // Placeholder for future login logic
+      logout: this.clearResidentId,     // Placeholder for future logout logic
+    };
+  },
+  data() {
+    return {
+      currentResidentId: '1234', // Hardcoded for now
+      isLoggedIn: true, // Assume logged in for now
+    };
+  },
+  methods: {
+    updateResidentId(newId) {
+      this.currentResidentId = newId;
+      // When integrating with the IDP, this method will likely be called
+      // after successfully retrieving the resident ID.
+      console.log('Resident ID updated:', newId);
+    },
+    clearResidentId() {
+      this.currentResidentId = null;
+      this.isLoggedIn = false;
+      console.log('Resident ID cleared (simulated logout)');
+      // In the future, this would handle actual logout logic.
+    },
+    simulateLogin() {
+      // This is a placeholder for your future login logic.
+      // When the user logs in via the IDP, you'll likely:
+      // 1. Make an API call to the IDP.
+      // 2. Upon successful authentication, retrieve the resident ID.
+      // 3. Call this.updateResidentId(fetchedResidentId).
+      console.log('Simulating login...');
+      // For now, we are already "logged in" with a hardcoded ID.
+      // In a real scenario, you would set isLoggedIn to true here.
+      this.isLoggedIn = true;
+      this.updateResidentId('FETCHED_RESIDENT_ID_AFTER_LOGIN'); // Example after "login"
+      // You might also redirect the user after login.
+      this.$router.push('/dashboard'); // Example navigation
+    },
+  },
+  mounted() {
+    console.log('App mounted. Resident ID is:', this.currentResidentId);
+    // In a real application, you might check for an existing auth token here
+    // and attempt to fetch user info if available.
+  },
 };
 </script>
 
