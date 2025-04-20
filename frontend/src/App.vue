@@ -6,7 +6,7 @@
           <router-link to="/" class="navbar-brand d-flex align-items-center">
             <img src="/logo.png" alt="Website Logo" height="30" class="d-inline-block align-middle me-2">
             AlphineCodeTech
-            <span class="ms-2 badge text-secondary" style="font-size: 0.5rem; align-self: center; background-color: #e0e0e0;">Admin</span>
+            <span class="ms-1 badge text-secondary" style="font-size: 0.4rem; align-self: center; background-color: #e0e0e0; font-weight: normal;">Admin</span>
           </router-link>
           <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
