@@ -13,16 +13,16 @@
           <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <router-link to="/" class="nav-link py-1" active-class="active">Home</router-link>
+                <router-link to="/" class="nav-link py-1" active-class="active">Register</router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/about" class="nav-link py-1" active-class="active">About</router-link>
+                <router-link to="/about" class="nav-link py-1" active-class="active">Visitors</router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/services" class="nav-link py-1" active-class="active">Services</router-link>
+                <router-link to="/services" class="nav-link py-1" active-class="active">Search</router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/contact" class="nav-link py-1" active-class="active">Contact</router-link>
+                <router-link to="/contact" class="nav-link py-1" active-class="active">Verify</router-link>
               </li>
             </ul>
           </div>
@@ -30,18 +30,18 @@
       </div>
     </header>
 
-    <div class="container-fluid p-0 mb-2 hero-image-container">
+    <div class="container-fluid p-0 mb-0 hero-image-container">
       <div class="position-relative">
         <img
           src="/banner.png"
           alt="Modern Website Hero Banner"
           class="img-fluid hero-image"
-          style="object-fit: cover; width: 100%; height: 400px; display: block;"
+          style="object-fit: cover; width: 100%; height: auto; max-height: 400px; display: block;"
         >
-        </div>
+      </div>
     </div>
 
-    <main class="flex-grow-1 py-4">
+    <main class="flex-grow-1 py-1">
       <div class="container">
         <router-view></router-view>
       </div>
@@ -66,5 +66,18 @@ export default {
 .hero-image-container {
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .hero-image {
+    max-height: 300px; /* Adjust height for smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-image {
+    max-height: 200px; /* Further adjust height for very small screens */
+  }
 }
 </style>
