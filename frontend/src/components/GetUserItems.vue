@@ -8,9 +8,9 @@
     <h5 v-if="todayVisitors.length > 0" class="mt-4">Today's Visitors</h5>
     <div v-for="visitor in todayVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
-        <h5 class="card-title text-center mb-2">
-          {{ visitor.visitorName }} on {{ formatDate(visitor.visitDate) }}
-        </h5>
+        <h6 class="card-title text-center mb-2">
+          {{ visitor.visitorName }}
+        </h6>
         <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
         <p class="card-text text-center mb-0">
           Registration ID: {{ visitor.registrationId }}
@@ -22,9 +22,9 @@
     <h5 v-if="upcomingVisitors.length > 0" class="mt-4">Upcoming Visitors</h5>
     <div v-for="visitor in upcomingVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
-        <h5 class="card-title text-center mb-2">
+        <h6 class="card-title text-center mb-2">
           {{ visitor.visitorName }} on {{ formatDate(visitor.visitDate) }}
-        </h5>
+        </h6>
         <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
         <p class="card-text text-center mb-0">
           Registration ID: {{ visitor.registrationId }}
@@ -36,10 +36,9 @@
     <h5 v-if="expiredVisitors.length > 0" class="mt-4">Past Visitors</h5>
     <div v-for="visitor in expiredVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
-        <h5 class="card-title text-center mb-2">
+        <h6 class="card-title text-center mb-2">
           {{ visitor.visitorName }} on {{ formatDate(visitor.visitDate) }}
-        </h5>
-        <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
+        </h6>
         <p class="card-text text-center mb-0">
           Registration ID: {{ visitor.registrationId }}
         </p>
