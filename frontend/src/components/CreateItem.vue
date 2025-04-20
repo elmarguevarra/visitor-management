@@ -19,7 +19,7 @@
       </div>
       <div class="col-md-6">
         <label for="visitDate" class="form-label">Visit Date</label>
-        <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required />
+        <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required :min="today" />
       </div>
       <div class="col-12">
         <button type="submit" class="btn btn-primary" :disabled="isLoading">
@@ -47,29 +47,31 @@ export default {
   name: 'CreateItem',
   inject: ['residentId'],
   data() {
+    const today = new Date().toISOString().split('T')[0];
     return {
       formData: {
         residentId: this.residentId,
         residentName: 'Elmar Guevarra',
         residentContact: '+6309123456',
         visitorName: '',
-        visitDate: ''
+        visitDate: today
       },
       errorMsg: '',
       response: '',
-      isLoading: false, // Add a loading state
+      isLoading: false,
+      today: today
     };
   },
   methods: {
     createItem() {
-      this.isLoading = true; // Set loading to true when the process starts
+      this.isLoading = true;
       axios
         .post(process.env.VUE_APP_API_ENDPOINT, this.formData)
         .then((response) => {
           console.log(response);
           this.response = response;
           this.formData.visitorName = '';
-          this.formData.visitDate = '';
+          this.formData.visitDate = this.today;
           this.errorMsg = '';
         })
         .catch((error) => {
@@ -77,12 +79,9 @@ export default {
           this.errorMsg = 'Error posting data';
         })
         .finally(() => {
-          this.isLoading = false; // Set loading to false when the process completes (success or error)
+          this.isLoading = false;
         });
     },
-  },
-  mounted() {
-    this.$emit('resident-id-updated', this.formData.residentId);
-  },
+  }
 };
 </script>
