@@ -139,7 +139,7 @@ Resources:
       MemorySize: 128
       Timeout: 100
       Description:
-        A simple example includes a HTTP post method to add one item to
+        A simple example includes a HTTP put method to update one item to
         a DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the SampleTable
