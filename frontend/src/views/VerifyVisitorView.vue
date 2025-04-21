@@ -19,7 +19,7 @@
       Verifying visitor...
     </div>
     <div v-else-if="visitor.registrationId && !isFetchDataLoading && isVisitToday" class="alert alert-success mt-3">
-      <span><strong>{{ visitor.visitorName }}</strong> is verified to visit today, <strong>{{ formatDate(visitor.visitDate) }}</strong>.</span>
+      <span><strong>{{ visitor.visitorName }}</strong> is verified to visit today.</span>
     </div>
     <div v-else-if="(visitor.registrationId && !isFetchDataLoading && !isVisitToday && errorMsg === '')" class="alert alert-warning mt-3">
       No matching registration found for today.
@@ -33,7 +33,7 @@
     </div>
 
     <div v-if="visitor.hasArrived && !errorMsg" class="alert alert-success mt-3">
-      Visitor has been successfully checked in!
+      Checked in on {{ formatDateAndTime(visitor.arrivalTime) }}
     </div>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
@@ -133,10 +133,20 @@ export default {
         this.isUpdateDataLoading = false;
       }
     },
-    formatDate(dateString) {
+
+    formatDateAndTime(dateString) {
       if (!dateString) return '';
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString(undefined, options);
+      const date = new Date(dateString);
+      const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+      const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
+      const formattedDate = date.toLocaleDateString(undefined, dateOptions);
+      const formattedTime = date.toLocaleTimeString(undefined, timeOptions);
+      return `${formattedDate} at ${formattedTime}`;
+    },
+    formatTime(dateString) {
+      if (!dateString) return '';
+      const options = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
+      return new Date(dateString).toLocaleTimeString(undefined, options);
     },
   },
   mounted() {
