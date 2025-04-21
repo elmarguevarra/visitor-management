@@ -87,11 +87,15 @@ export const putItemHandler = async (event) => {
         throw err;
       }
 
-    const responseBody = {
+      const responseBody = {
         registrationId: registrationId,
+        residentId: residentId,
         visitorName: visitorName,
         visitDate: visitDate,
-        qrCodeDataURL: qrCodeDataURL
+        registrationTime: registrationTime,
+        qrCodeDataURL: qrCodeDataURL,
+        arrivalTime: arrivalTime,
+        hasArrived: hasArrived
     };
 
     const response = {
