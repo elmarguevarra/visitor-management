@@ -54,9 +54,11 @@ export default {
   data() {
     return {
       visitor: {
-        registrationId: '',
-        visitorName: '',
-        visitDate: '',
+        residentId: null,
+        residentName: null,
+        residentContact: null,
+        visitorName: null,
+        visitDate: null,
         arrivalTime: null,
         hasArrived: false
       },
@@ -111,12 +113,17 @@ export default {
       this.isUpdateDataLoading = true;
       const updateData = {
         registrationId: this.registrationId,
+        residentName: this.visitor.residentName,
+        residentContact: this.visitor.residentContact,
+        visitorName: this.visitor.visitorName,
+        visitDate: this.visitor.visitDate,
+        arrivalTime: new Date().toISOString(),
         hasArrived: true
       };
       try {
-        const response = await axios.put(process.env.VUE_APP_API_ENDPOINT, updateData);
+        const response = await axios.post(process.env.VUE_APP_API_ENDPOINT, updateData);
         console.log('Update successful:', response.data);
-        this.visitor.hasArrived = true;
+        this.visitor = response.data;
         this.errorMsg = '';
       } catch (error) {
         console.log(error);
