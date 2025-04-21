@@ -29,11 +29,11 @@
       </div>
     </form>
 
-    <div v-if="response && response.data && response.data.qrCodeDataURL" class="mt-4 d-flex flex-column align-items-center">
-      <p class="mt-2 mb-2 text-center">{{ response.data.visitorName }}</p>
-      <img :src="response.data.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
-      <p class="mt-2 mb-0 text-center">Registration ID: {{ response.data.registrationId }}</p>
-      <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ response.data.visitDate }}</strong></h6>
+    <div v-if="visitor && visitor.qrCodeDataURL" class="mt-4 d-flex flex-column align-items-center">
+      <p class="mt-2 mb-2 text-center">{{ visitor.visitorName }}</p>
+      <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
+      <p class="mt-2 mb-0 text-center">Registration ID: {{ visitor.registrationId }}</p>
+      <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ visitor.visitDate }}</strong></h6>
     </div>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
@@ -49,15 +49,17 @@ export default {
   data() {
     const today = new Date().toISOString().split('T')[0];
     return {
+      visitor: null,
       formData: {
         residentId: this.residentId,
         residentName: 'Elmar Guevarra',
         residentContact: '+6309123456',
-        visitorName: '',
-        visitDate: today
+        visitorName: null,
+        visitDate: today,
+        arrivalTime: null,
+        hasArrived: false
       },
       errorMsg: '',
-      response: '',
       isLoading: false,
       today: today
     };
@@ -69,7 +71,7 @@ export default {
         .post(process.env.VUE_APP_API_ENDPOINT, this.formData)
         .then((response) => {
           console.log(response);
-          this.response = response;
+          this.visitor = response.data;
           this.formData.visitorName = '';
           this.formData.visitDate = this.today;
           this.errorMsg = '';

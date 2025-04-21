@@ -38,8 +38,10 @@ export const putItemHandler = async (event) => {
     const visitorName = body.visitorName;
     const visitDate = body.visitDate;
     const residentId = body.residentId; // Assuming you're passing the resident's ID
-    const contact = body.contact; // Assuming you're passing contact information
     const registrationId = Math.random().toString(36).substring(2, 15); // Generate a simple unique ID for the visitor
+    const registrationTime =  new Date().toISOString();
+    const arrivalTime = body.arrivalTime;
+    const hasArrived = body.hasArrived;
 
     // const FRONTEND_BASE_URL = process.env.VUE_APP_FRONTEND_BASE_URL;
     const FRONTEND_BASE_URL = "https://d1c16na2pdqsoc.cloudfront.net"
@@ -66,10 +68,10 @@ export const putItemHandler = async (event) => {
           residentId: residentId,
           visitorName: visitorName,
           visitDate: visitDate,
-          registrationTime: new Date().toISOString(),
+          registrationTime: registrationTime,
           qrCodeDataURL: qrCodeDataURL,
-          arrivalTime: null,
-          hasArrived: false
+          arrivalTime: arrivalTime,
+          hasArrived: hasArrived
       },
     };
 
@@ -87,9 +89,13 @@ export const putItemHandler = async (event) => {
 
     const responseBody = {
         registrationId: registrationId,
+        residentId: residentId,
         visitorName: visitorName,
         visitDate: visitDate,
-        qrCodeDataURL: qrCodeDataURL
+        registrationTime: registrationTime,
+        qrCodeDataURL: qrCodeDataURL,
+        arrivalTime: arrivalTime,
+        hasArrived: hasArrived
     };
 
     const response = {
@@ -97,7 +103,7 @@ export const putItemHandler = async (event) => {
         headers: {
             "Access-Control-Allow-Headers" : "Content-Type",
             "Access-Control-Allow-Origin": "*", //DO NOT USE THIS VALUE IN PRODUCTION - https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT"
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
         },
         body: JSON.stringify(responseBody)
     };

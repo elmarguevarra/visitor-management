@@ -1,4 +1,0 @@
-{
-  "httpMethod": "PUT",
-  "body": "{\"hasArrived\": \"true\""
-}

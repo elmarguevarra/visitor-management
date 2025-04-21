@@ -16,7 +16,7 @@ Resources:
     Properties:
       StageName: Prod
       Cors:
-        AllowMethods: "'OPTIONS, POST, GET, PUT'"
+        AllowMethods: "'OPTIONS, POST, GET'"
         AllowHeaders: "'Content-Type'"
         AllowOrigin: "'*'" #DO NOT USE THIS VALUE IN PRODUCTION - https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html
 
@@ -127,37 +127,6 @@ Resources:
             RestApiId:
               Ref: ApiGatewayApi
 
-  # This is a Lambda function config associated with the source code: update-item.js
-  updateItemFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: backend/
-      Handler: src/handlers/update-item.updateItemHandler
-      Runtime: nodejs20.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description:
-        A simple example includes a HTTP put method to update one item to
-        a DynamoDB table.
-      Policies:
-        # Give Create/Read/Update/Delete Permissions to the SampleTable
-        - DynamoDBCrudPolicy:
-            TableName: !Ref SampleTable
-      Environment:
-        Variables:
-          SAMPLE_TABLE: !Ref SampleTable
-          # Make DynamoDB endpoint accessible as environment variable from function code during execution
-          ENDPOINT_OVERRIDE: ''
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /
-            Method: PUT
-            RestApiId:
-              Ref: ApiGatewayApi
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
 
@@ -229,7 +198,6 @@ Resources:
             - OPTIONS
             - PATCH
             - POST
-            - PUT
           CachedMethods:
             - GET
             - HEAD
