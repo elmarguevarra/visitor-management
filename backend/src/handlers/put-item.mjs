@@ -38,8 +38,10 @@ export const putItemHandler = async (event) => {
     const visitorName = body.visitorName;
     const visitDate = body.visitDate;
     const residentId = body.residentId; // Assuming you're passing the resident's ID
-    const contact = body.contact; // Assuming you're passing contact information
     const registrationId = Math.random().toString(36).substring(2, 15); // Generate a simple unique ID for the visitor
+    const registrationTime =  new Date().toISOString();
+    const arrivalTime = body.arrivalTime;
+    const hasArrived = body.hasArrived;
 
     // const FRONTEND_BASE_URL = process.env.VUE_APP_FRONTEND_BASE_URL;
     const FRONTEND_BASE_URL = "https://dxsvto3sgek5h.cloudfront.net"
@@ -66,10 +68,10 @@ export const putItemHandler = async (event) => {
           residentId: residentId,
           visitorName: visitorName,
           visitDate: visitDate,
-          registrationTime: new Date().toISOString(),
+          registrationTime: registrationTime,
           qrCodeDataURL: qrCodeDataURL,
-          arrivalTime: null,
-          hasArrived: false
+          arrivalTime: arrivalTime,
+          hasArrived: hasArrived
       },
     };
 
