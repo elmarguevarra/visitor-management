@@ -110,6 +110,7 @@ export default {
     async setVisitorArrived() {
       this.isUpdateDataLoading = true;
       const updateData = {
+        registrationId: this.registrationId,
         hasArrived: true
       };
       try {
