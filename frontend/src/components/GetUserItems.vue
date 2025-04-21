@@ -11,7 +11,7 @@
         <span
           v-if="visitor.hasArrived"
           class="alert alert-success py-1 px-2 fw-normal position-absolute top-0 end-0 mt-2 me-2"
-          style="font-size: 0.75rem; border-radius: 0.2rem;"
+          style="font-size: 0.6rem; border-radius: 0.8rem;"
         >
           Arrived
         </span>
