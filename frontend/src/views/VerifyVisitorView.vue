@@ -113,8 +113,9 @@ export default {
       this.isUpdateDataLoading = true;
       const updateData = {
         registrationId: this.registrationId,
+        registrationTime: this.registrationTime,
         residentName: this.visitor.residentName,
-        residentContact: this.visitor.residentContact,
+        residentId: this.visitor.residentId,
         visitorName: this.visitor.visitorName,
         visitDate: this.visitor.visitDate,
         arrivalTime: new Date().toISOString(),
