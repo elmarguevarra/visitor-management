@@ -8,6 +8,13 @@
     <h5 v-if="todayVisitors.length > 0" class="mt-4">Today's Visitors</h5>
     <div v-for="visitor in todayVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
+        <span 
+            v-if="visitor.hasArrived" 
+            class="badge bg-success bg-opacity-50 fw-normal"
+            style="font-size: 0.75rem; position: absolute; top: 10px; right: 10px;"
+          >
+          Arrived
+        </span>
         <h6 class="card-title text-center mb-2">
           {{ visitor.visitorName }}
         </h6>

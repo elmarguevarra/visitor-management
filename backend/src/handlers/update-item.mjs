@@ -1,9 +1,5 @@
-// Create clients and set shared const values outside of the handler.
-
-// Create a DocumentClient that represents the query to add an item
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
-import QRCode from 'qrcode';
 
 //DynamoDB Endpoint
 const ENDPOINT_OVERRIDE = process.env.ENDPOINT_OVERRIDE;
@@ -22,12 +18,9 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 // Get the DynamoDB table name from environment variables
 const tableName = process.env.SAMPLE_TABLE;
 
-/**
- * A simple example includes a HTTP post method to add one item to a DynamoDB table.
- */
-export const putItemHandler = async (event) => {
-    if (event.httpMethod !== 'POST') {
-        throw new Error(`postMethod only accepts POST method, you tried: ${event.httpMethod} method.`);
+export const updateItemHandler = async (event) => {
+    if (event.httpMethod !== 'PUT') {
+        throw new Error(`putMethod only accepts PUT method, you tried: ${event.httpMethod} method.`);
     }
     // All log statements are written to CloudWatch
     console.info('received:', event);
@@ -35,41 +28,18 @@ export const putItemHandler = async (event) => {
     // Get id and name from the body of the request
     const body = JSON.parse(event.body);
 
-    const visitorName = body.visitorName;
-    const visitDate = body.visitDate;
-    const residentId = body.residentId; // Assuming you're passing the resident's ID
-    const contact = body.contact; // Assuming you're passing contact information
-    const registrationId = Math.random().toString(36).substring(2, 15); // Generate a simple unique ID for the visitor
-
-    // const FRONTEND_BASE_URL = process.env.VUE_APP_FRONTEND_BASE_URL;
-    const FRONTEND_BASE_URL = "https://d1c16na2pdqsoc.cloudfront.net"
-    const qrCodeData = `${FRONTEND_BASE_URL}/verify-visitor/${registrationId}`;
-    console.log("process.env.VUE_APP_FRONTEND_BASE_URL", process.env.VUE_APP_FRONTEND_BASE_URL)
-
-    let qrCodeDataURL = null;
-    try {
-        qrCodeDataURL = await QRCode.toDataURL(qrCodeData);
-        console.log('QR Code Data URL generated:', qrCodeDataURL);
-    } catch (error) {
-        console.error('Error generating QR code:', error);
-        // Decide how to handle QR code generation failure.
-        // You might want to still save the visitor data without the QR code or return an error.
-        // For this example, we'll log the error and continue without the QR code URL.
-    }
-
+    const registrationId = body.registrationId; 
+    const hasArrived = body.hasArrived; 
+    const arrivalTime = new Date().toISOString();
+  
     // Creates a new item, or replaces an old item with a new item
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#put-property
     var params = {
         TableName : tableName,
         Item: {
           registrationId: registrationId,
-          residentId: residentId,
-          visitorName: visitorName,
-          visitDate: visitDate,
-          registrationTime: new Date().toISOString(),
-          qrCodeDataURL: qrCodeDataURL,
-          arrivalTime: null,
-          hasArrived: false
+          arrivalTime: arrivalTime,
+          hasArrived: hasArrived
       },
     };
 
@@ -85,11 +55,10 @@ export const putItemHandler = async (event) => {
         throw err;
       }
 
-    const responseBody = {
+      const responseBody = {
         registrationId: registrationId,
-        visitorName: visitorName,
-        visitDate: visitDate,
-        qrCodeDataURL: qrCodeDataURL
+        arrivalTime: arrivalTime,
+        hasArrived: hasArrived
     };
 
     const response = {
