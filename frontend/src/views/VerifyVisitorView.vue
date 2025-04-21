@@ -33,7 +33,7 @@
     </div>
 
     <div v-if="visitor.hasArrived && !errorMsg" class="alert alert-success mt-3">
-      Checked in on {{ formatDateAndTime(visitor.arrivalTime) }}
+      Arrvied on <strong>{{ formatDateAndTime(visitor.arrivalTime) }}</strong>
     </div>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>

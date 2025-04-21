@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <h3>Get visitor details</h3>
+    <h3>Visitor details</h3>
     <form @submit.prevent="getItemsById" class="row g-3 mb-4">
       <div class="col-md-6">
         <label for="registrationId" class="form-label">Registration ID</label>
@@ -25,7 +25,9 @@
         <h5 class="card-title">
           Registration ID: {{ visitor.registrationId }}
         </h5>
-        <p class="card-text">{{ visitor.visitorName }} on {{ formatDate(visitor.visitDate) }}</p>
+        <p class="card-text">{{ visitor.visitorName }}</p>
+        <p v-if="visitor.hasArrived" class="card-text" mb-0>Arrived on {{ formatDateAndTime(visitor.arrivalTime) }}</p>
+        <p v-else-if="!visitor.hasArrived" class="card-text" mb-0>Scheduled on {{ formatDate(visitor.visitDate) }}</p>
       </div>
     </div>
     <div v-else-if="searchPerformed && !visitor.registrationId && !isLoading" class="alert alert-warning mt-3">
@@ -87,7 +89,20 @@ export default {
       if (!dateString) return '';
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(dateString).toLocaleDateString(undefined, options);
-    }
+    },
+    formatDateAndTime(dateString) {
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
+      const formattedDate = formatDate(dateString);
+      const formattedTime = date.toLocaleTimeString(undefined, timeOptions);
+      return `${formattedDate} at ${formattedTime}`;
+    },
+    formatTime(dateString) {
+      if (!dateString) return '';
+      const options = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
+      return new Date(dateString).toLocaleTimeString(undefined, options);
+    },
   },
 };
 </script>

@@ -2,7 +2,7 @@
   <div>
     <button @click="getItems" class="btn btn-primary mb-3" :disabled="isLoading">
       <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-      Load visitor list
+      Show visitors
     </button>
 
     <h5 v-if="todayVisitors.length > 0" class="mt-4">Today's Visitors</h5>
