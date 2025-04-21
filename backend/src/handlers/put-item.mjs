@@ -35,13 +35,19 @@ export const putItemHandler = async (event) => {
     // Get id and name from the body of the request
     const body = JSON.parse(event.body);
 
+    const registrationId = body.registrationId
+    const registrationTime =  body.registrationTime
     const visitorName = body.visitorName;
     const visitDate = body.visitDate;
-    const residentId = body.residentId; // Assuming you're passing the resident's ID
-    const registrationId = body.registrationId
-    const registrationTime =  new Date().toISOString();
-    const arrivalTime = body.arrivalTime;
-    const hasArrived = body.hasArrived;
+    const residentId = body.residentId;
+    const arrivalTime = body.arrivalTime
+    const hasArrived = body.hasArrived
+
+    if(!registrationId){
+      console.log("registrationId", registrationId)
+      registrationId = Math.random().toString(36).substring(2, 15); 
+      registrationTime =  new Date().toISOString();
+    }
 
     // const FRONTEND_BASE_URL = process.env.VUE_APP_FRONTEND_BASE_URL;
     const FRONTEND_BASE_URL = "https://dxsvto3sgek5h.cloudfront.net"
