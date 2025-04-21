@@ -35,8 +35,8 @@ export const putItemHandler = async (event) => {
     // Get id and name from the body of the request
     const body = JSON.parse(event.body);
 
-    const registrationId = body.registrationId
-    const registrationTime =  body.registrationTime
+    let registrationId = body.registrationId
+    let registrationTime =  body.registrationTime
     const visitorName = body.visitorName;
     const visitDate = body.visitDate;
     const residentId = body.residentId;
@@ -44,7 +44,6 @@ export const putItemHandler = async (event) => {
     const hasArrived = body.hasArrived
 
     if(!registrationId){
-      console.log("registrationId", registrationId)
       registrationId = Math.random().toString(36).substring(2, 15); 
       registrationTime =  new Date().toISOString();
     }
