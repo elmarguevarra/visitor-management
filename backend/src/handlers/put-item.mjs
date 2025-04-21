@@ -38,7 +38,7 @@ export const putItemHandler = async (event) => {
     const visitorName = body.visitorName;
     const visitDate = body.visitDate;
     const residentId = body.residentId; // Assuming you're passing the resident's ID
-    const registrationId = Math.random().toString(36).substring(2, 15); // Generate a simple unique ID for the visitor
+    const registrationId = body.registrationId
     const registrationTime =  new Date().toISOString();
     const arrivalTime = body.arrivalTime;
     const hasArrived = body.hasArrived;
