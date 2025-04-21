@@ -52,7 +52,7 @@ export default {
       visitor: null,
       formData: {
         residentId: this.residentId,
-        residentName: 'Elmar Guevarra',
+        residentName: 'Jua Delacruz',
         residentContact: '+6309123456',
         visitorName: null,
         visitDate: today,
