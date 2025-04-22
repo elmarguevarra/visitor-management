@@ -1,17 +1,30 @@
 <template>
   <div>
-    <button @click="getItems" class="btn btn-primary mb-3" :disabled="isLoading">
-      <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-      Show visitors
-    </button>
+    <p class="card-text placeholder-glow">
+      <span v-if="isLoading" class="placeholder col-5"></span>
+    </p>
+    <div v-if="isLoading" class="card" aria-hidden="true">
+      <div class="card-body">
+        <h6 class="card-title placeholder-glow text-center mb-2">
+          <span class="placeholder col-4"></span>
+        </h6>
+        <div class="mb-2 placeholder-box"></div>
+        <p class="card-text placeholder-glow text-center mb-0">
+          <span class="placeholder col-8"></span>
+        </p>
+      </div>
+      <div class="card-footer text-muted text-center small">
+        <span class="placeholder col-3"></span>
+      </div>
+    </div>
 
-    <h5 v-if="todayVisitors.length > 0" class="mt-4">Today's Visitors</h5>
+    <h5 v-if="todayVisitors.length > 0">Today's Visitors</h5>
     <div v-for="visitor in todayVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
         <h6 class="card-title text-center mb-2">
           {{ visitor.visitorName }}
         </h6>
-        <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
+        <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2" :class="{ 'opacity-50': visitor.hasDeparted }">
         <p class="card-text text-center mb-0">
           Registration ID: {{ visitor.registrationId }}
         </p>
@@ -19,7 +32,7 @@
       <div v-if="!visitor.hasArrived" class="card-footer text-muted text-center small">
         Scheduled
       </div>
-      <div v-else-if="visitor.hasArrived && !visitor.hasDeparted" class="card-footer text-muted text-center small">
+      <div v-else-if="visitor.hasArrived && !visitor.hasDeparted" class="card-footer text-secondary text-center small" style="background-color: #e2e3e5;">
         Arrived
       </div>
       <div v-else-if="visitor.hasDeparted" class="card-footer text-muted text-center small">
@@ -43,7 +56,7 @@
     <p v-if="upcomingVisitors.length === 0 && visitors.length > 0" class="text-muted">No upcoming visitors.</p>
 
     <h5 v-if="expiredVisitors.length > 0" class="mt-4">Past Visitors</h5>
-    <div v-for="visitor in expiredVisitors" :key="visitor.registrationId" class="card border-light mb-3">
+    <div v-for="visitor in expiredVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column text-muted align-items-center">
         <h6 class="card-title text-center mb-2">
           {{ visitor.visitorName }} on {{ formatDate(visitor.visitDate) }}
@@ -140,5 +153,19 @@ export default {
       return new Date(dateString).toLocaleDateString(undefined, options);
     },
   },
+  mounted() {
+    this.getItems();
+  }
 };
 </script>
+
+<style scoped>
+.placeholder-box {
+  width: 150px;
+  height: 150px;
+  background-color: #f8f9fa; /* Very light gray */
+  border: 1px solid #eee;
+  border-radius: 5px; /* Optional: slight rounding */
+  margin: 0 auto; /* Centers the box horizontally */
+}
+</style>
