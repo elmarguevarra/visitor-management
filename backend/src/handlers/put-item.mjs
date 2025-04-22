@@ -50,10 +50,8 @@ export const putItemHandler = async (event) => {
       registrationTime =  new Date().toISOString();
     }
 
-    // const FRONTEND_BASE_URL = process.env.VUE_APP_FRONTEND_BASE_URL;
-    const FRONTEND_BASE_URL = "https://dxsvto3sgek5h.cloudfront.net"
     const qrCodeData = `${FRONTEND_BASE_URL}/verify-visitor/${registrationId}`;
-    console.log("process.env.VUE_APP_FRONTEND_BASE_URL", process.env.VUE_APP_FRONTEND_BASE_URL)
+    console.log("process.env.APP_FRONTEND_BASE_URL", process.env.APP_FRONTEND_BASE_URL)
 
     let qrCodeDataURL = null;
     try {
