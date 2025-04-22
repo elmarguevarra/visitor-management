@@ -48,6 +48,7 @@ export default {
   inject: ['residentId'],
   data() {
     const today = new Date().toISOString().split('T')[0];
+    console.log("test-today", today)
     return {
       visitor: null,
       formData: {
@@ -57,7 +58,9 @@ export default {
         visitorName: null,
         visitDate: today,
         arrivalTime: null,
-        hasArrived: false
+        departureTime: null,
+        hasArrived: false,
+        hasDeparted: false
       },
       errorMsg: '',
       isLoading: false,

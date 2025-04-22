@@ -41,7 +41,9 @@ export const putItemHandler = async (event) => {
     const visitDate = body.visitDate;
     const residentId = body.residentId;
     const arrivalTime = body.arrivalTime
+    const departureTime = body.departureTime
     const hasArrived = body.hasArrived
+    const hasDeparted = body.hasDeparted
 
     if(!registrationId){
       registrationId = Math.random().toString(36).substring(2, 15); 
@@ -76,7 +78,9 @@ export const putItemHandler = async (event) => {
           registrationTime: registrationTime,
           qrCodeDataURL: qrCodeDataURL,
           arrivalTime: arrivalTime,
-          hasArrived: hasArrived
+          departureTime: departureTime, 
+          hasArrived: hasArrived,
+          hasDeparted: hasDeparted
       },
     };
 
@@ -100,7 +104,9 @@ export const putItemHandler = async (event) => {
         registrationTime: registrationTime,
         qrCodeDataURL: qrCodeDataURL,
         arrivalTime: arrivalTime,
-        hasArrived: hasArrived
+        departureTime: departureTime,
+        hasArrived: hasArrived,
+        hasDeparted: hasDeparted
     };
 
     const response = {

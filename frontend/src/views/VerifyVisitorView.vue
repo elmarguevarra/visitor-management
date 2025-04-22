@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <h3>Verify Visitor</h3>
+    <h3>Visitor Access</h3>
     <form @submit.prevent="getItemsById" class="row g-3 mb-3">
       <div class="col-md-6">
         <label for="registrationId" class="form-label">Registration ID</label>
@@ -19,21 +19,30 @@
       Verifying visitor...
     </div>
     <div v-else-if="visitor.registrationId && !isFetchDataLoading && isVisitToday" class="alert alert-success mt-3">
-      <span><strong>{{ visitor.visitorName }}</strong> is verified to visit today.</span>
+      <span><strong>{{ visitor.visitorName }}</strong> is scheduled to visit today.</span>
     </div>
     <div v-else-if="(visitor.registrationId && !isFetchDataLoading && !isVisitToday && errorMsg === '')" class="alert alert-warning mt-3">
-      No matching registration found for today.
+      No scheduled visit for today.
     </div>
 
     <div v-if="visitor.registrationId && isVisitToday && !visitor.hasArrived" class="col-12">
-      <button @click="setVisitorArrived" class="btn btn-primary" :disabled="isUpdateDataLoading">
-        <span v-if="isUpdateDataLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      <button @click="setVisitorArrived" class="btn btn-primary" :disabled="isSetArrivedDataLoading">
+        <span v-if="isSetArrivedDataLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
         Check-in
       </button>
     </div>
-
     <div v-if="visitor.hasArrived && !errorMsg" class="alert alert-success mt-3">
-      Arrvied on <strong>{{ formatDateAndTime(visitor.arrivalTime) }}</strong>
+      Arrived on <strong>{{ formatDateAndTime(visitor.arrivalTime) }}</strong>
+    </div>
+
+    <div v-if="visitor.registrationId && isVisitToday && visitor.hasArrived && !visitor.hasDeparted" class="col-12">
+      <button @click="setVisitorDeparted" class="btn btn-secondary" :disabled="isSetDepartedDataLoading">
+        <span v-if="isSetDepartedDataLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        Check-out
+      </button>
+    </div>
+    <div v-if="visitor.hasDeparted && !errorMsg" class="alert alert-success mt-3">
+      Departed on <strong>{{ formatDateAndTime(visitor.departureTime) }}</strong>
     </div>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
@@ -60,14 +69,17 @@ export default {
         visitorName: null,
         visitDate: null,
         arrivalTime: null,
-        hasArrived: false
+        departureTime: null,
+        hasArrived: false,
+        hasDeparted: false
       },
       formData: {
         registrationId: this.registrationId || '',
       },
       errorMsg: '',
       isFetchDataLoading: false,
-      isUpdateDataLoading: false,
+      isSetArrivedDataLoading: false,
+      isSetDepartedDataLoading: false,
     };
   },
   computed: {
@@ -110,7 +122,7 @@ export default {
       }
     },
     async setVisitorArrived() {
-      this.isUpdateDataLoading = true;
+      this.isSetArrivedDataLoading = true;
       const updateData = {
         registrationId: this.registrationId,
         registrationTime: this.registrationTime,
@@ -119,7 +131,9 @@ export default {
         visitorName: this.visitor.visitorName,
         visitDate: this.visitor.visitDate,
         arrivalTime: new Date().toISOString(),
-        hasArrived: true
+        departureTime: this.visitor.departureTime,
+        hasArrived: true,
+        hasDeparted: this.visitor.hasDeparted
       };
       try {
         const response = await axios.post(process.env.VUE_APP_API_ENDPOINT, updateData);
@@ -130,7 +144,33 @@ export default {
         console.log(error);
         this.errorMsg = 'Error updating check-in status';
       } finally {
-        this.isUpdateDataLoading = false;
+        this.isSetArrivedDataLoading = false;
+      }
+    },
+    async setVisitorDeparted() {
+      this.isSetDepartedDataLoading = true;
+      const updateData = {
+        registrationId: this.registrationId,
+        registrationTime: this.registrationTime,
+        residentName: this.visitor.residentName,
+        residentId: this.visitor.residentId,
+        visitorName: this.visitor.visitorName,
+        visitDate: this.visitor.visitDate,
+        arrivalTime: this.visitor.arrivalTime,
+        departureTime: new Date().toISOString(),
+        hasArrived: this.visitor.hasArrived,
+        hasDeparted: true
+      };
+      try {
+        const response = await axios.post(process.env.VUE_APP_API_ENDPOINT, updateData);
+        console.log('Update successful:', response.data);
+        this.visitor = response.data;
+        this.errorMsg = '';
+      } catch (error) {
+        console.log(error);
+        this.errorMsg = 'Error updating check-in status';
+      } finally {
+        this.isSetDepartedDataLoading = false;
       }
     },
 
