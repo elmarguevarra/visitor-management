@@ -118,6 +118,7 @@ Resources:
           SAMPLE_TABLE: !Ref SampleTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ''
+          APP_FRONTEND_BASE_URL: 'https://vms.alphinecodetech.click'
       Events:
         Api:
           Type: Api
