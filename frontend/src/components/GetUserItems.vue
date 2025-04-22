@@ -21,11 +21,11 @@
     <h5 v-if="todayVisitors.length > 0">Today's Visitors</h5>
     <div v-for="visitor in todayVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
-        <h6 class="card-title text-center mb-2">
+        <h6 class="card-title text-center mb-2" :class="{'text-muted': visitor.hasDeparted }">
           {{ visitor.visitorName }}
         </h6>
         <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2" :class="{ 'opacity-50': visitor.hasDeparted }">
-        <p class="card-text text-center mb-0">
+        <p class="card-text text-center mb-0" :class="{'text-muted': visitor.hasDeparted }">
           Registration ID: {{ visitor.registrationId }}
         </p>
       </div>
