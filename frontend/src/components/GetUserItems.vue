@@ -8,18 +8,6 @@
     <h5 v-if="todayVisitors.length > 0" class="mt-4">Today's Visitors</h5>
     <div v-for="visitor in todayVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
-        <span
-          v-if="visitor.hasArrived && !visitor.hasDeparted"
-          class="alert alert-primary py-1 px-2 fw-normal position-absolute top-0 end-0 mt-2 me-2"
-          style="font-size: 0.6rem; border-radius: 0.8rem;">
-          Arrived
-        </span>
-        <span
-          v-if="visitor.hasDeparted"
-          class="alert alert-secondary py-1 px-2 fw-normal position-absolute top-0 end-0 mt-2 me-2"
-          style="font-size: 0.6rem; border-radius: 0.8rem;">
-          Departed
-        </span>
         <h6 class="card-title text-center mb-2">
           {{ visitor.visitorName }}
         </h6>
@@ -27,6 +15,15 @@
         <p class="card-text text-center mb-0">
           Registration ID: {{ visitor.registrationId }}
         </p>
+      </div>
+      <div v-if="!visitor.hasArrived" class="card-footer text-muted text-center small">
+        Scheduled
+      </div>
+      <div v-else-if="visitor.hasArrived && !visitor.hasDeparted" class="card-footer text-muted text-center small">
+        Arrived
+      </div>
+      <div v-else-if="visitor.hasDeparted" class="card-footer text-muted text-center small">
+        Departed
       </div>
     </div>
     <p v-if="todayVisitors.length === 0 && visitors.length > 0" class="text-muted">No visitors today.</p>
@@ -46,26 +43,23 @@
     <p v-if="upcomingVisitors.length === 0 && visitors.length > 0" class="text-muted">No upcoming visitors.</p>
 
     <h5 v-if="expiredVisitors.length > 0" class="mt-4">Past Visitors</h5>
-    <div v-for="visitor in expiredVisitors" :key="visitor.registrationId" class="card mb-3">
-      <div class="card-body d-flex flex-column align-items-center">
-        <span
-          v-if="visitor.hasArrived && !visitor.hasDeparted"
-          class="alert alert-primary py-1 px-2 fw-normal position-absolute top-0 end-0 mt-2 me-2"
-          style="font-size: 0.6rem; border-radius: 0.8rem;">
-          Arrived
-        </span>
-        <span
-          v-if="visitor.hasDeparted"
-          class="alert alert-secondary py-1 px-2 fw-normal position-absolute top-0 end-0 mt-2 me-2"
-          style="font-size: 0.6rem; border-radius: 0.8rem;">
-          Departed
-        </span>
+    <div v-for="visitor in expiredVisitors" :key="visitor.registrationId" class="card border-light mb-3">
+      <div class="card-body d-flex flex-column text-muted align-items-center">
         <h6 class="card-title text-center mb-2">
           {{ visitor.visitorName }} on {{ formatDate(visitor.visitDate) }}
         </h6>
         <p class="card-text text-center mb-0">
           Registration ID: {{ visitor.registrationId }}
         </p>
+      </div>
+      <div v-if="!visitor.hasArrived" class="card-footer text-muted text-center small">
+        Scheduled
+      </div>
+      <div v-else-if="visitor.hasArrived && !visitor.hasDeparted" class="card-footer text-muted text-center small">
+        Arrived
+      </div>
+      <div v-else-if="visitor.hasDeparted" class="card-footer text-muted text-center small">
+        Departed
       </div>
     </div>
     <p v-if="expiredVisitors.length === 0 && visitors.length > 0" class="text-muted">No past visitors.</p>
