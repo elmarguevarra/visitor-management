@@ -208,6 +208,11 @@ Deploy the updated application.
 my-application$ sam deploy
 ```
 
+Deploy the Frontend
+```bash
+my-application$ ./deploy_frontend.sh
+```
+
 Open the [**Applications**](https://console.aws.amazon.com/lambda/home#/applications) page of the Lambda console, and choose your application. When the deployment completes, view the application resources on the **Overview** tab to see the new resource. Then, choose the function to see the updated configuration that specifies the dead-letter queue.
 
 ## Fetch, tail, and filter Lambda function logs
