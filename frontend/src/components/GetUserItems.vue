@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <h5 v-if="todayVisitors.length > 0">Today's Visitors</h5>
+    <h5 v-if="todayVisitors.length > 0">Today's</h5>
     <div v-for="visitor in todayVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
         <h6 class="card-title text-center mb-2" :class="{'text-muted': visitor.hasDeparted }">
@@ -41,7 +41,7 @@
     </div>
     <p v-if="todayVisitors.length === 0 && visitors.length > 0" class="text-muted">No visitors today.</p>
 
-    <h5 v-if="upcomingVisitors.length > 0" class="mt-4">Upcoming Visitors</h5>
+    <h5 v-if="upcomingVisitors.length > 0" class="mt-4">Upcoming</h5>
     <div v-for="visitor in upcomingVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
         <h6 class="card-title text-center mb-2">
@@ -55,7 +55,7 @@
     </div>
     <p v-if="upcomingVisitors.length === 0 && visitors.length > 0" class="text-muted">No upcoming visitors.</p>
 
-    <h5 v-if="expiredVisitors.length > 0" class="mt-4">Past Visitors</h5>
+    <h5 v-if="expiredVisitors.length > 0" class="mt-4">Past</h5>
     <div v-for="visitor in expiredVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column text-muted align-items-center">
         <h6 class="card-title text-center mb-2">

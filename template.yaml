@@ -222,6 +222,7 @@ Resources:
               - GB
               - DE
               - PH
+              - AU
         Aliases:  # Use Aliases to specify alternate domain names
           - alphinecodetech.click
           - vms.alphinecodetech.click

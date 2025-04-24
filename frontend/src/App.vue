@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="d-flex flex-column min-vh-100">
-    <header class="bg-light shadow-lg">
+    <header class="bg-light">
       <div class="container py-2">
         <nav class="navbar navbar-expand-lg navbar-light">
           <router-link to="/" class="navbar-brand d-flex align-items-center">
@@ -14,10 +14,10 @@
           <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center">
               <li class="nav-item">
-                <router-link to="/" class="nav-link py-1" active-class="active">Register</router-link>
+                <router-link to="/" class="nav-link py-1" active-class="active">Browse</router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/list-visitors" class="nav-link py-1" active-class="active">Visitors</router-link>
+                <router-link to="/register-visitor" class="nav-link py-1" active-class="active">Register</router-link>
               </li>
               <li class="nav-item">
                 <router-link to="/get-visitor" class="nav-link py-1" active-class="active">Search</router-link>
