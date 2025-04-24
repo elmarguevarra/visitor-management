@@ -48,7 +48,7 @@ export const putItemHandler = async (event) => {
 
     if(!registrationId){
       registrationId = Math.random().toString(36).substring(2, 15); 
-      registrationTime =  new Date().toISOString();
+      registrationTime =  new Date();
     }
 
     const qrCodeData = `${frontEndBaseUrl}/verify-visitor/${registrationId}`;

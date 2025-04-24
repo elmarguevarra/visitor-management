@@ -33,7 +33,7 @@
       <p class="mt-2 mb-2 text-center">{{ visitor.visitorName }}</p>
       <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
       <p class="mt-2 mb-0 text-center">Registration ID: {{ visitor.registrationId }}</p>
-      <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ visitor.visitDate }}</strong></h6>
+      <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ formatDate(today) }}</strong></h6>
     </div>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
@@ -47,7 +47,11 @@ export default {
   name: 'CreateItem',
   inject: ['residentId'],
   data() {
-    const today = new Date().toISOString().split('T')[0];
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const today = `${year}-${month}-${day}`;
     console.log("[Debug] today", today)
     return {
       visitor: null,
@@ -86,6 +90,10 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+    },
+    formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
     },
   }
 };
