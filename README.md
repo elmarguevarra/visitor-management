@@ -100,7 +100,7 @@ my-application$ sam local invoke getUserItemsFunction --event events/event-get-u
 The AWS SAM CLI can also emulate your application's API. Use the `sam local start-api` command to run the API locally on port 3000.
 
 ```bash
-my-application$ sam local start-api
+my-application$ sam local start-api --env-vars env.json
 my-application$ curl http://localhost:3000/
 ```
 
@@ -125,10 +125,12 @@ docker run --rm -p 8000:8000 -v /tmp:/data amazon/dynamodb-local
 2. Create the DynamoDB table (sample command below): 
 ```
 aws dynamodb create-table --table-name VisitorsTable --attribute-definitions AttributeName=registrationId,AttributeType=S --key-schema AttributeName=registrationId,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://127.0.0.1:8000
+
+aws dynamodb create-table --table-name InviteLinksTable --attribute-definitions AttributeName=inviteToken,AttributeType=S --key-schema AttributeName=inviteToken,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://127.0.0.1:8000
 ```
 3. Retrieve the ip address of your docker container running dynamodb local:
 ```
-docker inspect 3568e3fb702c93adc3b54ea3c56ebedf40ca2eff9be178d04148c744f41ab208 -f  '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 
+docker inspect f125ec5e7b35f4637b510c54b6f6b08e7d7b6a9c64310f5b3e68eb285633ba13 -f  '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 
 
 ```
 4. Update env.json with the IP of your docker container for the endpoint override - see here for example:

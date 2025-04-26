@@ -11,9 +11,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import InviteVisitorView from './views/InviteVisitorView.vue'
 
-if (process.env.NODE_ENV === 'development') {
-  require('./mocks/msw')
-}
+// if (process.env.NODE_ENV === 'development') {
+//   require('./mocks/msw')
+// }
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 

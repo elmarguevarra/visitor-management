@@ -1,4 +1,4 @@
 {
-    "httpMethod": "POST",
-    "body": "{\"id\": \"id1\",\"name\": \"name1\"}"
+  "httpMethod": "POST",
+  "body": "{\"residentId\": \"resident123\", \"visitorName\": \"John Doe\", \"visitDate\": \"2024-05-10\", \"arrivalTime\": \"10:00 AM\", \"departureTime\": \"12:00 PM\", \"hasArrived\": false, \"hasDeparted\": false, \"registrationTime\": \"2025-04-26T17:00:00.000Z\", \"registrationId\": \"visitor123\"}"
 }

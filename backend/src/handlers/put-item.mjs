@@ -20,7 +20,7 @@ else {
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
 // Get the DynamoDB table name from environment variables
-const tableName = process.env.SAMPLE_TABLE;
+const tableName = process.env.VISITORS_TABLE;
 
 const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL
 /**

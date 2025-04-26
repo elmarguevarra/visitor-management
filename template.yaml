@@ -41,7 +41,7 @@ Resources:
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          SAMPLE_TABLE: !Ref VisitorsTable
+          VISITORS_TABLE: !Ref VisitorsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ''
       Events:
@@ -80,7 +80,7 @@ Resources:
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          SAMPLE_TABLE: !Ref VisitorsTable
+          VISITORS_TABLE: !Ref VisitorsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ''
       Events:
@@ -115,7 +115,7 @@ Resources:
             TableName: !Ref VisitorsTable
       Environment:
         Variables:
-          SAMPLE_TABLE: !Ref VisitorsTable
+          VISITORS_TABLE: !Ref VisitorsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ''
           APP_FRONTEND_BASE_URL: 'https://vms.alphinecodetech.click'
@@ -124,6 +124,39 @@ Resources:
           Type: Api
           Properties:
             Path: /
+            Method: POST
+            RestApiId:
+              Ref: ApiGatewayApi
+
+  putInviteLinkFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/generate-invite-link.putInviteLinkItemHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description:
+        A simple example includes a HTTP post method to add one item to
+        a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the InviteLinksTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref InviteLinksTable
+      Environment:
+        Variables:
+          VISITORS_TABLE: !Ref InviteLinksTable
+          # Make DynamoDB endpoint accessible as environment variable from function code during execution
+          ENDPOINT_OVERRIDE: ''
+          APP_FRONTEND_BASE_URL: 'https://vms.alphinecodetech.click'
+          INVITE_LINKS_TABLE: !Ref InviteLinksTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /invite
             Method: POST
             RestApiId:
               Ref: ApiGatewayApi
@@ -137,6 +170,16 @@ Resources:
     Properties:
       PrimaryKey:
         Name: registrationId
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+
+  InviteLinksTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: inviteToken
         Type: String
       ProvisionedThroughput:
         ReadCapacityUnits: 2
