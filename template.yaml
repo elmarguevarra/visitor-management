@@ -223,13 +223,13 @@ Resources:
               - DE
               - PH
               - AU
-        Aliases:  # Use Aliases to specify alternate domain names
+        Aliases: # Use Aliases to specify alternate domain names
           - alphinecodetech.click
           - vms.alphinecodetech.click
         ViewerCertificate:
-            AcmCertificateArn: "arn:aws:acm:us-east-1:121216464768:certificate/2a44b652-9731-41b9-bb2e-883d6c0b1333" # Request a new one in ACM when deploying from scratch
-            MinimumProtocolVersion: 'TLSv1.2_2021'
-            SslSupportMethod: 'sni-only'
+          AcmCertificateArn: 'arn:aws:acm:us-east-1:121216464768:certificate/d5e28c4a-3c05-431e-a3b6-836800ae0cc9' # Request a new one in ACM when deploying from scratch
+          MinimumProtocolVersion: 'TLSv1.2_2021'
+          SslSupportMethod: 'sni-only'
         CustomErrorResponses:
           - ErrorCode: 403
             ResponseCode: 200
@@ -254,17 +254,17 @@ Resources:
       Name: alphinecodetech.click
       HostedZoneConfig:
         Comment: Hosted zone for my visitor management application
-  
+
   # Note that CNAMEs are not included here as they were only used for validation needed for public certificate request in ACM. It is a one time setup.
   # Alias record for the vms subdomain domain IPV4
   CloudFrontAliasRecordA:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZone
-      Name: vms.alphinecodetech.click   
+      Name: vms.alphinecodetech.click
       Type: A
       AliasTarget:
-        HostedZoneId: Z2FDTNDATAQYW2  # CloudFront Hosted Zone ID (for US East (N. Virginia), check for your region)
+        HostedZoneId: Z2FDTNDATAQYW2 # CloudFront Hosted Zone ID (for US East (N. Virginia), check for your region)
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
 
@@ -276,7 +276,7 @@ Resources:
       Name: vms.alphinecodetech.click
       Type: AAAA
       AliasTarget:
-        HostedZoneId: Z2FDTNDATAQYW2  # CloudFront Hosted Zone ID (for US East (N. Virginia), check for your region)
+        HostedZoneId: Z2FDTNDATAQYW2 # CloudFront Hosted Zone ID (for US East (N. Virginia), check for your region)
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
 
