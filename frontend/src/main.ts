@@ -9,6 +9,7 @@ import ListVisitorsView from './views/ListVisitorsView.vue'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import InviteVisitorView from './views/InviteVisitorView.vue'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -31,6 +32,11 @@ const routes = [
     path: '/get-visitor',
     name: 'GetVisitor',
     component: GetVisitorView,
+  },
+  {
+    path: '/invite-visitor',
+    name: 'InviteVisitorView',
+    component: InviteVisitorView,
   },
   {
     path: '/verify-visitor/:registrationId',

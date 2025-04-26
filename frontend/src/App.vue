@@ -23,7 +23,7 @@
                 <router-link to="/get-visitor" class="nav-link py-1" active-class="active">Search</router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/" class="nav-link py-1" active-class="active">Invite</router-link>
+                <router-link to="/invite-visitor" class="nav-link py-1" active-class="active">Invite</router-link>
               </li>
             </ul>
           </div>
