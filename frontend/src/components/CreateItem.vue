@@ -78,7 +78,7 @@ export default {
         ...this.formData,
         visitDate: this.formData.visitDate ? new Date(this.formData.visitDate).toISOString() : null,
       };
-      const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}register`;
+      const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}`;
       axios
         .post(apiUrl, visitorData)
         .then((response) => {

@@ -123,7 +123,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /register
+            Path: /
             Method: POST
             RestApiId:
               Ref: ApiGatewayApi
