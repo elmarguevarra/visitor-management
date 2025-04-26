@@ -18,8 +18,7 @@ echo "Building and deploying the SAM application (backend)..."
 echo "Running: sam build"
 sam build
 echo "Running: sam deploy --stack-name \"$STACK_NAME\""
-sam deploy \
-  --stack-name "$STACK_NAME"  || true # Changed this line
+sam deploy || true
 
 # --- Frontend Deployment ---
 echo "Deploying the frontend..."
