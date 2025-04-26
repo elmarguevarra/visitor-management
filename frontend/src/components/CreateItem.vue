@@ -74,8 +74,12 @@ export default {
   methods: {
     createItem() {
       this.isLoading = true;
+      const visitorData = {
+        ...this.formData,
+        visitDate: this.formData.visitDate ? new Date(this.formData.visitDate).toISOString() : null,
+      };
       axios
-        .post(process.env.VUE_APP_API_ENDPOINT, this.formData)
+        .post(process.env.VUE_APP_API_ENDPOINT, visitorData)
         .then((response) => {
           console.log(response);
           this.visitor = response.data;
