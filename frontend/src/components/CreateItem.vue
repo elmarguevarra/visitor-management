@@ -47,7 +47,11 @@ export default {
   name: 'CreateItem',
   inject: ['residentId'],
   data() {
-    const today = new Date().toISOString().split('T')[0];
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const today = `${year}-${month}-${day}`;
     console.log("[Debug] today", today)
     return {
       visitor: null,
@@ -86,6 +90,10 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+    },
+    formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
     },
   }
 };

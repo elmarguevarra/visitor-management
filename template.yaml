@@ -118,6 +118,7 @@ Resources:
           VISITORS_TABLE: !Ref Visitors
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ''
+          APP_FRONTEND_BASE_URL: 'https://vms.alphinecodetech.click'
       Events:
         Api:
           Type: Api
@@ -221,8 +222,14 @@ Resources:
               - GB
               - DE
               - PH
+              - AU
+        Aliases:  # Use Aliases to specify alternate domain names
+          - alphinecodetech.click
+          - vms.alphinecodetech.click
         ViewerCertificate:
-          CloudFrontDefaultCertificate: true
+            AcmCertificateArn: "arn:aws:acm:us-east-1:121216464768:certificate/2a44b652-9731-41b9-bb2e-883d6c0b1333" # Request a new one in ACM when deploying from scratch
+            MinimumProtocolVersion: 'TLSv1.2_2021'
+            SslSupportMethod: 'sni-only'
         CustomErrorResponses:
           - ErrorCode: 403
             ResponseCode: 200
@@ -240,6 +247,39 @@ Resources:
         OriginAccessControlOriginType: s3
         SigningBehavior: always
         SigningProtocol: sigv4
+
+  HostedZone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name: alphinecodetech.click
+      HostedZoneConfig:
+        Comment: Hosted zone for my visitor management application
+  
+  # Note that CNAMEs are not included here as they were only used for validation needed for public certificate request in ACM. It is a one time setup.
+  # Alias record for the vms subdomain domain IPV4
+  CloudFrontAliasRecordA:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: vms.alphinecodetech.click   
+      Type: A
+      AliasTarget:
+        HostedZoneId: Z2FDTNDATAQYW2  # CloudFront Hosted Zone ID (for US East (N. Virginia), check for your region)
+        DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
+        EvaluateTargetHealth: false # Important for CloudFront
+
+  # Alias record for the vms subdomain domain IPV6
+  CloudFrontAliasRecordAAAA:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: vms.alphinecodetech.click
+      Type: AAAA
+      AliasTarget:
+        HostedZoneId: Z2FDTNDATAQYW2  # CloudFront Hosted Zone ID (for US East (N. Virginia), check for your region)
+        DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
+        EvaluateTargetHealth: false # Important for CloudFront
+
 Outputs:
   APIGatewayEndpoint:
     Description: API Gateway endpoint URL for Prod stage

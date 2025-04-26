@@ -20,6 +20,11 @@ console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 const routes = [
   {
     path: '/',
+    name: 'ListVisitors',
+    component: ListVisitorsView,
+  },
+  {
+    path: '/register-visitor',
     name: 'Register',
     component: RegisterVisitorView,
   },

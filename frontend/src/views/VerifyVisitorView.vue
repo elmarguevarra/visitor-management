@@ -130,7 +130,7 @@ export default {
         residentId: this.visitor.residentId,
         visitorName: this.visitor.visitorName,
         visitDate: this.visitor.visitDate,
-        arrivalTime: new Date().toISOString(),
+        arrivalTime: new Date(),
         departureTime: this.visitor.departureTime,
         hasArrived: true,
         hasDeparted: this.visitor.hasDeparted
@@ -157,7 +157,7 @@ export default {
         visitorName: this.visitor.visitorName,
         visitDate: this.visitor.visitDate,
         arrivalTime: this.visitor.arrivalTime,
-        departureTime: new Date().toISOString(),
+        departureTime: new Date(),
         hasArrived: this.visitor.hasArrived,
         hasDeparted: true
       };

@@ -22,6 +22,7 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 // Get the DynamoDB table name from environment variables
 const tableName = process.env.VISITORS_TABLE;
 
+const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL
 /**
  * A simple example includes a HTTP post method to add one item to a DynamoDB table.
  */
@@ -47,11 +48,11 @@ export const putItemHandler = async (event) => {
 
     if(!registrationId){
       registrationId = Math.random().toString(36).substring(2, 15); 
-      registrationTime =  new Date().toISOString();
+      registrationTime =  new Date();
     }
 
-    const qrCodeData = `${FRONTEND_BASE_URL}/verify-visitor/${registrationId}`;
-    console.log("process.env.APP_FRONTEND_BASE_URL", process.env.APP_FRONTEND_BASE_URL)
+    const qrCodeData = `${frontEndBaseUrl}/verify-visitor/${registrationId}`;
+    console.log("process.env.APP_FRONTEND_BASE_URL", frontEndBaseUrl)
 
     let qrCodeDataURL = null;
     try {
