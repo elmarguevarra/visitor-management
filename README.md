@@ -136,11 +136,11 @@ docker inspect 3568e3fb702c93adc3b54ea3c56ebedf40ca2eff9be178d04148c744f41ab208 
 {
     "getByIdFunction": {
         "ENDPOINT_OVERRIDE": "http://172.17.0.2:8000",
-        "SAMPLE_TABLE": "SampleTable"
+        "VISITORS_TABLE": "Visitors"
     },
     "putItemFunction": {
         "ENDPOINT_OVERRIDE": "http://172.17.0.2:8000",
-        "SAMPLE_TABLE": "SampleTable"
+        "VISITORS_TABLE": "Visitors"
     }
 }
 ```

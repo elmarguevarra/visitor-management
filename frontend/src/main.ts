@@ -6,6 +6,7 @@ import RegisterVisitorView from './views/RegisterVisitorView.vue'
 import GetVisitorView from './views/GetVisitorView.vue'
 import VerifyVisitorView from './views/VerifyVisitorView.vue'
 import ListVisitorsView from './views/ListVisitorsView.vue'
+import InviteVisitorView from './views/InviteVisitorView.vue'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
@@ -31,6 +32,12 @@ const routes = [
     path: '/list-visitors',
     name: 'ListVisitors',
     component: ListVisitorsView,
+  },
+  {
+    path: '/invite-visitor',
+    name: 'InviteVisitorView',
+    component: InviteVisitorView,
+    props: true,
   },
   {
     path: '/verify-visitor/:registrationId',
