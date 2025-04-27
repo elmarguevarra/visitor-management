@@ -6,10 +6,10 @@ import RegisterVisitorView from './views/RegisterVisitorView.vue'
 import GetVisitorView from './views/GetVisitorView.vue'
 import VerifyVisitorView from './views/VerifyVisitorView.vue'
 import ListVisitorsView from './views/ListVisitorsView.vue'
+import InviteVisitorView from './views/InviteVisitorView.vue'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import InviteVisitorView from './views/InviteVisitorView.vue'
 
 // if (process.env.NODE_ENV === 'development') {
 //   require('./mocks/msw')
