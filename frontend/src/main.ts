@@ -40,9 +40,10 @@ const routes = [
     component: InviteVisitorView,
   },
   {
-    path: '/self-register-visitor',
+    path: '/self-register-visitor/:inviteToken',
     name: 'SelfRegisterVisitorView',
     component: SelfRegisterVisitorView,
+    props: true,
   },
   {
     path: '/verify-visitor/:registrationId',

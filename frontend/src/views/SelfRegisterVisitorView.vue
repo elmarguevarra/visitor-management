@@ -4,6 +4,10 @@
     <div class="mb-4 border p-3 rounded shadow-sm">
       <form @submit.prevent="generateInviteLink" class="row g-3">
         <div class="col-md-6">
+          <label for="residentId" class="form-label">Resident ID</label>
+          <input type="text" class="form-control" id="residentId" v-model="formData.residentId" readonly />
+        </div>
+        <div class="col-md-6">
           <label for="visitorName" class="form-label">Visitor Name</label>
           <input type="text" class="form-control" id="visitorName" v-model="formData.visitorName" required />
         </div>
@@ -11,14 +15,18 @@
           <label for="visitDate" class="form-label">Visit Date</label>
           <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required :min="today" />
         </div>
-        <div v-if="!isLoading" class="col-12">
-          <button type="submit" class="btn btn-primary" :disabled="isLoading">
-            <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-              Register
+        <div v-if="isGetInviteByTokenLoading" class="alert alert-info mt-3">
+          <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Verifying Invitation...
+        </div>
+        <div v-else-if="!isGetInviteByTokenLoading" class="col-12">
+          <button type="submit" class="btn btn-primary" :disabled="isSubmittedForApprovalLoading">
+            <span v-if="isSubmittedForApprovalLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Submit
           </button>
         </div>
       </form>
-      <div v-if="isLoading" class="alert alert-info mt-3">
+      <div v-if="isSubmittedForApprovalLoading" class="alert alert-info mt-3">
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Waiting for Approval...
       </div>
@@ -29,20 +37,23 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 
 export default {
   name: 'InviteVisitorView',
-  inject: ['residentId'],
+  props: {
+    inviteToken: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     const today = new Date().toISOString().split('T')[0];
     console.log("[Debug] today", today);
     return {
       invitation: null,
       formData: {
-        residentId: this.residentId,
-        residentName: 'Jua Delacruz',
-        residentContact: '+6309123456',
+        residentId: null,
         visitorName: null,
         visitDate: today,
         arrivalTime: null,
@@ -51,49 +62,39 @@ export default {
         hasDeparted: false,
       },
       errorMsg: '',
-      isLoading: false,
+      isGetInviteByTokenLoading: false,
+      isSubmittedForApprovalLoading: false,
       today: today,
     };
   },
-  // computed: {
-  //   isTokenExpired() {
-  //     if (this.invitation && this.invitation.inviteLinkExpiration) {
-  //       const expirationDate = new Date(this.invitation.inviteLinkExpiration);
-  //       const currentDate = new Date();
-  //       return currentDate > expirationDate; // Return true if the token is expired
-  //     }
-  //     return false; // If there's no expiration date, assume it's not expired
-  //   }
-  // },
   methods: {
-    formatDateAndTime(dateString) {
-      if (!dateString) return '';
-      const date = new Date(dateString);
-      const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-      const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
-      const formattedDate = date.toLocaleDateString(undefined, dateOptions);
-      const formattedTime = date.toLocaleTimeString(undefined, timeOptions);
-      return `${formattedDate} at ${formattedTime}`;
-   } ,
-    generateInviteLink() {
-      this.isLoading = true;
-      // this.errorMsg = '';
-      // const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}invite`;
-      // axios
-      //   .post(apiUrl, this.residentId)
-      //   .then((response) => {
-      //     console.log(response);
-      //     this.invitation = response.data;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //     this.errorMsg = 'Error generating invite link';
-      //   })
-      //   .finally(() => {
-      //     this.isLoading = false;
-      //   });
-    },
+    getInviteByToken() {
+      this.isGetInviteByTokenLoading = true;
+      this.errorMsg = '';
+      const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}invite/${this.inviteToken}`;
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          console.log(response.data);
+          this.invitation = response.data;
+          if (this.invitation && this.invitation.residentId) {
+            this.formData.residentId = this.invitation.residentId;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errorMsg = 'Invite invalid or has expired';
+        })
+        .finally(() => {
+          this.isGetInviteByTokenLoading = false;
+        });
+    }
   },
+  mounted() {
+    if (this.inviteToken) {
+      this.getInviteByToken();
+    }
+  }
 };
 </script>
 

@@ -93,9 +93,8 @@ export const putInviteLinkItemHandler = async (event) => {
  */
 export const generateInviteLink = async (residentId) => {
     const token = uuidv4();
-    const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
     const inviteLinkExpirationTimeInHours = 24;
-    const inviteLink = `${frontEndBaseUrl}/invite?token=${token}`;
+    const inviteLink = `${frontEndBaseUrl}/self-register-visitor/${token}`;
 
     // Calculate expiration time
     const expirationDate = new Date();
