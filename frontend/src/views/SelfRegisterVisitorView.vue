@@ -2,7 +2,7 @@
   <div class="container mt-4">
     <h3 class="mb-3">Self Registration</h3>
     <div class="mb-4 border p-3 rounded shadow-sm">
-      <form v-if="!errorMsg" @submit.prevent="generateInviteLink" class="row g-3">
+      <form v-if="!errorMsg && !isGetInviteByTokenLoading" @submit.prevent="generateInviteLink" class="row g-3">
         <div class="col-md-6">
           <label for="residentId" class="form-label">Resident ID</label>
           <input type="text" class="form-control" id="residentId" v-model="formData.residentId" readonly />
