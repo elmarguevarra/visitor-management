@@ -41,13 +41,14 @@ export const putInviteLinkItemHandler = async (event) => {
     // Generate invite link and add to response
     const inviteData = await generateInviteLink(residentId);
 
-    var params = {
+    const params = {
         TableName: tableName,
         Item: {
             inviteToken: inviteData.token,
             residentId: residentId,
             inviteLink: inviteData.inviteLink,
-            inviteLinkExpiration: inviteData.inviteLinkExpiration
+            inviteLinkExpiration: inviteData.inviteLinkExpiration,
+            ttl: inviteData.ttl
         },
     };
 
@@ -100,10 +101,14 @@ export const generateInviteLink = async (residentId) => {
     const expirationTime = new Date();
     expirationTime.setTime(expirationTime.getTime() + inviteLinkExpirationTimeInHours * 60 * 60 * 1000); // 24 hours
 
+    // Calculate the TTL (epoch time in seconds)
+    const ttlInSeconds = Math.floor(expirationDate.getTime() / 1000);
+
     const responseBody = {
         token: token,
         inviteLink: inviteLink,
-        inviteLinkExpiration: expirationTime.toISOString()
+        inviteLinkExpiration: expirationTime.toISOString(),
+        ttl: ttlInSeconds
     };
     return responseBody;
 };

@@ -176,14 +176,19 @@ Resources:
         WriteCapacityUnits: 2
 
   InviteLinksTable:
-    Type: AWS::Serverless::SimpleTable
+    Type: AWS::DynamoDB::Table
     Properties:
-      PrimaryKey:
-        Name: inviteToken
-        Type: String
-      ProvisionedThroughput:
-        ReadCapacityUnits: 2
-        WriteCapacityUnits: 2
+      TableName: InviteLinksTable
+      AttributeDefinitions:
+        - AttributeName: inviteToken
+          AttributeType: S
+      KeySchema:
+        - AttributeName: inviteToken
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
 
   # S3 Bucket to host single page app website
   WebSiteBucket:
