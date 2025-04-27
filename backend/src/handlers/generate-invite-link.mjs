@@ -98,8 +98,8 @@ export const generateInviteLink = async (residentId) => {
     const inviteLink = `${frontEndBaseUrl}/invite?token=${token}`;
 
     // Calculate expiration time
-    const expirationTime = new Date();
-    expirationTime.setTime(expirationTime.getTime() + inviteLinkExpirationTimeInHours * 60 * 60 * 1000); // 24 hours
+    const expirationDate = new Date();
+    expirationDate.setTime(expirationDate.getTime() + inviteLinkExpirationTimeInHours * 60 * 60 * 1000); // 24 hours
 
     // Calculate the TTL (epoch time in seconds)
     const ttlInSeconds = Math.floor(expirationDate.getTime() / 1000);
