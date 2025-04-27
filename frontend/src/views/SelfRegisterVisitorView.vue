@@ -16,7 +16,7 @@
           <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required :min="today" />
         </div>
         <div class="col-12">
-          <button type="submit" class="btn btn-primary" :disabled="isCreatePendingVisitLoading">
+          <button v-if="!registrationId" type="submit" class="btn btn-primary" :disabled="isCreatePendingVisitLoading">
             <span v-if="isCreatePendingVisitLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Submit
           </button>
@@ -26,7 +26,7 @@
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Verifying Invitation...
       </div>
-      <div v-if="isSubmittedForApprovalLoading" class="alert alert-info mt-3">
+      <div v-if="registrationId && isSubmittedForApprovalLoading" class="alert alert-info mt-3">
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Waiting for Approval...
       </div>
@@ -51,6 +51,7 @@ export default {
     console.log("[Debug] today", today);
     return {
       invitation: null,
+      registrationId: null,
       formData: {
         residentId: null,
         visitorName: null,
@@ -69,6 +70,7 @@ export default {
   },
   methods: {
     createPendingVisit() {
+      this.registrationId = "1234567890"
       this.isSubmittedForApprovalLoading = true;
     },
     getInviteByToken() {
