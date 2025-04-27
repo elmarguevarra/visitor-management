@@ -123,10 +123,28 @@ The AWS SAM CLI reads the application template to determine the API's routes and
 docker run --rm -p 8000:8000 -v /tmp:/data amazon/dynamodb-local
 ```
 2. Create the DynamoDB table (sample command below): 
-```
-aws dynamodb create-table --table-name VisitorsTable --attribute-definitions AttributeName=registrationId,AttributeType=S --key-schema AttributeName=registrationId,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://127.0.0.1:8000
+```bash
+# Create VisitorsTable
+aws dynamodb create-table \
+  --table-name VisitorsTable \
+  --attribute-definitions AttributeName=registrationId,AttributeType=S \
+  --key-schema AttributeName=registrationId,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST \
+  --endpoint-url http://127.0.0.1:8000
 
-aws dynamodb create-table --table-name InviteLinksTable --attribute-definitions AttributeName=inviteToken,AttributeType=S --key-schema AttributeName=inviteToken,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://127.0.0.1:8000
+# Create InviteLinksTable
+aws dynamodb create-table \
+  --table-name InviteLinksTable \
+  --attribute-definitions AttributeName=inviteToken,AttributeType=S \
+  --key-schema AttributeName=inviteToken,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST \
+  --endpoint-url http://127.0.0.1:8000
+
+# Add TTL
+aws dynamodb update-time-to-live \
+  --table-name InviteLinksTable \
+  --time-to-live-specification "Enabled=true, AttributeName=ttl" \
+  --endpoint-url http://127.0.0.1:8000
 ```
 3. Retrieve the ip address of your docker container running dynamodb local:
 ```

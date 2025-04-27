@@ -166,14 +166,16 @@ Resources:
 
   # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
   VisitorsTable:
-    Type: AWS::Serverless::SimpleTable
+    Type: AWS::DynamoDB::Table
     Properties:
-      PrimaryKey:
-        Name: registrationId
-        Type: String
-      ProvisionedThroughput:
-        ReadCapacityUnits: 2
-        WriteCapacityUnits: 2
+      TableName: VisitorsTable
+      AttributeDefinitions:
+        - AttributeName: registrationId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: registrationId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
 
   InviteLinksTable:
     Type: AWS::DynamoDB::Table
