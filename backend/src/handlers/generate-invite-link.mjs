@@ -107,7 +107,7 @@ export const generateInviteLink = async (residentId) => {
     const responseBody = {
         token: token,
         inviteLink: inviteLink,
-        inviteLinkExpiration: expirationTime.toISOString(),
+        inviteLinkExpiration: expirationDate.toISOString(),
         ttl: ttlInSeconds
     };
     return responseBody;
