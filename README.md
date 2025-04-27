@@ -227,6 +227,11 @@ To simplify troubleshooting, the AWS SAM CLI has a command called `sam logs`. `s
 my-application$ sam logs -n putItemFunction --stack-name visitor-management --tail
 ```
 
+To get all logs
+```bash
+my-application$ sam logs --stack-name visitor-management --tail
+```
+
 **NOTE:** This uses the logical name of the function within the stack. This is the correct name to use when searching logs inside an AWS Lambda function within a CloudFormation stack, even if the deployed function name varies due to CloudFormation's unique resource name generation.
 
 You can find more information and examples about filtering Lambda function logs in the [AWS SAM CLI documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
