@@ -25,6 +25,9 @@
               <li class="nav-item">
                 <router-link to="/invite-visitor" class="nav-link py-1" active-class="active">Invite</router-link>
               </li>
+              <li class="nav-item">
+                <router-link to="/self-register-visitor" class="nav-link py-1" active-class="active">Self-Register</router-link>
+              </li>
             </ul>
           </div>
         </nav>

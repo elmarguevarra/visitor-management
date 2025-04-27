@@ -1,39 +1,26 @@
 <template>
   <div class="container mt-4">
-    <h3 class="mb-3">Visitor Invitation</h3>
+    <h3 class="mb-3">Self Registration</h3>
     <div class="mb-4 border p-3 rounded shadow-sm">
       <form @submit.prevent="generateInviteLink" class="row g-3">
         <div class="col-md-6">
-          <label for="residentId" class="form-label">Resident ID</label>
-          <input type="text" class="form-control" id="residentId" v-model="formData.residentId" readonly />
+          <label for="visitorName" class="form-label">Visitor Name</label>
+          <input type="text" class="form-control" id="visitorName" v-model="formData.visitorName" required />
         </div>
         <div class="col-md-6">
-          <label for="residentName" class="form-label">Resident Name</label>
-          <input type="text" class="form-control" id="residentName" v-model="formData.residentName" readonly />
+          <label for="visitDate" class="form-label">Visit Date</label>
+          <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required :min="today" />
         </div>
-        <div class="col-md-6">
-          <label for="residentContact" class="form-label">Resident Contact</label>
-          <input type="text" class="form-control" id="residentContact" v-model="formData.residentContact" readonly />
-        </div>
-        <div class="col-12">
+        <div v-if="!isLoading" class="col-12">
           <button type="submit" class="btn btn-primary" :disabled="isLoading">
             <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-            Generate Link
+              Register
           </button>
         </div>
       </form>
-      <div v-if="invitation && invitation.inviteLink" class="mt-4 d-flex flex-column align-items-center">
-        <p class="mb-1 text-center text-secondary">Share this link:</p>
-        <div class="d-flex align-items-center">
-          <p class="me-2 mb-0">{{ invitation.inviteLink }}</p>
-          <button class="btn btn-outline-secondary btn-sm" @click="copyToClipboard(invitation.inviteLink)" title="Copy to clipboard">
-            Copy
-          </button>
-        </div>
-        <p v-if="invitation.inviteLinkExpiration" class="mt-2 text-muted text-center small">
-          Link expires on: {{ formatDateAndTime(invitation.inviteLinkExpiration) }}
-        </p>
-        <p class="mt-2 text-muted text-center small">Your visitor can use this link to register.</p>
+      <div v-if="isLoading" class="alert alert-info mt-3">
+        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          Waiting for Approval...
       </div>
 
       <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
@@ -42,7 +29,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 
 export default {
   name: 'InviteVisitorView',
@@ -90,30 +77,21 @@ export default {
    } ,
     generateInviteLink() {
       this.isLoading = true;
-      this.errorMsg = '';
-      const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}invite`;
-      axios
-        .post(apiUrl, this.residentId)
-        .then((response) => {
-          console.log(response);
-          this.invitation = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-          this.errorMsg = 'Error generating invite link';
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    copyToClipboard(text) {
-      navigator.clipboard.writeText(text)
-        .then(() => {
-          alert('Link copied!');
-        })
-        .catch((err) => {
-          console.error('Failed to copy text: ', err);
-        });
+      // this.errorMsg = '';
+      // const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}invite`;
+      // axios
+      //   .post(apiUrl, this.residentId)
+      //   .then((response) => {
+      //     console.log(response);
+      //     this.invitation = response.data;
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //     this.errorMsg = 'Error generating invite link';
+      //   })
+      //   .finally(() => {
+      //     this.isLoading = false;
+      //   });
     },
   },
 };
