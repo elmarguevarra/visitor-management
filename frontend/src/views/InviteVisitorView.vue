@@ -93,7 +93,7 @@ export default {
       this.errorMsg = '';
       const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}invite`;
       axios
-        .post(apiUrl, this.residentId)
+        .post(apiUrl, { residentId: this.residentId })
         .then((response) => {
           console.log(response);
           this.invitation = response.data;

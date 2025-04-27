@@ -83,7 +83,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          this.errorMsg = 'Invite invalid or has expired';
+          this.errorMsg = 'Invite not found or has already expired.';
         })
         .finally(() => {
           this.isGetInviteByTokenLoading = false;

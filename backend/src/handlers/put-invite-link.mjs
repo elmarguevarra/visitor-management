@@ -35,11 +35,12 @@ export const putInviteLinkItemHandler = async (event) => {
     const body = JSON.parse(event.body);
 
     let residentId = body.residentId;
+    console.log("residentId: ", residentId)
 
     // Verify if resident id exists
 
     // Generate invite link and add to response
-    const inviteData = await generateInviteLink(residentId);
+    const inviteData = await generateInviteData();
 
     const params = {
         TableName: tableName,
@@ -91,7 +92,7 @@ export const putInviteLinkItemHandler = async (event) => {
 /**
  * Generates an invite link.
  */
-export const generateInviteLink = async (residentId) => {
+export const generateInviteData = async () => {
     const token = uuidv4();
     const inviteLinkExpirationTimeInHours = 24;
     const inviteLink = `${frontEndBaseUrl}/self-register-visitor/${token}`;

@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3 # Checks out your code in the repository
 
       - name: Set up Node.js (optional, if required for your deploy script)
-        uses: actions/setup-node@v3 # Optional: Set up Node.js if your deploy script needs it
+        uses: actions/setup-node@v3
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -25,7 +25,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Run deploy script
-        run: ./deploy.sh # Executes the deploy script
+        run: ./deploy.sh
         # env:
         #   # Optional: Add environment variables if required for your deploy script
         #   # EXAMPLE_ENV_VAR: ${{ secrets.YOUR_SECRET }}
