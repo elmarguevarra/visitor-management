@@ -2,7 +2,7 @@
   <div class="container mt-4">
     <h3 class="mb-3">Self Registration</h3>
     <div class="mb-4 border p-3 rounded shadow-sm">
-      <form @submit.prevent="generateInviteLink" class="row g-3">
+      <form v-if="!errorMsg" @submit.prevent="generateInviteLink" class="row g-3">
         <div class="col-md-6">
           <label for="residentId" class="form-label">Resident ID</label>
           <input type="text" class="form-control" id="residentId" v-model="formData.residentId" readonly />
@@ -19,7 +19,7 @@
           <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
             Verifying Invitation...
         </div>
-        <div v-else-if="!isGetInviteByTokenLoading" class="col-12">
+        <div v-else-if="!isGetInviteByTokenLoading && !errorMsg" class="col-12">
           <button type="submit" class="btn btn-primary" :disabled="isSubmittedForApprovalLoading">
             <span v-if="isSubmittedForApprovalLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Submit
@@ -70,7 +70,6 @@ export default {
   methods: {
     getInviteByToken() {
       this.isGetInviteByTokenLoading = true;
-      this.errorMsg = '';
       const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}invite/${this.inviteToken}`;
       axios
         .get(apiUrl)
@@ -80,6 +79,7 @@ export default {
           if (this.invitation && this.invitation.residentId) {
             this.formData.residentId = this.invitation.residentId;
           }
+          this.errorMsg = '';
         })
         .catch((error) => {
           console.log(error);
