@@ -18,8 +18,6 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
 // Get the DynamoDB table name from environment variables
 const tableName = process.env.VISIT_REQUESTS_TABLE;
-const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
-
 
 /**
  * A simple example includes a HTTP post method to add one item to a DynamoDB table.
