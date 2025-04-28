@@ -1,49 +1,83 @@
 #!/bin/bash
 
+set -e
+
 # Hardcoded stack name
 stack_name="visitor-management"
 
+echo "--- Getting AWS Stack Outputs ---"
+
+# Function to get stack output by key
+get_stack_output() {
+  local output_key="$1"
+  aws cloudformation describe-stacks --stack-name "$stack_name" --query "Stacks[0].Outputs[?OutputKey=='$output_key'].OutputValue" --output text
+}
+
 # Get the API Gateway URL from the stack
-api_gateway_endpoint=$(aws cloudformation describe-stacks --stack-name "$stack_name" --query "Stacks[0].Outputs[?OutputKey=='APIGatewayEndpoint'].OutputValue" --output text)
+api_gateway_endpoint=$(get_stack_output "APIGatewayEndpoint")
+echo "API Gateway URL: $api_gateway_endpoint"
 
 # Get the CloudFront Distribution ID from the stack
-cloudfront_distribution_id=$(aws cloudformation describe-stacks --stack-name "$stack_name" --query "Stacks[0].Outputs[?OutputKey=='CloudFrontDistributionId'].OutputValue" --output text)
+cloudfront_distribution_id=$(get_stack_output "CloudFrontDistributionId")
+echo "CloudFront Distribution ID: $cloudfront_distribution_id"
 
 # Get the S3 Bucket Name from the stack
-s3_bucket_name=$(aws cloudformation describe-stacks --stack-name "$stack_name" --query "Stacks[0].Outputs[?OutputKey=='WebS3BucketName'].OutputValue" --output text)
-
-# Output the results
-echo "API Gateway URL: $api_gateway_endpoint"
-echo "CloudFront Distribution ID: $cloudfront_distribution_id"
+s3_bucket_name=$(get_stack_output "WebS3BucketName")
 echo "S3 Bucket Name: $s3_bucket_name"
 
-# Move to frontend and install
-cd frontend/ && npm install
+echo "--- Frontend Build and Configuration ---"
 
-# Create .env file for building distribtuion with API Gateway Endpoint defined
-touch .env
+# Move to frontend and install dependencies
+cd frontend/ || exit 1
+echo "Installing frontend dependencies (npm install)..."
+npm install
+
+# Create .env file if it doesn't exist
+if [ ! -f ".env" ]; then
+  echo "Creating .env file..."
+  touch .env
+fi
 
 # Add the API Gateway endpoint to the .env file
-echo "VUE_APP_API_ENDPOINT=$api_gateway_endpoint" >> .env
+echo "Adding API Gateway endpoint to .env..."
+echo "VUE_APP_API_ENDPOINT=$api_gateway_endpoint" > .env
 
 # Confirm that the endpoint has been added to the .env file
-echo "The API Gateway endpoint has been added to the .env file:"
+echo "Contents of .env:"
 cat .env
 
-# Create distribution for deployment
-npm run build && cd dist/
+# Build the frontend
+echo "Building the frontend (npm run build)..."
+npm run build
+build_status=$?
+if [ $build_status -ne 0 ]; then
+  echo "Error: Frontend build failed. Aborting deployment."
+  exit 1
+fi
+
+cd dist/ || exit 1
+
+echo "--- Deploying Frontend to S3 ---"
 
 # Sync distribution with S3
+echo "Syncing build output to S3 bucket: s3://$s3_bucket_name/"
 aws s3 sync . s3://$s3_bucket_name/
 
-# Create cloudfront invalidation and capture id for next step
-invalidation_output=$(aws cloudfront create-invalidation --distribution-id $cloudfront_distribution_id --paths "/*")
+echo "--- Invalidating CloudFront Cache ---"
+
+# Create cloudfront invalidation
+echo "Creating CloudFront invalidation for distribution: $cloudfront_distribution_id"
+invalidation_output=$(aws cloudfront create-invalidation --distribution-id "$cloudfront_distribution_id" --paths "/*")
 invalidation_id=$(echo "$invalidation_output" | grep -oP '(?<="Id": ")[^"]+')
+echo "Invalidation ID: $invalidation_id"
 
 # Wait for cloudfront invalidation to complete
-aws cloudfront wait invalidation-completed --distribution-id $cloudfront_distribution_id --id $invalidation_id
+echo "Waiting for CloudFront invalidation to complete..."
+aws cloudfront wait invalidation-completed --distribution-id "$cloudfront_distribution_id" --id "$invalidation_id"
 
-# Get cloudfront domain name and validate
+# Get cloudfront domain name
 cloudfront_domain_name=$(aws cloudfront list-distributions --query "DistributionList.Items[?Id=='$cloudfront_distribution_id'].DomainName" --output text)
+echo "CloudFront Domain Name: $cloudfront_domain_name"
 
-echo "The invalidation is now complete - please visit your cloudfront URL to test: $cloudfront_domain_name"
+echo "--- Deployment Complete ---"
+echo "Please visit your CloudFront URL to test: https://$cloudfront_domain_name"
