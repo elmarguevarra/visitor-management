@@ -40,7 +40,7 @@ export const putVisitRequestHandler = async (event) => {
     let visitDate = body.visitDate;
 
     const expirationDate = new Date(visitDate);
-    expirationDate.setDate(visitDate.getDate() + 1);
+    expirationDate.setDate(expirationDate.getDate() + 1);
     // Calculate the TTL (epoch time in seconds)
     const ttlInSeconds = Math.floor(expirationDate.getTime() / 1000);
 
