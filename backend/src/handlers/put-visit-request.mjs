@@ -36,6 +36,7 @@ export const putVisitRequestHandler = async (event) => {
     let inviteToken = body.inviteToken;
     let visitorName = body.visitorName;
     let visitDate = body.visitDate;
+    let requestStatus = "PENDING";
 
     const expirationDate = new Date(visitDate);
     expirationDate.setDate(expirationDate.getDate() + 1);
@@ -49,7 +50,7 @@ export const putVisitRequestHandler = async (event) => {
             inviteToken: inviteToken,
             visitorName: visitorName,
             visitDate: visitDate,
-            requestStatus: "PENDING",
+            requestStatus: requestStatus,
             ttl: ttlInSeconds
         },
     };
@@ -71,7 +72,7 @@ export const putVisitRequestHandler = async (event) => {
         inviteToken: inviteToken,
         visitorName: visitorName,
         visitDate: visitDate,
-        requestStatus: VisitRequestStatus.PENDING,
+        requestStatus: requestStatus,
         ttl: ttlInSeconds
     };
 
