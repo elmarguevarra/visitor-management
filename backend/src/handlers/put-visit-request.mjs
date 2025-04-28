@@ -1,7 +1,5 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
-import { v4 as uuidv4 } from 'uuid';
-import { VisitRequestStatus } from '../../enums';
 
 //DynamoDB Endpoint
 const ENDPOINT_OVERRIDE = process.env.ENDPOINT_OVERRIDE;
@@ -21,6 +19,7 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 // Get the DynamoDB table name from environment variables
 const tableName = process.env.VISIT_REQUESTS_TABLE;
 const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
+
 
 /**
  * A simple example includes a HTTP post method to add one item to a DynamoDB table.
@@ -51,7 +50,7 @@ export const putVisitRequestHandler = async (event) => {
             inviteToken: inviteToken,
             visitorName: visitorName,
             visitDate: visitDate,
-            requestStatus: VisitRequestStatus.PENDING,
+            requestStatus: "PENDING",
             ttl: ttlInSeconds
         },
     };
