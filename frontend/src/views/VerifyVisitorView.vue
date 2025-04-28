@@ -163,7 +163,8 @@ export default {
         hasDeparted: true
       };
       try {
-        const response = await axios.post(process.env.VUE_APP_API_ENDPOINT, updateData);
+        const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}visitor`;
+        const response = await axios.post(apiUrl, updateData);
         console.log('Update successful:', response.data);
         this.visitor = response.data;
         this.errorMsg = '';

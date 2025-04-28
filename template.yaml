@@ -225,6 +225,21 @@ Resources:
         AttributeName: ttl
         Enabled: true
 
+  VisitRequestsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: VisitRequestsTable
+      AttributeDefinitions:
+        - AttributeName: registrationId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: registrationId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+
   # S3 Bucket to host single page app website
   WebSiteBucket:
     Type: AWS::S3::Bucket
