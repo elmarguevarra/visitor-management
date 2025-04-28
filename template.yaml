@@ -156,7 +156,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /
+            Path: /visitor
             Method: POST
             RestApiId:
               Ref: ApiGatewayApi
