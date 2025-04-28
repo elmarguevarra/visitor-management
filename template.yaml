@@ -194,6 +194,39 @@ Resources:
             RestApiId:
               Ref: ApiGatewayApi
 
+  putVisitRequestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/put-visit-request.putVisitRequestHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description:
+        A simple example includes a HTTP post method to add one item to
+        a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the VisitRequestsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref VisitRequestsTable
+      Environment:
+        Variables:
+          VISITORS_TABLE: !Ref VisitRequestsTable
+          # Make DynamoDB endpoint accessible as environment variable from function code during execution
+          ENDPOINT_OVERRIDE: ''
+          APP_FRONTEND_BASE_URL: 'https://vms.alphinecodetech.click'
+          INVITE_LINKS_TABLE: !Ref VisitRequestsTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /visit-request
+            Method: POST
+            RestApiId:
+              Ref: ApiGatewayApi
+
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
 

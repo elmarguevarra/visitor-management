@@ -2,7 +2,7 @@
   <div class="container mt-4">
     <h3 class="mb-3">Self Registration</h3>
     <div class="mb-4 border p-3 rounded shadow-sm">
-      <form v-if="!errorMsg && !isGetInviteByTokenLoading" @submit.prevent="createPendingVisit" class="row g-3">
+      <form v-if="!errorMsg && !isGetInviteByTokenLoading" @submit.prevent="requestVisit" class="row g-3">
         <div class="col-md-6">
           <label for="residentId" class="form-label">Resident ID</label>
           <input type="text" class="form-control" id="residentId" v-model="formData.residentId" readonly />
@@ -16,8 +16,8 @@
           <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required :min="today" />
         </div>
         <div class="col-12">
-          <button v-if="!registrationId" type="submit" class="btn btn-primary" :disabled="isCreatePendingVisitLoading">
-            <span v-if="isCreatePendingVisitLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          <button v-if="!registrationId" type="submit" class="btn btn-primary" :disabled="isRequestVisitLoading">
+            <span v-if="isRequestVisitLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Submit
           </button>
         </div>
@@ -26,7 +26,7 @@
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Verifying Invitation...
       </div>
-      <div v-if="registrationId && isSubmittedForApprovalLoading" class="alert alert-info mt-3">
+      <div v-if="registrationId" class="alert alert-info mt-3">
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Waiting for Approval...
       </div>
@@ -51,27 +51,41 @@ export default {
     console.log("[Debug] today", today);
     return {
       invitation: null,
-      registrationId: null,
+      visitor: null,
       formData: {
         residentId: null,
         visitorName: null,
         visitDate: today,
-        arrivalTime: null,
-        departureTime: null,
-        hasArrived: false,
-        hasDeparted: false,
       },
       errorMsg: '',
       isGetInviteByTokenLoading: false,
-      isCreatePendingVisitLoading: false,
-      isSubmittedForApprovalLoading: false,
+      isRequestVisitLoading: false,
       today: today,
     };
   },
   methods: {
-    createPendingVisit() {
-      this.registrationId = "1234567890"
-      this.isSubmittedForApprovalLoading = true;
+    requestVisit() {
+      this.isRequestVisitLoading = true;
+      const requestVisitData = {
+        inviteToken: this.inviteToken,
+        visitorName: this.formData.visitorName,
+        visitDate: this.formData.visitDate ? new Date(this.formData.visitDate).toISOString() : null,
+      };
+      const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}visit-request`;
+      axios
+        .post(apiUrl, requestVisitData)
+        .then((response) => {
+          console.log(response);
+          this.visitor = response.data;
+          this.errorMsg = '';
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errorMsg = 'Error posting data';
+        })
+        .finally(() => {
+          this.isRequestVisitLoading = false;
+      });
     },
     getInviteByToken() {
       this.isGetInviteByTokenLoading = true;
