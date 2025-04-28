@@ -16,7 +16,7 @@
           <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required :min="today" />
         </div>
         <div class="col-12">
-          <button v-if="!visitor.registrationId" type="submit" class="btn btn-primary" :disabled="isRequestVisitLoading">
+          <button v-if="!visitor" type="submit" class="btn btn-primary" :disabled="isRequestVisitLoading">
             <span v-if="isRequestVisitLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Submit
           </button>
@@ -26,7 +26,7 @@
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Verifying Invitation...
       </div>
-      <div v-if="visitor.registrationId" class="alert alert-info mt-3">
+      <div v-if="visitor && visitor.registrationId" class="alert alert-info mt-3">
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Waiting for Approval...
       </div>
