@@ -246,12 +246,12 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitRequestsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitRequestsTable
+            TableName: !Ref VisitRequestsTableNew
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ''
-          VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
+          VISIT_REQUESTS_TABLE: !Ref VisitRequestsTableNew
       Events:
         Api:
           Type: Api
@@ -292,10 +292,10 @@ Resources:
         AttributeName: ttl
         Enabled: true
 
-  VisitRequestsTable:
+  VisitRequestsTableNew:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: VisitRequestsTable
+      TableName: VisitRequestsTableNew
       AttributeDefinitions:
         - AttributeName: inviteToken
           AttributeType: S
