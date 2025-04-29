@@ -22,8 +22,14 @@
     <div v-for="visitRequest in visitRequests" :key="visitRequest.inviteToken" class="card mb-3">
       <div class="card-body d-flex flex-column text-muted align-items-center">
         <h6 class="card-title text-center mb-2">
-          {{ visitRequests.visitorName }} on {{ formatDate(visitRequests.visitDate) }}
+          {{ visitRequest.visitorName }} on {{ formatDate(visitRequest.visitDate) }}
         </h6>
+        <button @click="" class="btn btn-primary">
+          Approve
+        </button>
+        <button @click="" class="btn btn-secondary">
+          Decline
+        </button>
       </div>
     </div>
 
