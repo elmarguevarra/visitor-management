@@ -186,6 +186,7 @@ export default {
   },
   mounted() {
     this.getItems();
+    this.getVisitRequests();
   }
 };
 </script>
