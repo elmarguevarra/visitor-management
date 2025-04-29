@@ -18,18 +18,17 @@
       </div>
     </div>
 
-    <h5 v-if="visitRequests.length > 0" class="mt-4">Pending Visit Requests</h5>
+    <h5 v-if="visitRequests.length > 0" class="mt-4">Visit Requests</h5>
     <div v-for="visitRequest in visitRequests" :key="visitRequest.inviteToken" class="card mb-3">
-      <div class="card-body d-flex flex-column text-muted align-items-center">
-        <h6 class="card-title text-center mb-2">
-          {{ visitRequest.visitorName }} on {{ formatDate(visitRequest.visitDate) }}
-        </h6>
-        <button class="btn btn-primary">
-          Approve
-        </button>
-        <button class="btn btn-secondary">
-          Decline
-        </button>
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="card-title mb-1">{{ visitRequest.visitorName }}</h6>
+          <p class="card-text text-muted small">Visiting on {{ formatDate(visitRequest.visitDate) }}</p>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-primary me-2">Approve</button>
+          <button class="btn btn-sm btn-secondary">Decline</button>
+        </div>
       </div>
     </div>
 
