@@ -20,13 +20,13 @@
 
     <h5 v-if="visitRequests.length > 0" class="mt-4">Visit Requests</h5>
     <div v-for="visitRequest in visitRequests" :key="visitRequest.inviteToken" class="card mb-3">
-      <div class="card-body d-flex justify-content-between align-items-center">
-        <div>
+      <div class="card-body d-flex justify-content-between align-items-center flex-column flex-md-row">
+        <div class="mb-2 mb-md-0">
           <h6 class="card-title mb-1">{{ visitRequest.visitorName }}</h6>
-          <p class="card-text text-muted small">Visiting on {{ formatDate(visitRequest.visitDate) }}</p>
+          <p class="card-text text-muted small">on {{ formatDate(visitRequest.visitDate) }}</p>
         </div>
-        <div>
-          <button class="btn btn-sm btn-primary me-2">Approve</button>
+        <div class="d-flex flex-column flex-md-row gap-2">
+          <button class="btn btn-sm btn-primary">Approve</button>
           <button class="btn btn-sm btn-secondary">Decline</button>
         </div>
       </div>
