@@ -73,18 +73,18 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitorsTable
+            TableName: !Ref VisitRequestsTable
       Environment:
         Variables:
-          # Make table name accessible as environment variable from function code during execution
-          VISITORS_TABLE: !Ref VisitorsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ''
+          # Make table name accessible as environment variable from function code during execution
+          VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
       Events:
         Api:
           Type: Api
           Properties:
-            Path: /visitors
+            Path: /visit-requests
             Method: GET
             RestApiId:
               Ref: ApiGatewayApi
@@ -249,7 +249,6 @@ Resources:
             TableName: !Ref VisitRequestsTable
       Environment:
         Variables:
-          VISITORS_TABLE: !Ref VisitRequestsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ''
           VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
@@ -298,10 +297,10 @@ Resources:
     Properties:
       TableName: VisitRequestsTable
       AttributeDefinitions:
-        - AttributeName: residentId
+        - AttributeName: inviteToken
           AttributeType: S
       KeySchema:
-        - AttributeName: residentId
+        - AttributeName: inviteToken
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
       TimeToLiveSpecification:

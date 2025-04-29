@@ -18,6 +18,15 @@
       </div>
     </div>
 
+    <h5 v-if="visitRequests.length > 0" class="mt-4">Pending Visit Requests</h5>
+    <div v-for="visitRequest in visitRequests" :key="visitRequests.inviteToken" class="card mb-3">
+      <div class="card-body d-flex flex-column text-muted align-items-center">
+        <h6 class="card-title text-center mb-2">
+          {{ visitRequests.visitorName }} on {{ formatDate(visitRequests.visitDate) }}
+        </h6>
+      </div>
+    </div>
+
     <h5 v-if="todayVisitors.length > 0">Today's</h5>
     <div v-for="visitor in todayVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
@@ -95,8 +104,10 @@ export default {
   data() {
     return {
       visitors: [],
+      visitRequests: [],
       errorMsg: '',
       isLoading: false,
+      isVisitRequestsLoading: false
     };
   },
   computed: {
@@ -146,6 +157,26 @@ export default {
         })
         .finally(() => {
           this.isLoading = false;
+        });
+    },
+    getVisitRequests() {
+      this.isVisitRequestsLoading = true;
+      let apiUrl = process.env.VUE_APP_API_ENDPOINT;
+      if (this.residentId) {
+        apiUrl += `visit-requests?residentId=${this.residentId}`;
+      }
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          console.log(response);
+          this.visitRequests = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errorMsg = 'Error retrieving data';
+        })
+        .finally(() => {
+          this.isVisitRequestsLoading = false;
         });
     },
     formatDate(dateString) {
