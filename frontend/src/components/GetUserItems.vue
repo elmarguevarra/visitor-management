@@ -19,7 +19,7 @@
     </div>
 
     <h5 v-if="visitRequests.length > 0" class="mt-4">Pending Visit Requests</h5>
-    <div v-for="visitRequest in visitRequests" :key="visitRequests.inviteToken" class="card mb-3">
+    <div v-for="visitRequest in visitRequests" :key="visitRequest.inviteToken" class="card mb-3">
       <div class="card-body d-flex flex-column text-muted align-items-center">
         <h6 class="card-title text-center mb-2">
           {{ visitRequests.visitorName }} on {{ formatDate(visitRequests.visitDate) }}
