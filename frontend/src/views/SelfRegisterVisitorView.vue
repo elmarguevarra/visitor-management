@@ -26,7 +26,7 @@
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Verifying Invitation...
       </div>
-      <div v-if="visitor && visitor.registrationId" class="alert alert-info mt-3">
+      <div v-if="visitor" class="alert alert-info mt-3">
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Waiting for Approval...
       </div>
@@ -67,6 +67,7 @@ export default {
     requestVisit() {
       this.isRequestVisitLoading = true;
       const requestVisitData = {
+        residentId: this.residentId,
         inviteToken: this.inviteToken,
         visitorName: this.formData.visitorName,
         visitDate: this.formData.visitDate ? new Date(this.formData.visitDate).toISOString() : null,

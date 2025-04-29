@@ -32,7 +32,7 @@ export const putVisitRequestHandler = async (event) => {
     // Get id and name from the body of the request
     const body = JSON.parse(event.body);
 
-    const registrationId = Math.random().toString(36).substring(2, 15);
+    let residentId = body.residentId;
     let inviteToken = body.inviteToken;
     let visitorName = body.visitorName;
     let visitDate = body.visitDate;
@@ -46,7 +46,7 @@ export const putVisitRequestHandler = async (event) => {
     const params = {
         TableName: tableName,
         Item: {
-            registrationId: registrationId,
+            residentId: residentId,
             inviteToken: inviteToken,
             visitorName: visitorName,
             visitDate: visitDate,
@@ -68,7 +68,7 @@ export const putVisitRequestHandler = async (event) => {
     }
 
     const responseBody = {
-        registrationId: registrationId,
+        residentId: residentId,
         inviteToken: inviteToken,
         visitorName: visitorName,
         visitDate: visitDate,
