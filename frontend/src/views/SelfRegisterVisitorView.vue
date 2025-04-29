@@ -9,14 +9,14 @@
         </div>
         <div class="col-md-6">
           <label for="visitorName" class="form-label">Visitor Name</label>
-          <input type="text" class="form-control" id="visitorName" v-model="formData.visitorName" required />
+          <input type="text" class="form-control" id="visitorName" v-model="formData.visitorName" required :readonly="visitRequest"/>
         </div>
         <div class="col-md-6">
           <label for="visitDate" class="form-label">Visit Date</label>
-          <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required :min="today" />
+          <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required :min="today" :readonly="visitRequest"/>
         </div>
         <div class="col-12">
-          <button v-if="!visitor" type="submit" class="btn btn-primary" :disabled="isRequestVisitLoading">
+          <button v-if="!visitRequest" type="submit" class="btn btn-primary" :disabled="isRequestVisitLoading">
             <span v-if="isRequestVisitLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Submit
           </button>
@@ -26,7 +26,7 @@
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Verifying Invitation...
       </div>
-      <div v-if="visitor" class="alert alert-info mt-3">
+      <div v-if="visitRequest" class="alert alert-info mt-3">
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Waiting for Approval...
       </div>
@@ -37,6 +37,7 @@
 
 <script>
 import axios from 'axios';
+import { readonly } from 'vue';
 
 export default {
   name: 'InviteVisitorView',
@@ -51,7 +52,7 @@ export default {
     console.log("[Debug] today", today);
     return {
       invitation: null,
-      visitor: null,
+      visitRequest: null,
       residentId: null,
       formData: {
         residentId: null,
@@ -78,7 +79,7 @@ export default {
         .post(apiUrl, requestVisitData)
         .then((response) => {
           console.log(response);
-          this.visitor = response.data;
+          this.visitRequest = response.data;
           this.errorMsg = '';
         })
         .catch((error) => {
