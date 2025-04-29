@@ -52,6 +52,7 @@ export default {
     return {
       invitation: null,
       visitor: null,
+      residentId: null,
       formData: {
         residentId: null,
         visitorName: null,
@@ -98,6 +99,7 @@ export default {
           this.invitation = response.data;
           if (this.invitation && this.invitation.residentId) {
             this.formData.residentId = this.invitation.residentId;
+            this.residentId = this.invitation.residentId;
           }
           this.errorMsg = '';
         })
