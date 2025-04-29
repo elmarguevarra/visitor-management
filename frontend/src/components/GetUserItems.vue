@@ -24,10 +24,10 @@
         <h6 class="card-title text-center mb-2">
           {{ visitRequest.visitorName }} on {{ formatDate(visitRequest.visitDate) }}
         </h6>
-        <button @click="" class="btn btn-primary">
+        <button class="btn btn-primary">
           Approve
         </button>
-        <button @click="" class="btn btn-secondary">
+        <button class="btn btn-secondary">
           Decline
         </button>
       </div>
