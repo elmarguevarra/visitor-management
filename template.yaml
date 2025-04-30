@@ -392,10 +392,10 @@ Resources:
           - alphinecodetech.click
           - vms.alphinecodetech.click
         ViewerCertificate:
-          # AcmCertificateArn: 'arn:aws:acm:us-east-1:121216464768:certificate/d5e28c4a-3c05-431e-a3b6-836800ae0cc9'
+          AcmCertificateArn: 'arn:aws:acm:us-east-1:121216464768:certificate/dac2d551-7d39-47e5-bdb0-4554465cd6ee'
           CloudFrontDefaultCertificate: true
           MinimumProtocolVersion: 'TLSv1.2_2021'
-          # SslSupportMethod: 'sni-only'
+          SslSupportMethod: 'sni-only'
         CustomErrorResponses:
           - ErrorCode: 403
             ResponseCode: 200
