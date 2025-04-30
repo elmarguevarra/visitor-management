@@ -14,7 +14,7 @@ export const getVisitRequestByTokenHandler = (): RestHandler[] => [
           inviteToken: 'token',
           visitorName: 'visitorName',
           visitDate: new Date(),
-          requestStatus: 'APPROVED',
+          requestStatus: 'PENDING',
         }),
       )
     },

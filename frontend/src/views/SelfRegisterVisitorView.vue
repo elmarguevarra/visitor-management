@@ -61,16 +61,27 @@ export default {
       residentId: null,
       formData: {
         visitorName: null,
-        visitDate: today,
+        visitDate: today
       },
       errorMsg: '',
       isGetInviteByTokenLoading: false,
       isGetVisitRequestByTokenLoading: false,
       isRequestVisitLoading: false,
-      today: today,
     };
   },
+  computed: {
+    today() {
+      return this.getToday();
+    }
+  },
   methods: {
+    getToday() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = (now.getMonth() + 1).toString().padStart(2, '0');
+      const day = now.getDate().toString().padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    },
     requestVisit() {
       this.isRequestVisitLoading = true;
       const requestVisitData = {
@@ -125,7 +136,11 @@ export default {
         .then((response) => {
           console.log(response);
           this.visitRequest = response.data;
-          this.errorMsg = '';
+          if (this.visitRequest) {
+            this.formData.visitorName = this.visitRequest.visitorName;
+            this.formData.visitDate = this.visitRequest.visitDate;
+            this.errorMsg = '';
+          }
         })
         .catch((error) => {
           console.log(error);
