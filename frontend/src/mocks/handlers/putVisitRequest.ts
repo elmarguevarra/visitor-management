@@ -13,7 +13,6 @@ export const putVisitRequestHandler = (): RestHandler[] => [
         visitDate: new Date().setHours(0, 0, 0, 0),
         inviteToken: 'inviteToken',
         requestStatus: 'PENDING',
-        ttl: 123445,
       }),
     )
   }),

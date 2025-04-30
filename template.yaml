@@ -161,6 +161,39 @@ Resources:
             RestApiId:
               Ref: ApiGatewayApi
 
+  # This is a Lambda function config associated with the source code: get-visit-request-by-token.mjs
+  getVisitRequestByTokenFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/get-visit-request-by-token.getVisitRequestByTokenHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description:
+        A simple example includes a HTTP get method to get one item by
+        id from a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref VisitRequestsTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
+          # Make DynamoDB endpoint accessible as environment variable from function code during execution
+          ENDPOINT_OVERRIDE: ''
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /visit-request/{inviteToken}
+            Method: GET
+            RestApiId:
+              Ref: ApiGatewayApi
+
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
 

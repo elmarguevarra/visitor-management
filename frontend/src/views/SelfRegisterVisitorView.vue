@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <h3 class="mb-3">Self Registration</h3>
+    <h3 class="mb-3">Self-Register</h3>
     <div class="mb-4 border p-3 rounded shadow-sm">
       <form v-if="!errorMsg && !isGetInviteByTokenLoading" @submit.prevent="requestVisit" class="row g-3">
         <div class="col-md-6">
@@ -22,9 +22,15 @@
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Verifying Invitation...
       </div>
-      <div v-if="visitRequest" class="alert alert-info mt-3">
+      <div v-if="visitRequest && visitRequest.requestStatus === 'PENDING'" class="alert alert-info mt-3">
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Waiting for Approval...
+      </div>
+      <div v-if="visitRequest && visitRequest.requestStatus === 'DECLINED'" class="alert alert-danger mt-3">
+        Request has been declined
+      </div>
+      <div v-if="visitRequest && visitRequest.requestStatus === 'APPROVED'" class="alert alert-success mt-3">
+        Request has been approved
       </div>
       <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
     </div>
@@ -54,12 +60,12 @@ export default {
       visitRequest: null,
       residentId: null,
       formData: {
-        residentId: null,
         visitorName: null,
         visitDate: today,
       },
       errorMsg: '',
       isGetInviteByTokenLoading: false,
+      isGetVisitRequestByTokenLoading: false,
       isRequestVisitLoading: false,
       today: today,
     };
@@ -110,11 +116,30 @@ export default {
         .finally(() => {
           this.isGetInviteByTokenLoading = false;
         });
+    },
+    getVisitRequestByToken() {
+      this.isGetVisitRequestByTokenLoading = true;
+      const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}visit-request/${this.inviteToken}`;
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          console.log(response);
+          this.visitRequest = response.data;
+          this.errorMsg = '';
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errorMsg = 'Visit Request not found or has already expired.';
+        })
+        .finally(() => {
+          this.isGetVisitRequestByTokenLoading = false;
+        });
     }
   },
   mounted() {
     if (this.inviteToken) {
       this.getInviteByToken();
+      this.getVisitRequestByToken();
     }
   }
 };

@@ -14,7 +14,6 @@ export const getVisitRequestsHandler = (): RestHandler[] => [
           visitDate: new Date().setHours(0, 0, 0, 0),
           inviteToken: 'inviteToken',
           requestStatus: 'PENDING',
-          ttl: 123445,
         },
         {
           residentId: '1234',
@@ -22,7 +21,6 @@ export const getVisitRequestsHandler = (): RestHandler[] => [
           visitDate: new Date().setHours(0, 0, 0, 0),
           inviteToken: 'inviteToken',
           requestStatus: 'APPROVED',
-          ttl: 123445,
         },
       ]),
     )

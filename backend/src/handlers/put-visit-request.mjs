@@ -73,7 +73,6 @@ export const putVisitRequestHandler = async (event) => {
         visitorName: visitorName,
         visitDate: visitDate,
         requestStatus: requestStatus,
-        ttl: ttlInSeconds
     };
 
     const response = {

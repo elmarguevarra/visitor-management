@@ -5,6 +5,7 @@ import { getVisitRequestsHandler } from './getVisitRequests'
 import { putVisitRequestHandler } from './putVisitRequest'
 import { putInviteLinkHandler } from './putInviteLink'
 import { getInviteByTokenHandler } from './getInviteByToken'
+import { getVisitRequestByTokenHandler } from './getVisitRequestByToken'
 
 export function getHandlers() {
   return [
@@ -15,5 +16,6 @@ export function getHandlers() {
     ...putVisitRequestHandler(),
     ...putInviteLinkHandler(),
     ...getInviteByTokenHandler(),
+    ...getVisitRequestByTokenHandler(),
   ]
 }
