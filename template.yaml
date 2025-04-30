@@ -442,7 +442,7 @@ Resources:
       Name: vms.alphinecodetech.click
       Type: AAAA
       AliasTarget:
-        HostedZoneId: Z2FDTNDATAQYW2 # CloudFront Hosted Zone ID (for US East (N. Virginia), check for your region)
+        HostedZoneId: Z3AQB6HAAAAK8 # CloudFront Hosted Zone ID (ap-southeast-1), check for your region)
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
 
