@@ -4,16 +4,12 @@
     <div class="mb-4 border p-3 rounded shadow-sm">
       <form v-if="!errorMsg && !isGetInviteByTokenLoading" @submit.prevent="requestVisit" class="row g-3">
         <div class="col-md-6">
-          <label for="residentId" class="form-label">Resident ID</label>
-          <input type="text" class="form-control" id="residentId" v-model="formData.residentId" readonly />
-        </div>
-        <div class="col-md-6">
           <label for="visitorName" class="form-label">Visitor Name</label>
-          <input type="text" class="form-control" id="visitorName" v-model="formData.visitorName" required/>
+          <input type="text" class="form-control" id="visitorName" v-model="formData.visitorName" required :readonly='visitRequest'/>
         </div>
         <div class="col-md-6">
           <label for="visitDate" class="form-label">Visit Date</label>
-          <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required :min="today"/>
+          <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required :min="today" :readonly='visitRequest'/>
         </div>
         <div class="col-12">
           <button v-if="!visitRequest" type="submit" class="btn btn-primary" :disabled="isRequestVisitLoading">
