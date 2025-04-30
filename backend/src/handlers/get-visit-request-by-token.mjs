@@ -58,20 +58,6 @@ export const getVisitRequestByTokenHandler = async (event) => {
     };
   }
 
-  // If no item found, return a 404 error
-  if (!item) {
-    console.warn(`No invite found for token: ${inviteToken}`);
-    return {
-      statusCode: 404,
-      headers: {
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT"
-      },
-      body: JSON.stringify({ error: "Invite not found or has already expired." })
-    };
-  }
-
   // Return the found item
   const response = {
     statusCode: 200,

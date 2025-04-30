@@ -41,18 +41,14 @@
 </template>
 
 <script>
+import { getYearMonthDay } from '@/utils';
 import axios from 'axios';
 
 export default {
   name: 'CreateItem',
   inject: ['residentId'],
   data() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const day = now.getDate().toString().padStart(2, '0');
-    const today = `${year}-${month}-${day}`;
-    console.log("[Debug] today", today)
+    const today = getYearMonthDay(new Date());
     return {
       visitor: null,
       formData: {
