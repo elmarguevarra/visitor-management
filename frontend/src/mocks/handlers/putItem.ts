@@ -3,8 +3,8 @@ import { RestHandler, rest } from 'msw'
 const API_ENDPOINT = process.env.VUE_APP_API_ENDPOINT
 console.log('API_ENDPOINT', API_ENDPOINT)
 
-export const putItemHandler = (): RestHandler[] => [
-  rest.post(`${API_ENDPOINT}`, (req, res, ctx) => {
+export const putVisitorHandler = (): RestHandler[] => [
+  rest.post(`${API_ENDPOINT}visitor`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -13,7 +13,7 @@ export const putItemHandler = (): RestHandler[] => [
         registrationId: '2fb3plj5xef',
         visitorName: 'Lengleng',
         visitDate: '04/23/2025',
-      })
+      }),
     )
   }),
 ]

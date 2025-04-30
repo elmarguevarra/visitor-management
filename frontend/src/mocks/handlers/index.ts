@@ -1,6 +1,6 @@
-import { getUserItemsHandler } from './getUserItems'
-import { getItemHandler } from './getItem'
-import { putItemHandler } from './putItem'
+import { getVisitorsHandler } from './getVisitors'
+import { getVisitorByIdHandler } from './getVisitorById'
+import { putVisitorHandler } from './putItem'
 import { getVisitRequestsHandler } from './getVisitRequests'
 import { putVisitRequestHandler } from './putVisitRequest'
 import { putInviteLinkHandler } from './putInviteLink'
@@ -8,9 +8,9 @@ import { getInviteByTokenHandler } from './getInviteByToken'
 
 export function getHandlers() {
   return [
-    ...getUserItemsHandler(),
-    ...putItemHandler(),
-    ...getItemHandler(),
+    ...getVisitorsHandler(),
+    ...putVisitorHandler(),
+    ...getVisitorByIdHandler(),
     ...getVisitRequestsHandler(),
     ...putVisitRequestHandler(),
     ...putInviteLinkHandler(),

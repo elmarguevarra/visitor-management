@@ -3,7 +3,7 @@ import { RestHandler, rest } from 'msw'
 const API_ENDPOINT = process.env.VUE_APP_API_ENDPOINT
 console.log('API_ENDPOINT', API_ENDPOINT)
 
-export const getUserItemsHandler = (): RestHandler[] => [
+export const getVisitorsHandler = (): RestHandler[] => [
   rest.get(`${API_ENDPOINT}visitors?residentId`, (req, res, ctx) => {
     return res(
       ctx.status(200),
@@ -55,7 +55,7 @@ export const getUserItemsHandler = (): RestHandler[] => [
           registrationId: 'vp00sh3t8sm',
           registrationTime: '2025-04-19T09:16:05.873Z',
         },
-      ])
+      ]),
     )
   }),
 ]

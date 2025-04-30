@@ -24,7 +24,7 @@ const tableName = process.env.VISITORS_TABLE;
 /**
  * A simple example includes a HTTP get method to get all items from a DynamoDB table.
  */
-export const getUserItemsHandler = async (event) => {
+export const getVisitorsHandler = async (event) => {
     if (event.httpMethod !== 'GET') {
         throw new Error(`getUserItems only accept GET method, you tried: ${event.httpMethod}`);
     }

@@ -21,11 +21,11 @@ Resources:
         AllowOrigin: "'*'" #DO NOT USE THIS VALUE IN PRODUCTION - https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html
 
   # This is a Lambda function config associated with the source code: get-by-id.js
-  getUserItemsFunction:
+  getVisitorsFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: backend/
-      Handler: src/handlers/get-user-items.getUserItemsHandler
+      Handler: src/handlers/get-visitors.getVisitorsHandler
       Runtime: nodejs20.x
       Architectures:
         - x86_64
@@ -96,11 +96,11 @@ Resources:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
 
   # This is a Lambda function config associated with the source code: get-by-id.js
-  getByIdFunction:
+  getVisitorByIdFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: backend/
-      Handler: src/handlers/get-by-id.getByIdHandler
+      Handler: src/handlers/get-visitor-by-id.getVisitorByIdHandler
       Runtime: nodejs20.x
       Architectures:
         - x86_64
@@ -165,11 +165,11 @@ Resources:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
 
   # This is a Lambda function config associated with the source code: put-item.js
-  putItemFunction:
+  putVisitorFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: backend/
-      Handler: src/handlers/put-item.putItemHandler
+      Handler: src/handlers/put-visitor.putVisitorHandler
       Runtime: nodejs20.x
       Architectures:
         - x86_64

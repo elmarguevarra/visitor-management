@@ -26,7 +26,7 @@ const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL
 /**
  * A simple example includes a HTTP post method to add one item to a DynamoDB table.
  */
-export const putItemHandler = async (event) => {
+export const putVisitorHandler = async (event) => {
     if (event.httpMethod !== 'POST') {
         throw new Error(`postMethod only accepts POST method, you tried: ${event.httpMethod} method.`);
     }
