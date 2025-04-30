@@ -393,7 +393,6 @@ Resources:
           - vms.alphinecodetech.click
         ViewerCertificate:
           AcmCertificateArn: 'arn:aws:acm:us-east-1:121216464768:certificate/dac2d551-7d39-47e5-bdb0-4554465cd6ee'
-          CloudFrontDefaultCertificate: true
           MinimumProtocolVersion: 'TLSv1.2_2021'
           SslSupportMethod: 'sni-only'
         CustomErrorResponses:
