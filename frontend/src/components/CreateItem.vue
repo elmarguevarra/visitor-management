@@ -48,7 +48,7 @@ export default {
   name: 'CreateItem',
   inject: ['residentId'],
   data() {
-    const today = getYearMonthDay(new Date());
+    const yearMonthDateToday = getYearMonthDay(new Date());
     return {
       visitor: null,
       formData: {
@@ -56,7 +56,7 @@ export default {
         residentName: 'Jua Delacruz',
         residentContact: '+6309123456',
         visitorName: null,
-        visitDate: today,
+        visitDate: yearMonthDateToday,
         arrivalTime: null,
         departureTime: null,
         hasArrived: false,
@@ -64,7 +64,7 @@ export default {
       },
       errorMsg: '',
       isLoading: false,
-      today: today
+      today: yearMonthDateToday
     };
   },
   methods: {

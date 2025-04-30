@@ -50,20 +50,20 @@ export default {
     }
   },
   data() {
-    const today = getYearMonthDay(new Date());
+    const yearMonthDateToday = getYearMonthDay(new Date());
     return {
       invitation: null,
       visitRequest: null,
       residentId: null,
       formData: {
         visitorName: null,
-        visitDate: today
+        visitDate: yearMonthDateToday
       },
       errorMsg: '',
       isGetInviteByTokenLoading: false,
       isGetVisitRequestByTokenLoading: false,
       isRequestVisitLoading: false,
-      today: today
+      today: yearMonthDateToday
     };
   },
   methods: {
