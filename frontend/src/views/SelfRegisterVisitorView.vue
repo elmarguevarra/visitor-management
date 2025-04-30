@@ -49,19 +49,13 @@ export default {
     }
   },
   data() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const day = now.getDate().toString().padStart(2, '0');
-    const today = `${year}-${month}-${day}`;
-    console.log("[Debug] today", today);
     return {
       invitation: null,
       visitRequest: null,
       residentId: null,
       formData: {
         visitorName: null,
-        visitDate: today
+        visitDate: this.today
       },
       errorMsg: '',
       isGetInviteByTokenLoading: false,
@@ -71,15 +65,14 @@ export default {
   },
   computed: {
     today() {
-      return this.getToday();
+      return this.getYearMonthDay(new Date());
     }
   },
   methods: {
-    getToday() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = (now.getMonth() + 1).toString().padStart(2, '0');
-      const day = now.getDate().toString().padStart(2, '0');
+    getYearMonthDay(date){
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
       return `${year}-${month}-${day}`;
     },
     requestVisit() {
@@ -138,7 +131,7 @@ export default {
           this.visitRequest = response.data;
           if (this.visitRequest) {
             this.formData.visitorName = this.visitRequest.visitorName;
-            this.formData.visitDate = this.visitRequest.visitDate;
+            this.formData.visitDate = this.getYearMonthDay(new Date(this.visitRequest.visitDate));
             this.errorMsg = '';
           }
         })
