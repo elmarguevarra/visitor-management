@@ -37,7 +37,6 @@
 
 <script>
 import axios from 'axios';
-import { readonly } from 'vue';
 
 export default {
   name: 'InviteVisitorView',
