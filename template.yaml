@@ -392,7 +392,7 @@ Resources:
           - alphinecodetech.click
           - vms.alphinecodetech.click
         ViewerCertificate:
-          AcmCertificateArn: 'arn:aws:acm:us-east-1:121216464768:certificate/d5e28c4a-3c05-431e-a3b6-836800ae0cc9' # Request a new one in ACM when deploying from scratch
+          AcmCertificateArn: 'arn:aws:acm:ap-southeast-1:121216464768:certificate/1002ad2b-782b-4150-8ec7-17a748deeb56' # Request a new one in ACM when deploying from scratch
           MinimumProtocolVersion: 'TLSv1.2_2021'
           SslSupportMethod: 'sni-only'
         CustomErrorResponses:
