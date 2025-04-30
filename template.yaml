@@ -392,7 +392,7 @@ Resources:
           - alphinecodetech.click
           - vms.alphinecodetech.click
         ViewerCertificate:
-          AcmCertificateArn: 'arn:aws:acm:ap-southeast-1:121216464768:certificate/ba7a511a-0293-420c-b942-414324adc594' # Request a new one in ACM when deploying from scratch
+          AcmCertificateArn: 'arn:aws:acm:us-east-1:121216464768:certificate/6915a8e5-29ac-445f-8f34-0ea8ebbfdaa3'
           MinimumProtocolVersion: 'TLSv1.2_2021'
           SslSupportMethod: 'sni-only'
         CustomErrorResponses:
@@ -430,7 +430,7 @@ Resources:
       Name: vms.alphinecodetech.click
       Type: A
       AliasTarget:
-        HostedZoneId: Z3AQB6HAAAAK8 # CloudFront Hosted Zone ID (ap-southeast-1), check for your region)
+        HostedZoneId: Z2FDTNDATAQYW2 # Global CloudFront Hosted Zone ID
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
 
@@ -442,7 +442,7 @@ Resources:
       Name: vms.alphinecodetech.click
       Type: AAAA
       AliasTarget:
-        HostedZoneId: Z3AQB6HAAAAK8 # CloudFront Hosted Zone ID (ap-southeast-1), check for your region)
+        HostedZoneId: Z2FDTNDATAQYW2 # Global CloudFront Hosted Zone ID
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
 
