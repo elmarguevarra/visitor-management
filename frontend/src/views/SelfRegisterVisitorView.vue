@@ -32,12 +32,13 @@
       <div v-if="visitRequest && visitRequest.requestStatus === 'APPROVED'" class="alert alert-success mt-3">
         Request has been approved
       </div>
-      <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
+      <h6 class="alert alert-danger mt-4" v-if="errorMsg && !isRequestVisitLoading && !isGetInviteByTokenLoading && !isGetVisitRequestByTokenLoading">{{ errorMsg }}</h6>
     </div>
   </div>
 </template>
 
 <script>
+import { getYearMonthDay } from '@/utils';
 import axios from 'axios';
 
 export default {
@@ -65,16 +66,10 @@ export default {
   },
   computed: {
     today() {
-      return this.getYearMonthDay(new Date());
+      return getYearMonthDay(new Date());
     }
   },
   methods: {
-    getYearMonthDay(date){
-      const year = date.getFullYear();
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const day = date.getDate().toString().padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    },
     requestVisit() {
       this.isRequestVisitLoading = true;
       const requestVisitData = {
@@ -131,7 +126,7 @@ export default {
           this.visitRequest = response.data;
           if (this.visitRequest) {
             this.formData.visitorName = this.visitRequest.visitorName;
-            this.formData.visitDate = this.getYearMonthDay(new Date(this.visitRequest.visitDate));
+            this.formData.visitDate = getYearMonthDay(new Date(this.visitRequest.visitDate));
             this.errorMsg = '';
           }
         })
