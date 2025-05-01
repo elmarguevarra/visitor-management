@@ -179,9 +179,9 @@ export default {
 
       try {
         const newVisitorData = {
-          residentId: this.visitRequest.residentId,
-          visitorName: this.visitRequest.visitorName,
-          visitDate: this.visitRequest.visitDate,
+          residentId: visitRequest.residentId,
+          visitorName: visitRequest.visitorName,
+          visitDate: visitRequest.visitDate,
         };
 
         const newVisitor = await postVisitor(newVisitorData)
