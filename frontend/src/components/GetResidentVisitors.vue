@@ -31,7 +31,12 @@
             class="btn btn-sm btn-primary" 
             :disabled="visitRequestLoadingStates[visitRequest.inviteToken]?.approve ||
               visitRequestSubmittedStates[visitRequest.inviteToken]">
-              <span v-if="visitRequestLoadingStates[visitRequest.inviteToken]?.approve" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              <span 
+                v-if="visitRequestLoadingStates[visitRequest.inviteToken]?.approve" 
+                class="spinner-border spinner-border-sm me-2" 
+                role="status" 
+                aria-hidden="true">
+              </span>
               Approve
           </button>
           <button 
@@ -39,7 +44,12 @@
             class="btn btn-sm btn-secondary" 
             :disabled="visitRequestLoadingStates[visitRequest.inviteToken]?.decline ||
               visitRequestSubmittedStates[visitRequest.inviteToken]">
-              <span v-if="visitRequestLoadingStates[visitRequest.inviteToken]?.decline" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              <span 
+                v-if="visitRequestLoadingStates[visitRequest.inviteToken]?.decline" 
+                class="spinner-border spinner-border-sm me-2" 
+                role="status" 
+                aria-hidden="true">
+              </span>
               Decline
           </button>
         </div>
@@ -110,7 +120,7 @@
 </template>
 
 <script>
-import { getVisitorsByResidentId, getVisitRequestsByResidentId, postVisitRequest } from '@/services/apiService';
+import { getVisitorsByResidentId, getVisitRequestsByResidentId, postVisitRequest, postVisitor } from '@/services/apiService';
 import { formatDate } from '@/utils';
 
 export default {
@@ -173,7 +183,16 @@ export default {
         const response = await postVisitRequest(requestVisitData);
         console.log(response);
         this.visitRequest = response;
+
+        const newVisitorData = {
+          residentId: this.visitRequest.residentId,
+          visitorName: this.visitRequest.visitorName,
+          visitDate: this.visitRequest.visitDate,
+        };
+        
+        await postVisitor(newVisitorData)
         this.errorMsg = '';
+
       } catch (error) {
         console.log(error);
         this.errorMsg = 'Error posting data';
