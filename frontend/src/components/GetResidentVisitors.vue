@@ -176,22 +176,25 @@ export default {
       this.visitRequestLoadingStates[visitRequest.inviteToken] = { approve: true };
       this.visitRequestSubmittedStates[visitRequest.inviteToken] = true;
       this.isDecisionVisitRequestSubmitted = true
-      const requestVisitData = {
-        ...visitRequest,
-        requestStatus: "APPROVED"
-      };
-      try {
-        const response = await postVisitRequest(requestVisitData);
-        console.log(response);
-        this.visitRequest = response;
 
+      try {
         const newVisitorData = {
           residentId: this.visitRequest.residentId,
           visitorName: this.visitRequest.visitorName,
           visitDate: this.visitRequest.visitDate,
         };
 
-        await postVisitor(newVisitorData)
+        const newVisitor = await postVisitor(newVisitorData)
+
+        const requestVisitData = {
+          ...visitRequest,
+          requestStatus: "APPROVED",
+          registrationId: newVisitor.registrationId
+        };
+
+        const response = await postVisitRequest(requestVisitData);
+        console.log(response);
+        this.visitRequest = response;
         this.errorMsg = '';
 
       } catch (error) {

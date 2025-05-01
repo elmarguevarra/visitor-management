@@ -46,16 +46,26 @@
         visitRequest && 
         visitRequest.requestStatus === 'DECLINED' &&
         !isGetInviteByTokenLoading" 
-        class="alert alert-danger mt-3">
-        Request has been declined
+        class="alert alert-danger mt-3 text-center">
+        Request has been declined!
       </div>
       <div v-if="
         !isGetVisitRequestByTokenLoading &&
         visitRequest && 
         visitRequest.requestStatus === 'APPROVED' &&
         !isGetInviteByTokenLoading" 
-        class="alert alert-success mt-3">
-        Request has been approved
+        class="alert alert-success mt-3 text-center">
+        Request has been approved!
+      </div>
+      <div v-if="
+        visitor && 
+        visitor.qrCodeDataURL"
+        class="mt-4 d-flex flex-column align-items-center">
+        <p class="mt-2 mb-2 text-center">{{ visitor.visitorName }}</p>
+        <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
+        <p class="mt-2 mb-0 text-center">Registration ID: {{ visitor.registrationId }}</p>
+        <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ formatDate(new Date(visitor.visitDate)) }}</strong></h6>
+        <p class="mt-2 text-muted text-center small">Present this at the gate on the day of your visit.</p>
       </div>
       <h6 class="alert alert-danger mt-4" v-if="
         errorMsg && 
@@ -69,8 +79,8 @@
 </template>
 
 <script>
-import { postVisitRequest, getInviteByToken, getVisitRequestByToken } from '@/services/apiService';
-import { getYearMonthDay } from '@/utils';
+import { postVisitRequest, getInviteByToken, getVisitRequestByToken, getVisitorByRegistrationId } from '@/services/apiService';
+import { getYearMonthDay, formatDate } from '@/utils';
 
 export default {
   name: 'InviteVisitorView',
@@ -85,6 +95,7 @@ export default {
     return {
       invitation: null,
       visitRequest: null,
+      visitor: null,
       residentId: null,
       formData: {
         visitorName: null,
@@ -98,6 +109,7 @@ export default {
     };
   },
   methods: {
+    formatDate,
     async requestVisit() {
       this.isRequestVisitLoading = true;
       const requestVisitData = {
@@ -149,6 +161,9 @@ export default {
           this.formData.visitorName = this.visitRequest.visitorName;
           this.formData.visitDate = getYearMonthDay(new Date(this.visitRequest.visitDate));
           this.errorMsg = '';
+          if(this.visitRequest.requestStatus === 'APPROVED'){
+            this.getVisitor(this.visitRequest.registrationId);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -156,7 +171,18 @@ export default {
       } finally {
         this.isGetVisitRequestByTokenLoading = false;
       }
-    }
+    },
+
+    async getVisitor(id) {
+      try {
+        const response = await getVisitorByRegistrationId(id)
+        this.visitor = response;
+        this.errorMsg = '';
+      } catch (error) {
+        console.error(error);
+        this.errorMsg = error.response?.data?.message || 'Error retrieving data';
+      }
+    },
   },
   mounted() {
     if (this.inviteToken) {
