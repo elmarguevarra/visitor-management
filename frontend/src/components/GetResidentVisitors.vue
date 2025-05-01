@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import { getVisitorsByResidentIdId, getVisitRequestsByResidentIdId } from '@/services/apiService';
+import { getVisitorsByResidentId, getVisitRequestsByResidentId } from '@/services/apiService';
 import { formatDate } from '@/utils';
 
 export default {
@@ -148,7 +148,7 @@ export default {
     async getVisitors() {
       this.isLoading = true;
       try {
-        const response = await getVisitorsByResidentIdId(this.residentId)
+        const response = await getVisitorsByResidentId(this.residentId)
         console.log(response);
         this.visitors = response.data;
       } catch (error) {
@@ -162,7 +162,7 @@ export default {
     async getVisitRequests() {
       this.isVisitRequestsLoading = true;
       try {
-        const response = await getVisitRequestsByResidentIdId(this.residentId);
+        const response = await getVisitRequestsByResidentId(this.residentId);
         console.log(response);
         this.visitRequests = response.data;
       } catch (error) {

@@ -7,7 +7,7 @@ export async function createVisitor(data: any): Promise<any> {
   return response.data
 }
 
-export async function getVisitorsByResidentIdId(
+export async function getVisitorsByResidentId(
   residentId: string,
 ): Promise<any> {
   const response = await axios.get(
@@ -16,11 +16,18 @@ export async function getVisitorsByResidentIdId(
   return response.data
 }
 
-export async function getVisitRequestsByResidentIdId(
+export async function getVisitRequestsByResidentId(
   residentId: string,
 ): Promise<any> {
   const response = await axios.get(
     `${API_BASE}visit-requests?residentId=${residentId}`,
   )
+  return response.data
+}
+
+export async function getVisitorByRegistrationId(
+  registrationId: string,
+): Promise<any> {
+  const response = await axios.get(`${API_BASE}visitor/${registrationId}`)
   return response.data
 }

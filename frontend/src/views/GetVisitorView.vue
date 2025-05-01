@@ -40,8 +40,8 @@
 </template>
 
 <script>
+import { getVisitorByRegistrationId } from '@/services/apiService';
 import { formatDate, formatDateAndTime } from '@/utils';
-import axios from 'axios';
 
 export default {
   name: 'GetVisitorView',
@@ -60,25 +60,23 @@ export default {
     };
   },
   methods: {
-    async getItemsById() {
+    async getVisitorById() {
       this.isLoading = true;
       this.searchPerformed = true; 
       const id = this.formData.registrationId;
       if (!id) {
         this.errorMsg = 'Please enter an ID';
-        this.isLoading = false; // Reset loading state
+        this.isLoading = false;
         return;
       }
       await this.fetchData(id);
       this.$emit('search', id);
-      this.isLoading = false; // Reset loading state after fetching
+      this.isLoading = false;
     },
 
     async fetchData(id) {
       try {
-        const response = await axios.get(
-          `${process.env.VUE_APP_API_ENDPOINT}visitor/${id}`
-        );
+        const response = await getVisitorByRegistrationId(id)
         this.visitor = response.data;
         this.errorMsg = '';
       } catch (error) {
