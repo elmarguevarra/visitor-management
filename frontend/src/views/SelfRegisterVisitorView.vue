@@ -79,7 +79,12 @@
 </template>
 
 <script>
-import { postVisitRequest, getInviteByToken, getVisitRequestByToken, getVisitorByRegistrationId } from '@/services/apiService';
+import { 
+          postVisitRequest, 
+          getInviteByToken, 
+          getVisitRequestByToken, 
+          getVisitorByRegistrationId,
+          postInvite } from '@/services/apiService';
 import { getYearMonthDay, formatDate } from '@/utils';
 
 export default {
@@ -163,6 +168,7 @@ export default {
           this.errorMsg = '';
           if(this.visitRequest.requestStatus === 'APPROVED'){
             this.getVisitor(this.visitRequest.registrationId);
+            this.extendInviteLinkExpiration(this.visitRequest.visitDate)
           }
         }
       } catch (error) {
@@ -181,6 +187,25 @@ export default {
       } catch (error) {
         console.error(error);
         this.errorMsg = error.response?.data?.message || 'Error retrieving data';
+      }
+    },
+
+    async extendInviteLinkExpiration(date) {
+      this.isLoading = true;
+      try {
+        const rawTTL = date
+        const inviteData = {
+          residentId: this.residentId,
+          ttl: rawTTL
+        }
+        const response = await postInvite(inviteData);
+        console.log(response);
+        this.invitation = response;
+      } catch (error) {
+        console.log(error);
+        this.errorMsg = 'Error generating invite link';
+      } finally {
+        this.isLoading = false;
       }
     },
   },

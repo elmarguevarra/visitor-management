@@ -33,11 +33,19 @@ export const putInviteLinkItemHandler = async (event) => {
 
     // Get id and name from the body of the request
     const body = JSON.parse(event.body);
-
     let residentId = body.residentId;
-    console.log("residentId: ", residentId)
+    let rawTTL = body.ttl;
+    let adjustedTTL = null;
+    
+    if(rawTTL){
+        const inviteLinkExpirationTimeInHours = 24;
+        // Calculate expiration time
+        const expirationDate = new Date(rawTTL);
+        expirationDate.setTime(expirationDate.getTime() + inviteLinkExpirationTimeInHours * 60 * 60 * 1000);
 
-    // Verify if resident id exists
+        // Calculate the TTL (epoch time in seconds)
+        adjustedTTL = Math.floor(expirationDate.getTime() / 1000);
+    }
 
     // Generate invite link and add to response
     const inviteData = await generateInviteData();
@@ -49,7 +57,7 @@ export const putInviteLinkItemHandler = async (event) => {
             residentId: residentId,
             inviteLink: inviteData.inviteLink,
             inviteLinkExpiration: inviteData.inviteLinkExpiration,
-            ttl: inviteData.ttl
+            ttl: adjustedTTL || inviteData.ttl
         },
     };
 
