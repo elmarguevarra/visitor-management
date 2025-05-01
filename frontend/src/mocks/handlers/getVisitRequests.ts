@@ -20,7 +20,7 @@ export const getVisitRequestsHandler = (): RestHandler[] => [
           visitorName: 'Molang',
           visitDate: new Date().setHours(0, 0, 0, 0),
           inviteToken: 'inviteToken',
-          requestStatus: 'APPROVED',
+          requestStatus: 'PENDING',
         },
       ]),
     )

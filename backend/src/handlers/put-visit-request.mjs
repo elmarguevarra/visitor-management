@@ -36,7 +36,7 @@ export const putVisitRequestHandler = async (event) => {
     let inviteToken = body.inviteToken;
     let visitorName = body.visitorName;
     let visitDate = body.visitDate;
-    let requestStatus = "PENDING";
+    let requestStatus = body.requestStatus;
 
     const expirationDate = new Date(visitDate);
     expirationDate.setHours(0, 0, 0, 0);

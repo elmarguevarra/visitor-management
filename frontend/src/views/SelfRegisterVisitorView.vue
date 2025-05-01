@@ -104,7 +104,8 @@ export default {
         residentId: this.residentId,
         inviteToken: this.inviteToken,
         visitorName: this.formData.visitorName,
-        visitDate: this.formData.visitDate
+        visitDate: this.formData.visitDate,
+        requestStatus: "PENDING"
       };
       try {
         const response = await postVisitRequest(requestVisitData);

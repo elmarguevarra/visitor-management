@@ -221,7 +221,7 @@ export default {
       try {
         const response = await getVisitRequestsByResidentId(this.residentId);
         console.log(response);
-        this.visitRequests = response;
+        this.visitRequests = response.sort((a, b) => new Date(a.visitDate) - new Date(b.visitDate));
       } catch (error) {
         console.log(error);
         this.errorMsg = 'Error retrieving data';
