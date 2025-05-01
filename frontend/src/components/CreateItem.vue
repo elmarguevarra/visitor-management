@@ -71,8 +71,7 @@ export default {
     createItem() {
       this.isLoading = true;
       const visitorData = {
-        ...this.formData,
-        visitDate: this.formData.visitDate ? new Date(this.formData.visitDate).toISOString() : null,
+        ...this.formData
       };
       const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}visitor`;
       axios

@@ -73,7 +73,7 @@ export const putVisitorHandler = async (event) => {
           registrationId: registrationId,
           residentId: residentId,
           visitorName: visitorName,
-          visitDate: visitDate,
+          visitDate: new Date(visitDate).toISOString(),
           registrationTime: registrationTime,
           qrCodeDataURL: qrCodeDataURL,
           arrivalTime: arrivalTime,
