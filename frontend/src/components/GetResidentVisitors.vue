@@ -20,14 +20,26 @@
 
     <h5 v-if="visitRequests.length > 0" class="mt-4">Visit Requests</h5>
     <div v-for="visitRequest in visitRequests" :key="visitRequest.inviteToken" class="card mb-3">
-      <div class="card-body d-flex justify-content-between align-items-center flex-column flex-md-row">
+      <div v-if="visitRequest.requestStatus === 'PENDING'" class="card-body d-flex justify-content-between align-items-center flex-column flex-md-row">
         <div class="mb-2 mb-md-0">
           <h6 class="card-title mb-1">{{ visitRequest.visitorName }}</h6>
           <p class="card-text text-muted small">on {{ formatDate(new Date(visitRequest.visitDate)) }}</p>
         </div>
         <div class="d-flex flex-column flex-md-row gap-2">
-          <button class="btn btn-sm btn-primary">Approve</button>
-          <button class="btn btn-sm btn-secondary">Decline</button>
+          <button 
+            @click="approveVisitRequest(visitRequest)" 
+            class="btn btn-sm btn-primary" 
+            :disabled="isApproveVisitRequestLoading || isDecisionVisitRequestSubmitted">
+              <span v-if="isApproveVisitRequestLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Approve
+          </button>
+          <button 
+            @click="declineVisitRequest(visitRequest)" 
+            class="btn btn-sm btn-secondary" 
+            :disabled="isDeclineVisitRequestLoading || isDecisionVisitRequestSubmitted">
+              <span v-if="isDeclineVisitRequestLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Decline
+          </button>
         </div>
       </div>
     </div>
@@ -96,7 +108,7 @@
 </template>
 
 <script>
-import { getVisitorsByResidentId, getVisitRequestsByResidentId } from '@/services/apiService';
+import { getVisitorsByResidentId, getVisitRequestsByResidentId, postVisitRequest } from '@/services/apiService';
 import { formatDate } from '@/utils';
 
 export default {
@@ -113,7 +125,10 @@ export default {
       visitRequests: [],
       errorMsg: '',
       isLoading: false,
-      isVisitRequestsLoading: false
+      isVisitRequestsLoading: false,
+      isApproveVisitRequestLoading: false,
+      isDeclineVisitRequestLoading: false,
+      isDecisionVisitRequestSubmitted: false
     };
   },
   computed: {
@@ -145,6 +160,48 @@ export default {
     },
   },
   methods: {
+    async approveVisitRequest(visitRequest) {
+      this.isApproveVisitRequestLoading = true;
+      this.isDecisionVisitRequestSubmitted = true
+      const requestVisitData = {
+        ...visitRequest,
+        requestStatus: "APPROVED"
+      };
+      try {
+        const response = await postVisitRequest(requestVisitData);
+        console.log(response);
+        this.visitRequest = response;
+        this.errorMsg = '';
+      } catch (error) {
+        console.log(error);
+        this.errorMsg = 'Error posting data';
+        this.isDecisionVisitRequestSubmitted = false
+      } finally {
+        this.isApproveVisitRequestLoading = false;
+      }
+    },
+
+    async declineVisitRequest(visitRequest) {
+      this.isDeclineVisitRequestLoading = true;
+      this.isDecisionVisitRequestSubmitted = true
+      const requestVisitData = {
+        ...visitRequest,
+        requestStatus: "DECLINE"
+      };
+      try {
+        const response = await postVisitRequest(requestVisitData);
+        console.log(response);
+        this.visitRequest = response;
+        this.errorMsg = '';
+      } catch (error) {
+        console.log(error);
+        this.errorMsg = 'Error posting data';
+        this.isDecisionVisitRequestSubmitted = false
+      } finally {
+        this.isDeclineVisitRequestLoading = false;
+      }
+    },
+
     async getVisitors() {
       this.isLoading = true;
       try {
