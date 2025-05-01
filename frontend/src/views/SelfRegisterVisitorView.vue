@@ -2,7 +2,11 @@
   <div class="container mt-4">
     <h3 class="mb-3">Self-Register</h3>
     <div class="mb-4 border p-3 rounded shadow-sm">
-      <form v-if="!errorMsg && !isGetInviteByTokenLoading" @submit.prevent="requestVisit" class="row g-3">
+      <form v-if="!errorMsg && 
+        !isGetInviteByTokenLoading &&
+        !isGetVisitRequestByTokenLoading" 
+        @submit.prevent="requestVisit" 
+        class="row g-3">
         <div class="col-md-6">
           <label for="visitorName" class="form-label">Visitor Name</label>
           <input type="text" class="form-control" id="visitorName" v-model="formData.visitorName" required/>
@@ -12,7 +16,13 @@
           <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required :min="today"/>
         </div>
         <div class="col-12">
-          <button v-if="!visitRequest" type="submit" class="btn btn-primary" :disabled="isRequestVisitLoading">
+          <button v-if="
+            !isGetVisitRequestByTokenLoading &&
+            !visitRequest && 
+            !isGetInviteByTokenLoading" 
+            type="submit" 
+            class="btn btn-primary" 
+            :disabled="isRequestVisitLoading">
             <span v-if="isRequestVisitLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Submit
           </button>
@@ -22,17 +32,38 @@
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Verifying Invitation...
       </div>
-      <div v-if="visitRequest && visitRequest.requestStatus === 'PENDING'" class="alert alert-info mt-3">
+      <div v-if="
+        !isGetVisitRequestByTokenLoading &&
+        visitRequest && 
+        visitRequest.requestStatus === 'PENDING' &&
+        !isGetInviteByTokenLoading" 
+        class="alert alert-info mt-3">
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           Waiting for Approval...
       </div>
-      <div v-if="visitRequest && visitRequest.requestStatus === 'DECLINED'" class="alert alert-danger mt-3">
+      <div v-if="
+        !isGetVisitRequestByTokenLoading &&
+        visitRequest && 
+        visitRequest.requestStatus === 'DECLINED' &&
+        !isGetInviteByTokenLoading" 
+        class="alert alert-danger mt-3">
         Request has been declined
       </div>
-      <div v-if="visitRequest && visitRequest.requestStatus === 'APPROVED'" class="alert alert-success mt-3">
+      <div v-if="
+        !isGetVisitRequestByTokenLoading &&
+        visitRequest && 
+        visitRequest.requestStatus === 'APPROVED' &&
+        !isGetInviteByTokenLoading" 
+        class="alert alert-success mt-3">
         Request has been approved
       </div>
-      <h6 class="alert alert-danger mt-4" v-if="errorMsg && !isRequestVisitLoading && !isGetInviteByTokenLoading && !isGetVisitRequestByTokenLoading">{{ errorMsg }}</h6>
+      <h6 class="alert alert-danger mt-4" v-if="
+        errorMsg && 
+        !isRequestVisitLoading && 
+        !isGetInviteByTokenLoading && 
+        !isGetVisitRequestByTokenLoading">
+          {{ errorMsg }}
+      </h6>
     </div>
   </div>
 </template>
