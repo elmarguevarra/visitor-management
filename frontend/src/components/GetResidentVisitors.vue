@@ -189,7 +189,7 @@ export default {
           visitorName: this.visitRequest.visitorName,
           visitDate: this.visitRequest.visitDate,
         };
-        
+
         await postVisitor(newVisitorData)
         this.errorMsg = '';
 
@@ -207,7 +207,7 @@ export default {
       this.visitRequestSubmittedStates[visitRequest.inviteToken] = true;
       const requestVisitData = {
         ...visitRequest,
-        requestStatus: "DECLINE"
+        requestStatus: "DECLINED"
       };
       try {
         const response = await postVisitRequest(requestVisitData);
