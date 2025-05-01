@@ -36,7 +36,7 @@ export const putInviteLinkItemHandler = async (event) => {
     let residentId = body.residentId;
     let rawTTL = body.ttl;
     let adjustedTTL = null;
-    
+
     if(rawTTL){
         const inviteLinkExpirationTimeInHours = 24;
         // Calculate expiration time
@@ -56,8 +56,8 @@ export const putInviteLinkItemHandler = async (event) => {
             inviteToken: inviteData.token,
             residentId: residentId,
             inviteLink: inviteData.inviteLink,
-            inviteLinkExpiration: inviteData.inviteLinkExpiration,
-            ttl: adjustedTTL || inviteData.ttl
+            inviteLinkExpiration: rawTTL ? adjustedTTL.toISOString() : inviteData.inviteLinkExpiration,
+            ttl: rawTTL ? adjustedTTL : inviteData.ttl
         },
     };
 
