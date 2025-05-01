@@ -69,8 +69,8 @@
 </template>
 
 <script>
+import { createVisitRequest, getInviteByToken, getVisitRequestByToken } from '@/services/apiService';
 import { getYearMonthDay } from '@/utils';
-import axios from 'axios';
 
 export default {
   name: 'InviteVisitorView',
@@ -106,9 +106,8 @@ export default {
         visitorName: this.formData.visitorName,
         visitDate: this.formData.visitDate
       };
-      const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}visit-request`;
       try {
-        const response = await axios.post(apiUrl, requestVisitData);
+        const response = await createVisitRequest(requestVisitData);
         console.log(response);
         this.visitRequest = response.data;
         this.errorMsg = '';
@@ -120,11 +119,10 @@ export default {
       }
     },
 
-    async getInviteByToken() {
+    async getInvite() {
       this.isGetInviteByTokenLoading = true;
-      const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}invite/${this.inviteToken}`;
       try {
-        const response = await axios.get(apiUrl);
+        const response = await getInviteByToken(this.inviteToken)
         console.log(response.data);
         this.invitation = response.data;
         if (this.invitation && this.invitation.residentId) {
@@ -140,11 +138,10 @@ export default {
       }
     },
 
-    async getVisitRequestByToken() {
+    async getVisitRequest() {
       this.isGetVisitRequestByTokenLoading = true;
-      const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}visit-request/${this.inviteToken}`;
       try {
-        const response = await axios.get(apiUrl);
+        const response = await getVisitRequestByToken(this.inviteToken);
         console.log(response);
         this.visitRequest = response.data;
         if (this.visitRequest) {
@@ -162,8 +159,8 @@ export default {
   },
   mounted() {
     if (this.inviteToken) {
-      this.getInviteByToken();
-      this.getVisitRequestByToken();
+      this.getInvite();
+      this.getVisitRequest();
     }
   }
 };

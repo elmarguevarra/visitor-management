@@ -42,8 +42,8 @@
 </template>
 
 <script>
+import { createInvite } from '@/services/apiService';
 import { formatDateAndTime } from '@/utils';
-import axios from 'axios';
 
 export default {
   name: 'InviteVisitorView',
@@ -63,10 +63,8 @@ export default {
   methods: {
     async generateInviteLink() {
       this.isLoading = true;
-      this.errorMsg = '';
-      const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}invite`;
       try {
-        const response = await axios.post(apiUrl, { residentId: this.residentId });
+        const response = await createInvite(this.residentId);
         console.log(response);
         this.invitation = response.data;
       } catch (error) {
