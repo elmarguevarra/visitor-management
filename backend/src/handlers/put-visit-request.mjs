@@ -34,6 +34,7 @@ export const putVisitRequestHandler = async (event) => {
 
     let residentId = body.residentId;
     let inviteToken = body.inviteToken;
+    let registrationId = body.registrationId;
     let visitorName = body.visitorName;
     let visitDate = body.visitDate;
     let requestStatus = body.requestStatus;
@@ -49,6 +50,7 @@ export const putVisitRequestHandler = async (event) => {
         Item: {
             residentId: residentId,
             inviteToken: inviteToken,
+            registrationId: registrationId,
             visitorName: visitorName,
             visitDate: new Date(visitDate).toISOString(),
             requestStatus: requestStatus,
@@ -71,6 +73,7 @@ export const putVisitRequestHandler = async (event) => {
     const responseBody = {
         residentId: residentId,
         inviteToken: inviteToken,
+        registrationId: registrationId,
         visitorName: visitorName,
         visitDate: visitDate,
         requestStatus: requestStatus,

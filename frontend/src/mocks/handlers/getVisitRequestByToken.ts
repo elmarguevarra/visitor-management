@@ -12,9 +12,10 @@ export const getVisitRequestByTokenHandler = (): RestHandler[] => [
         ctx.json({
           residentId: '1234',
           inviteToken: 'token',
+          registrationId: 'fsfsdsdfs',
           visitorName: 'visitorName',
           visitDate: new Date(),
-          requestStatus: 'PENDING',
+          requestStatus: 'APPROVED',
         }),
       )
     },

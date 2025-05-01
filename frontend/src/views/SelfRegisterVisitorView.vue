@@ -57,6 +57,15 @@
         class="alert alert-success mt-3">
         Request has been approved
       </div>
+      <div v-if="
+        visitor && 
+        visitor.qrCodeDataURL"
+        class="mt-4 d-flex flex-column align-items-center">
+        <p class="mt-2 mb-2 text-center">{{ visitor.visitorName }}</p>
+        <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
+        <p class="mt-2 mb-0 text-center">Registration ID: {{ visitor.registrationId }}</p>
+        <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ formatDate(new Date(visitor.visitDate)) }}</strong></h6>
+      </div>
       <h6 class="alert alert-danger mt-4" v-if="
         errorMsg && 
         !isRequestVisitLoading && 
@@ -69,7 +78,7 @@
 </template>
 
 <script>
-import { postVisitRequest, getInviteByToken, getVisitRequestByToken } from '@/services/apiService';
+import { postVisitRequest, getInviteByToken, getVisitRequestByToken, getVisitorByRegistrationId } from '@/services/apiService';
 import { getYearMonthDay } from '@/utils';
 
 export default {
@@ -85,6 +94,7 @@ export default {
     return {
       invitation: null,
       visitRequest: null,
+      visitor: null,
       residentId: null,
       formData: {
         visitorName: null,
@@ -156,12 +166,26 @@ export default {
       } finally {
         this.isGetVisitRequestByTokenLoading = false;
       }
-    }
+    },
+
+    async getVisitor(id) {
+      try {
+        const response = await getVisitorByRegistrationId(id)
+        this.visitor = response;
+        this.errorMsg = '';
+      } catch (error) {
+        console.error(error);
+        this.errorMsg = error.response?.data?.message || 'Error retrieving data';
+      }
+    },
   },
   mounted() {
     if (this.inviteToken) {
       this.getInvite();
       this.getVisitRequest();
+      if(this.visitRequest && this.visitRequest.requestStatus === 'APPROVED'){
+        this.getVisitor(this.visitRequest.registrationId);
+      }
     }
   }
 };
