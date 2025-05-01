@@ -26,9 +26,9 @@
           Registration ID: {{ visitor.registrationId }}
         </h5>
         <p class="card-text mb-0">Name: {{ visitor.visitorName }}</p>
-        <p v-if="visitor.hasArrived" class="card-text mb-0">Arrived on {{ formatDateAndTime(visitor.arrivalTime) }}</p>
-        <p v-else-if="!visitor.hasArrived" class="card-text mb-0">Scheduled on {{ formatDate(visitor.visitDate) }}</p>
-        <p v-if="visitor.hasDeparted" class="card-text mb-0">Departed on {{ formatDateAndTime(visitor.departureTime) }}</p>
+        <p v-if="visitor.hasArrived" class="card-text mb-0">Arrived on {{ formatDateAndTime(new Date(visitor.arrivalTime)) }}</p>
+        <p v-else-if="!visitor.hasArrived" class="card-text mb-0">Scheduled on {{ formatDate(new Date(visitor.visitDate)) }}</p>
+        <p v-if="visitor.hasDeparted" class="card-text mb-0">Departed on {{ formatDateAndTime(new Date(visitor.departureTime)) }}</p>
       </div>
     </div>
     <div v-else-if="searchPerformed && !visitor.registrationId && !isLoading" class="alert alert-warning mt-3">
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { formatDate, formatDateAndTime } from '@/utils';
 import axios from 'axios';
 
 export default {
@@ -86,20 +87,8 @@ export default {
         this.errorMsg = error.response?.data?.message || 'Error retrieving data';
       }
     },
-    formatDate(dateString) {
-      if (!dateString) return '';
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString(undefined, options);
-    },
-    formatDateAndTime(dateString) {
-      if (!dateString) return '';
-      const date = new Date(dateString);
-      const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-      const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
-      const formattedDate = date.toLocaleDateString(undefined, dateOptions);
-      const formattedTime = date.toLocaleTimeString(undefined, timeOptions);
-      return `${formattedDate} at ${formattedTime}`;
-    }
+    formatDate,
+    formatDateAndTime
   },
 };
 </script>

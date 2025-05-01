@@ -24,3 +24,20 @@ export function formatDate(date: Date): string {
   }
   return date.toLocaleDateString(undefined, options)
 }
+
+export function formatDateAndTime(date: Date): string {
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true,
+  }
+  const formattedDate = date.toLocaleDateString(undefined, dateOptions)
+  const formattedTime = date.toLocaleTimeString(undefined, timeOptions)
+  return `${formattedDate} at ${formattedTime}`
+}
