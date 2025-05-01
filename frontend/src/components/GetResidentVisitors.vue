@@ -29,15 +29,17 @@
           <button 
             @click="approveVisitRequest(visitRequest)" 
             class="btn btn-sm btn-primary" 
-            :disabled="isApproveVisitRequestLoading || isDecisionVisitRequestSubmitted">
-              <span v-if="isApproveVisitRequestLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            :disabled="visitRequestLoadingStates[visitRequest.inviteToken]?.approve ||
+              visitRequestSubmittedStates[visitRequest.inviteToken]">
+              <span v-if="visitRequestLoadingStates[visitRequest.inviteToken]?.approve" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Approve
           </button>
           <button 
             @click="declineVisitRequest(visitRequest)" 
             class="btn btn-sm btn-secondary" 
-            :disabled="isDeclineVisitRequestLoading || isDecisionVisitRequestSubmitted">
-              <span v-if="isDeclineVisitRequestLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            :disabled="visitRequestLoadingStates[visitRequest.inviteToken]?.decline ||
+              visitRequestSubmittedStates[visitRequest.inviteToken]">
+              <span v-if="visitRequestLoadingStates[visitRequest.inviteToken]?.decline" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Decline
           </button>
         </div>
@@ -126,9 +128,8 @@ export default {
       errorMsg: '',
       isLoading: false,
       isVisitRequestsLoading: false,
-      isApproveVisitRequestLoading: false,
-      isDeclineVisitRequestLoading: false,
-      isDecisionVisitRequestSubmitted: false
+      visitRequestLoadingStates: {},  
+      visitRequestSubmittedStates: {}
     };
   },
   computed: {
@@ -161,7 +162,8 @@ export default {
   },
   methods: {
     async approveVisitRequest(visitRequest) {
-      this.isApproveVisitRequestLoading = true;
+      this.visitRequestLoadingStates[visitRequest.inviteToken] = { approve: true };
+      this.visitRequestSubmittedStates[visitRequest.inviteToken] = true;
       this.isDecisionVisitRequestSubmitted = true
       const requestVisitData = {
         ...visitRequest,
@@ -175,15 +177,15 @@ export default {
       } catch (error) {
         console.log(error);
         this.errorMsg = 'Error posting data';
-        this.isDecisionVisitRequestSubmitted = false
+        this.visitRequestSubmittedStates[visitRequest.inviteToken] = false;
       } finally {
-        this.isApproveVisitRequestLoading = false;
+        this.visitRequestLoadingStates[visitRequest.inviteToken] = { approve: false };
       }
     },
 
     async declineVisitRequest(visitRequest) {
-      this.isDeclineVisitRequestLoading = true;
-      this.isDecisionVisitRequestSubmitted = true
+      this.visitRequestLoadingStates[visitRequest.inviteToken] = { decline: true };
+      this.visitRequestSubmittedStates[visitRequest.inviteToken] = true;
       const requestVisitData = {
         ...visitRequest,
         requestStatus: "DECLINE"
@@ -196,9 +198,9 @@ export default {
       } catch (error) {
         console.log(error);
         this.errorMsg = 'Error posting data';
-        this.isDecisionVisitRequestSubmitted = false
+        this.visitRequestSubmittedStates[visitRequest.inviteToken] = false;
       } finally {
-        this.isDeclineVisitRequestLoading = false;
+        this.visitRequestLoadingStates[visitRequest.inviteToken] = { decline: false }; 
       }
     },
 
