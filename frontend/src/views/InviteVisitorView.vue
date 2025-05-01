@@ -61,32 +61,29 @@ export default {
     };
   },
   methods: {
-    generateInviteLink() {
+    async generateInviteLink() {
       this.isLoading = true;
       this.errorMsg = '';
       const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}invite`;
-      axios
-        .post(apiUrl, { residentId: this.residentId })
-        .then((response) => {
-          console.log(response);
-          this.invitation = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-          this.errorMsg = 'Error generating invite link';
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
+      try {
+        const response = await axios.post(apiUrl, { residentId: this.residentId });
+        console.log(response);
+        this.invitation = response.data;
+      } catch (error) {
+        console.log(error);
+        this.errorMsg = 'Error generating invite link';
+      } finally {
+        this.isLoading = false;
+      }
     },
-    copyToClipboard(text) {
-      navigator.clipboard.writeText(text)
-        .then(() => {
-          alert('Link copied!');
-        })
-        .catch((err) => {
-          console.error('Failed to copy text: ', err);
-        });
+
+    async copyToClipboard(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        alert('Link copied!');
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+      }
     },
     formatDateAndTime
   },

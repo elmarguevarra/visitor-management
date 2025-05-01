@@ -41,8 +41,8 @@
 </template>
 
 <script>
+import { createVisitor } from '@/services/apiService';
 import { getYearMonthDay, formatDate } from '@/utils';
-import axios from 'axios';
 
 export default {
   name: 'CreateItem',
@@ -68,28 +68,20 @@ export default {
     };
   },
   methods: {
-    createItem() {
-      this.isLoading = true;
-      const visitorData = {
-        ...this.formData
-      };
-      const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}visitor`;
-      axios
-        .post(apiUrl, visitorData)
-        .then((response) => {
-          console.log(response);
-          this.visitor = response.data;
-          this.formData.visitorName = '';
-          this.formData.visitDate = this.today;
-          this.errorMsg = '';
-        })
-        .catch((error) => {
-          console.log(error);
-          this.errorMsg = 'Error posting data';
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
+    async createItem() {
+      isLoading.value = true;
+      try {
+        const result = await createVisitor(formData.value);
+        visitor.value = result;
+        formData.value.visitorName = '';
+        formData.value.visitDate = today;
+        errorMsg.value = '';
+      } catch (error) {
+        console.error(error);
+        errorMsg.value = 'Error posting data';
+      } finally {
+        isLoading.value = false;
+      }
     },
     formatDate
   }

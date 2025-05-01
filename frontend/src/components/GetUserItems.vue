@@ -145,45 +145,40 @@ export default {
     },
   },
   methods: {
-    getItems() {
+    async getItems() {
       this.isLoading = true;
       let apiUrl = process.env.VUE_APP_API_ENDPOINT;
       if (this.residentId) {
         apiUrl += `visitors?residentId=${this.residentId}`;
       }
-      axios
-        .get(apiUrl)
-        .then((response) => {
-          console.log(response);
-          this.visitors = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-          this.errorMsg = 'Error retrieving data';
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
+      try {
+        const response = await axios.get(apiUrl);
+        console.log(response);
+        this.visitors = response.data;
+      } catch (error) {
+        console.log(error);
+        this.errorMsg = 'Error retrieving data';
+      } finally {
+        this.isLoading = false;
+      }
     },
-    getVisitRequests() {
+
+    async getVisitRequests() {
       this.isVisitRequestsLoading = true;
       let apiUrl = process.env.VUE_APP_API_ENDPOINT;
       if (this.residentId) {
         apiUrl += `visit-requests?residentId=${this.residentId}`;
       }
-      axios
-        .get(apiUrl)
-        .then((response) => {
-          console.log(response);
-          this.visitRequests = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-          this.errorMsg = 'Error retrieving data';
-        })
-        .finally(() => {
-          this.isVisitRequestsLoading = false;
-        });
+      try {
+        const response = await axios.get(apiUrl);
+        console.log(response);
+        this.visitRequests = response.data;
+      } catch (error) {
+        console.log(error);
+        this.errorMsg = 'Error retrieving data';
+      } finally {
+        this.isVisitRequestsLoading = false;
+      }
     },
     formatDate
   },

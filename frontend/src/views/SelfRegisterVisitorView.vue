@@ -98,7 +98,7 @@ export default {
     };
   },
   methods: {
-    requestVisit() {
+    async requestVisit() {
       this.isRequestVisitLoading = true;
       const requestVisitData = {
         residentId: this.residentId,
@@ -107,64 +107,57 @@ export default {
         visitDate: this.formData.visitDate
       };
       const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}visit-request`;
-      axios
-        .post(apiUrl, requestVisitData)
-        .then((response) => {
-          console.log(response);
-          this.visitRequest = response.data;
-          this.errorMsg = '';
-        })
-        .catch((error) => {
-          console.log(error);
-          this.errorMsg = 'Error posting data';
-        })
-        .finally(() => {
-          this.isRequestVisitLoading = false;
-      });
+      try {
+        const response = await axios.post(apiUrl, requestVisitData);
+        console.log(response);
+        this.visitRequest = response.data;
+        this.errorMsg = '';
+      } catch (error) {
+        console.log(error);
+        this.errorMsg = 'Error posting data';
+      } finally {
+        this.isRequestVisitLoading = false;
+      }
     },
-    getInviteByToken() {
+
+    async getInviteByToken() {
       this.isGetInviteByTokenLoading = true;
       const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}invite/${this.inviteToken}`;
-      axios
-        .get(apiUrl)
-        .then((response) => {
-          console.log(response.data);
-          this.invitation = response.data;
-          if (this.invitation && this.invitation.residentId) {
-            this.formData.residentId = this.invitation.residentId;
-            this.residentId = this.invitation.residentId;
-          }
-          this.errorMsg = '';
-        })
-        .catch((error) => {
-          console.log(error);
-          this.errorMsg = 'Invite not found or has already expired.';
-        })
-        .finally(() => {
-          this.isGetInviteByTokenLoading = false;
-        });
+      try {
+        const response = await axios.get(apiUrl);
+        console.log(response.data);
+        this.invitation = response.data;
+        if (this.invitation && this.invitation.residentId) {
+          this.formData.residentId = this.invitation.residentId;
+          this.residentId = this.invitation.residentId;
+        }
+        this.errorMsg = '';
+      } catch (error) {
+        console.log(error);
+        this.errorMsg = 'Invite not found or has already expired.';
+      } finally {
+        this.isGetInviteByTokenLoading = false;
+      }
     },
-    getVisitRequestByToken() {
+
+    async getVisitRequestByToken() {
       this.isGetVisitRequestByTokenLoading = true;
       const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}visit-request/${this.inviteToken}`;
-      axios
-        .get(apiUrl)
-        .then((response) => {
-          console.log(response);
-          this.visitRequest = response.data;
-          if (this.visitRequest) {
-            this.formData.visitorName = this.visitRequest.visitorName;
-            this.formData.visitDate = getYearMonthDay(new Date(this.visitRequest.visitDate));
-            this.errorMsg = '';
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          this.errorMsg = 'Visit Request not found or has already expired.';
-        })
-        .finally(() => {
-          this.isGetVisitRequestByTokenLoading = false;
-        });
+      try {
+        const response = await axios.get(apiUrl);
+        console.log(response);
+        this.visitRequest = response.data;
+        if (this.visitRequest) {
+          this.formData.visitorName = this.visitRequest.visitorName;
+          this.formData.visitDate = getYearMonthDay(new Date(this.visitRequest.visitDate));
+          this.errorMsg = '';
+        }
+      } catch (error) {
+        console.log(error);
+        this.errorMsg = 'Visit Request not found or has already expired.';
+      } finally {
+        this.isGetVisitRequestByTokenLoading = false;
+      }
     }
   },
   mounted() {

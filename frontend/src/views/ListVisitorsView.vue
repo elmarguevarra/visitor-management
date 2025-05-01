@@ -10,7 +10,6 @@ import GetUserItems from '../components/GetUserItems';
 
 export default {
   name: 'ListVisitorsView',
-  // inject: ['residentId', 'setResidentId', 'isAuthenticated', 'login', 'logout'],
   inject: ['residentId'],
   components: {
     GetUserItems
