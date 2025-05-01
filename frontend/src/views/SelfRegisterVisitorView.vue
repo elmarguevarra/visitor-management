@@ -46,7 +46,7 @@
         visitRequest && 
         visitRequest.requestStatus === 'DECLINED' &&
         !isGetInviteByTokenLoading" 
-        class="alert alert-danger mt-3">
+        class="alert alert-danger mt-3 text-center">
         Request has been declined
       </div>
       <div v-if="
@@ -54,7 +54,7 @@
         visitRequest && 
         visitRequest.requestStatus === 'APPROVED' &&
         !isGetInviteByTokenLoading" 
-        class="alert alert-success mt-3">
+        class="alert alert-success mt-3 text-center">
         Request has been approved
       </div>
       <div v-if="
@@ -65,6 +65,7 @@
         <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
         <p class="mt-2 mb-0 text-center">Registration ID: {{ visitor.registrationId }}</p>
         <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ formatDate(new Date(visitor.visitDate)) }}</strong></h6>
+        <p class="mt-2 text-muted text-center small">Present this at the gate on the day of your visit.</p>
       </div>
       <h6 class="alert alert-danger mt-4" v-if="
         errorMsg && 
@@ -79,7 +80,7 @@
 
 <script>
 import { postVisitRequest, getInviteByToken, getVisitRequestByToken, getVisitorByRegistrationId } from '@/services/apiService';
-import { getYearMonthDay } from '@/utils';
+import { getYearMonthDay, formatDate } from '@/utils';
 
 export default {
   name: 'InviteVisitorView',
@@ -108,6 +109,7 @@ export default {
     };
   },
   methods: {
+    formatDate,
     async requestVisit() {
       this.isRequestVisitLoading = true;
       const requestVisitData = {
@@ -159,6 +161,9 @@ export default {
           this.formData.visitorName = this.visitRequest.visitorName;
           this.formData.visitDate = getYearMonthDay(new Date(this.visitRequest.visitDate));
           this.errorMsg = '';
+          if(this.visitRequest.requestStatus === 'APPROVED'){
+            this.getVisitor(this.visitRequest.registrationId);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -183,9 +188,6 @@ export default {
     if (this.inviteToken) {
       this.getInvite();
       this.getVisitRequest();
-      if(this.visitRequest && this.visitRequest.requestStatus === 'APPROVED'){
-        this.getVisitor(this.visitRequest.registrationId);
-      }
     }
   }
 };
