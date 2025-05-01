@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-4">
     <h3>Visitor Details</h3>
-    <form @submit.prevent="getItemsById" class="row g-3 mb-4">
+    <form @submit.prevent="getVisitor" class="row g-3 mb-4">
       <div class="col-md-6">
         <label for="registrationId" class="form-label">Registration ID</label>
         <input
@@ -60,7 +60,7 @@ export default {
     };
   },
   methods: {
-    async getVisitorById() {
+    async getVisitor() {
       this.isLoading = true;
       this.searchPerformed = true; 
       const id = this.formData.registrationId;
@@ -77,7 +77,7 @@ export default {
     async fetchData(id) {
       try {
         const response = await getVisitorByRegistrationId(id)
-        this.visitor = response.data;
+        this.visitor = response;
         this.errorMsg = '';
       } catch (error) {
         console.error(error);

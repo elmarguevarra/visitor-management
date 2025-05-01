@@ -66,7 +66,7 @@ export default {
       try {
         const response = await createInvite(this.residentId);
         console.log(response);
-        this.invitation = response.data;
+        this.invitation = response;
       } catch (error) {
         console.log(error);
         this.errorMsg = 'Error generating invite link';

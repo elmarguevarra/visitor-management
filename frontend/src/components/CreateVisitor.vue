@@ -69,18 +69,19 @@ export default {
   },
   methods: {
     async createItem() {
-      this.isLoading.value = true;
+      this.isLoading = true;
       try {
-        const result = await createVisitor(this.formData.value);
-        this.visitor.value = result;
-        this.formData.value.visitorName = '';
-        this.formData.value.visitDate = this.today;
-        this.errorMsg.value = '';
+        console.log('this.formData.value: ', this.formData)
+        const result = await createVisitor(this.formData);
+        this.visitor = result;
+        this.formData.visitorName = '';
+        this.formData.visitDate = this.today;
+        this.errorMsg = '';
       } catch (error) {
         console.error(error);
         this.errorMsg.value = 'Error posting data';
       } finally {
-        this.isLoading.value = false;
+        this.isLoading = false;
       }
     },
     formatDate

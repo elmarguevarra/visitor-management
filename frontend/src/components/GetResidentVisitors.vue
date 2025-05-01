@@ -150,7 +150,7 @@ export default {
       try {
         const response = await getVisitorsByResidentId(this.residentId)
         console.log(response);
-        this.visitors = response.data;
+        this.visitors = response;
       } catch (error) {
         console.log(error);
         this.errorMsg = 'Error retrieving data';
@@ -164,7 +164,7 @@ export default {
       try {
         const response = await getVisitRequestsByResidentId(this.residentId);
         console.log(response);
-        this.visitRequests = response.data;
+        this.visitRequests = response;
       } catch (error) {
         console.log(error);
         this.errorMsg = 'Error retrieving data';

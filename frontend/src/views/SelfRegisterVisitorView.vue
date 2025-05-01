@@ -109,7 +109,7 @@ export default {
       try {
         const response = await createVisitRequest(requestVisitData);
         console.log(response);
-        this.visitRequest = response.data;
+        this.visitRequest = response;
         this.errorMsg = '';
       } catch (error) {
         console.log(error);
@@ -124,7 +124,7 @@ export default {
       try {
         const response = await getInviteByToken(this.inviteToken)
         console.log(response.data);
-        this.invitation = response.data;
+        this.invitation = response;
         if (this.invitation && this.invitation.residentId) {
           this.formData.residentId = this.invitation.residentId;
           this.residentId = this.invitation.residentId;
@@ -143,7 +143,7 @@ export default {
       try {
         const response = await getVisitRequestByToken(this.inviteToken);
         console.log(response);
-        this.visitRequest = response.data;
+        this.visitRequest = response;
         if (this.visitRequest) {
           this.formData.visitorName = this.visitRequest.visitorName;
           this.formData.visitDate = getYearMonthDay(new Date(this.visitRequest.visitDate));
