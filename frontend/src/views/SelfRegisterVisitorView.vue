@@ -47,7 +47,7 @@
         visitRequest.requestStatus === 'DECLINED' &&
         !isGetInviteByTokenLoading" 
         class="alert alert-danger mt-3 text-center">
-        Request has been declined
+        Request has been declined!
       </div>
       <div v-if="
         !isGetVisitRequestByTokenLoading &&
@@ -55,7 +55,7 @@
         visitRequest.requestStatus === 'APPROVED' &&
         !isGetInviteByTokenLoading" 
         class="alert alert-success mt-3 text-center">
-        Request has been approved
+        Request has been approved!
       </div>
       <div v-if="
         visitor && 
