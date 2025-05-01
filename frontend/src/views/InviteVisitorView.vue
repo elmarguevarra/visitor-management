@@ -31,7 +31,7 @@
           </button>
         </div>
         <p v-if="invitation.inviteLinkExpiration" class="mt-2 text-muted text-center small">
-          Link expires on: {{ formatDateAndTime(invitation.inviteLinkExpiration) }}
+          Link expires on: {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }}
         </p>
         <p class="mt-2 text-muted text-center small">Your visitor can use this link to register.</p>
       </div>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { formatDateAndTime } from '@/utils';
 import axios from 'axios';
 
 export default {
@@ -60,15 +61,6 @@ export default {
     };
   },
   methods: {
-    formatDateAndTime(dateString) {
-      if (!dateString) return '';
-      const date = new Date(dateString);
-      const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-      const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
-      const formattedDate = date.toLocaleDateString(undefined, dateOptions);
-      const formattedTime = date.toLocaleTimeString(undefined, timeOptions);
-      return `${formattedDate} at ${formattedTime}`;
-   } ,
     generateInviteLink() {
       this.isLoading = true;
       this.errorMsg = '';
@@ -96,6 +88,7 @@ export default {
           console.error('Failed to copy text: ', err);
         });
     },
+    formatDateAndTime
   },
 };
 </script>

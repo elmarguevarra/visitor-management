@@ -32,7 +32,7 @@
       </button>
     </div>
     <div v-if="visitor.hasArrived && !errorMsg" class="alert alert-success mt-3">
-      Arrived on <strong>{{ formatDateAndTime(visitor.arrivalTime) }}</strong>
+      Arrived on <strong>{{ formatDateAndTime(new Date(visitor.arrivalTime)) }}</strong>
     </div>
 
     <div v-if="visitor.registrationId && isVisitToday && visitor.hasArrived && !visitor.hasDeparted" class="col-12">
@@ -42,7 +42,7 @@
       </button>
     </div>
     <div v-if="visitor.hasDeparted && !errorMsg" class="alert alert-success mt-3">
-      Departed on <strong>{{ formatDateAndTime(visitor.departureTime) }}</strong>
+      Departed on <strong>{{ formatDateAndTime(new Date(visitor.departureTime)) }}</strong>
     </div>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { formatDateAndTime } from '@/utils';
 import axios from 'axios';
 
 export default {
@@ -175,21 +176,7 @@ export default {
         this.isSetDepartedDataLoading = false;
       }
     },
-
-    formatDateAndTime(dateString) {
-      if (!dateString) return '';
-      const date = new Date(dateString);
-      const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-      const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
-      const formattedDate = date.toLocaleDateString(undefined, dateOptions);
-      const formattedTime = date.toLocaleTimeString(undefined, timeOptions);
-      return `${formattedDate} at ${formattedTime}`;
-    },
-    formatTime(dateString) {
-      if (!dateString) return '';
-      const options = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
-      return new Date(dateString).toLocaleTimeString(undefined, options);
-    },
+    formatDateAndTime
   },
   mounted() {
     if (this.registrationId) {
