@@ -2,19 +2,19 @@ import axios from 'axios'
 
 const API_BASE = process.env.VUE_APP_API_ENDPOINT || ''
 
-export async function createVisitor(data: any): Promise<any> {
+export async function postVisitor(data: any): Promise<any> {
   const response = await axios.post(`${API_BASE}visitor`, data)
   return response.data
 }
 
-export async function createInvite(residentId: string): Promise<any> {
+export async function postInvite(residentId: string): Promise<any> {
   const response = await axios.post(`${API_BASE}invite`, {
     residentId: residentId,
   })
   return response.data
 }
 
-export async function createVisitRequest(data: any): Promise<any> {
+export async function postVisitRequest(data: any): Promise<any> {
   const response = await axios.post(`${API_BASE}visit-request`, data)
   return response.data
 }

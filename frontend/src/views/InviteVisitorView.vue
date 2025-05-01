@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { createInvite } from '@/services/apiService';
+import { postInvite } from '@/services/apiService';
 import { formatDateAndTime } from '@/utils';
 
 export default {
@@ -64,7 +64,7 @@ export default {
     async generateInviteLink() {
       this.isLoading = true;
       try {
-        const response = await createInvite(this.residentId);
+        const response = await postInvite(this.residentId);
         console.log(response);
         this.invitation = response;
       } catch (error) {

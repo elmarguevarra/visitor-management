@@ -50,8 +50,8 @@
 </template>
 
 <script>
+import { getVisitorByRegistrationId, postVisitor } from '@/services/apiService';
 import { formatDateAndTime } from '@/utils';
-import axios from 'axios';
 
 export default {
   name: 'VerifyVisitorView',
@@ -109,10 +109,8 @@ export default {
     async fetchData(id) {
       this.isFetchDataLoading = true;
       try {
-        const response = await axios.get(
-          `${process.env.VUE_APP_API_ENDPOINT}visitor/${id}`
-        );
-        this.visitor = response.data;
+        const response = await getVisitorByRegistrationId(id)
+        this.visitor = response;
         this.errorMsg = '';
       } catch (error) {
         console.error(error);
@@ -137,10 +135,9 @@ export default {
         hasDeparted: this.visitor.hasDeparted
       };
       try {
-        const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}visitor`;
-        const response = await axios.post(apiUrl, updateData);
+        const response = await postVisitor(updateData);
         console.log('Update successful:', response.data);
-        this.visitor = response.data;
+        this.visitor = response;
         this.errorMsg = '';
       } catch (error) {
         console.log(error);
@@ -164,10 +161,9 @@ export default {
         hasDeparted: true
       };
       try {
-        const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}visitor`;
-        const response = await axios.post(apiUrl, updateData);
+        const response = await postVisitor(updateData);
         console.log('Update successful:', response.data);
-        this.visitor = response.data;
+        this.visitor = response;
         this.errorMsg = '';
       } catch (error) {
         console.log(error);

@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { createVisitRequest, getInviteByToken, getVisitRequestByToken } from '@/services/apiService';
+import { postVisitRequest, getInviteByToken, getVisitRequestByToken } from '@/services/apiService';
 import { getYearMonthDay } from '@/utils';
 
 export default {
@@ -107,7 +107,7 @@ export default {
         visitDate: this.formData.visitDate
       };
       try {
-        const response = await createVisitRequest(requestVisitData);
+        const response = await postVisitRequest(requestVisitData);
         console.log(response);
         this.visitRequest = response;
         this.errorMsg = '';

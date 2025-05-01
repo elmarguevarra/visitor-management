@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="createItem" class="row g-3">
+    <form @submit.prevent="registerVisitor" class="row g-3">
       <div class="col-md-6">
         <label for="residentId" class="form-label">Resident ID</label>
         <input type="text" class="form-control" id="residentId" v-model="formData.residentId" readonly />
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { createVisitor } from '@/services/apiService';
+import { postVisitor } from '@/services/apiService';
 import { getYearMonthDay, formatDate } from '@/utils';
 
 export default {
@@ -68,18 +68,17 @@ export default {
     };
   },
   methods: {
-    async createItem() {
+    async registerVisitor() {
       this.isLoading = true;
       try {
-        console.log('this.formData.value: ', this.formData)
-        const result = await createVisitor(this.formData);
+        const result = await postVisitor(this.formData);
         this.visitor = result;
         this.formData.visitorName = '';
         this.formData.visitDate = this.today;
         this.errorMsg = '';
       } catch (error) {
         console.error(error);
-        this.errorMsg.value = 'Error posting data';
+        this.errorMsg = 'Error posting data';
       } finally {
         this.isLoading = false;
       }
