@@ -23,7 +23,7 @@
       <div class="card-body d-flex justify-content-between align-items-center flex-column flex-md-row">
         <div class="mb-2 mb-md-0">
           <h6 class="card-title mb-1">{{ visitRequest.visitorName }}</h6>
-          <p class="card-text text-muted small">on {{ formatDate(visitRequest.visitDate) }}</p>
+          <p class="card-text text-muted small">on {{ formatDate(new Date(visitRequest.visitDate)) }}</p>
         </div>
         <div class="d-flex flex-column flex-md-row gap-2">
           <button class="btn btn-sm btn-primary">Approve</button>
@@ -59,7 +59,7 @@
     <div v-for="visitor in upcomingVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column align-items-center">
         <h6 class="card-title text-center mb-2">
-          {{ visitor.visitorName }} on {{ formatDate(visitor.visitDate) }}
+          {{ visitor.visitorName }} on {{ formatDate(new Date(visitor.visitDate)) }}
         </h6>
         <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
         <p class="card-text text-center mb-0">
@@ -73,7 +73,7 @@
     <div v-for="visitor in expiredVisitors" :key="visitor.registrationId" class="card mb-3">
       <div class="card-body d-flex flex-column text-muted align-items-center">
         <h6 class="card-title text-center mb-2">
-          {{ visitor.visitorName }} on {{ formatDate(visitor.visitDate) }}
+          {{ visitor.visitorName }} on {{ formatDate(new Date(visitor.visitDate)) }}
         </h6>
         <p class="card-text text-center mb-0">
           Registration ID: {{ visitor.registrationId }}
@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import { formatDate } from '@/utils';
 import axios from 'axios';
 
 export default {
@@ -184,10 +185,7 @@ export default {
           this.isVisitRequestsLoading = false;
         });
     },
-    formatDate(dateString) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString(undefined, options);
-    },
+    formatDate
   },
   mounted() {
     this.getItems();
