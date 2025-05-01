@@ -50,7 +50,7 @@ export const putVisitRequestHandler = async (event) => {
             residentId: residentId,
             inviteToken: inviteToken,
             visitorName: visitorName,
-            visitDate: visitDate,
+            visitDate: new Date(visitDate).toISOString(),
             requestStatus: requestStatus,
             ttl: ttlInSeconds
         },

@@ -104,7 +104,7 @@ export default {
         residentId: this.residentId,
         inviteToken: this.inviteToken,
         visitorName: this.formData.visitorName,
-        visitDate: this.formData.visitDate ? new Date(this.formData.visitDate).toISOString() : null,
+        visitDate: this.formData.visitDate
       };
       const apiUrl = `${process.env.VUE_APP_API_ENDPOINT}visit-request`;
       axios
