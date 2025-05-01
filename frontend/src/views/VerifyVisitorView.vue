@@ -123,16 +123,10 @@ export default {
     async setVisitorArrived() {
       this.isSetArrivedDataLoading = true;
       const updateData = {
+        ...this.visitor,
         registrationId: this.registrationId,
-        registrationTime: this.registrationTime,
-        residentName: this.visitor.residentName,
-        residentId: this.visitor.residentId,
-        visitorName: this.visitor.visitorName,
-        visitDate: this.visitor.visitDate,
         arrivalTime: new Date(),
-        departureTime: this.visitor.departureTime,
         hasArrived: true,
-        hasDeparted: this.visitor.hasDeparted
       };
       try {
         const response = await postVisitor(updateData);
@@ -149,15 +143,9 @@ export default {
     async setVisitorDeparted() {
       this.isSetDepartedDataLoading = true;
       const updateData = {
+        ...this.visitor,
         registrationId: this.registrationId,
-        registrationTime: this.registrationTime,
-        residentName: this.visitor.residentName,
-        residentId: this.visitor.residentId,
-        visitorName: this.visitor.visitorName,
-        visitDate: this.visitor.visitDate,
-        arrivalTime: this.visitor.arrivalTime,
         departureTime: new Date(),
-        hasArrived: this.visitor.hasArrived,
         hasDeparted: true
       };
       try {
