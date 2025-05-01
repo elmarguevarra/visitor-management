@@ -48,36 +48,17 @@ export default {
   name: 'InviteVisitorView',
   inject: ['residentId'],
   data() {
-    const today = new Date().toISOString().split('T')[0];
-    console.log("[Debug] today", today);
     return {
       invitation: null,
       formData: {
         residentId: this.residentId,
         residentName: 'Jua Delacruz',
         residentContact: '+6309123456',
-        visitorName: null,
-        visitDate: today,
-        arrivalTime: null,
-        departureTime: null,
-        hasArrived: false,
-        hasDeparted: false,
       },
       errorMsg: '',
       isLoading: false,
-      today: today,
     };
   },
-  // computed: {
-  //   isTokenExpired() {
-  //     if (this.invitation && this.invitation.inviteLinkExpiration) {
-  //       const expirationDate = new Date(this.invitation.inviteLinkExpiration);
-  //       const currentDate = new Date();
-  //       return currentDate > expirationDate; // Return true if the token is expired
-  //     }
-  //     return false; // If there's no expiration date, assume it's not expired
-  //   }
-  // },
   methods: {
     formatDateAndTime(dateString) {
       if (!dateString) return '';

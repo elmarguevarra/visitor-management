@@ -33,7 +33,7 @@
       <p class="mt-2 mb-2 text-center">{{ visitor.visitorName }}</p>
       <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
       <p class="mt-2 mb-0 text-center">Registration ID: {{ visitor.registrationId }}</p>
-      <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ formatDate(visitor.visitDate) }}</strong></h6>
+      <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ formatDate(new Date(visitor.visitDate)) }}</strong></h6>
     </div>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { getYearMonthDay } from '@/utils';
+import { getYearMonthDay, formatDate } from '@/utils';
 import axios from 'axios';
 
 export default {
@@ -91,10 +91,7 @@ export default {
           this.isLoading = false;
         });
     },
-    formatDate(dateString) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString(undefined, options);
-    },
+    formatDate
   }
 };
 </script>
