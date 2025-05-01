@@ -146,10 +146,11 @@ export default {
     upcomingVisitors() {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      return this.visitors.filter(visitor => {
+      const upcoming = this.visitors.filter(visitor => {
         const visitDate = new Date(visitor.visitDate).setHours(0, 0, 0, 0);
         return visitDate > today;
       });
+      return upcoming.sort((a, b) => new Date(a.visitDate) - new Date(b.visitDate))
     },
     todayVisitors() {
       const today = new Date();

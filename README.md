@@ -242,12 +242,13 @@ To simplify troubleshooting, the AWS SAM CLI has a command called `sam logs`. `s
 **NOTE:** This command works for all Lambda functions, not just the ones you deploy using AWS SAM.
 
 ```bash
-visitor-management$ sam logs -n putItemFunction --stack-name visitor-management --tail
+visitor-management$ sam logs -n putItemFunction --stack-name visitor-management --tail --region ap-southeast-1
 ```
 
 To get all logs
 ```bash
-visitor-management$ sam logs --stack-name visitor-management --tail
+visitor-management$ sam logs --stack-name visitor-management --tail --region ap-southeast-1
+
 ```
 
 **NOTE:** This uses the logical name of the function within the stack. This is the correct name to use when searching logs inside an AWS Lambda function within a CloudFormation stack, even if the deployed function name varies due to CloudFormation's unique resource name generation.
