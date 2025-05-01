@@ -96,11 +96,11 @@
 </template>
 
 <script>
+import { getVisitorsByResidentIdId, getVisitRequestsByResidentIdId } from '@/services/apiService';
 import { formatDate } from '@/utils';
-import axios from 'axios';
 
 export default {
-  name: 'GetUserItems',
+  name: 'GetResidentVisitors',
   props: {
     residentId: {
       type: String,
@@ -119,7 +119,7 @@ export default {
   computed: {
     upcomingVisitors() {
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // Set to the beginning of today
+      today.setHours(0, 0, 0, 0);
       return this.visitors.filter(visitor => {
         const visitDate = new Date(visitor.visitDate).setHours(0, 0, 0, 0);
         return visitDate > today;
@@ -145,14 +145,10 @@ export default {
     },
   },
   methods: {
-    async getItems() {
+    async getVisitors() {
       this.isLoading = true;
-      let apiUrl = process.env.VUE_APP_API_ENDPOINT;
-      if (this.residentId) {
-        apiUrl += `visitors?residentId=${this.residentId}`;
-      }
       try {
-        const response = await axios.get(apiUrl);
+        const response = await getVisitorsByResidentIdId(this.residentId)
         console.log(response);
         this.visitors = response.data;
       } catch (error) {
@@ -165,12 +161,8 @@ export default {
 
     async getVisitRequests() {
       this.isVisitRequestsLoading = true;
-      let apiUrl = process.env.VUE_APP_API_ENDPOINT;
-      if (this.residentId) {
-        apiUrl += `visit-requests?residentId=${this.residentId}`;
-      }
       try {
-        const response = await axios.get(apiUrl);
+        const response = await getVisitRequestsByResidentIdId(this.residentId);
         console.log(response);
         this.visitRequests = response.data;
       } catch (error) {
@@ -183,7 +175,7 @@ export default {
     formatDate
   },
   mounted() {
-    this.getItems();
+    this.getVisitors();
     this.getVisitRequests();
   }
 };

@@ -45,7 +45,7 @@ import { createVisitor } from '@/services/apiService';
 import { getYearMonthDay, formatDate } from '@/utils';
 
 export default {
-  name: 'CreateItem',
+  name: 'CreateVisitor',
   inject: ['residentId'],
   data() {
     const yearMonthDateToday = getYearMonthDay(new Date());

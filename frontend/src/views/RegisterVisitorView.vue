@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import CreateItem from '../components/CreateItem';
+import CreateItem from '../components/CreateVisitor';
 
 export default {
   name: 'RegisterVisitorView',

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import GetUserItems from '../components/GetUserItems';
+import GetUserItems from '../components/GetResidentVisitors';
 
 export default {
   name: 'ListVisitorsView',
