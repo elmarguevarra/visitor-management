@@ -17,10 +17,24 @@ export const getVisitRequestsHandler = (): RestHandler[] => [
         },
         {
           residentId: '1234',
-          visitorName: 'Molang',
+          visitorName: 'Syeepao',
           visitDate: new Date().setHours(0, 0, 0, 0),
           inviteToken: 'inviteToken',
           requestStatus: 'PENDING',
+        },
+        {
+          residentId: '1234',
+          visitorName: 'Molang',
+          visitDate: new Date().setHours(0, 0, 0, 0),
+          inviteToken: 'inviteToken',
+          requestStatus: 'DECLINED',
+        },
+        {
+          residentId: '1234',
+          visitorName: 'kwalong',
+          visitDate: new Date().setHours(0, 0, 0, 0),
+          inviteToken: 'inviteToken',
+          requestStatus: 'APPROVED',
         },
       ]),
     )
