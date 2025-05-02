@@ -64,7 +64,10 @@ export default {
     async generateInviteLink() {
       this.isLoading = true;
       try {
-        const response = await postInvite(this.residentId);
+        const inviteData = {
+          residentId: this.residentId,
+        }
+        const response = await postInvite(inviteData);
         console.log(response);
         this.invitation = response;
       } catch (error) {
