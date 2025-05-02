@@ -41,9 +41,8 @@ export const putVisitRequestHandler = async (event) => {
 
     const expirationDate = new Date(visitDate);
     expirationDate.setHours(0, 0, 0, 0);
-    expirationDate.setDate(expirationDate.getDate() + 1);
-    // Calculate the TTL (epoch time in seconds)
-    const ttlInSeconds = Math.floor(expirationDate.getTime() / 1000);
+    const inviteLinkExpirationTimeInHours = 24;
+    const ttlInSeconds = calculateTTLInSeconds(expirationDate, inviteLinkExpirationTimeInHours);
 
     const params = {
         TableName: tableName,

@@ -1,6 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
+import { calculateTTLInSeconds } from './utils';
 
 //DynamoDB Endpoint
 const ENDPOINT_OVERRIDE = process.env.ENDPOINT_OVERRIDE;
@@ -39,12 +40,7 @@ export const putInviteLinkItemHandler = async (event) => {
 
     if(rawTTL){
         const inviteLinkExpirationTimeInHours = 24;
-        // Calculate expiration time
-        const expirationDate = new Date(rawTTL);
-        expirationDate.setTime(expirationDate.getTime() + inviteLinkExpirationTimeInHours * 60 * 60 * 1000);
-
-        // Calculate the TTL (epoch time in seconds)
-        adjustedTTL = Math.floor(expirationDate.getTime() / 1000);
+        adjustedTTL = calculateTTLInSeconds(rawTTL, inviteLinkExpirationTimeInHours);
     }
 
     // Generate invite link and add to response
@@ -102,15 +98,9 @@ export const putInviteLinkItemHandler = async (event) => {
  */
 export const generateInviteData = async () => {
     const token = uuidv4();
-    const inviteLinkExpirationTimeInHours = 24;
     const inviteLink = `${frontEndBaseUrl}/self-register-visitor/${token}`;
-
-    // Calculate expiration time
-    const expirationDate = new Date();
-    expirationDate.setTime(expirationDate.getTime() + inviteLinkExpirationTimeInHours * 60 * 60 * 1000); // 24 hours
-
-    // Calculate the TTL (epoch time in seconds)
-    const ttlInSeconds = Math.floor(expirationDate.getTime() / 1000);
+    const inviteLinkExpirationTimeInHours = 24;
+    const ttlInSeconds = calculateTTLInSeconds(new Date(), inviteLinkExpirationTimeInHours)
 
     const responseBody = {
         token: token,
