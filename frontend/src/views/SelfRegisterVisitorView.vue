@@ -57,6 +57,20 @@
         class="alert alert-success mt-3 text-center">
         Request has been approved!
       </div>
+      <div v-if="isGetVisitorLoading" class="card" aria-hidden="true">
+        <div class="card-body">
+        <h6 class="card-title placeholder-glow text-center mb-2">
+          <span class="placeholder col-4"></span>
+        </h6>
+        <div class="mb-2 placeholder-box"></div>
+        <p class="card-text placeholder-glow text-center mb-0">
+          <span class="placeholder col-8"></span>
+        </p>
+        </div>
+        <div class="card-footer text-muted text-center small">
+          <span class="placeholder col-3"></span>
+        </div>
+      </div>
       <div v-if="
         visitor && 
         visitor.qrCodeDataURL"
@@ -68,7 +82,7 @@
         <p class="mt-2 text-muted text-center small">Present this at the gate on the day of your visit.</p>
       </div>
       <p 
-        v-if="invitation" 
+        v-if="invitation && visitRequest && visitRequest.requestStatus === 'PENDING'" 
         class="mt-4 text-muted text-center small">
           Invitation will expire on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }}.
         </p>
@@ -115,6 +129,7 @@ export default {
       isGetInviteByTokenLoading: false,
       isGetVisitRequestByTokenLoading: false,
       isRequestVisitLoading: false,
+      isGetVisitorLoading: false,
       today: yearMonthDateToday
     };
   },
@@ -185,6 +200,7 @@ export default {
     },
 
     async getVisitor(id) {
+      this.isGetVisitorLoading = true
       try {
         const response = await getVisitorByRegistrationId(id)
         this.visitor = response;
@@ -192,6 +208,8 @@ export default {
       } catch (error) {
         console.error(error);
         this.errorMsg = error.response?.data?.message || 'Error retrieving data';
+      } finally {
+        this.isGetVisitorLoading = false
       }
     },
   },
@@ -205,5 +223,12 @@ export default {
 </script>
 
 <style scoped>
-/* You can add more subtle styling here if needed */
+.placeholder-box {
+  width: 150px;
+  height: 150px;
+  background-color: #f8f9fa; /* Very light gray */
+  border: 1px solid #eee;
+  border-radius: 5px; /* Optional: slight rounding */
+  margin: 0 auto; /* Centers the box horizontally */
+}
 </style>
