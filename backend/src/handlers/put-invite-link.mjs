@@ -32,13 +32,17 @@ export const putInviteLinkItemHandler = async (event) => {
     console.info('received:', event);
 
     const body = JSON.parse(event.body);
+
+    let inviteToken = body.inviteToken
     let residentId = body.residentId;
     let inviteLinkExpiration = body.inviteLinkExpiration;
     let adjustedTTL;
 
-    console.log("out:inviteLinkExpiration", inviteLinkExpiration)
+    if(!inviteToken){
+        inviteToken = uuidv4();
+    }
+
     if(inviteLinkExpiration){
-        console.log("in:inviteLinkExpiration", inviteLinkExpiration)
         const inviteLinkExpirationTimeInHours = 24;
         adjustedTTL = calculateTTLInSeconds(inviteLinkExpiration, inviteLinkExpirationTimeInHours);
     }
@@ -48,15 +52,13 @@ export const putInviteLinkItemHandler = async (event) => {
     const params = {
         TableName: tableName,
         Item: {
-            inviteToken: inviteData.token,
+            inviteToken: inviteToken,
             residentId: residentId,
             inviteLink: inviteData.inviteLink,
             inviteLinkExpiration: inviteLinkExpiration ? calculateDateFromTTLInSeconds(adjustedTTL) : inviteData.inviteLinkExpiration,
             ttl: inviteLinkExpiration ? adjustedTTL : inviteData.ttl
         },
     };
-
-    console.log("Item: ", params.Item)
 
     try {
         const data = await ddbDocClient.send(new PutCommand(params));
@@ -98,14 +100,12 @@ export const putInviteLinkItemHandler = async (event) => {
  * Generates an invite link.
  */
 export const generateInviteData = async () => {
-    const token = uuidv4();
     const inviteLink = `${frontEndBaseUrl}/self-register-visitor/${token}`;
     const expirationDate = new Date();
     const inviteLinkExpirationTimeInHours = 24;
     const ttlInSeconds = calculateTTLInSeconds(expirationDate, inviteLinkExpirationTimeInHours)
 
     const responseBody = {
-        token: token,
         inviteLink: inviteLink,
         inviteLinkExpiration: calculateDateFromTTLInSeconds(ttlInSeconds),
         ttl: ttlInSeconds
