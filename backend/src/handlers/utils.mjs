@@ -1,7 +1,7 @@
 export const calculateTTLInSeconds = (
-  startDate: Date,
-  durationInHours: number
-): number => {
+  startDate,
+  durationInHours
+) => {
   const startTimeInMilliseconds = startDate.getTime();
   const durationInMilliseconds = durationInHours * 60 * 60 * 1000;
   const expirationTimeInMilliseconds =
