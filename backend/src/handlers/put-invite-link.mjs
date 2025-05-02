@@ -96,8 +96,9 @@ export const putInviteLinkItemHandler = async (event) => {
 export const generateInviteData = async () => {
     const token = uuidv4();
     const inviteLink = `${frontEndBaseUrl}/self-register-visitor/${token}`;
+    const expirationDate = new Date();
     const inviteLinkExpirationTimeInHours = 24;
-    const ttlInSeconds = calculateTTLInSeconds(new Date(), inviteLinkExpirationTimeInHours)
+    const ttlInSeconds = calculateTTLInSeconds(expirationDate, inviteLinkExpirationTimeInHours)
 
     const responseBody = {
         token: token,
