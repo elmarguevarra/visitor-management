@@ -1,0 +1,4 @@
+{
+  "httpMethod": "POST",
+  "body": "{\"residentId\": \"resident456\", \"inviteToken\": \"invite-xyz-789\", \"registrationId\": \"reg-101\", \"visitorName\": \"John Doe\", \"visitDate\": \"2025-05-05\", \"requestStatus\": \"PENDING\"}"
+}

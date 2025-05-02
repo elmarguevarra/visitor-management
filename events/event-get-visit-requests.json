@@ -1,0 +1,6 @@
+{
+  "httpMethod": "GET",
+  "queryStringParameters": {
+    "residentId": "specific-resident-id"
+  }
+}

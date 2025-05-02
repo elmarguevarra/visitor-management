@@ -1,0 +1,6 @@
+{
+  "httpMethod": "GET",
+  "pathParameters": {
+    "inviteToken": "some-unique-invite-token"
+  }
+}

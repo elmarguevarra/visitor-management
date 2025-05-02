@@ -81,8 +81,9 @@
         <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ formatDate(new Date(visitor.visitDate)) }}</strong></h6>
         <p class="mt-2 text-muted text-center small">Present this at the gate on the day of your visit.</p>
       </div>
+      <!-- v-if="invitation && (!visitRequest || visitRequest.requestStatus === 'PENDING')"  -->
       <p 
-        v-if="invitation && visitRequest && visitRequest.requestStatus === 'PENDING'" 
+        v-if="invitation"
         class="mt-4 text-muted text-center small">
           Invitation will expire on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }}.
         </p>

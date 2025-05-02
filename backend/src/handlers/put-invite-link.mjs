@@ -103,7 +103,7 @@ export const generateInviteData = async () => {
     const responseBody = {
         token: token,
         inviteLink: inviteLink,
-        inviteLinkExpiration: expirationDate.toISOString(),
+        inviteLinkExpiration: ttlInSeconds.toISOString(),
         ttl: ttlInSeconds
     };
     return responseBody;
