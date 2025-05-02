@@ -7,6 +7,7 @@ export const getVisitRequestByTokenHandler = (): RestHandler[] => [
   rest.get(
     `${API_ENDPOINT}visit-request/:inviteToken`,
     async (req, res, ctx) => {
+      await new Promise((resolve) => setTimeout(resolve, 1500))
       return res(
         ctx.status(200),
         ctx.json({

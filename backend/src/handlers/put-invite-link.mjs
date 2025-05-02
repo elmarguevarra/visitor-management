@@ -1,6 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
+import { calculateTTLInSeconds } from './utils';
 
 //DynamoDB Endpoint
 const ENDPOINT_OVERRIDE = process.env.ENDPOINT_OVERRIDE;
@@ -28,26 +29,18 @@ export const putInviteLinkItemHandler = async (event) => {
     if (event.httpMethod !== 'POST') {
         throw new Error(`postMethod only accepts POST method, you tried: ${event.httpMethod} method.`);
     }
-    // All log statements are written to CloudWatch
     console.info('received:', event);
 
-    // Get id and name from the body of the request
     const body = JSON.parse(event.body);
     let residentId = body.residentId;
-    let rawTTL = body.ttl;
-    let adjustedTTL = null;
+    let inviteLinkExpiration = body.inviteLinkExpiration;
+    let adjustedTTL;
 
-    if(rawTTL){
+    if(inviteLinkExpiration){
         const inviteLinkExpirationTimeInHours = 24;
-        // Calculate expiration time
-        const expirationDate = new Date(rawTTL);
-        expirationDate.setTime(expirationDate.getTime() + inviteLinkExpirationTimeInHours * 60 * 60 * 1000);
-
-        // Calculate the TTL (epoch time in seconds)
-        adjustedTTL = Math.floor(expirationDate.getTime() / 1000);
+        adjustedTTL = calculateTTLInSeconds(inviteLinkExpiration, inviteLinkExpirationTimeInHours);
     }
 
-    // Generate invite link and add to response
     const inviteData = await generateInviteData();
 
     const params = {
@@ -57,7 +50,7 @@ export const putInviteLinkItemHandler = async (event) => {
             residentId: residentId,
             inviteLink: inviteData.inviteLink,
             inviteLinkExpiration: rawTTL ? adjustedTTL.toISOString() : inviteData.inviteLinkExpiration,
-            ttl: rawTTL ? adjustedTTL : inviteData.ttl
+            ttl: inviteLinkExpiration ? adjustedTTL : inviteData.ttl
         },
     };
 
@@ -102,15 +95,9 @@ export const putInviteLinkItemHandler = async (event) => {
  */
 export const generateInviteData = async () => {
     const token = uuidv4();
-    const inviteLinkExpirationTimeInHours = 24;
     const inviteLink = `${frontEndBaseUrl}/self-register-visitor/${token}`;
-
-    // Calculate expiration time
-    const expirationDate = new Date();
-    expirationDate.setTime(expirationDate.getTime() + inviteLinkExpirationTimeInHours * 60 * 60 * 1000); // 24 hours
-
-    // Calculate the TTL (epoch time in seconds)
-    const ttlInSeconds = Math.floor(expirationDate.getTime() / 1000);
+    const inviteLinkExpirationTimeInHours = 24;
+    const ttlInSeconds = calculateTTLInSeconds(new Date(), inviteLinkExpirationTimeInHours)
 
     const responseBody = {
         token: token,

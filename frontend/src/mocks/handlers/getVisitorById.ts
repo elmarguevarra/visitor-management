@@ -5,6 +5,7 @@ console.log('API_ENDPOINT', API_ENDPOINT)
 
 export const getVisitorByIdHandler = (): RestHandler[] => [
   rest.get(`${API_ENDPOINT}visitor/:registrationId`, async (req, res, ctx) => {
+    await new Promise((resolve) => setTimeout(resolve, 1500))
     return res(
       ctx.status(200),
       ctx.json({

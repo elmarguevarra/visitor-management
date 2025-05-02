@@ -10,7 +10,7 @@ export async function postVisitor(data: any): Promise<any> {
 export async function postInvite(data: any): Promise<any> {
   const response = await axios.post(`${API_BASE}invite`, {
     residentId: data.residentId,
-    ttl: data.ttl,
+    inviteLinkExpiration: data.inviteLinkExpiration,
   })
   return response.data
 }
