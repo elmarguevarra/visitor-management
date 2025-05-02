@@ -47,16 +47,17 @@ export const putInviteLinkItemHandler = async (event) => {
         adjustedTTL = calculateTTLInSeconds(inviteLinkExpiration, inviteLinkExpirationTimeInHours);
     }
 
-    const inviteData = await generateInviteData();
+    const dataRetention = await calculateDataRetention();
+    const inviteLink = `${frontEndBaseUrl}/self-register-visitor/${inviteToken}`;
 
     const params = {
         TableName: tableName,
         Item: {
             inviteToken: inviteToken,
             residentId: residentId,
-            inviteLink: inviteData.inviteLink,
-            inviteLinkExpiration: inviteLinkExpiration ? calculateDateFromTTLInSeconds(adjustedTTL) : inviteData.inviteLinkExpiration,
-            ttl: inviteLinkExpiration ? adjustedTTL : inviteData.ttl
+            inviteLink: inviteLink,
+            inviteLinkExpiration: inviteLinkExpiration ? calculateDateFromTTLInSeconds(adjustedTTL) : dataRetention.inviteLinkExpiration,
+            ttl: inviteLinkExpiration ? adjustedTTL : dataRetention.ttl
         },
     };
 
@@ -99,14 +100,12 @@ export const putInviteLinkItemHandler = async (event) => {
 /**
  * Generates an invite link.
  */
-export const generateInviteData = async () => {
-    const inviteLink = `${frontEndBaseUrl}/self-register-visitor/${token}`;
+export const calculateDataRetention = async () => {
     const expirationDate = new Date();
     const inviteLinkExpirationTimeInHours = 24;
     const ttlInSeconds = calculateTTLInSeconds(expirationDate, inviteLinkExpirationTimeInHours)
 
     const responseBody = {
-        inviteLink: inviteLink,
         inviteLinkExpiration: calculateDateFromTTLInSeconds(ttlInSeconds),
         ttl: ttlInSeconds
     };
