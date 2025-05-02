@@ -49,7 +49,7 @@ export const putInviteLinkItemHandler = async (event) => {
             inviteToken: inviteData.token,
             residentId: residentId,
             inviteLink: inviteData.inviteLink,
-            inviteLinkExpiration: rawTTL ? adjustedTTL.toISOString() : inviteData.inviteLinkExpiration,
+            inviteLinkExpiration: inviteLinkExpiration ? adjustedTTL.toISOString() : inviteData.inviteLinkExpiration,
             ttl: inviteLinkExpiration ? adjustedTTL : inviteData.ttl
         },
     };
