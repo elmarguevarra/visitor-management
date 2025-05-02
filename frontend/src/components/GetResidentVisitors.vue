@@ -264,6 +264,7 @@ export default {
     async extendInviteLinkExpiration(visitRequest) {
       try {
         const inviteData = {
+          inviteToken: visitRequest.inviteToken,
           residentId: this.residentId,
           inviteLinkExpiration: visitRequest.visitDate
         }
