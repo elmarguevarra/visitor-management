@@ -31,7 +31,7 @@
           </button>
         </div>
         <p v-if="invitation.inviteLinkExpiration" class="mt-2 text-muted text-center small">
-          Link expires on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }} if it isn't used.
+          Link will expire on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }} if it is not used.
         </p>
         <p class="mt-2 text-muted text-center small">Your visitor can use this link to register.</p>
       </div>

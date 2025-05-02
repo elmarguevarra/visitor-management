@@ -67,6 +67,11 @@
         <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ formatDate(new Date(visitor.visitDate)) }}</strong></h6>
         <p class="mt-2 text-muted text-center small">Present this at the gate on the day of your visit.</p>
       </div>
+      <p 
+        v-if="invitation" 
+        class="mt-2 text-muted text-center small">
+          Invitation will expire on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }}.
+        </p>
       <h6 class="alert alert-danger mt-4" v-if="
         errorMsg && 
         !isRequestVisitLoading && 
@@ -85,7 +90,7 @@ import {
           getVisitRequestByToken, 
           getVisitorByRegistrationId,
           postInvite } from '@/services/apiService';
-import { getYearMonthDay, formatDate } from '@/utils';
+import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils';
 
 export default {
   name: 'InviteVisitorView',
@@ -115,6 +120,7 @@ export default {
   },
   methods: {
     formatDate,
+    formatDateAndTime,
     async requestVisit() {
       this.isRequestVisitLoading = true;
       const requestVisitData = {
