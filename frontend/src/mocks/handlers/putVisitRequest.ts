@@ -4,7 +4,8 @@ const API_ENDPOINT = process.env.VUE_APP_API_ENDPOINT
 console.log('API_ENDPOINT', API_ENDPOINT)
 
 export const putVisitRequestHandler = (): RestHandler[] => [
-  rest.post(`${API_ENDPOINT}visit-request`, (req, res, ctx) => {
+  rest.post(`${API_ENDPOINT}visit-request`, async (req, res, ctx) => {
+    await new Promise((resolve) => setTimeout(resolve, 1500))
     return res(
       ctx.status(200),
       ctx.json({

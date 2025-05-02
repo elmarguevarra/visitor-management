@@ -1,9 +1,9 @@
 <template>
   <div>
     <p class="card-text placeholder-glow">
-      <span v-if="isLoading" class="placeholder col-5"></span>
+      <span v-if="isGetVisitorsLoading" class="placeholder col-5"></span>
     </p>
-    <div v-if="isLoading" class="card" aria-hidden="true">
+    <div v-if="isGetVisitorsLoading" class="card" aria-hidden="true">
       <div class="card-body">
         <h6 class="card-title placeholder-glow text-center mb-2">
           <span class="placeholder col-4"></span>
@@ -29,23 +29,23 @@
           <button 
             @click="approveVisitRequest(visitRequest)" 
             class="btn btn-sm btn-primary" 
-            :disabled="visitRequestLoadingStates[visitRequest.inviteToken]?.approve ||
-              visitRequestSubmittedStates[visitRequest.inviteToken]">
+            :disabled="requestLoadingStates[visitRequest.inviteToken]?.approve ||
+              requestSubmittedState[visitRequest.inviteToken]">
               <span 
-                v-if="visitRequestLoadingStates[visitRequest.inviteToken]?.approve" 
+                v-if="requestLoadingStates[visitRequest.inviteToken]?.approve"
                 class="spinner-border spinner-border-sm me-2" 
                 role="status" 
                 aria-hidden="true">
               </span>
-              Approve
+                Approve
           </button>
           <button 
             @click="declineVisitRequest(visitRequest)" 
             class="btn btn-sm btn-secondary" 
-            :disabled="visitRequestLoadingStates[visitRequest.inviteToken]?.decline ||
-              visitRequestSubmittedStates[visitRequest.inviteToken]">
+            :disabled="requestLoadingStates[visitRequest.inviteToken]?.decline ||
+              requestSubmittedState[visitRequest.inviteToken]">
               <span 
-                v-if="visitRequestLoadingStates[visitRequest.inviteToken]?.decline" 
+                v-if="requestLoadingStates[visitRequest.inviteToken]?.decline" 
                 class="spinner-border spinner-border-sm me-2" 
                 role="status" 
                 aria-hidden="true">
@@ -141,10 +141,10 @@ export default {
       visitors: [],
       visitRequests: [],
       errorMsg: '',
-      isLoading: false,
+      isGetVisitorsLoading: false,
       isVisitRequestsLoading: false,
-      visitRequestLoadingStates: {},  
-      visitRequestSubmittedStates: {}
+      requestLoadingStates: {},  
+      requestSubmittedState: {},
     };
   },
   computed: {
@@ -178,10 +178,8 @@ export default {
   },
   methods: {
     async approveVisitRequest(visitRequest) {
-      this.visitRequestLoadingStates[visitRequest.inviteToken] = { approve: true };
-      this.visitRequestSubmittedStates[visitRequest.inviteToken] = true;
-      this.isDecisionVisitRequestSubmitted = true
-
+      this.requestLoadingStates[visitRequest.inviteToken] = { approve: true };
+      this.requestSubmittedState[visitRequest.inviteToken] = true;
       try {
         const newVisitorData = {
           residentId: visitRequest.residentId,
@@ -201,22 +199,22 @@ export default {
         console.log(response);
         this.visitRequest = response;
 
-        await this.extendInviteLinkExpiration(visitRequest.visitDate);
+        await this.extendInviteLinkExpiration(visitRequest);
         
         this.errorMsg = '';
 
       } catch (error) {
         console.log(error);
         this.errorMsg = 'Error posting data';
-        this.visitRequestSubmittedStates[visitRequest.inviteToken] = false;
+        this.requestSubmittedState[visitRequest.inviteToken] = false;
       } finally {
-        this.visitRequestLoadingStates[visitRequest.inviteToken] = { approve: false };
+        this.requestLoadingStates[visitRequest.inviteToken] = { approve: false };
       }
     },
 
     async declineVisitRequest(visitRequest) {
-      this.visitRequestLoadingStates[visitRequest.inviteToken] = { decline: true };
-      this.visitRequestSubmittedStates[visitRequest.inviteToken] = true;
+      this.requestLoadingStates[visitRequest.inviteToken] = { decline: true };
+      this.requestSubmittedState[visitRequest.inviteToken] = true;
       const requestVisitData = {
         ...visitRequest,
         requestStatus: "DECLINED"
@@ -229,14 +227,14 @@ export default {
       } catch (error) {
         console.log(error);
         this.errorMsg = 'Error posting data';
-        this.visitRequestSubmittedStates[visitRequest.inviteToken] = false;
+        this.requestSubmittedState[visitRequest.inviteToken] = false;
       } finally {
-        this.visitRequestLoadingStates[visitRequest.inviteToken] = { decline: false }; 
+        this.requestLoadingStates[visitRequest.inviteToken] = { decline: false }; 
       }
     },
 
     async getVisitors() {
-      this.isLoading = true;
+      this.isGetVisitorsLoading = true;
       try {
         const response = await getVisitorsByResidentId(this.residentId)
         console.log(response);
@@ -245,7 +243,7 @@ export default {
         console.log(error);
         this.errorMsg = 'Error retrieving data';
       } finally {
-        this.isLoading = false;
+        this.isGetVisitorsLoading = false;
       }
     },
 
@@ -264,22 +262,18 @@ export default {
       }
     },
 
-    async extendInviteLinkExpiration(date) {
-      this.isLoading = true;
+    async extendInviteLinkExpiration(visitRequest) {
       try {
-        const rawTTL = date
         const inviteData = {
           residentId: this.residentId,
-          ttl: rawTTL
+          inviteLinkExpiration: visitRequest.visitDate
         }
         const response = await postInvite(inviteData);
         console.log(response);
         this.invitation = response;
       } catch (error) {
         console.log(error);
-        this.errorMsg = 'Error generating invite link';
-      } finally {
-        this.isLoading = false;
+        this.errorMsg = 'Error extending expiration of invite link';
       }
     },
     formatDate

@@ -29,21 +29,18 @@ export const putInviteLinkItemHandler = async (event) => {
     if (event.httpMethod !== 'POST') {
         throw new Error(`postMethod only accepts POST method, you tried: ${event.httpMethod} method.`);
     }
-    // All log statements are written to CloudWatch
     console.info('received:', event);
 
-    // Get id and name from the body of the request
     const body = JSON.parse(event.body);
     let residentId = body.residentId;
-    let rawTTL = body.ttl;
-    let adjustedTTL = null;
+    let inviteLinkExpiration = body.inviteLinkExpiration;
+    let adjustedTTL;
 
-    if(rawTTL){
+    if(inviteLinkExpiration){
         const inviteLinkExpirationTimeInHours = 24;
-        adjustedTTL = calculateTTLInSeconds(rawTTL, inviteLinkExpirationTimeInHours);
+        adjustedTTL = calculateTTLInSeconds(inviteLinkExpiration, inviteLinkExpirationTimeInHours);
     }
 
-    // Generate invite link and add to response
     const inviteData = await generateInviteData();
 
     const params = {
@@ -53,7 +50,7 @@ export const putInviteLinkItemHandler = async (event) => {
             residentId: residentId,
             inviteLink: inviteData.inviteLink,
             inviteLinkExpiration: rawTTL ? adjustedTTL.toISOString() : inviteData.inviteLinkExpiration,
-            ttl: rawTTL ? adjustedTTL : inviteData.ttl
+            ttl: inviteLinkExpiration ? adjustedTTL : inviteData.ttl
         },
     };
 
