@@ -11,7 +11,7 @@ export const putVisitRequestHandler = (): RestHandler[] => [
       ctx.json({
         residentId: '1234',
         visitorName: 'Maling',
-        visitDate: new Date().setHours(0, 0, 0, 0),
+        visitDate: new Date(new Date().setDate(new Date().getDate() + 15)),
         inviteToken: 'inviteToken',
         requestStatus: 'PENDING',
       }),

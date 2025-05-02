@@ -152,6 +152,20 @@ aws dynamodb update-time-to-live \
   --table-name InviteLinksTable \
   --time-to-live-specification "Enabled=true, AttributeName=ttl" \
   --endpoint-url http://127.0.0.1:8000
+
+# Create VisitRequestsTable
+aws dynamodb create-table \
+  --table-name VisitRequestsTable \
+  --attribute-definitions AttributeName=inviteToken,AttributeType=S \
+  --key-schema AttributeName=inviteToken,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST \
+  --endpoint-url http://127.0.0.1:8000
+
+# Add TTL
+aws dynamodb update-time-to-live \
+  --table-name VisitRequestsTable \
+  --time-to-live-specification "Enabled=true, AttributeName=ttl" \
+  --endpoint-url http://127.0.0.1:8000
 ```
 3. Retrieve the ip address of your docker container running dynamodb local:
 ```

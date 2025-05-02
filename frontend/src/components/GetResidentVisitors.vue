@@ -196,10 +196,9 @@ export default {
         };
 
         const response = await postVisitRequest(requestVisitData);
-        console.log(response);
         this.visitRequest = response;
 
-        await this.extendInviteLinkExpiration(visitRequest);
+        await this.extendInviteLinkExpiration(response);
         
         this.errorMsg = '';
 
@@ -268,6 +267,7 @@ export default {
           residentId: this.residentId,
           inviteLinkExpiration: visitRequest.visitDate
         }
+        console.log("inviteData.inviteLinkExpiration: ", inviteData.inviteLinkExpiration)
         const response = await postInvite(inviteData);
         console.log(response);
         this.invitation = response;

@@ -36,7 +36,9 @@ export const putInviteLinkItemHandler = async (event) => {
     let inviteLinkExpiration = body.inviteLinkExpiration;
     let adjustedTTL;
 
+    console.log("out:inviteLinkExpiration", inviteLinkExpiration)
     if(inviteLinkExpiration){
+        console.log("in:inviteLinkExpiration", inviteLinkExpiration)
         const inviteLinkExpirationTimeInHours = 24;
         adjustedTTL = calculateTTLInSeconds(inviteLinkExpiration, inviteLinkExpirationTimeInHours);
     }
@@ -54,6 +56,8 @@ export const putInviteLinkItemHandler = async (event) => {
         },
     };
 
+    console.log("Item: ", params.Item)
+
     try {
         const data = await ddbDocClient.send(new PutCommand(params));
         console.log("Success - item added or updated", data);
@@ -67,10 +71,10 @@ export const putInviteLinkItemHandler = async (event) => {
     }
 
     const responseBody = {
-        inviteToken: inviteData.token,
-        residentId: residentId,
-        inviteLink: inviteData.inviteLink,
-        inviteLinkExpiration: inviteData.inviteLinkExpiration
+        inviteToken: params.Item.inviteToken,
+        residentId: params.Item.residentId,
+        inviteLink: params.Item.inviteLink,
+        inviteLinkExpiration: params.Item.inviteLinkExpiration
     };
 
     const response = {

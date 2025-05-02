@@ -71,12 +71,12 @@ export const putVisitRequestHandler = async (event) => {
     }
 
     const responseBody = {
-        residentId: residentId,
-        inviteToken: inviteToken,
-        registrationId: registrationId,
-        visitorName: visitorName,
-        visitDate: visitDate,
-        requestStatus: requestStatus,
+        residentId: params.Item.residentId,
+        inviteToken: params.Item.inviteToken,
+        registrationId: params.Item.registrationId,
+        visitorName: params.Item.visitorName,
+        visitDate: params.Item.visitDate,
+        requestStatus: params.Item.requestStatus,
     };
 
     const response = {

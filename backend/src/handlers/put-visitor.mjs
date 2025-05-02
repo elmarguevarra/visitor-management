@@ -96,16 +96,16 @@ export const putVisitorHandler = async (event) => {
       }
 
       const responseBody = {
-        registrationId: registrationId,
-        residentId: residentId,
-        visitorName: visitorName,
-        visitDate: visitDate,
-        registrationTime: registrationTime,
-        qrCodeDataURL: qrCodeDataURL,
-        arrivalTime: arrivalTime,
-        departureTime: departureTime,
-        hasArrived: hasArrived,
-        hasDeparted: hasDeparted
+        registrationId: params.Item.registrationId,
+        residentId: params.Item.residentId,
+        visitorName: params.Item.visitorName,
+        visitDate: params.Item.visitDate,
+        registrationTime: params.Item.registrationTime,
+        qrCodeDataURL: params.Item.qrCodeDataURL,
+        arrivalTime: params.Item.arrivalTime,
+        departureTime: params.Item.departureTime,
+        hasArrived: params.Item.hasArrived,
+        hasDeparted: params.Item.hasDeparted
     };
 
     const response = {
