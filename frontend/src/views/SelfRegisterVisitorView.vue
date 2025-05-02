@@ -69,7 +69,7 @@
       </div>
       <p 
         v-if="invitation" 
-        class="mt-2 text-muted text-center small">
+        class="mt-4 text-muted text-center small">
           Invitation will expire on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }}.
         </p>
       <h6 class="alert alert-danger mt-4" v-if="
@@ -88,8 +88,8 @@ import {
           postVisitRequest, 
           getInviteByToken, 
           getVisitRequestByToken, 
-          getVisitorByRegistrationId,
-          postInvite } from '@/services/apiService';
+          getVisitorByRegistrationId 
+        } from '@/services/apiService';
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils';
 
 export default {
@@ -174,7 +174,6 @@ export default {
           this.errorMsg = '';
           if(this.visitRequest.requestStatus === 'APPROVED'){
             this.getVisitor(this.visitRequest.registrationId);
-            this.extendInviteLinkExpiration(this.visitRequest.visitDate)
           }
         }
       } catch (error) {
@@ -193,25 +192,6 @@ export default {
       } catch (error) {
         console.error(error);
         this.errorMsg = error.response?.data?.message || 'Error retrieving data';
-      }
-    },
-
-    async extendInviteLinkExpiration(date) {
-      this.isLoading = true;
-      try {
-        const rawTTL = date
-        const inviteData = {
-          residentId: this.residentId,
-          ttl: rawTTL
-        }
-        const response = await postInvite(inviteData);
-        console.log(response);
-        this.invitation = response;
-      } catch (error) {
-        console.log(error);
-        this.errorMsg = 'Error generating invite link';
-      } finally {
-        this.isLoading = false;
       }
     },
   },

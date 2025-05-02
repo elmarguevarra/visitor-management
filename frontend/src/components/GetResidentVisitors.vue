@@ -120,7 +120,12 @@
 </template>
 
 <script>
-import { getVisitorsByResidentId, getVisitRequestsByResidentId, postVisitRequest, postVisitor } from '@/services/apiService';
+import { 
+    getVisitorsByResidentId, 
+    getVisitRequestsByResidentId,
+    postVisitRequest, 
+    postVisitor,
+    postInvite } from '@/services/apiService';
 import { formatDate } from '@/utils';
 
 export default {
@@ -195,6 +200,9 @@ export default {
         const response = await postVisitRequest(requestVisitData);
         console.log(response);
         this.visitRequest = response;
+
+        await this.extendInviteLinkExpiration(visitRequest.visitDate);
+        
         this.errorMsg = '';
 
       } catch (error) {
@@ -253,6 +261,25 @@ export default {
         this.errorMsg = 'Error retrieving data';
       } finally {
         this.isVisitRequestsLoading = false;
+      }
+    },
+
+    async extendInviteLinkExpiration(date) {
+      this.isLoading = true;
+      try {
+        const rawTTL = date
+        const inviteData = {
+          residentId: this.residentId,
+          ttl: rawTTL
+        }
+        const response = await postInvite(inviteData);
+        console.log(response);
+        this.invitation = response;
+      } catch (error) {
+        console.log(error);
+        this.errorMsg = 'Error generating invite link';
+      } finally {
+        this.isLoading = false;
       }
     },
     formatDate
