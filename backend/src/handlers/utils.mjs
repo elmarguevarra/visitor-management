@@ -10,6 +10,6 @@ export const calculateTTLInSeconds = (
 };
 
 export const calculateDateFromTTLInSeconds = (durationInSeconds) => {
-  return new Date(durationInSeconds * 1000);
+  return new Date(durationInSeconds * 1000).toISOString();
 };
 
