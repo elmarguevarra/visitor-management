@@ -36,19 +36,20 @@ export const putInviteLinkItemHandler = async (event) => {
     let inviteToken = body.inviteToken
     let residentId = body.residentId;
     let inviteLinkExpiration = body.inviteLinkExpiration;
-    let adjustedTTL;
+    let ttlInSeconds;
 
     if(!inviteToken){
         inviteToken = uuidv4();
     }
+    const inviteLink = `${frontEndBaseUrl}/self-register-visitor/${inviteToken}`;
+
+    const inviteLinkExpirationTimeInHours = 24;
+    const expirationDate = new Date();
+    ttlInSeconds = calculateTTLInSeconds(expirationDate, inviteLinkExpirationTimeInHours)
 
     if(inviteLinkExpiration){
-        const inviteLinkExpirationTimeInHours = 24;
-        adjustedTTL = calculateTTLInSeconds(inviteLinkExpiration, inviteLinkExpirationTimeInHours);
+        ttlInSeconds = calculateTTLInSeconds(inviteLinkExpiration, inviteLinkExpirationTimeInHours);
     }
-
-    const dataRetention = await calculateDataRetention();
-    const inviteLink = `${frontEndBaseUrl}/self-register-visitor/${inviteToken}`;
 
     const params = {
         TableName: tableName,
@@ -56,8 +57,8 @@ export const putInviteLinkItemHandler = async (event) => {
             inviteToken: inviteToken,
             residentId: residentId,
             inviteLink: inviteLink,
-            inviteLinkExpiration: inviteLinkExpiration ? calculateDateFromTTLInSeconds(adjustedTTL) : dataRetention.inviteLinkExpiration,
-            ttl: inviteLinkExpiration ? adjustedTTL : dataRetention.ttl
+            inviteLinkExpiration: calculateDateFromTTLInSeconds(ttlInSeconds),
+            ttl: ttlInSeconds
         },
     };
 
@@ -93,21 +94,4 @@ export const putInviteLinkItemHandler = async (event) => {
     // All log statements are written to CloudWatch
     console.info(`response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`);
     return response;
-};
-
-
-
-/**
- * Generates an invite link.
- */
-export const calculateDataRetention = async () => {
-    const expirationDate = new Date();
-    const inviteLinkExpirationTimeInHours = 24;
-    const ttlInSeconds = calculateTTLInSeconds(expirationDate, inviteLinkExpirationTimeInHours)
-
-    const responseBody = {
-        inviteLinkExpiration: calculateDateFromTTLInSeconds(ttlInSeconds),
-        ttl: ttlInSeconds
-    };
-    return responseBody;
 };

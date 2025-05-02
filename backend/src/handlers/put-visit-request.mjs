@@ -40,8 +40,7 @@ export const putVisitRequestHandler = async (event) => {
     let visitDate = body.visitDate;
     let requestStatus = body.requestStatus;
 
-    const expirationDate = new Date(visitDate);
-    expirationDate.setHours(0, 0, 0, 0);
+    const expirationDate = new Date(`${visitDate}T00:00:00.000Z`);
     const inviteLinkExpirationTimeInHours = 24;
     const ttlInSeconds = calculateTTLInSeconds(expirationDate, inviteLinkExpirationTimeInHours);
 
