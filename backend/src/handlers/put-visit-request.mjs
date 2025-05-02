@@ -40,9 +40,12 @@ export const putVisitRequestHandler = async (event) => {
     let visitDate = body.visitDate;
     let requestStatus = body.requestStatus;
 
-    const expirationDate = new Date(`${visitDate}T00:00:00.000Z`);
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; 
+    const localMidnight = new Date(`${visitDate}T00:00:00`);  
+    const localMidnightInTimeZone = new Date(localMidnight.toLocaleString("en-US", { timeZone: userTimeZone }));
+
     const inviteLinkExpirationTimeInHours = 24;
-    const ttlInSeconds = calculateTTLInSeconds(expirationDate, inviteLinkExpirationTimeInHours);
+    const ttlInSeconds = calculateTTLInSeconds(localMidnightInTimeZone, inviteLinkExpirationTimeInHours);
 
     const params = {
         TableName: tableName,
@@ -51,7 +54,7 @@ export const putVisitRequestHandler = async (event) => {
             inviteToken: inviteToken,
             registrationId: registrationId,
             visitorName: visitorName,
-            visitDate: new Date(visitDate).toISOString(),
+            visitDate: localMidnightInTimeZone.toISOString(),
             requestStatus: requestStatus,
             ttl: ttlInSeconds
         },
