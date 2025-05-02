@@ -8,3 +8,8 @@ export const calculateTTLInSeconds = (
     startTimeInMilliseconds + durationInMilliseconds;
   return Math.floor(expirationTimeInMilliseconds / 1000);
 };
+
+export const calculateDateFromTTLInSeconds = (durationInSeconds) => {
+  return new Date(durationInSeconds * 1000);
+};
+

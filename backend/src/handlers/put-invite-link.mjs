@@ -1,7 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
-import { calculateTTLInSeconds } from './utils.mjs';
+import { calculateDateFromTTLInSeconds, calculateTTLInSeconds } from './utils.mjs';
 
 //DynamoDB Endpoint
 const ENDPOINT_OVERRIDE = process.env.ENDPOINT_OVERRIDE;
@@ -49,7 +49,7 @@ export const putInviteLinkItemHandler = async (event) => {
             inviteToken: inviteData.token,
             residentId: residentId,
             inviteLink: inviteData.inviteLink,
-            inviteLinkExpiration: inviteLinkExpiration ? adjustedTTL.toISOString() : inviteData.inviteLinkExpiration,
+            inviteLinkExpiration: inviteLinkExpiration ? calculateDateFromTTLInSeconds(adjustedTTL) : inviteData.inviteLinkExpiration,
             ttl: inviteLinkExpiration ? adjustedTTL : inviteData.ttl
         },
     };
@@ -103,7 +103,7 @@ export const generateInviteData = async () => {
     const responseBody = {
         token: token,
         inviteLink: inviteLink,
-        inviteLinkExpiration: ttlInSeconds.toISOString(),
+        inviteLinkExpiration: calculateDateFromTTLInSeconds(ttlInSeconds),
         ttl: ttlInSeconds
     };
     return responseBody;
