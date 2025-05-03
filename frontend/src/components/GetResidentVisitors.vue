@@ -263,10 +263,14 @@ export default {
 
     async extendInviteLinkExpiration(visitRequest) {
       try {
+
+        const oneDayInMillis = 24 * 60 * 60 * 1000;
+        const expirationDate = new Date(new Date(visitRequest.visitDate).getTime() + oneDayInMillis).toISOString();
+
         const inviteData = {
           inviteToken: visitRequest.inviteToken,
           residentId: this.residentId,
-          inviteLinkExpiration: visitRequest.visitDate
+          inviteLinkExpiration: expirationDate
         }
         console.log("inviteData.inviteLinkExpiration: ", inviteData.inviteLinkExpiration)
         const response = await postInvite(inviteData);

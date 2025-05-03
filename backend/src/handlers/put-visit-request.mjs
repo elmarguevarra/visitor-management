@@ -1,6 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { calculateTTLInSeconds } from './utils.mjs';
+import { DateTime } from 'luxon';
 
 //DynamoDB Endpoint
 const ENDPOINT_OVERRIDE = process.env.ENDPOINT_OVERRIDE;
@@ -40,12 +41,17 @@ export const putVisitRequestHandler = async (event) => {
     let visitDate = body.visitDate;
     let requestStatus = body.requestStatus;
 
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; 
-    const localMidnight = new Date(`${visitDate}T00:00:00`);  
-    const localMidnightInTimeZone = new Date(localMidnight.toLocaleString("en-US", { timeZone: userTimeZone }));
+    // TODO: pass the "zone" from client to lambda via headers
+    const localDateTime = DateTime.fromISO(visitDate, { zone: 'Asia/Manila' }).startOf('day');
+
+    console.log("localDateTime: ", localDateTime.toString());
+    console.log("localDateTime.toISO(): ", localDateTime.toISO());
+    console.log("localDateTime.toUTC().toISO(): ", localDateTime.toUTC().toISO()); 
 
     const inviteLinkExpirationTimeInHours = 24;
-    const ttlInSeconds = calculateTTLInSeconds(localMidnightInTimeZone, inviteLinkExpirationTimeInHours);
+    const ttlInSeconds = calculateTTLInSeconds(localDateTime, inviteLinkExpirationTimeInHours);
+
+    console.log("ttlInSeconds", ttlInSeconds); 
 
     const params = {
         TableName: tableName,
@@ -54,7 +60,7 @@ export const putVisitRequestHandler = async (event) => {
             inviteToken: inviteToken,
             registrationId: registrationId,
             visitorName: visitorName,
-            visitDate: localMidnightInTimeZone.toISOString(),
+            visitDate: localDateTime.toUTC().toISO(),
             requestStatus: requestStatus,
             ttl: ttlInSeconds
         },
@@ -79,6 +85,7 @@ export const putVisitRequestHandler = async (event) => {
         visitorName: params.Item.visitorName,
         visitDate: params.Item.visitDate,
         requestStatus: params.Item.requestStatus,
+        ttl: params.Item.ttl
     };
 
     const response = {

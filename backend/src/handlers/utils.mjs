@@ -1,11 +1,14 @@
 export const calculateTTLInSeconds = (
-  startDate,
+  date,
   durationInHours
 ) => {
-  const startTimeInMilliseconds = new Date(startDate).getTime();
-  const durationInMilliseconds = durationInHours * 60 * 60 * 1000;
-  const expirationTimeInMilliseconds =
-    startTimeInMilliseconds + durationInMilliseconds;
+  const baseTime = new Date(date).getTime();
+
+  // If durationInHours is not provided, treat `date` as the expiration date
+  const expirationTimeInMilliseconds = durationInHours
+    ? baseTime + durationInHours * 60 * 60 * 1000
+    : baseTime;
+
   return Math.floor(expirationTimeInMilliseconds / 1000);
 };
 

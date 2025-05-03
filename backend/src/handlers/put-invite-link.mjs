@@ -2,6 +2,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
 import { calculateDateFromTTLInSeconds, calculateTTLInSeconds } from './utils.mjs';
+import { DateTime } from 'luxon';
 
 //DynamoDB Endpoint
 const ENDPOINT_OVERRIDE = process.env.ENDPOINT_OVERRIDE;
@@ -43,12 +44,13 @@ export const putInviteLinkItemHandler = async (event) => {
     }
     const inviteLink = `${frontEndBaseUrl}/self-register-visitor/${inviteToken}`;
 
-    const inviteLinkExpirationTimeInHours = 24;
-    const expirationDate = new Date();
-    ttlInSeconds = calculateTTLInSeconds(expirationDate, inviteLinkExpirationTimeInHours)
-
-    if(inviteLinkExpiration){
-        ttlInSeconds = calculateTTLInSeconds(inviteLinkExpiration, inviteLinkExpirationTimeInHours);
+    if (inviteLinkExpiration) {
+        ttlInSeconds = calculateTTLInSeconds(inviteLinkExpiration);
+    } 
+    else {
+        const inviteLinkExpirationTimeInHours = 24;
+        const localDateTime = DateTime.now().setZone('Asia/Manila');
+        ttlInSeconds = calculateTTLInSeconds(localDateTime, inviteLinkExpirationTimeInHours);
     }
 
     const params = {
@@ -78,7 +80,8 @@ export const putInviteLinkItemHandler = async (event) => {
         inviteToken: params.Item.inviteToken,
         residentId: params.Item.residentId,
         inviteLink: params.Item.inviteLink,
-        inviteLinkExpiration: params.Item.inviteLinkExpiration
+        inviteLinkExpiration: params.Item.inviteLinkExpiration,
+        ttl: params.Item.ttl
     };
 
     const response = {
