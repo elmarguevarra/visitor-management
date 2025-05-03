@@ -194,9 +194,13 @@ export default {
           registrationId: newVisitor.registrationId
         };
 
-        const response = await postVisitRequest(requestVisitData);
-        this.visitRequest = response;
-        
+        await postVisitRequest(requestVisitData);
+
+        // Remove the visitRequest from the list
+        this.visitRequests = this.visitRequests.filter(
+          v => v.inviteToken !== visitRequest.inviteToken
+        );
+
         this.errorMsg = '';
 
       } catch (error) {
@@ -216,10 +220,15 @@ export default {
         requestStatus: "DECLINED"
       };
       try {
-        const response = await postVisitRequest(requestVisitData);
-        console.log(response);
-        this.visitRequest = response;
+        await postVisitRequest(requestVisitData);
+
+        // Remove the visitRequest from the list
+        this.visitRequests = this.visitRequests.filter(
+          v => v.inviteToken !== visitRequest.inviteToken
+        );
+
         this.errorMsg = '';
+
       } catch (error) {
         console.log(error);
         this.errorMsg = 'Error posting data';
