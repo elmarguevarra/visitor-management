@@ -100,9 +100,10 @@
 <script>
 import { 
           postVisitRequest, 
+          postInvite,
           getInviteByToken, 
           getVisitRequestByToken, 
-          getVisitorByRegistrationId 
+          getVisitorByRegistrationId
         } from '@/services/apiService';
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils';
 
