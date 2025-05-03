@@ -23,17 +23,24 @@
         </div>
       </form>
       <div v-if="invitation && invitation.inviteLink" class="mt-4 d-flex flex-column align-items-center">
-        <p class="mb-1 text-center text-secondary">Share this link:</p>
-        <div class="d-flex align-items-center">
-          <p class="me-2 mb-0">{{ invitation.inviteLink }}</p>
-          <button class="btn btn-outline-secondary btn-sm" @click="copyToClipboard(invitation.inviteLink)" title="Copy to clipboard">
-            Copy
-          </button>
+        <p class="mb-1 text-center text-secondary">Share this link to register:</p>
+        <div class="alert alert-info mt-1">
+          <div class="d-flex align-items-center flex-wrap">
+            <p class="mb-0 me-2 flex-grow-1 text-break small">
+              {{ invitation.inviteLink }}
+            </p>
+            <button
+              class="btn btn-outline-secondary btn-sm"
+              @click="copyToClipboard(invitation.inviteLink)"
+              title="Copy to clipboard"
+            >
+              Copy
+            </button>
+          </div>
         </div>
-        <p v-if="invitation.inviteLinkExpiration" class="mt-2 text-muted text-center small">
-          Link will expire on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }} if it is not used.
+        <p v-if="invitation.inviteLinkExpiration" class="mt-2 mb-0 text-muted text-center small fst-italic">
+          Expires on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }} if not used.
         </p>
-        <p class="mt-2 text-muted text-center small">Your visitor can use this link to register.</p>
       </div>
 
       <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
