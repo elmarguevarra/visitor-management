@@ -21,7 +21,7 @@
             !visitRequest && 
             !isGetInviteByTokenLoading" 
             type="submit" 
-            class="btn btn-primary" 
+            class="mb-3 btn btn-primary" 
             :disabled="isRequestVisitLoading">
             <span v-if="isRequestVisitLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Submit
@@ -57,18 +57,15 @@
         class="alert alert-success mt-3 text-center">
         Request has been approved!
       </div>
-      <div v-if="isGetVisitorLoading" class="card" aria-hidden="true">
+      <div v-if="isGetVisitorLoading" aria-hidden="true">
         <div class="card-body">
-        <h6 class="card-title placeholder-glow text-center mb-2">
-          <span class="placeholder col-4"></span>
-        </h6>
-        <div class="mb-2 placeholder-box"></div>
-        <p class="card-text placeholder-glow text-center mb-0">
-          <span class="placeholder col-8"></span>
-        </p>
-        </div>
-        <div class="card-footer text-muted text-center small">
-          <span class="placeholder col-3"></span>
+          <h6 class="card-title placeholder-glow text-center mb-2">
+            <span class="placeholder col-4"></span>
+          </h6>
+          <div class="mb-2 placeholder-box"></div>
+          <p class="card-text placeholder-glow text-center mb-0">
+            <span class="placeholder col-8"></span>
+          </p>
         </div>
       </div>
       <div v-if="
@@ -79,12 +76,14 @@
         <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
         <p class="mt-2 mb-0 text-center">Registration ID: {{ visitor.registrationId }}</p>
         <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ formatDate(new Date(visitor.visitDate)) }}</strong></h6>
-        <p class="mt-2 text-muted text-center small">Present this at the gate on the day of your visit.</p>
+        <p class="mt-0 text-muted text-center small">Present this at the gate on the day of your visit.</p>
       </div>
       <p 
-        v-if="invitation && (!visitRequest || visitRequest.requestStatus !== 'DECLINED')"
-        class="mt-3 text-muted text-center small">
-          Invitation will expire on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }}.
+        v-if="!errorMsg && 
+        invitation && 
+        (!visitRequest || visitRequest.requestStatus !== 'DECLINED')"
+        class="mt-2 mb-0 text-muted text-center small fst-italic">
+          Expires on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }}.
         </p>
       <h6 class="alert alert-danger mt-4" v-if="
         errorMsg && 
