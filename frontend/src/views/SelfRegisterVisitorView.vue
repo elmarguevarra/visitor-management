@@ -82,8 +82,8 @@
         <p class="mt-2 text-muted text-center small">Present this at the gate on the day of your visit.</p>
       </div>
       <p 
-        v-if="invitation && (!visitRequest || visitRequest.requestStatus === 'PENDING')"
-        class="mt-4 text-muted text-center small">
+        v-if="invitation && (!visitRequest || visitRequest.requestStatus !== 'DECLINED')"
+        class="mt-3 text-muted text-center small">
           Invitation will expire on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }}.
         </p>
       <h6 class="alert alert-danger mt-4" v-if="
