@@ -79,8 +79,12 @@
         <p class="mt-0 text-muted text-center small">Present this at the gate on the day of your visit.</p>
       </div>
       <p 
-        v-if="!errorMsg && 
+        v-if="
+        !errorMsg && 
         invitation && 
+        !isGetInviteByTokenLoading &&
+        !isGetVisitRequestByTokenLoading &&
+        !isGetVisitorLoading &&
         (!visitRequest || visitRequest.requestStatus !== 'DECLINED')"
         class="mt-2 mb-0 text-muted text-center small fst-italic">
           Expires on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }}.
