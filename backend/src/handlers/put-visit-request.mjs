@@ -62,6 +62,7 @@ export const putVisitRequestHandler = async (event) => {
             visitorName: visitorName,
             visitDate: localDateTime.toUTC().toISO(),
             requestStatus: requestStatus,
+            requestExpiration: calculateDateFromTTLInSeconds(ttlInSeconds),
             ttl: ttlInSeconds
         },
     };
@@ -85,6 +86,7 @@ export const putVisitRequestHandler = async (event) => {
         visitorName: params.Item.visitorName,
         visitDate: params.Item.visitDate,
         requestStatus: params.Item.requestStatus,
+        requestExpiration: params.Item.requestExpiration,
         ttl: params.Item.ttl
     };
 
