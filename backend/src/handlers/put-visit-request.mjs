@@ -1,6 +1,6 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
-import { calculateTTLInSeconds } from './utils.mjs';
+import { calculateDateFromTTLInSeconds, calculateTTLInSeconds } from './utils.mjs';
 import { DateTime } from 'luxon';
 
 //DynamoDB Endpoint

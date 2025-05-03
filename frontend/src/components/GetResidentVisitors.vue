@@ -124,8 +124,7 @@ import {
     getVisitorsByResidentId, 
     getVisitRequestsByResidentId,
     postVisitRequest, 
-    postVisitor,
-    postInvite } from '@/services/apiService';
+    postVisitor } from '@/services/apiService';
 import { formatDate } from '@/utils';
 
 export default {
@@ -197,8 +196,6 @@ export default {
 
         const response = await postVisitRequest(requestVisitData);
         this.visitRequest = response;
-
-        await this.extendInviteLinkExpiration(response);
         
         this.errorMsg = '';
 
@@ -258,27 +255,6 @@ export default {
         this.errorMsg = 'Error retrieving data';
       } finally {
         this.isVisitRequestsLoading = false;
-      }
-    },
-
-    async extendInviteLinkExpiration(visitRequest) {
-      try {
-
-        const oneDayInMillis = 24 * 60 * 60 * 1000;
-        const expirationDate = new Date(new Date(visitRequest.visitDate).getTime() + oneDayInMillis).toISOString();
-
-        const inviteData = {
-          inviteToken: visitRequest.inviteToken,
-          residentId: this.residentId,
-          inviteLinkExpiration: expirationDate
-        }
-        console.log("inviteData.inviteLinkExpiration: ", inviteData.inviteLinkExpiration)
-        const response = await postInvite(inviteData);
-        console.log(response);
-        this.invitation = response;
-      } catch (error) {
-        console.log(error);
-        this.errorMsg = 'Error extending expiration of invite link';
       }
     },
     formatDate
