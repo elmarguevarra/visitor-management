@@ -127,6 +127,7 @@ import {
     postVisitor } from '@/services/apiService';
 import { formatDate } from '@/utils';
 import { useVisitRequestStore } from '@/stores/visitRequestStore';
+import { useVisitorStore } from '@/stores/visitorStore';
 
 export default {
   name: 'GetResidentVisitors',
@@ -138,45 +139,30 @@ export default {
   },
   data() {
     return {
-      visitors: [],
       errorMsg: '',
       isGetVisitorsLoading: false,
       isVisitRequestsLoading: false,
       requestLoadingStates: {},  
       requestSubmittedState: {},
       visitRequestStore: useVisitRequestStore(),
+      visitorStore: useVisitorStore()
     };
   },
   computed: {
     visitRequests() {
       return this.visitRequestStore.visitRequests;
     },
+    visitors() {
+      return this.visitorStore.visitors;
+    },
     upcomingVisitors() {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const upcoming = this.visitors.filter(visitor => {
-        const visitDate = new Date(visitor.visitDate).setHours(0, 0, 0, 0);
-        return visitDate > today;
-      });
-      return upcoming.sort((a, b) => new Date(a.visitDate) - new Date(b.visitDate))
+      return this.visitorStore.filterUpcoming();
     },
     todayVisitors() {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      return this.visitors.filter(visitor => {
-        const visitDate = new Date(visitor.visitDate).setHours(0, 0, 0, 0);
-        return visitDate >= today && visitDate < tomorrow;
-      });
+      return this.visitorStore.filterToday();
     },
     expiredVisitors() {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      return this.visitors.filter(visitor => {
-        const visitDate = new Date(visitor.visitDate).setHours(0, 0, 0, 0);
-        return visitDate < today;
-      });
+      return this.visitorStore.filterPast();
     },
   },
   methods: {
@@ -201,6 +187,7 @@ export default {
         await postVisitRequest(requestVisitData);
         
         this.visitRequestStore.removeVisitRequest(visitRequest.inviteToken);
+        this.visitorStore.addVisitor(newVisitor)
 
         this.errorMsg = '';
 
@@ -242,6 +229,7 @@ export default {
         const response = await getVisitorsByResidentId(this.residentId)
         console.log(response);
         this.visitors = response;
+        this.visitorStore.setVisitors(response);
       } catch (error) {
         console.log(error);
         this.errorMsg = 'Error retrieving data';
