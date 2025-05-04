@@ -108,6 +108,7 @@ import {
           getVisitRequestByToken, 
           getVisitorByRegistrationId
         } from '@/services/apiService';
+import { useVisitRequestStore } from '@/stores/visitRequestStore';
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils';
 
 export default {
@@ -134,8 +135,14 @@ export default {
       isGetVisitRequestByTokenLoading: false,
       isRequestVisitLoading: false,
       isGetVisitorLoading: false,
-      today: yearMonthDateToday
+      today: yearMonthDateToday,
+      visitRequestStore: useVisitRequestStore()
     };
+  },
+  computed: {
+    visitRequests() {
+      return this.visitRequestStore.visitRequests
+    }
   },
   methods: {
     formatDate,
@@ -153,6 +160,7 @@ export default {
         const response = await postVisitRequest(requestVisitData);
         console.log(response);
         this.visitRequest = response;
+        this.visitRequestStore.addVisitRequest(response)
 
         await this.extendInviteLinkExpiration(response);
 
