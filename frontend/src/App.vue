@@ -25,9 +25,9 @@
               <li class="nav-item">
                 <router-link to="/invite-visitor" class="nav-link py-1" active-class="active">Invite</router-link>
               </li>
-              <!-- <li class="nav-item">
-                <router-link to="/self-register-visitor" class="nav-link py-1" active-class="active">Self-Register</router-link>
-              </li> -->
+              <li class="nav-item">
+                <button @click="signOutRedirect" class="nav-link py-1 btn btn-link text-decoration-none">Logout</button>
+              </li>
             </ul>
           </div>
         </nav>
@@ -104,6 +104,13 @@ export default {
       // You might also redirect the user after login.
       this.$router.push('/dashboard'); // Example navigation
     },
+    signOutRedirect() {
+      const clientId = "3jid0987p3l05ursbrs6gun0oi";
+      const logoutUri = window.location.origin; // Or a specific logout success page
+      const cognitoDomain = "https://ap-southeast-1scrgvy8xg.auth.ap-southeast-1.amazoncognito.com";
+      window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+      this.clearResidentId(); // Optionally clear local user data
+    }
   },
   mounted() {
     console.log('App mounted. Resident ID is:', this.currentResidentId);
