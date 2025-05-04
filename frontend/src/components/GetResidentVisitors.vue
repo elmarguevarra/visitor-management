@@ -126,6 +126,7 @@ import {
     postVisitRequest, 
     postVisitor } from '@/services/apiService';
 import { formatDate } from '@/utils';
+import { useVisitRequestStore } from '@/stores/visitRequestStore';
 
 export default {
   name: 'GetResidentVisitors',
@@ -138,15 +139,18 @@ export default {
   data() {
     return {
       visitors: [],
-      visitRequests: [],
       errorMsg: '',
       isGetVisitorsLoading: false,
       isVisitRequestsLoading: false,
       requestLoadingStates: {},  
       requestSubmittedState: {},
+      visitRequestStore: useVisitRequestStore(),
     };
   },
   computed: {
+    visitRequests() {
+      return this.visitRequestStore.visitRequests;
+    },
     upcomingVisitors() {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -195,11 +199,8 @@ export default {
         };
 
         await postVisitRequest(requestVisitData);
-
-        // Remove the visitRequest from the list
-        this.visitRequests = this.visitRequests.filter(
-          v => v.inviteToken !== visitRequest.inviteToken
-        );
+        
+        this.visitRequestStore.removeVisitRequest(visitRequest.inviteToken);
 
         this.errorMsg = '';
 
@@ -222,10 +223,7 @@ export default {
       try {
         await postVisitRequest(requestVisitData);
 
-        // Remove the visitRequest from the list
-        this.visitRequests = this.visitRequests.filter(
-          v => v.inviteToken !== visitRequest.inviteToken
-        );
+        this.visitRequestStore.removeVisitRequest(visitRequest.inviteToken);
 
         this.errorMsg = '';
 
@@ -258,7 +256,9 @@ export default {
         const response = await getVisitRequestsByResidentId(this.residentId);
         console.log(response);
         const pendingVisitRequests = response.filter(v => v.requestStatus === "PENDING");
-        this.visitRequests = pendingVisitRequests.sort((a, b) => new Date(a.visitDate) - new Date(b.visitDate));
+
+        this.visitRequestStore.setVisitRequests(pendingVisitRequests);
+
       } catch (error) {
         console.log(error);
         this.errorMsg = 'Error retrieving data';

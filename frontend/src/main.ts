@@ -8,6 +8,7 @@ import VerifyVisitorView from './views/VerifyVisitorView.vue'
 import ListVisitorsView from './views/ListVisitorsView.vue'
 import InviteVisitorView from './views/InviteVisitorView.vue'
 import SelfRegisterVisitorView from './views/SelfRegisterVisitorView.vue'
+import { createPinia } from 'pinia'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
@@ -18,6 +19,7 @@ if (process.env.NODE_ENV === 'development') {
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 
+const pinia = createPinia()
 const routes = [
   {
     path: '/',
@@ -65,4 +67,5 @@ const router = createRouter({
 
 const app = createApp(App)
 app.use(router)
+app.use(pinia)
 app.mount('#app')
