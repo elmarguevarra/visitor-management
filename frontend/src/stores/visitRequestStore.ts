@@ -6,6 +6,7 @@ export const useVisitRequestStore = defineStore('visitRequests', {
     visitRequests: [] as any[],
   }),
   actions: {
+    // TODO: use this
     async fetchVisitRequests(residentId: string): Promise<void> {
       this.visitRequests = await getVisitRequestsByResidentId(residentId)
     },
