@@ -12,6 +12,7 @@ import { createPinia } from 'pinia'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import { userManager } from './auth/authConfig'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -72,34 +73,16 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach(async (to, from, next) => {
-//   if (to.meta.requiresAuth) {
-//     try {
-//       const oauth = {
-//         domain: 'ap-southeast-1scrgvy8xg.auth.ap-southeast-1.amazoncognito.com',
-//         scope: [
-//           'openid',
-//           'email',
-//           'phone',
-//           // 'profile',
-//           'aws.cognito.signin.user.admin',
-//         ].join(' '), // Join scopes with a space
-//         redirectSignIn: window.location.origin + to.fullPath,
-//         responseType: 'code',
-//         clientId: '3jid0987p3l05ursbrs6gun0oi',
-//       }
-
-//       // const cognitoUrl = `https://${oauth.domain}/login?client_id=${oauth.clientId}&response_type=${oauth.responseType}&scope=${encodeURIComponent(oauth.scope)}&redirect_uri=${encodeURIComponent(oauth.redirectSignIn)}`
-//       const cognitoUrl = `https://ap-southeast-1scrgvy8xg.auth.ap-southeast-1.amazoncognito.com/login/continue?client_id=3jid0987p3l05ursbrs6gun0oi&redirect_uri=https%3A%2F%2Fvms.alphinecodetech.click&response_type=code&scope=email+openid`
-//       console.log('cognitoUrl: ', cognitoUrl)
-//       window.location.href = cognitoUrl
-//     } catch (error) {
-//       console.error('Authentication error:', error)
-//     }
-//   } else {
-//     next() // Route does not require authentication
-//   }
-// })
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.requiresAuth) {
+    const user = await userManager.getUser()
+    if (user) {
+      next()
+    } else {
+      await userManager.signinRedirect()
+    }
+  }
+})
 
 const app = createApp(App)
 app.use(router)

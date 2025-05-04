@@ -26,7 +26,7 @@
                 <router-link to="/invite-visitor" class="nav-link py-1" active-class="active">Invite</router-link>
               </li>
               <li class="nav-item">
-                <button @click="signOutRedirect" class="nav-link py-1 btn btn-link text-decoration-none">Logout</button>
+                <button @click="signOutRedirect" class="nav-link py-1 btn btn-link text-decoration-none">Signout</button>
               </li>
             </ul>
           </div>
@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import { userManager } from './auth/authConfig';
+
 export default {
   name: 'App',
   provide() {
@@ -104,12 +106,9 @@ export default {
       // You might also redirect the user after login.
       this.$router.push('/dashboard'); // Example navigation
     },
-    signOutRedirect() {
-      const clientId = "3jid0987p3l05ursbrs6gun0oi";
-      const logoutUri = window.location.origin; // Or a specific logout success page
-      const cognitoDomain = "https://ap-southeast-1scrgvy8xg.auth.ap-southeast-1.amazoncognito.com";
-      window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
-      this.clearResidentId(); // Optionally clear local user data
+    async signOutRedirect() {
+      await userManager.signoutRedirect();
+      this.clearResidentId();
     }
   },
   mounted() {
