@@ -16,7 +16,7 @@ export const userManager = new UserManager({
 
 export async function signOutRedirect() {
   const clientId = '3jid0987p3l05ursbrs6gun0oi'
-  const logoutUri = 'https://vms.alphinecodetech.click'
+  const logoutUri = 'https://vms.alphinecodetech.click/signout-callback'
   const cognitoDomain =
     'https://ap-southeast-1scrgvy8xg.auth.ap-southeast-1.amazoncognito.com'
   window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`
