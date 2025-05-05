@@ -73,16 +73,16 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach(async (to, from, next) => {
-  if (to.meta.requiresAuth) {
-    const user = await userManager.getUser()
-    if (user) {
-      next()
-    } else {
-      await userManager.signinRedirect()
-    }
-  }
-})
+// router.beforeEach(async (to, from, next) => {
+//   if (to.meta.requiresAuth) {
+//     const user = await userManager.getUser()
+//     if (user) {
+//       next()
+//     } else {
+//       await userManager.signinRedirect()
+//     }
+//   }
+// })
 
 const app = createApp(App)
 app.use(router)
