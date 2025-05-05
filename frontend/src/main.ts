@@ -20,6 +20,8 @@ if (process.env.NODE_ENV === 'development') {
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 
+const user = await userManager.getUser()
+
 const pinia = createPinia()
 const routes = [
   {
@@ -73,16 +75,15 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach(async (to, from, next) => {
-//   if (to.meta.requiresAuth) {
-//     const user = await userManager.getUser()
-//     if (user) {
-//       next()
-//     } else {
-//       await userManager.signinRedirect()
-//     }
-//   }
-// })
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.requiresAuth) {
+    if (user) {
+      next()
+    } else {
+      await userManager.signinRedirect()
+    }
+  }
+})
 
 const app = createApp(App)
 app.use(router)
