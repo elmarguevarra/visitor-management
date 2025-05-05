@@ -1,10 +1,13 @@
 <template>
     <div class="full-page-image-container">
-      <img
-        src="/landing.png"
-        alt="Full Page Image"
-        class="full-page-image"
-      >
+      <picture>
+        <source srcset="/landing-mobile.png" media="(max-width: 600px)">
+        <img
+          src="/landing.png"
+          alt="Full Page Image"
+          class="full-page-image"
+        >
+      </picture>
     </div>
   </template>
   
@@ -33,16 +36,4 @@
     object-position: center; /* Default center */
   }
   
-  /* Adjust object-position for smaller screens (example breakpoints) */
-  @media (max-width: 768px) {
-    .full-page-image {
-      object-position: left center; /* Try shifting focus to the left */
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .full-page-image {
-      object-position: left top; /* Further adjust for even smaller screens */
-    }
-  }
   </style>
