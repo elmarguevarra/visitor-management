@@ -94,7 +94,7 @@ const routes = [
       async created() {
         try {
           await userManager.signoutRedirectCallback()
-          router.push('/logged-out') // Redirect to a logged-out page
+          router.push('/')
         } catch (error) {
           console.error('Error handling sign-out callback:', error)
           router.push('/')
