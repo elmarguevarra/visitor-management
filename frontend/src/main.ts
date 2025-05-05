@@ -20,6 +20,8 @@ if (process.env.NODE_ENV === 'development') {
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 
+let user = await userManager.getUser()
+
 const pinia = createPinia()
 const routes = [
   {
@@ -90,6 +92,7 @@ const routes = [
     component: {
       template: '<div>Processing logout...</div>',
       async created() {
+        user = null
         try {
           await userManager.signoutRedirectCallback()
           router.push('/')
@@ -110,7 +113,6 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
-    const user = await userManager.getUser()
     if (user) {
       next()
     } else {
