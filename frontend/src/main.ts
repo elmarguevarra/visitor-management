@@ -94,20 +94,12 @@ const routes = [
       async created() {
         try {
           await userManager.signoutRedirectCallback()
-          router.push('/logged-out')
+          router.push('/')
         } catch (error) {
           console.error('Error handling sign-out callback:', error)
           router.push('/')
         }
       },
-    },
-    meta: { requiresAuth: false },
-  },
-  {
-    path: '/logged-out',
-    name: 'LoggedOut',
-    component: {
-      template: '<div>You have been signed out.</div>',
     },
     meta: { requiresAuth: false },
   },

@@ -26,7 +26,7 @@
                 <router-link to="/invite-visitor" class="nav-link py-1" active-class="active">Invite</router-link>
               </li>
               <li class="nav-item">
-                <button @click="signOutRedirect" class="nav-link py-1 btn btn-link text-decoration-none">Signout</button>
+                <button @click="signOutRedirect" class="nav-link py-1 btn btn-link text-decoration-none">Sign out</button>
               </li>
             </ul>
           </div>
