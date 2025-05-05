@@ -11,10 +11,10 @@
           <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <div v-if="$route.path !== '/'" class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center">
               <li class="nav-item">
-                <router-link to="/" class="nav-link py-1" active-class="active">Browse</router-link>
+                <router-link to="/visitors" class="nav-link py-1" active-class="active">Browse</router-link>
               </li>
               <li class="nav-item">
                 <router-link to="/register-visitor" class="nav-link py-1" active-class="active">Register</router-link>
@@ -30,14 +30,21 @@
               </li>
             </ul>
           </div>
+          <div v-if="$route.path === '/'" class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav align-items-center">
+              <li class="nav-item">
+                <button @click="signInRedirect" class="nav-link py-1 btn btn-link text-decoration-none">Sign in</button>
+              </li>
+            </ul>
+          </div>
         </nav>
       </div>
     </header>
 
-    <div class="container-fluid p-0 mb-0 hero-image-container">
+    <div v-if="$route.path !== '/'" class="container-fluid p-0 mb-0 hero-image-container">
       <div class="position-relative">
         <img
-          src="/banner.png"
+          src="/hero-banner.jpg"
           alt="Modern Website Hero Banner"
           class="img-fluid hero-image"
           style="object-fit: cover; width: 100%; height: auto; max-height: 400px; display: block;"
@@ -60,7 +67,7 @@
 </template>
 
 <script>
-import { signOutRedirect } from './auth/authConfig';
+import { signOutRedirect, userManager } from './auth/authConfig';
 
 
 export default {
@@ -107,6 +114,9 @@ export default {
       // You might also redirect the user after login.
       this.$router.push('/dashboard'); // Example navigation
     },
+    async signInRedirect() {
+      await userManager.signinRedirect();
+    },
     async signOutRedirect() {
       await signOutRedirect();
       // this.clearResidentId();
@@ -125,7 +135,10 @@ export default {
 .hero-image-container {
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
+  /* Add the box-shadow property here */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Example shadow */
 }
+
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
@@ -139,4 +152,5 @@ export default {
     max-height: 200px; /* Further adjust height for very small screens */
   }
 }
+
 </style>

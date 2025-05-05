@@ -13,6 +13,7 @@ import { createPinia } from 'pinia'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { userManager } from './auth/authConfig'
+import LandingView from './views/LandingView.vue'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -26,6 +27,12 @@ const pinia = createPinia()
 const routes = [
   {
     path: '/',
+    name: 'Landing',
+    component: LandingView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/visitors',
     name: 'ListVisitors',
     component: ListVisitorsView,
     meta: { requiresAuth: true },
@@ -77,7 +84,7 @@ const routes = [
         const router = useRouter()
         try {
           await userManager.signinRedirectCallback()
-          router.push('/')
+          router.push('/visitors')
         } catch (error) {
           console.error('Error handling sign-in callback:', error)
           router.push('/login-error')
