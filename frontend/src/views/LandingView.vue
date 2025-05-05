@@ -1,7 +1,7 @@
 <template>
     <div class="full-page-image-container">
       <picture>
-        <source srcset="/landing-mobile.png" media="(max-width: 600px)">
+        <source srcset="/landing-mobile.png" media="(max-width: 768px)">
         <img
           src="/landing.png"
           alt="Full Page Image"
