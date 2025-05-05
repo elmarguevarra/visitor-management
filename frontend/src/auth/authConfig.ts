@@ -4,7 +4,7 @@ const cognitoAuthConfig = {
   authority:
     'https://cognito-idp.ap-southeast-1.amazonaws.com/ap-southeast-1_scrgvy8Xg',
   client_id: '3jid0987p3l05ursbrs6gun0oi',
-  redirect_uri: 'https://vms.alphinecodetech.click',
+  redirect_uri: 'https://vms.alphinecodetech.click/signin-callback',
   response_type: 'code',
   scope: 'email openid',
 }

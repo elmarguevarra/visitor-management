@@ -1,7 +1,7 @@
 // src/main.ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, useRouter } from 'vue-router'
 import RegisterVisitorView from './views/RegisterVisitorView.vue'
 import GetVisitorView from './views/GetVisitorView.vue'
 import VerifyVisitorView from './views/VerifyVisitorView.vue'
@@ -68,6 +68,24 @@ const routes = [
     redirect: '/',
     meta: { requiresAuth: true },
   },
+  {
+    path: '/signin-callback',
+    name: 'SignInCallback',
+    component: {
+      template: '<div>Processing login...</div>',
+      async created() {
+        const router = useRouter()
+        try {
+          await userManager.signinRedirectCallback()
+          router.push('/')
+        } catch (error) {
+          console.error('Error handling sign-in callback:', error)
+          router.push('/login-error')
+        }
+      },
+    },
+    meta: { requiresAuth: false },
+  },
 ]
 
 const router = createRouter({
@@ -75,15 +93,22 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach(async (to, from, next) => {
-//   if (to.meta.requiresAuth) {
-//     if (user) {
-//       next()
-//     } else {
-//       await userManager.signinRedirect()
-//     }
-//   }
-// })
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.requiresAuth) {
+    if (user) {
+      next()
+    } else {
+      // Redirect to Cognito for login, but only if not already on the callback page
+      if (to.name !== 'SignInCallback') {
+        await userManager.signinRedirect()
+      } else {
+        next()
+      }
+    }
+  } else {
+    next()
+  }
+})
 
 const app = createApp(App)
 app.use(router)
