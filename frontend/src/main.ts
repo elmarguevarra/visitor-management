@@ -99,6 +99,8 @@ const routes = [
       async created() {
         try {
           await userManager.signoutRedirectCallback()
+          await userManager.removeUser()
+
           router.push('/')
         } catch (error) {
           console.error('Error handling sign-out callback:', error)
@@ -117,11 +119,11 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const currentUser = await userManager.getUser()
-
   if (to.meta.requiresAuth) {
     if (currentUser && !currentUser.expired) {
       next()
     } else {
+      await userManager.removeUser() // clear stale data
       if (to.name !== 'SignInCallback') {
         await userManager.signinRedirect()
       } else {
