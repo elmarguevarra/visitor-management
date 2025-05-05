@@ -60,7 +60,8 @@
 </template>
 
 <script>
-import { userManager } from './auth/authConfig';
+import { signOutRedirect } from './auth/authConfig';
+
 
 export default {
   name: 'App',
@@ -107,7 +108,7 @@ export default {
       this.$router.push('/dashboard'); // Example navigation
     },
     async signOutRedirect() {
-      await userManager.signoutRedirect();
+      await signOutRedirect();
       // this.clearResidentId();
     }
   },
