@@ -108,7 +108,7 @@ export default {
     },
     async signOutRedirect() {
       await userManager.signoutRedirect();
-      this.clearResidentId();
+      // this.clearResidentId();
     }
   },
   mounted() {
