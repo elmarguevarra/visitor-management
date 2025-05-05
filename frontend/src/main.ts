@@ -29,7 +29,7 @@ const routes = [
     path: '/',
     name: 'Landing',
     component: LandingView,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: false },
   },
   {
     path: '/visitors',
