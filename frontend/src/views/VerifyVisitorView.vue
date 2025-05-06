@@ -50,8 +50,9 @@
 </template>
 
 <script>
-import { getVisitorByRegistrationId, postVisitor } from '@/services/apiService';
-import { formatDateAndTime } from '@/utils';
+import { ref, computed, watch, onMounted } from 'vue'
+import { getVisitorByRegistrationId, postVisitor } from '@/services/apiService'
+import { formatDateAndTime } from '@/utils'
 
 export default {
   name: 'VerifyVisitorView',
@@ -61,111 +62,135 @@ export default {
       default: ''
     }
   },
-  data() {
-    return {
-      visitor: {
-        residentId: null,
-        residentName: null,
-        residentContact: null,
-        visitorName: null,
-        visitDate: null,
-        arrivalTime: null,
-        departureTime: null,
-        hasArrived: false,
-        hasDeparted: false
-      },
-      formData: {
-        registrationId: this.registrationId || '',
-      },
-      errorMsg: '',
-      isFetchDataLoading: false,
-      isSetArrivedDataLoading: false,
-      isSetDepartedDataLoading: false,
-    };
-  },
-  computed: {
-    visitDateObject() {
-      return this.visitor.visitDate ? new Date(this.visitor.visitDate) : null;
-    },
-    isVisitToday() {
-      if (!this.visitDateObject) return false;
-      const today = new Date();
+  setup(props) {
+    const visitor = ref({
+      residentId: null,
+      residentName: null,
+      residentContact: null,
+      visitorName: null,
+      visitDate: null,
+      arrivalTime: null,
+      departureTime: null,
+      hasArrived: false,
+      hasDeparted: false
+    })
+
+    const formData = ref({
+      registrationId: props.registrationId || ''
+    })
+
+    const errorMsg = ref('')
+    const isFetchDataLoading = ref(false)
+    const isSetArrivedDataLoading = ref(false)
+    const isSetDepartedDataLoading = ref(false)
+
+    const visitDateObject = computed(() => {
+      return visitor.value.visitDate ? new Date(visitor.value.visitDate) : null
+    })
+
+    const isVisitToday = computed(() => {
+      if (!visitDateObject.value) return false
+      const today = new Date()
       return (
-        this.visitDateObject.getFullYear() === today.getFullYear() &&
-        this.visitDateObject.getMonth() === today.getMonth() &&
-        this.visitDateObject.getDate() === today.getDate()
-      );
-    }
-  },
-  watch: {
-    registrationId(newVal) {
-      if (newVal) {
-        this.formData.registrationId = newVal;
-        this.fetchData(newVal);
-      }
-    }
-  },
-  methods: {
-    async fetchData(id) {
-      this.isFetchDataLoading = true;
+        visitDateObject.value.getFullYear() === today.getFullYear() &&
+        visitDateObject.value.getMonth() === today.getMonth() &&
+        visitDateObject.value.getDate() === today.getDate()
+      )
+    })
+
+    watch(
+      () => props.registrationId,
+      (newVal) => {
+        if (newVal) {
+          formData.value.registrationId = newVal
+          fetchData(newVal)
+        }
+      },
+      { immediate: true }
+    )
+
+    const fetchData = async (id) => {
+      isFetchDataLoading.value = true
       try {
         const response = await getVisitorByRegistrationId(id)
-        this.visitor = response;
-        this.errorMsg = '';
+        visitor.value = response
+        errorMsg.value = ''
       } catch (error) {
-        console.error(error);
-        this.visitor = { registrationId: '', visitorName: '', visitDate: '', hasArrived: false };
-        this.errorMsg = error.response?.data?.message || 'Error retrieving data';
+        console.error(error)
+        visitor.value = {
+          registrationId: '',
+          visitorName: '',
+          visitDate: '',
+          hasArrived: false
+        }
+        errorMsg.value = error.response?.data?.message || 'Error retrieving data'
       } finally {
-        this.isFetchDataLoading = false;
+        isFetchDataLoading.value = false
       }
-    },
-    async setVisitorArrived() {
-      this.isSetArrivedDataLoading = true;
+    }
+
+    const setVisitorArrived = async () => {
+      isSetArrivedDataLoading.value = true
       const updateData = {
-        ...this.visitor,
-        registrationId: this.registrationId,
+        ...visitor.value,
+        registrationId: props.registrationId,
         arrivalTime: new Date(),
-        hasArrived: true,
-      };
-      try {
-        const response = await postVisitor(updateData);
-        console.log('Update successful:', response.data);
-        this.visitor = response;
-        this.errorMsg = '';
-      } catch (error) {
-        console.log(error);
-        this.errorMsg = 'Error updating check-in status';
-      } finally {
-        this.isSetArrivedDataLoading = false;
+        hasArrived: true
       }
-    },
-    async setVisitorDeparted() {
-      this.isSetDepartedDataLoading = true;
+      try {
+        const response = await postVisitor(updateData)
+        console.log('Update successful:', response.data)
+        visitor.value = response
+        errorMsg.value = ''
+      } catch (error) {
+        console.log(error)
+        errorMsg.value = 'Error updating check-in status'
+      } finally {
+        isSetArrivedDataLoading.value = false
+      }
+    }
+
+    const setVisitorDeparted = async () => {
+      isSetDepartedDataLoading.value = true
       const updateData = {
-        ...this.visitor,
-        registrationId: this.registrationId,
+        ...visitor.value,
+        registrationId: props.registrationId,
         departureTime: new Date(),
         hasDeparted: true
-      };
-      try {
-        const response = await postVisitor(updateData);
-        console.log('Update successful:', response.data);
-        this.visitor = response;
-        this.errorMsg = '';
-      } catch (error) {
-        console.log(error);
-        this.errorMsg = 'Error updating check-in status';
-      } finally {
-        this.isSetDepartedDataLoading = false;
       }
-    },
-    formatDateAndTime
-  },
-  mounted() {
-    if (this.registrationId) {
-      this.fetchData(this.registrationId);
+      try {
+        const response = await postVisitor(updateData)
+        console.log('Update successful:', response.data)
+        visitor.value = response
+        errorMsg.value = ''
+      } catch (error) {
+        console.log(error)
+        errorMsg.value = 'Error updating check-in status'
+      } finally {
+        isSetDepartedDataLoading.value = false
+      }
+    }
+
+    onMounted(() => {
+      if (props.registrationId) {
+        fetchData(props.registrationId)
+      }
+    })
+
+    return {
+      visitor,
+      formData,
+      errorMsg,
+      isFetchDataLoading,
+      isSetArrivedDataLoading,
+      isSetDepartedDataLoading,
+      visitDateObject,
+      isVisitToday,
+      setVisitorArrived,
+      setVisitorDeparted,
+      formatDateAndTime
     }
   }
-};
+}
 </script>
+
