@@ -11,7 +11,7 @@
 
     <!-- Button Overlay at Bottom -->
     <div class="button-overlay">
-      <button @click='authenticationStore.signIn' class="btn">Get Started</button>
+      <button @click='signIn' class="btn">Get Started</button>
     </div>
   </div>
 </template>
@@ -30,7 +30,8 @@ export default {
     });
 
     return {
-      authenticationStore
+      authenticationStore,
+      signIn: authenticationStore.signIn()
     }
   }
 };
@@ -38,10 +39,13 @@ export default {
 
 <style scoped>
 .full-page-image-container {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  z-index: -1;
 }
 
 .full-page-image {
@@ -54,7 +58,7 @@ export default {
 
 .button-overlay {
   position: absolute;
-  bottom: 40px;
+  bottom: 15%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
@@ -62,8 +66,8 @@ export default {
 }
 
 .btn {
-  padding: 10px 25px;
-  font-size: 1rem;
+  padding: 8px 25px;
+  font-size: 0.8rem;
   background-color: #007bff;
   color: white;
   border: none;
