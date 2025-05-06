@@ -18,11 +18,16 @@
 
 <script>
 import { useAuthenticationStore } from '@/stores/authenticationStore';
+import { onMounted } from 'vue';
 
 export default {
   name: 'LandingView',
   setup(){
     const authenticationStore = useAuthenticationStore()
+
+    onMounted(() => {
+      window.scrollTo(0, 0);
+    });
 
     return {
       authenticationStore
