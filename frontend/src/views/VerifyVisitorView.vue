@@ -50,19 +50,17 @@
 </template>
 
 <script>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { getVisitorByRegistrationId, postVisitor } from '@/services/apiService'
 import { formatDateAndTime } from '@/utils'
+import { useRoute } from 'vue-router'
 
 export default {
   name: 'VerifyVisitorView',
-  props: {
-    registrationId: {
-      type: String,
-      default: ''
-    }
-  },
-  setup(props) {
+  setup() {
+    const route = useRoute()
+    const registrationId = route.params.registrationId
+
     const visitor = ref({
       residentId: null,
       residentName: null,
@@ -76,7 +74,7 @@ export default {
     })
 
     const formData = ref({
-      registrationId: props.registrationId || ''
+      registrationId: registrationId || ''
     })
 
     const errorMsg = ref('')
@@ -97,17 +95,6 @@ export default {
         visitDateObject.value.getDate() === today.getDate()
       )
     })
-
-    watch(
-      () => props.registrationId,
-      (newVal) => {
-        if (newVal) {
-          formData.value.registrationId = newVal
-          fetchData(newVal)
-        }
-      },
-      { immediate: true }
-    )
 
     const fetchData = async (id) => {
       isFetchDataLoading.value = true
@@ -133,7 +120,7 @@ export default {
       isSetArrivedDataLoading.value = true
       const updateData = {
         ...visitor.value,
-        registrationId: props.registrationId,
+        registrationId: registrationId,
         arrivalTime: new Date(),
         hasArrived: true
       }
@@ -154,7 +141,7 @@ export default {
       isSetDepartedDataLoading.value = true
       const updateData = {
         ...visitor.value,
-        registrationId: props.registrationId,
+        registrationId: registrationId,
         departureTime: new Date(),
         hasDeparted: true
       }
@@ -172,8 +159,8 @@ export default {
     }
 
     onMounted(() => {
-      if (props.registrationId) {
-        fetchData(props.registrationId)
+      if (registrationId) {
+        fetchData(registrationId)
       }
     })
 
