@@ -53,14 +53,16 @@
 import { ref, computed, onMounted } from 'vue'
 import { getVisitorByRegistrationId, postVisitor } from '@/services/apiService'
 import { formatDateAndTime } from '@/utils'
-import { useRoute } from 'vue-router'
 
 export default {
   name: 'VerifyVisitorView',
-  setup() {
-    const route = useRoute()
-    const registrationId = route.params.registrationId
-
+  props: {
+    registrationId: {
+      type: String,
+      default: ''
+    }
+  },
+  setup(props) {
     const visitor = ref({
       residentId: null,
       residentName: null,
@@ -74,7 +76,7 @@ export default {
     })
 
     const formData = ref({
-      registrationId: registrationId || ''
+      registrationId: props.registrationId || ''
     })
 
     const errorMsg = ref('')
@@ -120,7 +122,7 @@ export default {
       isSetArrivedDataLoading.value = true
       const updateData = {
         ...visitor.value,
-        registrationId: registrationId,
+        registrationId: props.registrationId,
         arrivalTime: new Date(),
         hasArrived: true
       }
@@ -141,7 +143,7 @@ export default {
       isSetDepartedDataLoading.value = true
       const updateData = {
         ...visitor.value,
-        registrationId: registrationId,
+        registrationId: props.registrationId,
         departureTime: new Date(),
         hasDeparted: true
       }
@@ -159,8 +161,8 @@ export default {
     }
 
     onMounted(() => {
-      if (registrationId) {
-        fetchData(registrationId)
+      if (props.registrationId) {
+        fetchData(props.registrationId)
       }
     })
 
