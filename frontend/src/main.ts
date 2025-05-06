@@ -83,7 +83,9 @@ const routes = [
         const router = useRouter()
         try {
           await userManager.signinRedirectCallback()
-          router.push('/visitors')
+          const redirectPath =
+            sessionStorage.getItem('postLoginRedirectPath') || '/visitors'
+          router.push(redirectPath)
         } catch (error) {
           console.error('Error handling sign-in callback:', error)
           router.push('/login-error')
@@ -133,6 +135,7 @@ router.beforeEach(async (to, from, next) => {
     } else {
       await authenticationStore.removeUser()
       if (to.name !== 'SignInCallback') {
+        sessionStorage.setItem('postLoginRedirectPath', to.fullPath)
         await authenticationStore.signIn()
       } else {
         next()
