@@ -84,7 +84,7 @@ const routes = [
         try {
           await userManager.signinRedirectCallback()
           const redirectPath =
-            sessionStorage.getItem('postLoginRedirectPath') || '/visitors'
+            sessionStorage.getItem('postLoginRedirectPath') || '/'
           router.push(redirectPath)
         } catch (error) {
           console.error('Error handling sign-in callback:', error)
