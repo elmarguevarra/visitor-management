@@ -129,7 +129,11 @@ router.beforeEach(async (to, from, next) => {
   const authenticationStore = useAuthenticationStore()
   await authenticationStore.checkAuthenticationStatus()
 
-  if (to.meta.requiresAuth) {
+  if (!to.meta.requiresAuth) {
+    return next()
+  }
+
+  
     if (authenticationStore.isLoggedIn) {
       next()
     } else {
@@ -141,7 +145,4 @@ router.beforeEach(async (to, from, next) => {
         next()
       }
     }
-  } else {
-    next()
-  }
 })
