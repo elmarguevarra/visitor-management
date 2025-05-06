@@ -101,15 +101,16 @@
 </template>
 
 <script>
-import { 
-          postVisitRequest, 
-          postInvite,
-          getInviteByToken, 
-          getVisitRequestByToken, 
-          getVisitorByRegistrationId
-        } from '@/services/apiService';
-import { useVisitRequestStore } from '@/stores/visitRequestStore';
-import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils';
+import { ref, computed, onMounted } from 'vue'
+import {
+  postVisitRequest,
+  postInvite,
+  getInviteByToken,
+  getVisitRequestByToken,
+  getVisitorByRegistrationId
+} from '@/services/apiService'
+import { useVisitRequestStore } from '@/stores/visitRequestStore'
+import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils'
 
 export default {
   name: 'InviteVisitorView',
@@ -119,144 +120,157 @@ export default {
       default: ''
     }
   },
-  data() {
-    const yearMonthDateToday = getYearMonthDay(new Date());
-    return {
-      invitation: null,
-      visitRequest: null,
-      visitor: null,
-      residentId: null,
-      formData: {
-        visitorName: null,
-        visitDate: yearMonthDateToday
-      },
-      errorMsg: '',
-      isGetInviteByTokenLoading: false,
-      isGetVisitRequestByTokenLoading: false,
-      isRequestVisitLoading: false,
-      isGetVisitorLoading: false,
-      today: yearMonthDateToday,
-      visitRequestStore: useVisitRequestStore()
-    };
-  },
-  computed: {
-    visitRequests() {
-      return this.visitRequestStore.visitRequests
-    }
-  },
-  methods: {
-    formatDate,
-    formatDateAndTime,
-    async requestVisit() {
-      this.isRequestVisitLoading = true;
+  setup(props) {
+    const visitRequestStore = useVisitRequestStore()
+    const yearMonthDateToday = getYearMonthDay(new Date())
+
+    const invitation = ref(null)
+    const visitRequest = ref(null)
+    const visitor = ref(null)
+    const residentId = ref(null)
+
+    const formData = ref({
+      visitorName: null,
+      visitDate: yearMonthDateToday
+    })
+
+    const errorMsg = ref('')
+    const isGetInviteByTokenLoading = ref(false)
+    const isGetVisitRequestByTokenLoading = ref(false)
+    const isRequestVisitLoading = ref(false)
+    const isGetVisitorLoading = ref(false)
+
+    const visitRequests = computed(() => visitRequestStore.visitRequests)
+
+    const requestVisit = async () => {
+      isRequestVisitLoading.value = true
       const requestVisitData = {
-        residentId: this.residentId,
-        inviteToken: this.inviteToken,
-        visitorName: this.formData.visitorName,
-        visitDate: this.formData.visitDate,
-        requestStatus: "PENDING"
-      };
-      try {
-        const response = await postVisitRequest(requestVisitData);
-        console.log(response);
-        this.visitRequest = response;
-        this.visitRequestStore.addVisitRequest(response)
-
-        await this.extendInviteLinkExpiration(response);
-
-        this.errorMsg = '';
-      } catch (error) {
-        console.log(error);
-        this.errorMsg = 'Error posting data';
-      } finally {
-        this.isRequestVisitLoading = false;
+        residentId: residentId.value,
+        inviteToken: props.inviteToken,
+        visitorName: formData.value.visitorName,
+        visitDate: formData.value.visitDate,
+        requestStatus: 'PENDING'
       }
-    },
-
-    async getInvite() {
-      this.isGetInviteByTokenLoading = true;
       try {
-        const response = await getInviteByToken(this.inviteToken)
-        console.log(response.data);
-        this.invitation = response;
-        if (this.invitation && this.invitation.residentId) {
-          this.formData.residentId = this.invitation.residentId;
-          this.residentId = this.invitation.residentId;
+        const response = await postVisitRequest(requestVisitData)
+        console.log(response)
+        visitRequest.value = response
+        visitRequestStore.addVisitRequest(response)
+        await extendInviteLinkExpiration(response)
+        errorMsg.value = ''
+      } catch (error) {
+        console.log(error)
+        errorMsg.value = 'Error posting data'
+      } finally {
+        isRequestVisitLoading.value = false
+      }
+    }
+
+    const getInvite = async () => {
+      isGetInviteByTokenLoading.value = true
+      try {
+        const response = await getInviteByToken(props.inviteToken)
+        console.log(response.data)
+        invitation.value = response
+        if (invitation.value && invitation.value.residentId) {
+          formData.value.residentId = invitation.value.residentId
+          residentId.value = invitation.value.residentId
         }
-        this.errorMsg = '';
+        errorMsg.value = ''
       } catch (error) {
-        console.log(error);
-        this.errorMsg = 'Invite not found or has already expired.';
+        console.log(error)
+        errorMsg.value = 'Invite not found or has already expired.'
       } finally {
-        this.isGetInviteByTokenLoading = false;
+        isGetInviteByTokenLoading.value = false
       }
-    },
+    }
 
-    async getVisitRequest() {
-      this.isGetVisitRequestByTokenLoading = true;
+    const getVisitRequest = async () => {
+      isGetVisitRequestByTokenLoading.value = true
       try {
-        const response = await getVisitRequestByToken(this.inviteToken);
-        console.log(response);
-        this.visitRequest = response;
-        if (this.visitRequest) {
-          this.formData.visitorName = this.visitRequest.visitorName;
-          this.formData.visitDate = getYearMonthDay(new Date(this.visitRequest.visitDate));
-          this.errorMsg = '';
-          if(this.visitRequest.requestStatus === 'APPROVED'){
-            this.getVisitor(this.visitRequest.registrationId);
+        const response = await getVisitRequestByToken(props.inviteToken)
+        console.log(response)
+        visitRequest.value = response
+        if (visitRequest.value) {
+          formData.value.visitorName = visitRequest.value.visitorName
+          formData.value.visitDate = getYearMonthDay(new Date(visitRequest.value.visitDate))
+          errorMsg.value = ''
+          if (visitRequest.value.requestStatus === 'APPROVED') {
+            await getVisitor(visitRequest.value.registrationId)
           }
         }
       } catch (error) {
-        console.log(error);
-        this.errorMsg = 'Visit Request not found or has already expired.';
+        console.log(error)
+        errorMsg.value = 'Visit Request not found or has already expired.'
       } finally {
-        this.isGetVisitRequestByTokenLoading = false;
+        isGetVisitRequestByTokenLoading.value = false
       }
-    },
+    }
 
-    async getVisitor(id) {
-      this.isGetVisitorLoading = true
+    const getVisitor = async (id) => {
+      isGetVisitorLoading.value = true
       try {
         const response = await getVisitorByRegistrationId(id)
-        this.visitor = response;
-        this.errorMsg = '';
+        visitor.value = response
+        errorMsg.value = ''
       } catch (error) {
-        console.error(error);
-        this.errorMsg = error.response?.data?.message || 'Error retrieving data';
+        console.error(error)
+        errorMsg.value = error.response?.data?.message || 'Error retrieving data'
       } finally {
-        this.isGetVisitorLoading = false
+        isGetVisitorLoading.value = false
       }
-    },
+    }
 
-    async extendInviteLinkExpiration(visitRequest) {
+    const extendInviteLinkExpiration = async (visitRequest) => {
       try {
-
-        const oneDayInMillis = 24 * 60 * 60 * 1000;
-        const expirationDate = new Date(new Date(visitRequest.visitDate).getTime() + oneDayInMillis).toISOString();
-
+        const oneDayInMillis = 24 * 60 * 60 * 1000
+        const expirationDate = new Date(new Date(visitRequest.visitDate).getTime() + oneDayInMillis).toISOString()
         const inviteData = {
           inviteToken: visitRequest.inviteToken,
-          residentId: this.residentId,
+          residentId: residentId.value,
           inviteLinkExpiration: expirationDate
         }
-        console.log("inviteData.inviteLinkExpiration: ", inviteData.inviteLinkExpiration)
-        const response = await postInvite(inviteData);
-        console.log(response);
-        this.invitation = response;
+        console.log('inviteData.inviteLinkExpiration: ', inviteData.inviteLinkExpiration)
+        const response = await postInvite(inviteData)
+        console.log(response)
+        invitation.value = response
       } catch (error) {
-        console.log(error);
-        this.errorMsg = 'Error extending expiration of invite link';
+        console.log(error)
+        errorMsg.value = 'Error extending expiration of invite link'
       }
-    },
-  },
-  mounted() {
-    if (this.inviteToken) {
-      this.getInvite();
-      this.getVisitRequest();
+    }
+
+    onMounted(() => {
+      if (props.inviteToken) {
+        getInvite()
+        getVisitRequest()
+      }
+    })
+
+    return {
+      invitation,
+      visitRequest,
+      visitor,
+      residentId,
+      formData,
+      errorMsg,
+      isGetInviteByTokenLoading,
+      isGetVisitRequestByTokenLoading,
+      isRequestVisitLoading,
+      isGetVisitorLoading,
+      visitRequests,
+      requestVisit,
+      getInvite,
+      getVisitRequest,
+      getVisitor,
+      extendInviteLinkExpiration,
+      formatDate,
+      formatDateAndTime
     }
   }
-};
+}
 </script>
+
 
 <style scoped>
 .placeholder-box {

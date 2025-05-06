@@ -123,22 +123,22 @@ app.use(router)
 app.use(pinia)
 app.mount('#app')
 
-router.beforeEach(async (to, from, next) => {
-  const authenticationStore = useAuthenticationStore()
-  await authenticationStore.checkAuthenticationStatus()
+// router.beforeEach(async (to, from, next) => {
+//   const authenticationStore = useAuthenticationStore()
+//   await authenticationStore.checkAuthenticationStatus()
 
-  if (to.meta.requiresAuth) {
-    if (authenticationStore.isLoggedIn) {
-      next()
-    } else {
-      await authenticationStore.removeUser()
-      if (to.name !== 'SignInCallback') {
-        await authenticationStore.signIn()
-      } else {
-        next()
-      }
-    }
-  } else {
-    next()
-  }
-})
+//   if (to.meta.requiresAuth) {
+//     if (authenticationStore.isLoggedIn) {
+//       next()
+//     } else {
+//       await authenticationStore.removeUser()
+//       if (to.name !== 'SignInCallback') {
+//         await authenticationStore.signIn()
+//       } else {
+//         next()
+//       }
+//     }
+//   } else {
+//     next()
+//   }
+// })

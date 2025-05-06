@@ -5,15 +5,8 @@
   </div>
 </template>
 
-<script>
-import CreateItem from '../components/CreateVisitor';
-
-export default {
-  name: 'RegisterVisitorView',
-  components: {
-    CreateItem,
-  },
-};
+<script setup>
+  import CreateItem from '../components/CreateVisitor';
 </script>
 
 <style scoped>
