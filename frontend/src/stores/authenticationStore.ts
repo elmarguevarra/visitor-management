@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { getVisitRequestsByResidentId } from '@/services/apiService'
 import { signOutRedirect, userManager } from '@/auth/authConfig'
 
 export const useAuthenticationStore = defineStore('authentication', {

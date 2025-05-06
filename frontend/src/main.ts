@@ -125,14 +125,15 @@ app.mount('#app')
 
 router.beforeEach(async (to, from, next) => {
   const authenticationStore = useAuthenticationStore()
-  const isLoggedIn = authenticationStore.isLoggedIn
+  await authenticationStore.checkAuthenticationStatus()
+
   if (to.meta.requiresAuth) {
-    if (isLoggedIn) {
+    if (authenticationStore.isLoggedIn) {
       next()
     } else {
-      authenticationStore.removeUser()
+      await authenticationStore.removeUser()
       if (to.name !== 'SignInCallback') {
-        authenticationStore.signIn()
+        await authenticationStore.signIn()
       } else {
         next()
       }
