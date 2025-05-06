@@ -3,7 +3,7 @@
     <header class="bg-light">
       <div class="container py-2">
         <nav class="navbar navbar-expand-lg navbar-light">
-          <router-link to="/" class="navbar-brand d-flex align-items-center">
+          <router-link to="/visitors" class="navbar-brand d-flex align-items-center">
             <img src="/logo.png" alt="Website Logo" height="30" class="d-inline-block align-middle me-2">
             AlphineCodeTech
             <span class="ms-1 badge text-secondary" style="font-size: 0.4rem; align-self: center; background-color: #e0e0e0; font-weight: normal;">Admin</span>
@@ -30,11 +30,14 @@
               </li>
             </ul>
           </div>
-          <div v-if="$route.path === '/'" class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <div v-if="isLoggedIn" class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center">
               <li class="nav-item">
                 <button @click="signInRedirect" class="nav-link py-1 btn btn-link text-decoration-none">Sign in</button>
               </li>
+              <!-- <li class="nav-item">
+                <button @click="signUpRedirect" class="nav-link py-1 btn btn-link text-decoration-none">Register</button>
+              </li> -->
             </ul>
           </div>
         </nav>
@@ -109,7 +112,7 @@ export default {
       console.log('Simulating login...');
       // For now, we are already "logged in" with a hardcoded ID.
       // In a real scenario, you would set isLoggedIn to true here.
-      this.isLoggedIn = true;
+      // this.isLoggedIn = true;
       this.updateResidentId('FETCHED_RESIDENT_ID_AFTER_LOGIN'); // Example after "login"
       // You might also redirect the user after login.
       this.$router.push('/dashboard'); // Example navigation
@@ -124,6 +127,20 @@ export default {
   },
   mounted() {
     console.log('App mounted. Resident ID is:', this.currentResidentId);
+    userManager.getUser().then(user => {
+    if (user && !user.expired) {
+        this.isLoggedIn = true;
+        // You could decode or parse more from the user profile if needed
+        console.log('User is logged in:', user.profile);
+      } else {
+        this.isLoggedIn = false;
+        console.log('User is NOT logged in.');
+      }}
+      ).catch(err => {
+        this.isLoggedIn = false;
+        console.error('Error checking user login status:', err);
+      }
+    );
     // In a real application, you might check for an existing auth token here
     // and attempt to fetch user info if available.
   },
