@@ -120,55 +120,35 @@
 </template>
 
 <script>
-import { 
-    getVisitorsByResidentId, 
-    getVisitRequestsByResidentId,
-    postVisitRequest, 
-    postVisitor } from '@/services/apiService';
+import { reactive, ref, computed, onMounted } from 'vue';
+import { getVisitorsByResidentId, getVisitRequestsByResidentId, postVisitRequest, postVisitor } from '@/services/apiService';
 import { formatDate } from '@/utils';
 import { useVisitRequestStore } from '@/stores/visitRequestStore';
 import { useVisitorStore } from '@/stores/visitorStore';
+import { useAuthenticationStore } from '@/stores/authenticationStore';
 
 export default {
   name: 'GetResidentVisitors',
-  props: {
-    residentId: {
-      type: String,
-      required: true
-    },
-  },
-  data() {
-    return {
-      errorMsg: '',
-      isGetVisitorsLoading: false,
-      isVisitRequestsLoading: false,
-      requestLoadingStates: {},  
-      requestSubmittedState: {},
-      visitRequestStore: useVisitRequestStore(),
-      visitorStore: useVisitorStore()
-    };
-  },
-  computed: {
-    visitRequests() {
-      return this.visitRequestStore.visitRequests;
-    },
-    visitors() {
-      return this.visitorStore.visitors;
-    },
-    upcomingVisitors() {
-      return this.visitorStore.filterUpcoming();
-    },
-    todayVisitors() {
-      return this.visitorStore.filterToday();
-    },
-    expiredVisitors() {
-      return this.visitorStore.filterPast();
-    },
-  },
-  methods: {
-    async approveVisitRequest(visitRequest) {
-      this.requestLoadingStates[visitRequest.inviteToken] = { approve: true };
-      this.requestSubmittedState[visitRequest.inviteToken] = true;
+  setup() {
+
+    const errorMsg = ref('');
+    const isGetVisitorsLoading = ref(false);
+    const requestLoadingStates = reactive({});
+    const requestSubmittedState = reactive({});
+
+    const authenticationStore = useAuthenticationStore();
+    const visitRequestStore = useVisitRequestStore();
+    const visitorStore = useVisitorStore();
+
+    const visitRequests = computed(() => visitRequestStore.visitRequests);
+    const visitors = computed(() => visitorStore.visitors);
+    const upcomingVisitors = computed(() => visitorStore.filterUpcoming());
+    const todayVisitors = computed(() => visitorStore.filterToday());
+    const expiredVisitors = computed(() => visitorStore.filterPast());
+
+    const approveVisitRequest = async (visitRequest) => {
+      requestLoadingStates[visitRequest.inviteToken] = { approve: true };
+      requestSubmittedState[visitRequest.inviteToken] = true;
       try {
         const newVisitorData = {
           residentId: visitRequest.residentId,
@@ -176,92 +156,100 @@ export default {
           visitDate: visitRequest.visitDate,
         };
 
-        const newVisitor = await postVisitor(newVisitorData)
+        const newVisitor = await postVisitor(newVisitorData);
 
         const requestVisitData = {
           ...visitRequest,
-          requestStatus: "APPROVED",
-          registrationId: newVisitor.registrationId
+          requestStatus: 'APPROVED',
+          registrationId: newVisitor.registrationId,
         };
 
         await postVisitRequest(requestVisitData);
-        
-        this.visitRequestStore.removeVisitRequest(visitRequest.inviteToken);
-        this.visitorStore.addVisitor(newVisitor)
 
-        this.errorMsg = '';
+        visitRequestStore.removeVisitRequest(visitRequest.inviteToken);
+        visitorStore.addVisitor(newVisitor);
 
+        errorMsg.value = '';
       } catch (error) {
         console.log(error);
-        this.errorMsg = 'Error posting data';
-        this.requestSubmittedState[visitRequest.inviteToken] = false;
+        errorMsg.value = 'Error posting data';
+        requestSubmittedState[visitRequest.inviteToken] = false;
       } finally {
-        this.requestLoadingStates[visitRequest.inviteToken] = { approve: false };
+        requestLoadingStates[visitRequest.inviteToken] = { approve: false };
       }
-    },
+    };
 
-    async declineVisitRequest(visitRequest) {
-      this.requestLoadingStates[visitRequest.inviteToken] = { decline: true };
-      this.requestSubmittedState[visitRequest.inviteToken] = true;
+    const declineVisitRequest = async (visitRequest) => {
+      requestLoadingStates[visitRequest.inviteToken] = { decline: true };
+      requestSubmittedState[visitRequest.inviteToken] = true;
       const requestVisitData = {
         ...visitRequest,
-        requestStatus: "DECLINED"
+        requestStatus: 'DECLINED',
       };
       try {
         await postVisitRequest(requestVisitData);
 
-        this.visitRequestStore.removeVisitRequest(visitRequest.inviteToken);
+        visitRequestStore.removeVisitRequest(visitRequest.inviteToken);
 
-        this.errorMsg = '';
-
+        errorMsg.value = '';
       } catch (error) {
         console.log(error);
-        this.errorMsg = 'Error posting data';
-        this.requestSubmittedState[visitRequest.inviteToken] = false;
+        errorMsg.value = 'Error posting data';
+        requestSubmittedState[visitRequest.inviteToken] = false;
       } finally {
-        this.requestLoadingStates[visitRequest.inviteToken] = { decline: false }; 
+        requestLoadingStates[visitRequest.inviteToken] = { decline: false };
       }
-    },
+    };
 
-    async getVisitors() {
-      this.isGetVisitorsLoading = true;
+    const getVisitors = async () => {
+      isGetVisitorsLoading.value = true;
       try {
-        const response = await getVisitorsByResidentId(this.residentId)
-        console.log(response);
-        this.visitors = response;
-        this.visitorStore.setVisitors(response);
+        const response = await getVisitorsByResidentId(authenticationStore.currentResidentId);
+        visitorStore.setVisitors(response);
       } catch (error) {
         console.log(error);
-        this.errorMsg = 'Error retrieving data';
+        errorMsg.value = 'Error retrieving data';
       } finally {
-        this.isGetVisitorsLoading = false;
+        isGetVisitorsLoading.value = false;
       }
-    },
+    };
 
-    async getVisitRequests() {
-      this.isVisitRequestsLoading = true;
+    const getVisitRequests = async () => {
       try {
-        const response = await getVisitRequestsByResidentId(this.residentId);
-        console.log(response);
-        const pendingVisitRequests = response.filter(v => v.requestStatus === "PENDING");
+        const response = await getVisitRequestsByResidentId(authenticationStore.currentResidentId);
+        const pendingVisitRequests = response.filter((v) => v.requestStatus === 'PENDING');
+        console.log("pendingVisitRequests: ", pendingVisitRequests)
 
-        this.visitRequestStore.setVisitRequests(pendingVisitRequests);
-
+        visitRequestStore.setVisitRequests(pendingVisitRequests);
       } catch (error) {
         console.log(error);
-        this.errorMsg = 'Error retrieving data';
-      } finally {
-        this.isVisitRequestsLoading = false;
+        errorMsg.value = 'Error retrieving data';
       }
-    },
-    formatDate
+    };
+
+    onMounted(() => {
+      getVisitors();
+      getVisitRequests();
+    });
+
+    return {
+      errorMsg,
+      isGetVisitorsLoading,
+      visitRequests,
+      visitors,
+      upcomingVisitors,
+      todayVisitors,
+      expiredVisitors,
+      approveVisitRequest,
+      declineVisitRequest,
+      formatDate,
+      requestLoadingStates,
+      requestSubmittedState
+    };
   },
-  mounted() {
-    this.getVisitors();
-    this.getVisitRequests();
-  }
 };
 </script>
+
 
 <style scoped>
 .placeholder-box {

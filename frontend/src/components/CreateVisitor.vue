@@ -41,49 +41,59 @@
 </template>
 
 <script>
+import { ref, reactive } from 'vue';
 import { postVisitor } from '@/services/apiService';
 import { getYearMonthDay, formatDate } from '@/utils';
+import { useAuthenticationStore } from '@/stores/authenticationStore';
 
 export default {
   name: 'CreateVisitor',
-  inject: ['residentId'],
-  data() {
-    const yearMonthDateToday = getYearMonthDay(new Date());
-    return {
-      visitor: null,
-      formData: {
-        residentId: this.residentId,
-        residentName: 'Jua Delacruz',
-        residentContact: '+6309123456',
-        visitorName: null,
-        visitDate: yearMonthDateToday,
-        arrivalTime: null,
-        departureTime: null,
-        hasArrived: false,
-        hasDeparted: false
-      },
-      errorMsg: '',
-      isLoading: false,
-      today: yearMonthDateToday
-    };
-  },
-  methods: {
-    async registerVisitor() {
-      this.isLoading = true;
+  setup() {
+    const authenticationStore = useAuthenticationStore();
+
+    const today = getYearMonthDay(new Date());
+
+    const formData = reactive({
+      residentId: authenticationStore.currentResidentId,
+      residentName: 'Jua Delacruz',
+      residentContact: '+6309123456',
+      visitorName: null,
+      visitDate: today,
+      arrivalTime: null,
+      departureTime: null,
+      hasArrived: false,
+      hasDeparted: false
+    });
+
+    const visitor = ref(null);
+    const errorMsg = ref('');
+    const isLoading = ref(false);
+
+    const registerVisitor = async () => {
+      isLoading.value = true;
       try {
-        const result = await postVisitor(this.formData);
-        this.visitor = result;
-        this.formData.visitorName = '';
-        this.formData.visitDate = this.today;
-        this.errorMsg = '';
+        const result = await postVisitor(formData);
+        visitor.value = result;
+        formData.visitorName = '';
+        formData.visitDate = today;
+        errorMsg.value = '';
       } catch (error) {
         console.error(error);
-        this.errorMsg = 'Error posting data';
+        errorMsg.value = 'Error posting data';
       } finally {
-        this.isLoading = false;
+        isLoading.value = false;
       }
-    },
-    formatDate
+    };
+
+    return {
+      formData,
+      visitor,
+      errorMsg,
+      isLoading,
+      today,
+      registerVisitor,
+      formatDate
+    };
   }
 };
 </script>

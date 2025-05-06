@@ -5,16 +5,8 @@
   </div>
 </template>
 
-<script>
-import GetUserItems from '../components/GetResidentVisitors';
-
-export default {
-  name: 'ListVisitorsView',
-  inject: ['residentId'],
-  components: {
-    GetUserItems
-  }
-};
+<script setup>
+  import GetUserItems from '../components/GetResidentVisitors.vue';
 </script>
 
 <style scoped>

@@ -49,54 +49,63 @@
 </template>
 
 <script>
+import { ref, reactive } from 'vue';
 import { postInvite } from '@/services/apiService';
+import { useAuthenticationStore } from '@/stores/authenticationStore';
 import { formatDateAndTime } from '@/utils';
 
 export default {
-  name: 'InviteVisitorView',
-  inject: ['residentId'],
-  data() {
-    return {
-      invitation: null,
-      formData: {
-        residentId: this.residentId,
-        residentName: 'Jua Delacruz',
-        residentContact: '+6309123456',
-      },
-      errorMsg: '',
-      isLoading: false,
-    };
-  },
-  methods: {
-    async generateInviteLink() {
-      this.isLoading = true;
+  name: 'InviteVisitorView',  
+  setup() {
+    const authenticationStore = useAuthenticationStore();
+
+    const invitation = ref(null);
+    const formData = reactive({
+      residentId: authenticationStore.currentResidentId,
+      residentName: 'Jua Delacruz',
+      residentContact: '+6309123456',
+    });
+    const errorMsg = ref('');
+    const isLoading = ref(false);
+
+    const generateInviteLink = async () => {
+      isLoading.value = true;
       try {
         const inviteData = {
-          residentId: this.residentId,
-        }
+          residentId: formData.residentId,
+        };
         const response = await postInvite(inviteData);
-        console.log(response);
-        this.invitation = response;
+        invitation.value = response;
       } catch (error) {
-        console.log(error);
-        this.errorMsg = 'Error generating invite link';
+        console.error(error);
+        errorMsg.value = 'Error generating invite link';
       } finally {
-        this.isLoading = false;
+        isLoading.value = false;
       }
-    },
+    };
 
-    async copyToClipboard(text) {
+    const copyToClipboard = async (text) => {
       try {
         await navigator.clipboard.writeText(text);
         alert('Link copied!');
       } catch (err) {
         console.error('Failed to copy text: ', err);
       }
-    },
-    formatDateAndTime
+    };
+
+    return {
+      formData,
+      invitation,
+      errorMsg,
+      isLoading,
+      generateInviteLink,
+      copyToClipboard,
+      formatDateAndTime,
+    };
   },
 };
 </script>
+
 
 <style scoped>
 /* You can add more subtle styling here if needed */

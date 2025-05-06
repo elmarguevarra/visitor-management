@@ -117,23 +117,23 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach(async (to, from, next) => {
-  const currentUser = await userManager.getUser()
-  if (to.meta.requiresAuth) {
-    if (currentUser && !currentUser.expired) {
-      next()
-    } else {
-      await userManager.removeUser() // clear stale data
-      if (to.name !== 'SignInCallback') {
-        await userManager.signinRedirect()
-      } else {
-        next()
-      }
-    }
-  } else {
-    next()
-  }
-})
+// router.beforeEach(async (to, from, next) => {
+//   const currentUser = await userManager.getUser()
+//   if (to.meta.requiresAuth) {
+//     if (currentUser && !currentUser.expired) {
+//       next()
+//     } else {
+//       await userManager.removeUser() // clear stale data
+//       if (to.name !== 'SignInCallback') {
+//         await userManager.signinRedirect()
+//       } else {
+//         next()
+//       }
+//     }
+//   } else {
+//     next()
+//   }
+// })
 
 const app = createApp(App)
 app.use(router)
