@@ -11,7 +11,7 @@
           <button v-if="isLoggedIn || (!isLoggedIn && $route.path === '/')" class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div v-if="isLoggedIn" class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <div v-if="isLoggedIn && $route.path !== '/'" class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center">
               <li class="nav-item">
                 <router-link to="/visitors" class="nav-link py-1" active-class="active">Browse</router-link>
@@ -30,7 +30,7 @@
               </li>
             </ul>
           </div>
-          <div v-if="!isLoggedIn" class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <div v-if="!isLoggedIn && $route.path === '/'" class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center">
               <li class="nav-item">
                 <button @click="signInRedirect" class="nav-link py-1 btn btn-link text-decoration-none">Sign in</button>
