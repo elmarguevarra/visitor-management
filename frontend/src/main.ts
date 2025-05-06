@@ -14,6 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { userManager } from './auth/authConfig'
 import LandingView from './views/LandingView.vue'
+import { useAuthenticationStore } from './stores/authenticationStore'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -117,25 +118,26 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach(async (to, from, next) => {
-//   const currentUser = await userManager.getUser()
-//   if (to.meta.requiresAuth) {
-//     if (currentUser && !currentUser.expired) {
-//       next()
-//     } else {
-//       await userManager.removeUser() // clear stale data
-//       if (to.name !== 'SignInCallback') {
-//         await userManager.signinRedirect()
-//       } else {
-//         next()
-//       }
-//     }
-//   } else {
-//     next()
-//   }
-// })
-
 const app = createApp(App)
 app.use(router)
 app.use(pinia)
 app.mount('#app')
+
+router.beforeEach(async (to, from, next) => {
+  const authenticationStore = useAuthenticationStore()
+  const isLoggedIn = authenticationStore.isLoggedIn
+  if (to.meta.requiresAuth) {
+    if (isLoggedIn) {
+      next()
+    } else {
+      authenticationStore.removeUser()
+      if (to.name !== 'SignInCallback') {
+        authenticationStore.signIn()
+      } else {
+        next()
+      }
+    }
+  } else {
+    next()
+  }
+})

@@ -23,5 +23,8 @@ export const useAuthenticationStore = defineStore('authentication', {
     async signOut() {
       await signOutRedirect()
     },
+    async removeUser() {
+      await userManager.removeUser()
+    },
   },
 })
