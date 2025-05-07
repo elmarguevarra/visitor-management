@@ -95,12 +95,12 @@ export default {
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   /* Add the box-shadow property here */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Example shadow */
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
 }
 
 header {
   z-index: 3;
-  background-color: transparent !important;
+  background-color: #EFFAFE !important;
 }
 
 footer {

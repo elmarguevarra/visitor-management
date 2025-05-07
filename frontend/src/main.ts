@@ -77,7 +77,8 @@ const routes = [
         const router = useRouter()
         try {
           await userManager.signinRedirectCallback()
-          const redirectPath = sessionStorage.getItem('postLoginRedirectPath') || '/visitors'
+          const redirectPath =
+            sessionStorage.getItem('postLoginRedirectPath') || '/visitors'
           sessionStorage.removeItem('postLoginRedirectPath')
           router.push(redirectPath)
         } catch (error) {
@@ -125,24 +126,23 @@ app.use(router)
 app.use(pinia)
 app.mount('#app')
 
-router.beforeEach(async (to, from, next) => {
-  const authenticationStore = useAuthenticationStore()
-  await authenticationStore.checkAuthenticationStatus()
+// router.beforeEach(async (to, from, next) => {
+//   const authenticationStore = useAuthenticationStore()
+//   await authenticationStore.checkAuthenticationStatus()
 
-  if (!to.meta.requiresAuth) {
-    return next()
-  }
+//   if (!to.meta.requiresAuth) {
+//     return next()
+//   }
 
-  
-    if (authenticationStore.isLoggedIn) {
-      next()
-    } else {
-      await authenticationStore.removeUser()
-      if (to.name !== 'SignInCallback') {
-        sessionStorage.setItem('postLoginRedirectPath', to.fullPath)
-        await authenticationStore.signIn()
-      } else {
-        next()
-      }
-    }
-})
+//     if (authenticationStore.isLoggedIn) {
+//       next()
+//     } else {
+//       await authenticationStore.removeUser()
+//       if (to.name !== 'SignInCallback') {
+//         sessionStorage.setItem('postLoginRedirectPath', to.fullPath)
+//         await authenticationStore.signIn()
+//       } else {
+//         next()
+//       }
+//     }
+// })
