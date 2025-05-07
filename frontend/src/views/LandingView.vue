@@ -31,7 +31,7 @@ export default {
 
     return {
       authenticationStore,
-      signIn: authenticationStore.signIn()
+      signIn: authenticationStore.signIn
     }
   }
 };
@@ -45,7 +45,6 @@ export default {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  z-index: -1;
 }
 
 .full-page-image {
@@ -58,21 +57,22 @@ export default {
 
 .button-overlay {
   position: absolute;
-  bottom: 15%;
-  left: 50%;
+  bottom: 67%;
+  left: 22%;
   transform: translateX(-50%);
-  z-index: 1;
+  z-index: 2;
   text-align: center;
 }
 
 .btn {
-  padding: 8px 25px;
+  padding: 8px 30px;
   font-size: 0.8rem;
-  background-color: #007bff;
+  background-color: #479ffc;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 15px;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); */
+  z-index: 2
 }
 </style>

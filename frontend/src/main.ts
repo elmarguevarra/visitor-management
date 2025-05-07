@@ -69,12 +69,6 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/:pathMatch(.*)*',
-    name: 'NotFound',
-    redirect: '/',
-    meta: { requiresAuth: true },
-  },
-  {
     path: '/signin-callback',
     name: 'SignInCallback',
     component: {
@@ -111,6 +105,12 @@ const routes = [
         }
       },
     },
+    meta: { requiresAuth: false },
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    redirect: '/',
     meta: { requiresAuth: false },
   },
 ]

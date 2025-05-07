@@ -58,7 +58,7 @@
       </div>
     </main>
 
-    <footer class="bg-light py-3 mt-4 text-center shadow-sm">
+    <footer class="bg-light py-3 mt-4 text-center small shadow-sm">
       <div class="container">
         <p class="mb-0">&copy; 2025 E.Guevarra. All rights reserved.</p>
       </div>
@@ -98,6 +98,15 @@ export default {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Example shadow */
 }
 
+header {
+  z-index: 3;
+  background-color: transparent !important;
+}
+
+footer {
+  z-index: 3; 
+  background-color: transparent !important;
+}
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
