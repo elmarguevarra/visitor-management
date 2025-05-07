@@ -57,7 +57,7 @@ export default {
 
 .button-overlay {
   position: absolute;
-  bottom: 67%;
+  bottom: 68.5%;
   left: 22%;
   transform: translateX(-50%);
   z-index: 2;
