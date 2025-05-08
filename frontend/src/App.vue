@@ -49,6 +49,10 @@
           class="img-fluid hero-image"
           style="object-fit: cover; width: 100%; height: auto; max-height: 400px; display: block;"
         >
+        <div class="hero-text-overlay">
+          <p v-if='authenticationStore.user' class="lead">Hi {{authenticationStore.user.profile.given_name}}</p>
+          <p v-else class="lead">Hi User</p>
+        </div>
       </div>
     </div>
 
@@ -98,6 +102,20 @@ export default {
   /* Add the box-shadow property here */
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
   z-index: 1
+}
+
+.hero-text-overlay p{
+  position: absolute;
+  top: 15%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  color: #285692;
+  padding: 1rem;
+  width: 100%;
+  max-width: 90%;
+  font-weight: 500;
+  font-size: 0.85em;
 }
 
 header {
