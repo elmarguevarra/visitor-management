@@ -133,6 +133,8 @@ header {
 
   .navbar-collapse.show {
     opacity: 1;
+    margin-top: 0.5rem; 
+    margin-bottom: 0.5rem;
   }
 }
 
