@@ -92,10 +92,12 @@ export default {
 <style scoped>
 /* Optional: Style for rounded corners at the bottom of the hero image */
 .hero-image-container {
+  position: relative;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   /* Add the box-shadow property here */
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1
 }
 
 header {
@@ -103,8 +105,55 @@ header {
   background-color: #EFFAFE !important;
 }
 
+/* Target the navbar brand text */
+.navbar-brand {
+  font-size: 1rem; /* Adjust this value to make the text smaller */
+  padding-top: 0.2rem; /* Adjust vertical padding if needed */
+  padding-bottom: 0.2rem; /* Adjust vertical padding if needed */
+}
+
+/* Target the admin badge to make it smaller as well (optional) */
+.navbar-brand .badge {
+  font-size: 0.3rem !important; /* Adjust the badge size */
+}
+
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #EFFAFE !important;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out;
+    overflow: hidden;
+  }
+
+  .navbar-collapse.show {
+    opacity: 1;
+  }
+}
+
+/* Style the navbar toggler to ensure it's above the hero image */
+.navbar-toggler {
+  z-index: 4; /* Higher than the header's base z-index */
+}
+
+
+/* Style the navbar toggler to ensure it's above the hero image */
+.navbar-toggler {
+  z-index: 4; /* Higher than the header's base z-index */
+}
+
+.navbar-toggler-icon {
+  width: 1em;
+  height: 1em;
+}
+
 footer {
-  z-index: 3; 
+  z-index: 2; 
   background-color: transparent !important;
 }
 
