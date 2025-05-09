@@ -75,4 +75,10 @@ export default {
   /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); */
   z-index: 2
 }
+
+.btn:active {
+  background-color: #357abd; /* A slightly darker shade */
+  transform: scale(0.95); /* Slightly scale down the button */
+  transition: transform 0.1s ease-in-out; /* Smooth transition for the scale */
+}
 </style>
