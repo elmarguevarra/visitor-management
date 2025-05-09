@@ -478,13 +478,6 @@ Resources:
           RequireNumbers: true
           RequireSymbols: false
           RequireUppercase: true
-      # Configure sign-in options (email, phone, username)
-      UsernameAttributes:
-        - email
-      # Configure auto-verification for email/phone
-      AutoVerifiedAttributes:
-        - email
-      # Define custom attributes if needed
       Schema:
         - Name: address
           AttributeDataType: String
@@ -506,6 +499,13 @@ Resources:
           AttributeDataType: String
           Mutable: true
           Required: true
+      # Configure sign-in options (email, phone, username)
+      UsernameAttributes:
+        - email
+      # Configure auto-verification for email/phone
+      AutoVerifiedAttributes:
+        - email
+      # Define custom attributes if needed
       # Configure message customizations (email verification, password reset)
       # MessageConfigurations:
       #   EmailMessage: "..."
