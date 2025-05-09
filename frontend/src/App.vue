@@ -80,8 +80,9 @@ export default {
   setup() {
     const authenticationStore = useAuthenticationStore();
 
-    onMounted(() => {
-      authenticationStore.checkAuthenticationStatus();
+    onMounted(async () => {
+      await authenticationStore.checkAuthenticationStatus();
+      console.log("authenticationStore.user: ", authenticationStore.user)
     });
 
     return {
