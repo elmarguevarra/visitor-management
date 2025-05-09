@@ -59,7 +59,7 @@ const routes = [
     name: 'SelfRegisterVisitorView',
     component: SelfRegisterVisitorView,
     props: true,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: false },
   },
   {
     path: '/verify-visitor/:registrationId',
