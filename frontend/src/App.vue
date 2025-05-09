@@ -50,7 +50,7 @@
           style="object-fit: cover; width: 100%; height: auto; max-height: 400px; display: block;"
         >
         <div class="hero-text-overlay">
-          <p v-if='authenticationStore.user' class="lead">Hi {{authenticationStore.user.profile.given_name}}</p>
+          <p v-if='authenticationStore?.user' class="lead">Hi {{authenticationStore.user.profile['cognito:username']}}</p>
           <p v-else class="lead">Hi User</p>
         </div>
       </div>
@@ -152,8 +152,8 @@ header {
 
   .navbar-collapse.show {
     opacity: 1;
-    margin-top: 0.5rem; 
-    margin-bottom: 0.5rem;
+    margin-top: 1rem; 
+    margin-bottom: 1rem;
   }
 }
 
