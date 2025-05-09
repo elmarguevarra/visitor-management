@@ -527,6 +527,17 @@ Resources:
       # SupportedIdentityProviders:
       #   - COGNITO
 
+  UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: alphine-vms-auth # Replace with your desired unique prefix
+      UserPoolId: !Ref UserPool
+      # You can optionally specify a custom domain and certificate ARN here for a branded domain
+      # CertificateArn: 'arn:aws:acm:...'
+      # CustomDomainConfig:
+      #   CertificateArn: 'arn:aws:acm:...'
+      #   Domain: 'auth.yourdomain.com'
+
   # Alias record for the vms subdomain domain IPV6
   CloudFrontAliasRecordAAAA:
     Type: AWS::Route53::RecordSet
