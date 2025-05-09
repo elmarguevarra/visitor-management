@@ -466,6 +466,67 @@ Resources:
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
 
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: VisitorManagementUserPool
+      # Configure password policies as needed
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: false
+          RequireUppercase: true
+      # Configure sign-in options (email, phone, username)
+      UsernameAttributes:
+        - EMAIL
+      # Configure auto-verification for email/phone
+      AutoVerifiedAttributes:
+        - email
+      # Define custom attributes if needed
+      Schema:
+        - Name: given_name
+          AttributeDataType: String
+          Mutable: true
+        - Name: family_name
+          AttributeDataType: String
+          Mutable: true
+      # Configure message customizations (email verification, password reset)
+      # MessageConfigurations:
+      #   EmailMessage: "..."
+      #   EmailSubject: "..."
+      # Configure MFA if desired
+      # MfaConfiguration: OPTIONAL
+      # SmsConfiguration:
+      #   SmsSenderId: "..."
+      #   SmsRegion: "..."
+      # Configure user pool add-ons (advanced security features)
+      # UserPoolAddOns:
+      #   AdvancedSecurityMode: ENFORCED
+
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: WebAppClient
+      UserPoolId: !Ref UserPool
+      # Configure allowed OAuth flows and scopes for your application
+      AllowedOAuthFlows:
+        - code
+      AllowedOAuthScopes:
+        - email
+        - openid
+        - profile
+      CallbackURLs:
+        - 'https://vms.alphinecodetech.click/signin-callback' # Replace with your actual callback URL(s)
+      LogoutURLs:
+        - 'https://vms.alphinecodetech.click/signout-callback' # Replace with your actual logout URL(s)
+      # Enable/disable refresh token generation
+      GenerateSecret: false
+      # Configure supported identity providers (e.g., Cognito, Google, Facebook)
+      # SupportedIdentityProviders:
+      #   - COGNITO
+
   # Alias record for the vms subdomain domain IPV6
   CloudFrontAliasRecordAAAA:
     Type: AWS::Route53::RecordSet
