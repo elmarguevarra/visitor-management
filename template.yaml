@@ -478,34 +478,19 @@ Resources:
           RequireNumbers: true
           RequireSymbols: false
           RequireUppercase: true
-      # Schema:
-      #   - Name: address
-      #     AttributeDataType: String
-      #     Mutable: true
-      #     Required: true
-      #   - Name: phone_number
-      #     AttributeDataType: String
-      #     Mutable: true
-      #     Required: true
-      #   - Name: email
-      #     AttributeDataType: String
-      #     Mutable: true
-      #     Required: true
-      #   - Name: given_name
-      #     AttributeDataType: String
-      #     Mutable: true
-      #     Required: true
-      #   - Name: family_name
-      #     AttributeDataType: String
-      #     Mutable: true
-      #     Required: true
-      # Configure sign-in options (email, phone, username)
       UsernameAttributes:
         - email
       # Configure auto-verification for email/phone
       AutoVerifiedAttributes:
         - email
       # Define custom attributes if needed
+      Schema:
+        - Name: given_name
+          AttributeDataType: String
+          Mutable: true
+        - Name: family_name
+          AttributeDataType: String
+          Mutable: true
       # Configure message customizations (email verification, password reset)
       # MessageConfigurations:
       #   EmailMessage: "..."
