@@ -480,7 +480,7 @@ Resources:
           RequireUppercase: true
       # Configure sign-in options (email, phone, username)
       UsernameAttributes:
-        - EMAIL
+        - email
       # Configure auto-verification for email/phone
       AutoVerifiedAttributes:
         - email
