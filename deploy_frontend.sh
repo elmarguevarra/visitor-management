@@ -24,6 +24,8 @@ user_pool_client_id=$(get_stack_output "UserPoolClientId")
 echo "User Pool Client Id: $user_pool_client_id"
 user_pool_domain=$(get_stack_output "UserPoolDomain")
 echo "User Pool Domain: $user_pool_domain"
+authority=$(get_stack_output "Authority")
+echo "Auhtority: $authority"
 
 # Get the CloudFront Distribution ID from the stack
 cloudfront_distribution_id=$(get_stack_output "CloudFrontDistributionId")
@@ -55,7 +57,7 @@ echo "Adding Cognito config to .env..."
 echo "COGNITO_USER_POOL_ID=$user_pool_id" > .env
 echo "COGNITO_USER_POOL_CLIENT_ID=$user_pool_client_id" > .env
 echo "COGNITO_USER_POOL_DOMAIN=$user_pool_domain" > .env
-
+echo "AUTHORITY=$authority" > .env
 
 # Confirm that the endpoint has been added to the .env file
 echo "Contents of .env:"

@@ -484,23 +484,7 @@ Resources:
       AutoVerifiedAttributes:
         - email
       # Standard attributes can't be modified once the user pool is created.
-      Schema:
-        - Name: phone_number
-          AttributeDataType: String
-          Required: false
-          Mutable: true
-        - Name: email
-          AttributeDataType: String
-          Required: false
-          Mutable: true
-        - Name: given_name
-          AttributeDataType: String
-          Required: false
-          Mutable: true
-        - Name: family_name
-          AttributeDataType: String
-          Required: false
-          Mutable: true
+
       # Configure message customizations (email verification, password reset)
       # MessageConfigurations:
       #   EmailMessage: "..."
@@ -582,6 +566,9 @@ Outputs:
   UserPoolDomain:
     Description: "Cognito User Pool Domain"
     Value: !Sub 'https://${UserPoolDomain.Domain}.auth.${AWS::Region}.amazoncognito.com'
+  Authority:
+    Description: "Cognito User Pool Authority URL (for OIDC client)"
+    Value: !Sub 'https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}'
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
