@@ -484,7 +484,23 @@ Resources:
       AutoVerifiedAttributes:
         - email
       # Standard attributes can't be modified once the user pool is created.
-
+      Schema:
+        - Name: phone_number
+          AttributeDataType: String
+          Required: false
+          Mutable: true
+        - Name: email
+          AttributeDataType: String
+          Required: false
+          Mutable: true
+        - Name: given_name
+          AttributeDataType: String
+          Required: false
+          Mutable: true
+        - Name: family_name
+          AttributeDataType: String
+          Required: false
+          Mutable: true
       # Configure message customizations (email verification, password reset)
       # MessageConfigurations:
       #   EmailMessage: "..."
