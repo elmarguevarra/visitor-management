@@ -487,9 +487,15 @@ Resources:
       Schema:
         - Name: given_name
           AttributeDataType: String
+          Required: true
           Mutable: true
         - Name: family_name
           AttributeDataType: String
+          Required: true
+          Mutable: true
+        - Name: address
+          AttributeDataType: String
+          Required: false
           Mutable: true
       # Configure message customizations (email verification, password reset)
       # MessageConfigurations:
