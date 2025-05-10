@@ -573,18 +573,18 @@ Outputs:
     Description: S3 Bucket for hosting web frontend
     Value: !Ref WebSiteBucket
 
-  UserPoolId:
-    Description: "Cognito User Pool ID"
-    Value: !Ref UserPool
-  UserPoolClientId:
-    Description: "Cognito User Pool Client ID"
-    Value: !Ref UserPoolClient
-  UserPoolDomain:
-    Description: "Cognito User Pool Domain"
-    Value: !Sub 'https://${UserPoolDomain.Domain}.auth.${AWS::Region}.amazoncognito.com'
-  Authority:
-    Description: "Cognito User Pool Authority URL (for OIDC client)"
-    Value: !Sub 'https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}'
+  # UserPoolId:
+  #   Description: "Cognito User Pool ID"
+  #   Value: !Ref UserPool
+  # UserPoolClientId:
+  #   Description: "Cognito User Pool Client ID"
+  #   Value: !Ref UserPoolClient
+  # UserPoolDomain:
+  #   Description: "Cognito User Pool Domain"
+  #   Value: !Sub 'https://${UserPoolDomain.Domain}.auth.${AWS::Region}.amazoncognito.com'
+  # Authority:
+  #   Description: "Cognito User Pool Authority URL (for OIDC client)"
+  #   Value: !Sub 'https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}'
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
