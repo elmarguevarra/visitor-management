@@ -483,17 +483,21 @@ Resources:
       # Configure auto-verification for email/phone
       AutoVerifiedAttributes:
         - email
-      # Define custom attributes if needed
+      # Standard attributes can't be modified once the user pool is created.
       Schema:
+        - Name: phone_number
+          AttributeDataType: String
+          Required: false
+          Mutable: true
+        - Name: email
+          AttributeDataType: String
+          Required: false
+          Mutable: true
         - Name: given_name
           AttributeDataType: String
-          Required: true
+          Required: false
           Mutable: true
         - Name: family_name
-          AttributeDataType: String
-          Required: true
-          Mutable: true
-        - Name: address
           AttributeDataType: String
           Required: false
           Mutable: true
