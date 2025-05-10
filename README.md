@@ -53,6 +53,11 @@ sam build
 sam deploy --guided
 ```
 
+Create a new public certificate in us-east-1 if none
+Add CNAME records from the certificate in Hosted Zone
+Update Registed Domain name servers to match NS record in Hosted zone
+DNS propagation can take several minutes. Wait before accessing your custom domain
+
 The first command will build the source of your application. The second command will package and deploy your application to AWS, with a series of prompts:
 
 * **Stack Name**: The name of the stack to deploy to CloudFormation. This should be unique to your account and region, and a good starting point would be something matching your project name.
@@ -288,6 +293,8 @@ visitor-management$ npm run test
 ## Cleanup
 
 To delete the sample application that you created, use the AWS CLI. Assuming you used your project name for the stack name, you can run the following:
+
+Manually empty the s3 bucket
 
 ```bash
 sam delete --stack-name visitor-management
