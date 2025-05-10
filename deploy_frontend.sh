@@ -17,6 +17,14 @@ get_stack_output() {
 api_gateway_endpoint=$(get_stack_output "APIGatewayEndpoint")
 echo "API Gateway URL: $api_gateway_endpoint"
 
+# Get Cognito config from the stack
+user_pool_id=$(get_stack_output "UserPoolId")
+echo "User Pool Id: $user_pool_id"
+user_pool_client_id=$(get_stack_output "UserPoolClientId")
+echo "User Pool Client Id: $user_pool_client_id"
+user_pool_domain=$(get_stack_output "UserPoolDomain")
+echo "User Pool Domain: $user_pool_domain"
+
 # Get the CloudFront Distribution ID from the stack
 cloudfront_distribution_id=$(get_stack_output "CloudFrontDistributionId")
 echo "CloudFront Distribution ID: $cloudfront_distribution_id"
@@ -41,6 +49,13 @@ fi
 # Add the API Gateway endpoint to the .env file
 echo "Adding API Gateway endpoint to .env..."
 echo "VUE_APP_API_ENDPOINT=$api_gateway_endpoint" > .env
+
+# Add Cognito config to the .env file
+echo "Adding Cognito config to .env..."
+echo "COGNITO_USER_POOL_ID=$user_pool_id" > .env
+echo "COGNITO_USER_POOL_CLIENT_ID=$user_pool_client_id" > .env
+echo "COGNITO_USER_POOL_DOMAIN=$user_pool_domain" > .env
+
 
 # Confirm that the endpoint has been added to the .env file
 echo "Contents of .env:"
