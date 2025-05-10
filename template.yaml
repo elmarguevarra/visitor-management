@@ -469,7 +469,7 @@ Resources:
   UserPool:
     Type: AWS::Cognito::UserPool
     Properties:
-      UserPoolName: VisitorManagementUserPool
+      UserPoolName: VisitorManagementUserPoolNew
       # Configure password policies as needed
       Policies:
         PasswordPolicy:
@@ -517,7 +517,7 @@ Resources:
   UserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
-      ClientName: WebAppClient
+      ClientName: VisitorManagementClient
       UserPoolId: !Ref UserPool
       # Configure allowed OAuth flows and scopes for your application
       AllowedOAuthFlows:
