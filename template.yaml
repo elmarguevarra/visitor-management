@@ -4,6 +4,12 @@ Description: >-
 Transform:
   - AWS::Serverless-2016-10-31
 
+Parameters:
+  Domain:
+    Type: String
+    Default: alphine-vms-auth
+    Description: The Cognito User Pool domain prefix
+
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
@@ -539,7 +545,7 @@ Resources:
   UserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: alphine-vms-auth
+      Domain: !Ref Domain
       UserPoolId: !Ref UserPool
       # You can optionally specify a custom domain and certificate ARN here for a branded domain
       # CertificateArn: 'arn:aws:acm:...'
