@@ -451,7 +451,7 @@ Resources:
       Name: alphinecodetech.click
       HostedZoneConfig:
         Comment: Hosted zone for my visitor management application
-    # DeletionPolicy: Retain
+    DeletionPolicy: Retain
 
   # Note that CNAMEs are not included here as they were only used for validation needed for public certificate request in ACM. It is a one time setup.
   # Alias record for the vms subdomain domain IPV4
