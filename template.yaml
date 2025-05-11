@@ -553,6 +553,9 @@ Resources:
 
   CognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
+    DependsOn:
+      - CloudFrontAliasRecordLoginA
+      - HostedZone
     Properties:
       Domain: login.alphinecodetech.click
       UserPoolId: !Ref CognitoUserPool
