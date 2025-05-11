@@ -151,8 +151,8 @@ header {
   }
 
   .navbar-collapse.show {
-    opacity: 1;
-    margin-top: 1rem; 
+    opacity: 0.9;
+    margin-top: 1rem;
     margin-bottom: 1rem;
   }
 }
