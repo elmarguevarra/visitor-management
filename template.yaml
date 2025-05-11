@@ -4,6 +4,10 @@ Transform:
   - AWS::Serverless-2016-10-31
 
 Parameters:
+  CognitoCustomDomainName:
+    Type: String
+    Description: Your custom domain name (e.g., auth.example.com)
+    Default: login.vms.alphinecodetech.click
   CognitoDomainPrefix:
     Type: String
     Default: auth
@@ -529,15 +533,12 @@ Resources:
   CognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: !Ref CognitoDomainPrefix
+      Domain: !Ref CognitoCustomDomainName
       UserPoolId: !Ref CognitoUserPool
-      # You can optionally specify a custom domain and certificate ARN here for a branded domain
-      # CertificateArn: 'arn:aws:acm:...'
-      # CustomDomainConfig:
-      #   CertificateArn: 'arn:aws:acm:...'
-      #   Domain: 'auth.yourdomain.com'
+      CustomDomainConfig:
+        CertificateArn: !Ref AcmCertificateArn
 
-      # Alias record for the vms subdomain domain IPV6
+  # Alias record for the vms subdomain domain IPV6
   CloudFrontAliasRecordAAAA:
     Type: AWS::Route53::RecordSet
     Properties:
