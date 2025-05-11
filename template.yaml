@@ -4,9 +4,13 @@ Transform:
   - AWS::Serverless-2016-10-31
 
 Parameters:
-  CognitoDomainPrefix:
+  AuthDomainPrefix:
     Type: String
     Default: alphine-vms-auth
+    Description: The Cognito User Pool domain prefix
+  CognitoDomainPrefix:
+    Type: String
+    Default: auth
     Description: The Cognito User Pool domain prefix
   AcmCertificateArn:
     Type: String
@@ -533,7 +537,7 @@ Resources:
   UserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: !Ref CognitoDomainPrefix
+      Domain: !Ref AuthDomainPrefix
       UserPoolId: !Ref UserPool
       # You can optionally specify a custom domain and certificate ARN here for a branded domain
       # CertificateArn: 'arn:aws:acm:...'
