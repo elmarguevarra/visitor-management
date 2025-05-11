@@ -6,15 +6,15 @@ import { UserManager } from 'oidc-client-ts'
 
 console.log(
   'process.env.COGNITO_USER_POOL_CLIENT_ID: ',
-  process.env.COGNITO_USER_POOL_CLIENT_ID,
+  process.env.VUE_APP_COGNITO_USER_POOL_CLIENT_ID,
 )
 console.log(
   'process.env.COGNITO_USER_POOL_DOMAIN_URL: ',
-  process.env.COGNITO_USER_POOL_DOMAIN_URL,
+  process.env.VUE_APP_COGNITO_USER_POOL_DOMAIN_URL,
 )
 console.log(
   'process.env.COGNITO_AUTHORITY_URL: ',
-  process.env.COGNITO_AUTHORITY_URL,
+  process.env.VUE_APP_COGNITO_AUTHORITY_URL,
 )
 
 const USER_POOL_CLIENT_ID = '32kjaah9rh2c0q38dghktm71t1'
