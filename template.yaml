@@ -4,13 +4,13 @@ Transform:
   - AWS::Serverless-2016-10-31
 
 Parameters:
-  CognitoCustomDomainName:
-    Type: String
-    Description: Your custom domain name (e.g., auth.example.com)
-    Default: login.alphinecodetech.click
+  # CognitoCustomDomainName:
+  #   Type: String
+  #   Description: Your custom domain name (e.g., auth.example.com)
+  #   Default: login.alphinecodetech.click
   CognitoDomainPrefix:
     Type: String
-    Default: auth
+    Default: login
     Description: The Cognito User Pool domain prefix
   AcmCertificateArn:
     Type: String
@@ -464,28 +464,18 @@ Resources:
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
 
-  CognitoLoginAliasRecord:
-    Type: AWS::Route53::RecordSet
-    DependsOn:
-      - CognitoUserPoolDomain # Wait for Cognito domain to be created first
-    Properties:
-      HostedZoneId: !Ref HostedZone
-      Name: login.alphinecodetech.click
-      Type: A
-      AliasTarget:
-        HostedZoneId: Z2FDTNDATAQYW2 # CloudFront's global zone ID
-        DNSName: !GetAtt CognitoUserPoolDomain.CloudFrontDomain
-        EvaluateTargetHealth: false
-
-  # CognitoCustomDomainCNAME:
+  # CognitoLoginAliasRecord:
   #   Type: AWS::Route53::RecordSet
+  #   DependsOn:
+  #     - CognitoUserPoolDomain # Wait for Cognito domain to be created first
   #   Properties:
   #     HostedZoneId: !Ref HostedZone
   #     Name: login.alphinecodetech.click
-  #     Type: CNAME
-  #     TTL: '300'
-  #     ResourceRecords:
-  #       - !GetAtt CognitoUserPoolDomain.CloudFrontDomain
+  #     Type: A
+  #     AliasTarget:
+  #       HostedZoneId: Z2FDTNDATAQYW2 # CloudFront's global zone ID
+  #       DNSName: !GetAtt CognitoUserPoolDomain.CloudFrontDomain
+  #       EvaluateTargetHealth: false
 
   CognitoUserPool:
     Type: AWS::Cognito::UserPool
@@ -556,10 +546,10 @@ Resources:
   CognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: login.alphinecodetech.click
+      Domain: !Ref CognitoDomainPrefix
       UserPoolId: !Ref CognitoUserPool
-      CustomDomainConfig:
-        CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
+      # CustomDomainConfig:
+      #   CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
 
 Outputs:
   APIGatewayEndpoint:
@@ -574,19 +564,19 @@ Outputs:
   WebS3BucketName:
     Description: S3 Bucket for hosting web frontend
     Value: !Ref WebSiteBucket
-  # UserPoolId:
-  #   Description: Cognito User Pool ID
-  #   Value: !Ref CognitoUserPool
-  # UserPoolClientId:
-  #   Description: Cognito User Pool Client ID
-  #   Value: !Ref CognitoUserPoolClient
-  # UserPoolDomainUrl:
-  #   Description: Cognito User Pool Domain URL
-  #   Value: !Ref CognitoCustomDomainName
-  # AuthorityUrl:
-  #   Description: Cognito User Pool Authority URL (for OIDC client)
-  #   Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoUserPool}
-  # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+  UserPoolId:
+    Description: Cognito User Pool ID
+    Value: !Ref CognitoUserPool
+  UserPoolClientId:
+    Description: Cognito User Pool Client ID
+    Value: !Ref CognitoUserPoolClient
+  UserPoolDomainUrl:
+    Description: Cognito User Pool Domain URL
+    Value: !Ref CognitoCustomDomainName
+  AuthorityUrl:
+    Description: Cognito User Pool Authority URL (for OIDC client)
+    Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoUserPool}
+  More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     LoggingConfig:
