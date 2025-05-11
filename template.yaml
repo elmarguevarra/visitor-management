@@ -8,7 +8,7 @@ Parameters:
     Type: String
     Default: alphine-vms-auth
     Description: The Cognito User Pool domain prefix
-  CognitoDomainPrefix:
+  CognitoDomainPrefixNew:
     Type: String
     Default: auth
     Description: The Cognito User Pool domain prefix
@@ -618,7 +618,7 @@ Resources:
   CognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: !Ref CognitoDomainPrefix
+      Domain: !Ref CognitoDomainPrefixNew
       UserPoolId: !Ref CognitoUserPool
       # You can optionally specify a custom domain and certificate ARN here for a branded domain
       # CertificateArn: 'arn:aws:acm:...'
@@ -660,7 +660,7 @@ Outputs:
     Value: !Ref CognitoUserPoolClient
   UserPoolDomainUrl:
     Description: Cognito User Pool Domain URL
-    Value: !Sub https://${CognitoDomainPrefix}.auth.${AWS::Region}.amazoncognito.com
+    Value: !Sub https://${CognitoDomainPrefixNew}.auth.${AWS::Region}.amazoncognito.com
   AuthorityUrl:
     Description: Cognito User Pool Authority URL (for OIDC client)
     Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoUserPool}
