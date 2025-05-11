@@ -54,10 +54,10 @@ echo "VUE_APP_API_ENDPOINT=$api_gateway_endpoint" > .env
 
 # Add Cognito config to the .env file
 echo "Adding Cognito config to .env..."
-echo "COGNITO_USER_POOL_ID=$user_pool_id" >> .env
-echo "COGNITO_USER_POOL_CLIENT_ID=$user_pool_client_id" >> .env
-echo "COGNITO_USER_POOL_DOMAIN_URL=$user_pool_domain_url" >> .env
-echo "COGNITO_AUTHORITY_URL=$authority_url" >> .env
+echo "VUE_APP_COGNITO_USER_POOL_ID=$user_pool_id" >> .env
+echo "VUE_APP_COGNITO_USER_POOL_CLIENT_ID=$user_pool_client_id" >> .env
+echo "VUE_APP_COGNITO_USER_POOL_DOMAIN_URL=$user_pool_domain_url" >> .env
+echo "VUE_APP_COGNITO_AUTHORITY_URL=$authority_url" >> .env
 
 # Confirm that the endpoint has been added to the .env file
 echo "Contents of .env:"
