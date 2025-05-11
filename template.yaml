@@ -572,18 +572,6 @@ Resources:
       Description: Resident users
       Precedence: 1
 
-  AdminUser:
-    Type: AWS::Cognito::UserPoolUser
-    Properties:
-      UserPoolId: !Ref CognitoUserPool
-      Username: admin@example.com
-      DesiredDeliveryMediums:
-        - EMAIL
-      TemporaryPassword: YourSecureTemporaryPassword123! # Set an initial password
-      ForceAliasCreation: false
-      MessageAction: SUPPRESS
-      ForceChangePassword: true
-
 Outputs:
   APIGatewayEndpoint:
     Description: API Gateway endpoint URL for Prod stage
