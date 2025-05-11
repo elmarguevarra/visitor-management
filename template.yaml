@@ -556,6 +556,7 @@ Resources:
     Properties:
       UserPoolId: !Ref CognitoUserPool
       Username: swissgear31@gmail.com
+      TemporaryPassword: TempPass123!
       DesiredDeliveryMediums:
         - EMAIL
       UserAttributes:
