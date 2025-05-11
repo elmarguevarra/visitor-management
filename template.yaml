@@ -464,15 +464,15 @@ Resources:
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
 
-  CognitoCustomDomainCNAME:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      HostedZoneId: !Ref HostedZone
-      Name: !Ref CognitoCustomDomainName
-      Type: CNAME
-      TTL: '300'
-      ResourceRecords:
-        - !GetAtt CognitoUserPoolDomain.CloudFrontDomain
+  # CognitoCustomDomainCNAME:
+  #   Type: AWS::Route53::RecordSet
+  #   Properties:
+  #     HostedZoneId: !Ref HostedZone
+  #     Name: !Ref CognitoCustomDomainName
+  #     Type: CNAME
+  #     TTL: '300'
+  #     ResourceRecords:
+  #       - !GetAtt CognitoUserPoolDomain.CloudFrontDomain
 
   CognitoUserPool:
     Type: AWS::Cognito::UserPool
