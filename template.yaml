@@ -551,6 +551,25 @@ Resources:
       # CustomDomainConfig:
       #   CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
 
+  AdminUser:
+    Type: AWS::Cognito::UserPoolUser
+    Properties:
+      UserPoolId: !Ref CognitoUserPool
+      Username: swissgear31@gmail.com
+      DesiredDeliveryMediums:
+        - EMAIL
+      UserAttributes:
+        - Name: email
+          Value: swissgear31@gmail.com
+        - Name: email_verified
+          Value: 'true'
+        - Name: given_name
+          Value: Admin
+        - Name: family_name
+          Value: User
+      MessageAction: SUPPRESS # Prevents sending welcome email
+      ForceAliasCreation: false
+
 Outputs:
   APIGatewayEndpoint:
     Description: API Gateway endpoint URL for Prod stage
