@@ -612,7 +612,7 @@ Resources:
       #   - COGNITO
 
   CognitoUserPoolDomain:
-    Type: AWS::Cognito::UserPoolCognitoDomain
+    Type: AWS::Cognito::UserPoolDomain
     Properties:
       Domain: !Ref CognitoDomainPrefix
       UserPoolId: !Ref CognitoUserPool
