@@ -5,10 +5,14 @@ Transform:
   - AWS::Serverless-2016-10-31
 
 Parameters:
-  Domain:
+  Domain: #TODO: rename to domain auth prefix
     Type: String
     Default: alphine-vms-auth
     Description: The Cognito User Pool domain prefix
+  AcmCertificateArn:
+    Type: String
+    Default: 'arn:aws:acm:us-east-1:121216464768:certificate/dac2d551-7d39-47e5-bdb0-4554465cd6ee'
+    Description: The public certificate arn in us-east-1 region
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
@@ -19,7 +23,7 @@ Resources:
   # This is an API gateway associated with the getByIdFunction and putItemFunctions
   ApiGatewayApi:
     Type: AWS::Serverless::Api
-    Properties:
+    Properties: 
       StageName: Prod
       Cors:
         AllowMethods: "'OPTIONS, POST, GET'"
@@ -430,7 +434,7 @@ Resources:
           - alphinecodetech.click
           - vms.alphinecodetech.click
         ViewerCertificate:
-          AcmCertificateArn: 'arn:aws:acm:us-east-1:121216464768:certificate/dac2d551-7d39-47e5-bdb0-4554465cd6ee'
+          AcmCertificateArn: !Ref AcmCertificateArn
           MinimumProtocolVersion: 'TLSv1.2_2021'
           SslSupportMethod: 'sni-only'
         CustomErrorResponses:
