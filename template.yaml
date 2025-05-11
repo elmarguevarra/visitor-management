@@ -14,7 +14,7 @@ Parameters:
     Description: The Cognito User Pool domain prefix
   AcmCertificateArn:
     Type: String
-    Default: arn:aws:acm:us-east-1:121216464768:certificate/dac2d551-7d39-47e5-bdb0-4554465cd6ee
+    Default: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
     Description: The public certificate arn in us-east-1 region
 
 # Resources declares the AWS resources that you want to include in the stack
