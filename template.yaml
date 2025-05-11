@@ -460,7 +460,6 @@ Resources:
         HostedZoneId: Z2FDTNDATAQYW2 # Global CloudFront Hosted Zone ID
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
-        
       # UserPool:
       #   Type: AWS::Cognito::UserPool
       #   Properties:
