@@ -527,7 +527,7 @@ Resources:
     Properties:
       ClientName: VisitorManagementCognitoClient
       UserPoolId: !Ref CognitoUserPool
-      # Configure allowed OAuth flows and scopes for your application
+      AllowedOAuthFlowsUserPoolClient: true
       AllowedOAuthFlows:
         - code
       AllowedOAuthScopes:
