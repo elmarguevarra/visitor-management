@@ -8,7 +8,7 @@ Parameters:
     Type: String
     Default: alphine-vms-auth
     Description: The Cognito User Pool domain prefix
-  CognitoDomainPrefixNew:
+  CognitoDomainPrefix:
     Type: String
     Default: auth
     Description: The Cognito User Pool domain prefix
@@ -464,86 +464,86 @@ Resources:
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
 
-  UserPool:
-    Type: AWS::Cognito::UserPool
-    Properties:
-      UserPoolName: VisitorManagementUserPool
-      # Configure password policies as needed
-      Policies:
-        PasswordPolicy:
-          MinimumLength: 8
-          RequireLowercase: true
-          RequireNumbers: true
-          RequireSymbols: false
-          RequireUppercase: true
-      UsernameAttributes:
-        - email
-      # Configure auto-verification for email/phone
-      AutoVerifiedAttributes:
-        - email
-      # Standard attributes can't be modified once the user pool is created.
-      Schema:
-        - Name: phone_number
-          AttributeDataType: String
-          Required: false
-          Mutable: true
-        - Name: email
-          AttributeDataType: String
-          Required: false
-          Mutable: true
-        - Name: given_name
-          AttributeDataType: String
-          Required: false
-          Mutable: true
-        - Name: family_name
-          AttributeDataType: String
-          Required: false
-          Mutable: true
-      # Configure message customizations (email verification, password reset)
-      # MessageConfigurations:
-      #   EmailMessage: "..."
-      #   EmailSubject: "..."
-      # Configure MFA if desired
-      # MfaConfiguration: OPTIONAL
-      # SmsConfiguration:
-      #   SmsSenderId: "..."
-      #   SmsRegion: "..."
-      # Configure user pool add-ons (advanced security features)
-      # UserPoolAddOns:
-      #   AdvancedSecurityMode: ENFORCED
+  # UserPool:
+  #   Type: AWS::Cognito::UserPool
+  #   Properties:
+  #     UserPoolName: VisitorManagementUserPool
+  #     # Configure password policies as needed
+  #     Policies:
+  #       PasswordPolicy:
+  #         MinimumLength: 8
+  #         RequireLowercase: true
+  #         RequireNumbers: true
+  #         RequireSymbols: false
+  #         RequireUppercase: true
+  #     UsernameAttributes:
+  #       - email
+  #     # Configure auto-verification for email/phone
+  #     AutoVerifiedAttributes:
+  #       - email
+  #     # Standard attributes can't be modified once the user pool is created.
+  #     Schema:
+  #       - Name: phone_number
+  #         AttributeDataType: String
+  #         Required: false
+  #         Mutable: true
+  #       - Name: email
+  #         AttributeDataType: String
+  #         Required: false
+  #         Mutable: true
+  #       - Name: given_name
+  #         AttributeDataType: String
+  #         Required: false
+  #         Mutable: true
+  #       - Name: family_name
+  #         AttributeDataType: String
+  #         Required: false
+  #         Mutable: true
+  #     # Configure message customizations (email verification, password reset)
+  #     # MessageConfigurations:
+  #     #   EmailMessage: "..."
+  #     #   EmailSubject: "..."
+  #     # Configure MFA if desired
+  #     # MfaConfiguration: OPTIONAL
+  #     # SmsConfiguration:
+  #     #   SmsSenderId: "..."
+  #     #   SmsRegion: "..."
+  #     # Configure user pool add-ons (advanced security features)
+  #     # UserPoolAddOns:
+  #     #   AdvancedSecurityMode: ENFORCED
 
-  UserPoolClient:
-    Type: AWS::Cognito::UserPoolClient
-    Properties:
-      ClientName: VisitorManagementClient
-      UserPoolId: !Ref UserPool
-      # Configure allowed OAuth flows and scopes for your application
-      AllowedOAuthFlows:
-        - code
-      AllowedOAuthScopes:
-        - email
-        - openid
-        - profile
-      CallbackURLs:
-        - https://vms.alphinecodetech.click/signin-callback # Replace with your actual callback URL(s)
-      LogoutURLs:
-        - https://vms.alphinecodetech.click/signout-callback # Replace with your actual logout URL(s)
-      # Enable/disable refresh token generation
-      GenerateSecret: false
-      # Configure supported identity providers (e.g., Cognito, Google, Facebook)
-      # SupportedIdentityProviders:
-      #   - COGNITO
+  # UserPoolClient:
+  #   Type: AWS::Cognito::UserPoolClient
+  #   Properties:
+  #     ClientName: VisitorManagementClient
+  #     UserPoolId: !Ref UserPool
+  #     # Configure allowed OAuth flows and scopes for your application
+  #     AllowedOAuthFlows:
+  #       - code
+  #     AllowedOAuthScopes:
+  #       - email
+  #       - openid
+  #       - profile
+  #     CallbackURLs:
+  #       - https://vms.alphinecodetech.click/signin-callback # Replace with your actual callback URL(s)
+  #     LogoutURLs:
+  #       - https://vms.alphinecodetech.click/signout-callback # Replace with your actual logout URL(s)
+  #     # Enable/disable refresh token generation
+  #     GenerateSecret: false
+  #     # Configure supported identity providers (e.g., Cognito, Google, Facebook)
+  #     # SupportedIdentityProviders:
+  #     #   - COGNITO
 
-  UserPoolDomain:
-    Type: AWS::Cognito::UserPoolDomain
-    Properties:
-      Domain: !Ref AuthDomainPrefix
-      UserPoolId: !Ref UserPool
-      # You can optionally specify a custom domain and certificate ARN here for a branded domain
-      # CertificateArn: 'arn:aws:acm:...'
-      # CustomDomainConfig:
-      #   CertificateArn: 'arn:aws:acm:...'
-      #   Domain: 'auth.yourdomain.com'
+  # UserPoolDomain:
+  #   Type: AWS::Cognito::UserPoolDomain
+  #   Properties:
+  #     Domain: !Ref AuthDomainPrefix
+  #     UserPoolId: !Ref UserPool
+  #     # You can optionally specify a custom domain and certificate ARN here for a branded domain
+  #     # CertificateArn: 'arn:aws:acm:...'
+  #     # CustomDomainConfig:
+  #     #   CertificateArn: 'arn:aws:acm:...'
+  #     #   Domain: 'auth.yourdomain.com'
 
   CognitoUserPool:
     Type: AWS::Cognito::UserPool
@@ -618,7 +618,7 @@ Resources:
   CognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: !Ref CognitoDomainPrefixNew
+      Domain: !Ref CognitoDomainPrefix
       UserPoolId: !Ref CognitoUserPool
       # You can optionally specify a custom domain and certificate ARN here for a branded domain
       # CertificateArn: 'arn:aws:acm:...'
@@ -660,7 +660,7 @@ Outputs:
     Value: !Ref CognitoUserPoolClient
   UserPoolDomainUrl:
     Description: Cognito User Pool Domain URL
-    Value: !Sub https://${CognitoDomainPrefixNew}.auth.${AWS::Region}.amazoncognito.com
+    Value: !Sub https://${CognitoDomainPrefix}.auth.${AWS::Region}.amazoncognito.com
   AuthorityUrl:
     Description: Cognito User Pool Authority URL (for OIDC client)
     Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoUserPool}
