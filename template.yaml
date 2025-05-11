@@ -539,14 +539,13 @@ Resources:
       GenerateSecret: false
       SupportedIdentityProviders:
         - COGNITO
-
-  CognitoUserPoolDomain:
-    Type: AWS::Cognito::UserPoolDomain
-    Properties:
-      Domain: !Ref CognitoCustomDomainName
-      UserPoolId: !Ref CognitoUserPool
-      CustomDomainConfig:
-        CertificateArn: !Ref AcmCertificateArn
+  # CognitoUserPoolDomain:
+  #   Type: AWS::Cognito::UserPoolDomain
+  #   Properties:
+  #     Domain: !Ref CognitoCustomDomainName
+  #     UserPoolId: !Ref CognitoUserPool
+  #     CustomDomainConfig:
+  #       CertificateArn: !Ref AcmCertificateArn
 
 Outputs:
   APIGatewayEndpoint:
