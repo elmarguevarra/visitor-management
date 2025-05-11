@@ -464,13 +464,12 @@ Resources:
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
 
-  # Alias record for the vms subdomain domain IPV6
-  CloudFrontAliasRecordAAAA:
+  CloudFrontAliasRecordA:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZone
-      Name: vms.alphinecodetech.click
-      Type: AAAA
+      Name: !Ref CognitoCustomDomainName
+      Type: A
       AliasTarget:
         HostedZoneId: Z2FDTNDATAQYW2 # Global CloudFront Hosted Zone ID
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
@@ -546,6 +545,14 @@ Resources:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
       Domain: !Ref CognitoCustomDomainName
+      UserPoolId: !Ref CognitoUserPool
+      CustomDomainConfig:
+        CertificateArn: !Ref AcmCertificateArn
+
+  CognitoUserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: vms.alphinecodetech.click  # Your actual custom domain
       UserPoolId: !Ref CognitoUserPool
       CustomDomainConfig:
         CertificateArn: !Ref AcmCertificateArn
