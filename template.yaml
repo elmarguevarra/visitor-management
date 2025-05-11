@@ -556,6 +556,21 @@ Resources:
       # CustomDomainConfig:
       #   CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
 
+  AdminUserGroup:
+  Type: AWS::Cognito::UserPoolGroup
+  Properties:
+    GroupName: admin
+    UserPoolId: !Ref CognitoUserPool
+    Description: Admin users
+    Precedence: 0
+
+  ResidentUserGroup:
+  Type: AWS::Cognito::UserPoolGroup
+  Properties:
+    GroupName: resident
+    UserPoolId: !Ref CognitoUserPool
+    Description: Resident users
+    Precedence: 1
       # AdminUser:
       #   Type: AWS::Cognito::UserPoolUser
       #   Properties:
