@@ -464,80 +464,6 @@ Resources:
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
 
-  CognitoUserPool:
-    Type: AWS::Cognito::UserPool
-    Properties:
-      UserPoolName: VisitorManagementCognitoUserPool
-      Policies:
-        PasswordPolicy:
-          MinimumLength: 8
-          RequireLowercase: true
-          RequireNumbers: true
-          RequireSymbols: false
-          RequireUppercase: true
-      UsernameAttributes:
-        - email
-      AutoVerifiedAttributes:
-        - email
-      Schema:
-        - Name: phone_number
-          AttributeDataType: String
-          Required: false
-          Mutable: true
-        - Name: email
-          AttributeDataType: String
-          Required: false
-          Mutable: true
-        - Name: given_name
-          AttributeDataType: String
-          Required: false
-          Mutable: true
-        - Name: family_name
-          AttributeDataType: String
-          Required: false
-          Mutable: true
-      # Configure message customizations (email verification, password reset)
-      # MessageConfigurations:
-      #   EmailMessage: "..."
-      #   EmailSubject: "..."
-      # Configure MFA if desired
-      # MfaConfiguration: OPTIONAL
-      # SmsConfiguration:
-      #   SmsSenderId: "..."
-      #   SmsRegion: "..."
-      # Configure user pool add-ons (advanced security features)
-      # UserPoolAddOns:
-      #   AdvancedSecurityMode: ENFORCED
-
-  CognitoUserPoolClient:
-    Type: AWS::Cognito::UserPoolClient
-    Properties:
-      ClientName: VisitorManagementCognitoClient
-      UserPoolId: !Ref CognitoUserPool
-      # Configure allowed OAuth flows and scopes for your application
-      AllowedOAuthFlows:
-        - code
-      AllowedOAuthScopes:
-        - email
-        - openid
-        - profile
-      CallbackURLs:
-        - https://vms.alphinecodetech.click/signin-callback # Replace with your actual callback URL(s)
-      LogoutURLs:
-        - https://vms.alphinecodetech.click/signout-callback # Replace with your actual logout URL(s)
-      # Enable/disable refresh token generation
-      GenerateSecret: false
-      SupportedIdentityProviders:
-        - COGNITO
-
-  CognitoUserPoolDomain:
-    Type: AWS::Cognito::UserPoolDomain
-    Properties:
-      Domain: !Ref CognitoCustomDomainName
-      UserPoolId: !Ref CognitoUserPool
-      CustomDomainConfig:
-        CertificateArn: !Ref AcmCertificateArn
-
   # Alias record for the vms subdomain domain IPV6
   CloudFrontAliasRecordAAAA:
     Type: AWS::Route53::RecordSet
@@ -549,6 +475,79 @@ Resources:
         HostedZoneId: Z2FDTNDATAQYW2 # Global CloudFront Hosted Zone ID
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
+  # CognitoUserPool:
+  #   Type: AWS::Cognito::UserPool
+  #   Properties:
+  #     UserPoolName: VisitorManagementCognitoUserPool
+  #     Policies:
+  #       PasswordPolicy:
+  #         MinimumLength: 8
+  #         RequireLowercase: true
+  #         RequireNumbers: true
+  #         RequireSymbols: false
+  #         RequireUppercase: true
+  #     UsernameAttributes:
+  #       - email
+  #     AutoVerifiedAttributes:
+  #       - email
+  #     Schema:
+  #       - Name: phone_number
+  #         AttributeDataType: String
+  #         Required: false
+  #         Mutable: true
+  #       - Name: email
+  #         AttributeDataType: String
+  #         Required: false
+  #         Mutable: true
+  #       - Name: given_name
+  #         AttributeDataType: String
+  #         Required: false
+  #         Mutable: true
+  #       - Name: family_name
+  #         AttributeDataType: String
+  #         Required: false
+  #         Mutable: true
+  #     # Configure message customizations (email verification, password reset)
+  #     # MessageConfigurations:
+  #     #   EmailMessage: "..."
+  #     #   EmailSubject: "..."
+  #     # Configure MFA if desired
+  #     # MfaConfiguration: OPTIONAL
+  #     # SmsConfiguration:
+  #     #   SmsSenderId: "..."
+  #     #   SmsRegion: "..."
+  #     # Configure user pool add-ons (advanced security features)
+  #     # UserPoolAddOns:
+  #     #   AdvancedSecurityMode: ENFORCED
+
+  # CognitoUserPoolClient:
+  #   Type: AWS::Cognito::UserPoolClient
+  #   Properties:
+  #     ClientName: VisitorManagementCognitoClient
+  #     UserPoolId: !Ref CognitoUserPool
+  #     # Configure allowed OAuth flows and scopes for your application
+  #     AllowedOAuthFlows:
+  #       - code
+  #     AllowedOAuthScopes:
+  #       - email
+  #       - openid
+  #       - profile
+  #     CallbackURLs:
+  #       - https://vms.alphinecodetech.click/signin-callback # Replace with your actual callback URL(s)
+  #     LogoutURLs:
+  #       - https://vms.alphinecodetech.click/signout-callback # Replace with your actual logout URL(s)
+  #     # Enable/disable refresh token generation
+  #     GenerateSecret: false
+  #     SupportedIdentityProviders:
+  #       - COGNITO
+
+  # CognitoUserPoolDomain:
+  #   Type: AWS::Cognito::UserPoolDomain
+  #   Properties:
+  #     Domain: !Ref CognitoCustomDomainName
+  #     UserPoolId: !Ref CognitoUserPool
+  #     CustomDomainConfig:
+  #       CertificateArn: !Ref AcmCertificateArn
 
 Outputs:
   APIGatewayEndpoint:
@@ -571,7 +570,7 @@ Outputs:
     Value: !Ref CognitoUserPoolClient
   UserPoolDomainUrl:
     Description: Cognito User Pool Domain URL
-    Value: !Sub https://${CognitoDomainPrefix}.auth.${AWS::Region}.amazoncognito.com
+    Value: !Ref CognitoCustomDomainName
   AuthorityUrl:
     Description: Cognito User Pool Authority URL (for OIDC client)
     Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoUserPool}
