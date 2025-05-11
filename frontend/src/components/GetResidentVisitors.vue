@@ -72,6 +72,7 @@
       </div>
     </div>
 
+    <p v-if="visitors.length === 0" class="text-muted">No visitors</p>
     <h5 v-if="todayVisitors.length > 0">Today's</h5>
     <div
       v-for="visitor in todayVisitors"

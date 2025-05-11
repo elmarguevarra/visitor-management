@@ -4,7 +4,7 @@
     <div class="mb-4 border p-3 rounded shadow-sm">
       <form @submit.prevent="generateInviteLink" class="row g-3">
         <div class="col-md-6">
-          <label for="residentId" class="form-label">Resident ID</label>
+          <label for="residentId" class="form-label">Resident Email</label>
           <input
             type="text"
             class="form-control"
