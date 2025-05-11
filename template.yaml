@@ -7,7 +7,7 @@ Parameters:
   CognitoCustomDomainName:
     Type: String
     Description: Your custom domain name (e.g., auth.example.com)
-    Default: login.vms.alphinecodetech.click
+    Default: login.alphinecodetech.click
   CognitoDomainPrefix:
     Type: String
     Default: auth
