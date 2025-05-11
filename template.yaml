@@ -618,7 +618,7 @@ Resources:
   CognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: !Ref CognitoDomainPrefixs
+      Domain: !Ref CognitoDomainPrefix
       UserPoolId: !Ref CognitoUserPool
       # You can optionally specify a custom domain and certificate ARN here for a branded domain
       # CertificateArn: 'arn:aws:acm:...'
