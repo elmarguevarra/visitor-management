@@ -19,218 +19,311 @@
     </div>
 
     <h5 v-if="visitRequests.length > 0" class="mt-4">Visit Requests</h5>
-    <div v-for="visitRequest in visitRequests" :key="visitRequest.inviteToken" class="card mb-3">
-      <div class="card-body d-flex justify-content-between align-items-center flex-column flex-md-row">
+    <div
+      v-for="visitRequest in visitRequests"
+      :key="visitRequest.inviteToken"
+      class="card mb-3"
+    >
+      <div
+        class="card-body d-flex justify-content-between align-items-center flex-column flex-md-row"
+      >
         <div class="mb-2 mb-md-0">
           <h6 class="card-title mb-1">{{ visitRequest.visitorName }}</h6>
-          <p class="card-text text-muted small">on {{ formatDate(new Date(visitRequest.visitDate)) }}</p>
+          <p class="card-text text-muted small">
+            on {{ formatDate(new Date(visitRequest.visitDate)) }}
+          </p>
         </div>
         <div class="d-flex flex-column flex-md-row gap-2">
-          <button 
-            @click="approveVisitRequest(visitRequest)" 
-            class="btn btn-sm btn-primary" 
-            :disabled="requestLoadingStates[visitRequest.inviteToken]?.approve ||
-              requestSubmittedState[visitRequest.inviteToken]">
-              <span 
-                v-if="requestLoadingStates[visitRequest.inviteToken]?.approve"
-                class="spinner-border spinner-border-sm me-2" 
-                role="status" 
-                aria-hidden="true">
-              </span>
-                Approve
+          <button
+            @click="approveVisitRequest(visitRequest)"
+            class="btn btn-sm btn-primary"
+            :disabled="
+              requestLoadingStates[visitRequest.inviteToken]?.approve ||
+              requestSubmittedState[visitRequest.inviteToken]
+            "
+          >
+            <span
+              v-if="requestLoadingStates[visitRequest.inviteToken]?.approve"
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            >
+            </span>
+            Approve
           </button>
-          <button 
-            @click="declineVisitRequest(visitRequest)" 
-            class="btn btn-sm btn-secondary" 
-            :disabled="requestLoadingStates[visitRequest.inviteToken]?.decline ||
-              requestSubmittedState[visitRequest.inviteToken]">
-              <span 
-                v-if="requestLoadingStates[visitRequest.inviteToken]?.decline" 
-                class="spinner-border spinner-border-sm me-2" 
-                role="status" 
-                aria-hidden="true">
-              </span>
-              Decline
+          <button
+            @click="declineVisitRequest(visitRequest)"
+            class="btn btn-sm btn-secondary"
+            :disabled="
+              requestLoadingStates[visitRequest.inviteToken]?.decline ||
+              requestSubmittedState[visitRequest.inviteToken]
+            "
+          >
+            <span
+              v-if="requestLoadingStates[visitRequest.inviteToken]?.decline"
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            >
+            </span>
+            Decline
           </button>
         </div>
       </div>
     </div>
 
     <h5 v-if="todayVisitors.length > 0">Today's</h5>
-    <div v-for="visitor in todayVisitors" :key="visitor.registrationId" class="card mb-3">
+    <div
+      v-for="visitor in todayVisitors"
+      :key="visitor.registrationId"
+      class="card mb-3"
+    >
       <div class="card-body d-flex flex-column align-items-center">
-        <h6 class="card-title text-center mb-2" :class="{'text-muted': visitor.hasDeparted }">
+        <h6
+          class="card-title text-center mb-2"
+          :class="{ 'text-muted': visitor.hasDeparted }"
+        >
           {{ visitor.visitorName }}
         </h6>
-        <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2" :class="{ 'opacity-50': visitor.hasDeparted }">
-        <p class="card-text text-center mb-0" :class="{'text-muted': visitor.hasDeparted }">
+        <img
+          :src="visitor.qrCodeDataURL"
+          alt="Visitor QR Code"
+          width="150"
+          height="150"
+          class="img-thumbnail mb-2"
+          :class="{ 'opacity-50': visitor.hasDeparted }"
+        />
+        <p
+          class="card-text text-center mb-0"
+          :class="{ 'text-muted': visitor.hasDeparted }"
+        >
           Registration ID: {{ visitor.registrationId }}
         </p>
       </div>
-      <div v-if="!visitor.hasArrived" class="card-footer text-muted text-center small">
+      <div
+        v-if="!visitor.hasArrived"
+        class="card-footer text-muted text-center small"
+      >
         Scheduled
       </div>
-      <div v-else-if="visitor.hasArrived && !visitor.hasDeparted" class="card-footer text-secondary text-center small" style="background-color: #e2e3e5;">
+      <div
+        v-else-if="visitor.hasArrived && !visitor.hasDeparted"
+        class="card-footer text-secondary text-center small"
+        style="background-color: #e2e3e5"
+      >
         Arrived
       </div>
-      <div v-else-if="visitor.hasDeparted" class="card-footer text-muted text-center small">
+      <div
+        v-else-if="visitor.hasDeparted"
+        class="card-footer text-muted text-center small"
+      >
         Departed
       </div>
     </div>
-    <p v-if="todayVisitors.length === 0 && visitors.length > 0" class="text-muted">No visitors today.</p>
+    <p
+      v-if="todayVisitors.length === 0 && visitors.length > 0"
+      class="text-muted"
+    >
+      No visitors today.
+    </p>
 
     <h5 v-if="upcomingVisitors.length > 0" class="mt-4">Upcoming</h5>
-    <div v-for="visitor in upcomingVisitors" :key="visitor.registrationId" class="card mb-3">
+    <div
+      v-for="visitor in upcomingVisitors"
+      :key="visitor.registrationId"
+      class="card mb-3"
+    >
       <div class="card-body d-flex flex-column align-items-center">
         <h6 class="card-title text-center mb-2">
-          {{ visitor.visitorName }} on {{ formatDate(new Date(visitor.visitDate)) }}
+          {{ visitor.visitorName }} on
+          {{ formatDate(new Date(visitor.visitDate)) }}
         </h6>
-        <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
+        <img
+          :src="visitor.qrCodeDataURL"
+          alt="Visitor QR Code"
+          width="150"
+          height="150"
+          class="img-thumbnail mb-2"
+        />
         <p class="card-text text-center mb-0">
           Registration ID: {{ visitor.registrationId }}
         </p>
       </div>
     </div>
-    <p v-if="upcomingVisitors.length === 0 && visitors.length > 0" class="text-muted">No upcoming visitors.</p>
+    <p
+      v-if="upcomingVisitors.length === 0 && visitors.length > 0"
+      class="text-muted"
+    >
+      No upcoming visitors.
+    </p>
 
     <h5 v-if="expiredVisitors.length > 0" class="mt-4">Past</h5>
-    <div v-for="visitor in expiredVisitors" :key="visitor.registrationId" class="card mb-3">
+    <div
+      v-for="visitor in expiredVisitors"
+      :key="visitor.registrationId"
+      class="card mb-3"
+    >
       <div class="card-body d-flex flex-column text-muted align-items-center">
         <h6 class="card-title text-center mb-2">
-          {{ visitor.visitorName }} on {{ formatDate(new Date(visitor.visitDate)) }}
+          {{ visitor.visitorName }} on
+          {{ formatDate(new Date(visitor.visitDate)) }}
         </h6>
         <p class="card-text text-center mb-0">
           Registration ID: {{ visitor.registrationId }}
         </p>
       </div>
-      <div v-if="!visitor.hasArrived" class="card-footer text-muted text-center small">
+      <div
+        v-if="!visitor.hasArrived"
+        class="card-footer text-muted text-center small"
+      >
         Scheduled
       </div>
-      <div v-else-if="visitor.hasArrived && !visitor.hasDeparted" class="card-footer text-muted text-center small">
+      <div
+        v-else-if="visitor.hasArrived && !visitor.hasDeparted"
+        class="card-footer text-muted text-center small"
+      >
         Arrived
       </div>
-      <div v-else-if="visitor.hasDeparted" class="card-footer text-muted text-center small">
+      <div
+        v-else-if="visitor.hasDeparted"
+        class="card-footer text-muted text-center small"
+      >
         Departed
       </div>
     </div>
-    <p v-if="expiredVisitors.length === 0 && visitors.length > 0" class="text-muted">No past visitors.</p>
+    <p
+      v-if="expiredVisitors.length === 0 && visitors.length > 0"
+      class="text-muted"
+    >
+      No past visitors.
+    </p>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
   </div>
 </template>
 
 <script>
-import { reactive, ref, computed, onMounted } from 'vue';
-import { getVisitorsByResidentId, getVisitRequestsByResidentId, postVisitRequest, postVisitor } from '@/services/apiService';
-import { formatDate } from '@/utils';
-import { useVisitRequestStore } from '@/stores/visitRequestStore';
-import { useVisitorStore } from '@/stores/visitorStore';
-import { useAuthenticationStore } from '@/stores/authenticationStore';
+import { reactive, ref, computed, onMounted } from 'vue'
+import {
+  getVisitorsByResidentId,
+  getVisitRequestsByResidentId,
+  postVisitRequest,
+  postVisitor,
+} from '@/services/apiService'
+import { formatDate } from '@/utils'
+import { useVisitRequestStore } from '@/stores/visitRequestStore'
+import { useVisitorStore } from '@/stores/visitorStore'
+import { useAuthenticationStore } from '@/stores/authenticationStore'
 
 export default {
   name: 'GetResidentVisitors',
   setup() {
+    const errorMsg = ref('')
+    const isGetVisitorsLoading = ref(false)
+    const requestLoadingStates = reactive({})
+    const requestSubmittedState = reactive({})
 
-    const errorMsg = ref('');
-    const isGetVisitorsLoading = ref(false);
-    const requestLoadingStates = reactive({});
-    const requestSubmittedState = reactive({});
+    const authenticationStore = useAuthenticationStore()
+    const visitRequestStore = useVisitRequestStore()
+    const visitorStore = useVisitorStore()
 
-    const authenticationStore = useAuthenticationStore();
-    const visitRequestStore = useVisitRequestStore();
-    const visitorStore = useVisitorStore();
-
-    const visitRequests = computed(() => visitRequestStore.visitRequests);
-    const visitors = computed(() => visitorStore.visitors);
-    const upcomingVisitors = computed(() => visitorStore.filterUpcoming());
-    const todayVisitors = computed(() => visitorStore.filterToday());
-    const expiredVisitors = computed(() => visitorStore.filterPast());
+    const visitRequests = computed(() => visitRequestStore.visitRequests)
+    const visitors = computed(() => visitorStore.visitors)
+    const upcomingVisitors = computed(() => visitorStore.filterUpcoming())
+    const todayVisitors = computed(() => visitorStore.filterToday())
+    const expiredVisitors = computed(() => visitorStore.filterPast())
 
     const approveVisitRequest = async (visitRequest) => {
-      requestLoadingStates[visitRequest.inviteToken] = { approve: true };
-      requestSubmittedState[visitRequest.inviteToken] = true;
+      requestLoadingStates[visitRequest.inviteToken] = { approve: true }
+      requestSubmittedState[visitRequest.inviteToken] = true
       try {
         const newVisitorData = {
           residentId: visitRequest.residentId,
           visitorName: visitRequest.visitorName,
           visitDate: visitRequest.visitDate,
-        };
+        }
 
-        const newVisitor = await postVisitor(newVisitorData);
+        const newVisitor = await postVisitor(newVisitorData)
 
         const requestVisitData = {
           ...visitRequest,
           requestStatus: 'APPROVED',
           registrationId: newVisitor.registrationId,
-        };
+        }
 
-        await postVisitRequest(requestVisitData);
+        await postVisitRequest(requestVisitData)
 
-        visitRequestStore.removeVisitRequest(visitRequest.inviteToken);
-        visitorStore.addVisitor(newVisitor);
+        visitRequestStore.removeVisitRequest(visitRequest.inviteToken)
+        visitorStore.addVisitor(newVisitor)
 
-        errorMsg.value = '';
+        errorMsg.value = ''
       } catch (error) {
-        console.log(error);
-        errorMsg.value = 'Error posting data';
-        requestSubmittedState[visitRequest.inviteToken] = false;
+        console.log(error)
+        errorMsg.value = 'Error posting data'
+        requestSubmittedState[visitRequest.inviteToken] = false
       } finally {
-        requestLoadingStates[visitRequest.inviteToken] = { approve: false };
+        requestLoadingStates[visitRequest.inviteToken] = { approve: false }
       }
-    };
+    }
 
     const declineVisitRequest = async (visitRequest) => {
-      requestLoadingStates[visitRequest.inviteToken] = { decline: true };
-      requestSubmittedState[visitRequest.inviteToken] = true;
+      requestLoadingStates[visitRequest.inviteToken] = { decline: true }
+      requestSubmittedState[visitRequest.inviteToken] = true
       const requestVisitData = {
         ...visitRequest,
         requestStatus: 'DECLINED',
-      };
-      try {
-        await postVisitRequest(requestVisitData);
-
-        visitRequestStore.removeVisitRequest(visitRequest.inviteToken);
-
-        errorMsg.value = '';
-      } catch (error) {
-        console.log(error);
-        errorMsg.value = 'Error posting data';
-        requestSubmittedState[visitRequest.inviteToken] = false;
-      } finally {
-        requestLoadingStates[visitRequest.inviteToken] = { decline: false };
       }
-    };
+      try {
+        await postVisitRequest(requestVisitData)
+
+        visitRequestStore.removeVisitRequest(visitRequest.inviteToken)
+
+        errorMsg.value = ''
+      } catch (error) {
+        console.log(error)
+        errorMsg.value = 'Error posting data'
+        requestSubmittedState[visitRequest.inviteToken] = false
+      } finally {
+        requestLoadingStates[visitRequest.inviteToken] = { decline: false }
+      }
+    }
 
     const getVisitors = async () => {
-      isGetVisitorsLoading.value = true;
+      isGetVisitorsLoading.value = true
       try {
-        const response = await getVisitorsByResidentId(authenticationStore.currentResidentId);
-        visitorStore.setVisitors(response);
+        const response = await getVisitorsByResidentId(
+          authenticationStore.user.profile.email,
+        )
+        visitorStore.setVisitors(response)
       } catch (error) {
-        console.log(error);
-        errorMsg.value = 'Error retrieving data';
+        console.log(error)
+        errorMsg.value = 'Error retrieving data'
       } finally {
-        isGetVisitorsLoading.value = false;
+        isGetVisitorsLoading.value = false
       }
-    };
+    }
 
     const getVisitRequests = async () => {
       try {
-        const response = await getVisitRequestsByResidentId(authenticationStore.currentResidentId);
-        const pendingVisitRequests = response.filter((v) => v.requestStatus === 'PENDING');
-        console.log("pendingVisitRequests: ", pendingVisitRequests)
+        const response = await getVisitRequestsByResidentId(
+          authenticationStore.user.profile.email,
+        )
+        const pendingVisitRequests = response.filter(
+          (v) => v.requestStatus === 'PENDING',
+        )
+        console.log('pendingVisitRequests: ', pendingVisitRequests)
 
-        visitRequestStore.setVisitRequests(pendingVisitRequests);
+        visitRequestStore.setVisitRequests(pendingVisitRequests)
       } catch (error) {
-        console.log(error);
-        errorMsg.value = 'Error retrieving data';
+        console.log(error)
+        errorMsg.value = 'Error retrieving data'
       }
-    };
+    }
 
     onMounted(() => {
-      getVisitors();
-      getVisitRequests();
-    });
+      getVisitors()
+      getVisitRequests()
+    })
 
     return {
       errorMsg,
@@ -244,12 +337,11 @@ export default {
       declineVisitRequest,
       formatDate,
       requestLoadingStates,
-      requestSubmittedState
-    };
+      requestSubmittedState,
+    }
   },
-};
+}
 </script>
-
 
 <style scoped>
 .placeholder-box {

@@ -5,25 +5,55 @@
       <form @submit.prevent="generateInviteLink" class="row g-3">
         <div class="col-md-6">
           <label for="residentId" class="form-label">Resident ID</label>
-          <input type="text" class="form-control" id="residentId" v-model="formData.residentId" readonly />
+          <input
+            type="text"
+            class="form-control"
+            id="residentId"
+            v-model="formData.residentId"
+            readonly
+          />
         </div>
         <div class="col-md-6">
           <label for="residentName" class="form-label">Resident Name</label>
-          <input type="text" class="form-control" id="residentName" v-model="formData.residentName" readonly />
+          <input
+            type="text"
+            class="form-control"
+            id="residentName"
+            v-model="formData.residentName"
+            readonly
+          />
         </div>
         <div class="col-md-6">
-          <label for="residentContact" class="form-label">Resident Contact</label>
-          <input type="text" class="form-control" id="residentContact" v-model="formData.residentContact" readonly />
+          <label for="residentContact" class="form-label"
+            >Resident Contact</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="residentContact"
+            v-model="formData.residentContact"
+            readonly
+          />
         </div>
         <div class="col-12">
           <button type="submit" class="btn btn-primary" :disabled="isLoading">
-            <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            <span
+              v-if="isLoading"
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
             Generate Link
           </button>
         </div>
       </form>
-      <div v-if="invitation && invitation.inviteLink" class="mt-4 d-flex flex-column align-items-center">
-        <p class="mb-1 text-center text-secondary">Share this link to register:</p>
+      <div
+        v-if="invitation && invitation.inviteLink"
+        class="mt-4 d-flex flex-column align-items-center"
+      >
+        <p class="mb-1 text-center text-secondary">
+          Share this link to register:
+        </p>
         <div class="alert alert-info mt-1">
           <div class="d-flex align-items-center flex-wrap">
             <p class="mb-0 me-2 flex-grow-1 text-break small">
@@ -38,8 +68,13 @@
             </button>
           </div>
         </div>
-        <p v-if="invitation.inviteLinkExpiration" class="mt-2 mb-0 text-muted text-center small fst-italic">
-          Expires on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }} if not used.
+        <p
+          v-if="invitation.inviteLinkExpiration"
+          class="mt-2 mb-0 text-muted text-center small fst-italic"
+        >
+          Expires on
+          {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }} if
+          not used.
         </p>
       </div>
 
@@ -49,49 +84,49 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue';
-import { postInvite } from '@/services/apiService';
-import { useAuthenticationStore } from '@/stores/authenticationStore';
-import { formatDateAndTime } from '@/utils';
+import { ref, reactive } from 'vue'
+import { postInvite } from '@/services/apiService'
+import { useAuthenticationStore } from '@/stores/authenticationStore'
+import { formatDateAndTime } from '@/utils'
 
 export default {
-  name: 'InviteVisitorView',  
+  name: 'InviteVisitorView',
   setup() {
-    const authenticationStore = useAuthenticationStore();
+    const authenticationStore = useAuthenticationStore()
 
-    const invitation = ref(null);
+    const invitation = ref(null)
     const formData = reactive({
-      residentId: authenticationStore.currentResidentId,
+      residentId: authenticationStore.user.profile.email,
       residentName: 'Jua Delacruz',
       residentContact: '+6309123456',
-    });
-    const errorMsg = ref('');
-    const isLoading = ref(false);
+    })
+    const errorMsg = ref('')
+    const isLoading = ref(false)
 
     const generateInviteLink = async () => {
-      isLoading.value = true;
+      isLoading.value = true
       try {
         const inviteData = {
           residentId: formData.residentId,
-        };
-        const response = await postInvite(inviteData);
-        invitation.value = response;
+        }
+        const response = await postInvite(inviteData)
+        invitation.value = response
       } catch (error) {
-        console.error(error);
-        errorMsg.value = 'Error generating invite link';
+        console.error(error)
+        errorMsg.value = 'Error generating invite link'
       } finally {
-        isLoading.value = false;
+        isLoading.value = false
       }
-    };
+    }
 
     const copyToClipboard = async (text) => {
       try {
-        await navigator.clipboard.writeText(text);
-        alert('Link copied!');
+        await navigator.clipboard.writeText(text)
+        alert('Link copied!')
       } catch (err) {
-        console.error('Failed to copy text: ', err);
+        console.error('Failed to copy text: ', err)
       }
-    };
+    }
 
     return {
       formData,
@@ -101,11 +136,10 @@ export default {
       generateInviteLink,
       copyToClipboard,
       formatDateAndTime,
-    };
+    }
   },
-};
+}
 </script>
-
 
 <style scoped>
 /* You can add more subtle styling here if needed */
