@@ -127,7 +127,7 @@
         />
         <div class="hero-text-overlay">
           <p v-if="authenticationStore?.user" class="lead">
-            Hi {{ authenticationStore.user.profile['cognito:username'] }}
+            Hi {{ authenticationStore.user.profile.email }}
           </p>
           <p v-else class="lead">Hi User</p>
         </div>

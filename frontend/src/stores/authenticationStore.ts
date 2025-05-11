@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import { signOutRedirect, userManager } from '@/auth/authConfig'
+import { User } from 'oidc-client-ts'
 
 export const useAuthenticationStore = defineStore('authentication', {
   state: () => ({
     isLoggedIn: false,
     currentResidentId: '1234',
-    user: null as any | null,
+    user: null as User | null,
   }),
   actions: {
     async checkAuthenticationStatus() {
