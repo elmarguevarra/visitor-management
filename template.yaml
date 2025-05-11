@@ -543,7 +543,7 @@ Resources:
   CognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: login.vms.alphinecodetech.clic
+      Domain: login.vms.alphinecodetech.click
       UserPoolId: !Ref CognitoUserPool
       CustomDomainConfig:
         CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
