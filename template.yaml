@@ -490,8 +490,7 @@ Resources:
           RequireUppercase: true
       UsernameAttributes:
         - email
-      AutoVerifiedAttributes:
-        - email
+      AutoVerifiedAttributes: []
       Schema:
         - Name: phone_number
           AttributeDataType: String
