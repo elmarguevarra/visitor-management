@@ -4,10 +4,6 @@ Transform:
   - AWS::Serverless-2016-10-31
 
 Parameters:
-  AuthDomainPrefix:
-    Type: String
-    Default: alphine-vms-auth
-    Description: The Cognito User Pool domain prefix
   CognitoDomainPrefix:
     Type: String
     Default: auth
