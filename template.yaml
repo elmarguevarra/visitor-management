@@ -468,7 +468,7 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZone
-      Name: !Ref CognitoCustomDomainName
+      Name: login.vms.alphinecodetech.click
       Type: CNAME
       TTL: '300'
       ResourceRecords:
