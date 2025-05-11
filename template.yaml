@@ -475,15 +475,15 @@ Resources:
         DNSName: !GetAtt CloudFrontDistribution.DomainName # Your CloudFront distribution's domain name
         EvaluateTargetHealth: false # Important for CloudFront
 
-  CognitoCustomDomainCNAME:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      HostedZoneId: !Ref HostedZone
-      Name: login.alphinecodetech.click
-      Type: CNAME
-      TTL: '300'
-      ResourceRecords:
-        - !GetAtt CognitoUserPoolDomain.CloudFrontDomain
+  # CognitoCustomDomainCNAME:
+  #   Type: AWS::Route53::RecordSet
+  #   Properties:
+  #     HostedZoneId: !Ref HostedZone
+  #     Name: login.alphinecodetech.click
+  #     Type: CNAME
+  #     TTL: '300'
+  #     ResourceRecords:
+  #       - !GetAtt CognitoUserPoolDomain.CloudFrontDomain
 
   CognitoUserPool:
     Type: AWS::Cognito::UserPool
@@ -550,17 +550,16 @@ Resources:
       GenerateSecret: false
       SupportedIdentityProviders:
         - COGNITO
-
-  CognitoUserPoolDomain:
-    Type: AWS::Cognito::UserPoolDomain
-    DependsOn:
-      - CloudFrontAliasRecordLoginA
-      - HostedZone
-    Properties:
-      Domain: login.alphinecodetech.click
-      UserPoolId: !Ref CognitoUserPool
-      CustomDomainConfig:
-        CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
+  # CognitoUserPoolDomain:
+  #   Type: AWS::Cognito::UserPoolDomain
+  #   DependsOn:
+  #     - CloudFrontAliasRecordLoginA
+  #     - HostedZone
+  #   Properties:
+  #     Domain: login.alphinecodetech.click
+  #     UserPoolId: !Ref CognitoUserPool
+  #     CustomDomainConfig:
+  #       CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
 
 Outputs:
   APIGatewayEndpoint:
