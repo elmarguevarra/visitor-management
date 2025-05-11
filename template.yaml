@@ -1,17 +1,17 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: >-
-  visitor-management
+Description: visitor-management
 Transform:
   - AWS::Serverless-2016-10-31
 
 Parameters:
-  Domain: #TODO: rename to domain auth prefix
+  DomainAuthenticationPrefix:
+    #TODO: rename to domain auth prefix
     Type: String
     Default: alphine-vms-auth
     Description: The Cognito User Pool domain prefix
   AcmCertificateArn:
     Type: String
-    Default: 'arn:aws:acm:us-east-1:121216464768:certificate/dac2d551-7d39-47e5-bdb0-4554465cd6ee'
+    Default: arn:aws:acm:us-east-1:121216464768:certificate/dac2d551-7d39-47e5-bdb0-4554465cd6ee
     Description: The public certificate arn in us-east-1 region
 
 # Resources declares the AWS resources that you want to include in the stack
@@ -23,12 +23,12 @@ Resources:
   # This is an API gateway associated with the getByIdFunction and putItemFunctions
   ApiGatewayApi:
     Type: AWS::Serverless::Api
-    Properties: 
+    Properties:
       StageName: Prod
       Cors:
-        AllowMethods: "'OPTIONS, POST, GET'"
-        AllowHeaders: "'Content-Type'"
-        AllowOrigin: "'*'" #DO NOT USE THIS VALUE IN PRODUCTION - https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html
+        AllowMethods: '''OPTIONS, POST, GET'''
+        AllowHeaders: '''Content-Type'''
+        AllowOrigin: '''*''' #DO NOT USE THIS VALUE IN PRODUCTION - https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html
 
   # This is a Lambda function config associated with the source code: get-by-id.js
   getVisitorsFunction:
@@ -41,9 +41,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description:
-        A simple example includes a HTTP get method to get all items by
-        id from a DynamoDB table.
+      Description: A simple example includes a HTTP get method to get all items by id
+        from a DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
@@ -60,8 +59,7 @@ Resources:
           Properties:
             Path: /visitors
             Method: GET
-            RestApiId:
-              Ref: ApiGatewayApi
+            RestApiId: !Ref ApiGatewayApi
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
@@ -77,9 +75,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description:
-        A simple example includes a HTTP get method to get all items by
-        id from a DynamoDB table.
+      Description: A simple example includes a HTTP get method to get all items by id
+        from a DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
@@ -96,8 +93,7 @@ Resources:
           Properties:
             Path: /visit-requests
             Method: GET
-            RestApiId:
-              Ref: ApiGatewayApi
+            RestApiId: !Ref ApiGatewayApi
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
@@ -116,9 +112,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description:
-        A simple example includes a HTTP get method to get one item by
-        id from a DynamoDB table.
+      Description: A simple example includes a HTTP get method to get one item by id
+        from a DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
@@ -135,8 +130,7 @@ Resources:
           Properties:
             Path: /visitor/{id}
             Method: GET
-            RestApiId:
-              Ref: ApiGatewayApi
+            RestApiId: !Ref ApiGatewayApi
 
   # This is a Lambda function config associated with the source code: get-invite-by-token.mjs
   getInviteByTokenFunction:
@@ -149,9 +143,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description:
-        A simple example includes a HTTP get method to get one item by
-        id from a DynamoDB table.
+      Description: A simple example includes a HTTP get method to get one item by id
+        from a DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
@@ -168,8 +161,7 @@ Resources:
           Properties:
             Path: /invite/{inviteToken}
             Method: GET
-            RestApiId:
-              Ref: ApiGatewayApi
+            RestApiId: !Ref ApiGatewayApi
 
   # This is a Lambda function config associated with the source code: get-visit-request-by-token.mjs
   getVisitRequestByTokenFunction:
@@ -182,9 +174,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description:
-        A simple example includes a HTTP get method to get one item by
-        id from a DynamoDB table.
+      Description: A simple example includes a HTTP get method to get one item by id
+        from a DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
@@ -201,8 +192,7 @@ Resources:
           Properties:
             Path: /visit-request/{inviteToken}
             Method: GET
-            RestApiId:
-              Ref: ApiGatewayApi
+            RestApiId: !Ref ApiGatewayApi
 
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -218,9 +208,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description:
-        A simple example includes a HTTP post method to add one item to
-        a DynamoDB table.
+      Description: A simple example includes a HTTP post method to add one item to a
+        DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
@@ -230,15 +219,14 @@ Resources:
           VISITORS_TABLE: !Ref VisitorsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ''
-          APP_FRONTEND_BASE_URL: 'https://vms.alphinecodetech.click'
+          APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
       Events:
         Api:
           Type: Api
           Properties:
             Path: /visitor
             Method: POST
-            RestApiId:
-              Ref: ApiGatewayApi
+            RestApiId: !Ref ApiGatewayApi
 
   putInviteLinkFunction:
     Type: AWS::Serverless::Function
@@ -250,9 +238,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description:
-        A simple example includes a HTTP post method to add one item to
-        a DynamoDB table.
+      Description: A simple example includes a HTTP post method to add one item to a
+        DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the InviteLinksTable
         - DynamoDBCrudPolicy:
@@ -261,7 +248,7 @@ Resources:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ''
-          APP_FRONTEND_BASE_URL: 'https://vms.alphinecodetech.click'
+          APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
           INVITE_LINKS_TABLE: !Ref InviteLinksTable
       Events:
         Api:
@@ -269,8 +256,7 @@ Resources:
           Properties:
             Path: /invite
             Method: POST
-            RestApiId:
-              Ref: ApiGatewayApi
+            RestApiId: !Ref ApiGatewayApi
 
   putVisitRequestFunction:
     Type: AWS::Serverless::Function
@@ -282,9 +268,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description:
-        A simple example includes a HTTP post method to add one item to
-        a DynamoDB table.
+      Description: A simple example includes a HTTP post method to add one item to a
+        DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitRequestsTable
         - DynamoDBCrudPolicy:
@@ -300,8 +285,7 @@ Resources:
           Properties:
             Path: /visit-request
             Method: POST
-            RestApiId:
-              Ref: ApiGatewayApi
+            RestApiId: !Ref ApiGatewayApi
 
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
@@ -371,19 +355,19 @@ Resources:
             Principal:
               Service: cloudfront.amazonaws.com
             Action: s3:GetObject
-            Resource: !Join ['', ['arn:aws:s3:::', !Ref WebSiteBucket, /*]]
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref WebSiteBucket
+                - /*
             Condition:
               StringEquals:
-                AWS:SourceArn:
-                  !Join [
-                    '',
-                    [
-                      'arn:aws:cloudfront::',
-                      !Ref 'AWS::AccountId',
-                      ':distribution/',
-                      !Ref CloudFrontDistribution,
-                    ],
-                  ]
+                AWS:SourceArn: !Join
+                  - ''
+                  - - 'arn:aws:cloudfront::'
+                    - !Ref AWS::AccountId
+                    - ':distribution/'
+                    - !Ref CloudFrontDistribution
   # CloudFront Distribution for hosting the single page app website
   CloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
@@ -430,13 +414,14 @@ Resources:
               - DE
               - PH
               - AU
-        Aliases: # Use Aliases to specify alternate domain names
+        Aliases:
+          # Use Aliases to specify alternate domain names
           - alphinecodetech.click
           - vms.alphinecodetech.click
         ViewerCertificate:
           AcmCertificateArn: !Ref AcmCertificateArn
-          MinimumProtocolVersion: 'TLSv1.2_2021'
-          SslSupportMethod: 'sni-only'
+          MinimumProtocolVersion: TLSv1.2_2021
+          SslSupportMethod: sni-only
         CustomErrorResponses:
           - ErrorCode: 403
             ResponseCode: 200
@@ -450,7 +435,7 @@ Resources:
     Type: AWS::CloudFront::OriginAccessControl
     Properties:
       OriginAccessControlConfig:
-        Name: !Sub '${WebSiteBucket} OAC'
+        Name: !Sub ${WebSiteBucket} OAC
         OriginAccessControlOriginType: s3
         SigningBehavior: always
         SigningProtocol: sigv4
@@ -537,9 +522,9 @@ Resources:
         - openid
         - profile
       CallbackURLs:
-        - 'https://vms.alphinecodetech.click/signin-callback' # Replace with your actual callback URL(s)
+        - https://vms.alphinecodetech.click/signin-callback # Replace with your actual callback URL(s)
       LogoutURLs:
-        - 'https://vms.alphinecodetech.click/signout-callback' # Replace with your actual logout URL(s)
+        - https://vms.alphinecodetech.click/signout-callback # Replace with your actual logout URL(s)
       # Enable/disable refresh token generation
       GenerateSecret: false
       # Configure supported identity providers (e.g., Cognito, Google, Facebook)
@@ -557,7 +542,7 @@ Resources:
       #   CertificateArn: 'arn:aws:acm:...'
       #   Domain: 'auth.yourdomain.com'
 
-  # Alias record for the vms subdomain domain IPV6
+      # Alias record for the vms subdomain domain IPV6
   CloudFrontAliasRecordAAAA:
     Type: AWS::Route53::RecordSet
     Properties:
@@ -572,7 +557,7 @@ Resources:
 Outputs:
   APIGatewayEndpoint:
     Description: API Gateway endpoint URL for Prod stage
-    Value: !Sub 'https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'
+    Value: !Sub https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
   CloudFrontDistributionId:
     Description: CloudFront Distribution ID for hosting web front end
     Value: !Ref CloudFrontDistribution
@@ -584,17 +569,17 @@ Outputs:
     Value: !Ref WebSiteBucket
 
   UserPoolId:
-    Description: "Cognito User Pool ID"
+    Description: Cognito User Pool ID
     Value: !Ref UserPool
   UserPoolClientId:
-    Description: "Cognito User Pool Client ID"
+    Description: Cognito User Pool Client ID
     Value: !Ref UserPoolClient
   UserPoolDomainUrl:
-    Description: "Cognito User Pool Domain URL"
-    Value: !Sub 'https://${Domain}.auth.${AWS::Region}.amazoncognito.com'
+    Description: Cognito User Pool Domain URL
+    Value: !Sub https://${DomainAuthenticationPrefix}.auth.${AWS::Region}.amazoncognito.com
   AuthorityUrl:
-    Description: "Cognito User Pool Authority URL (for OIDC client)"
-    Value: !Sub 'https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}'
+    Description: Cognito User Pool Authority URL (for OIDC client)
+    Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
