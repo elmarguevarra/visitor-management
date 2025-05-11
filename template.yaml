@@ -535,13 +535,19 @@ Resources:
         - openid
         - profile
       CallbackURLs:
-        - https://vms.alphinecodetech.click/signin-callback # Replace with your actual callback URL(s)
+        - https://vms.alphinecodetech.click/signin-callback
       LogoutURLs:
-        - https://vms.alphinecodetech.click/signout-callback # Replace with your actual logout URL(s)
-      # Enable/disable refresh token generation
+        - https://vms.alphinecodetech.click/signout-callback
       GenerateSecret: false
       SupportedIdentityProviders:
         - COGNITO
+      AccessTokenValidity: 60 # in minutes
+      IdTokenValidity: 60 # in minutes
+      RefreshTokenValidity: 30 # in days
+      TokenValidityUnits:
+        AccessToken: minutes
+        IdToken: minutes
+        RefreshToken: days
 
   CognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
