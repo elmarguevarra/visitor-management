@@ -2,16 +2,6 @@
   <div>
     <form @submit.prevent="registerVisitor" class="row g-3">
       <div class="col-md-6">
-        <label for="residentId" class="form-label">Resident Email</label>
-        <input
-          type="text"
-          class="form-control"
-          id="residentId"
-          v-model="formData.residentId"
-          readonly
-        />
-      </div>
-      <div class="col-md-6">
         <label for="residentName" class="form-label">Resident Name</label>
         <input
           type="text"
@@ -105,7 +95,7 @@ export default {
 
     const formData = reactive({
       residentId: authenticationStore.userEmail,
-      residentName: `${authenticationStore.userGivenName} + ${authenticationStore.userFamilyName}`,
+      residentName: `${authenticationStore.userGivenName} ${authenticationStore.userFamilyName}`,
       residentContact: authenticationStore.userPhoneNumber,
       visitorName: null,
       visitDate: today,

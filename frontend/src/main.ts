@@ -1,4 +1,3 @@
-// src/main.ts
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter, createWebHistory, useRouter } from 'vue-router'
@@ -15,6 +14,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { userManager } from './auth/authConfig'
 import LandingView from './views/LandingView.vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
+import ResidentProfileView from './views/ResidentProfileView.vue'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -52,6 +52,12 @@ const routes = [
     path: '/invite-visitor',
     name: 'InviteVisitorView',
     component: InviteVisitorView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/resident-profile',
+    name: 'ResidentProfileView',
+    component: ResidentProfileView,
     meta: { requiresAuth: true },
   },
   {

@@ -1,18 +1,8 @@
 <template>
   <div class="container mt-4">
-    <h3 class="mb-3">Visitor Invitation</h3>
+    <h3 class="mb-3">Invite a Visitor</h3>
     <div class="mb-4 border p-3 rounded shadow-sm">
       <form @submit.prevent="generateInviteLink" class="row g-3">
-        <div class="col-md-6">
-          <label for="residentId" class="form-label">Resident Email</label>
-          <input
-            type="text"
-            class="form-control"
-            id="residentId"
-            v-model="formData.residentId"
-            readonly
-          />
-        </div>
         <div class="col-md-6">
           <label for="residentName" class="form-label">Resident Name</label>
           <input
@@ -97,7 +87,7 @@ export default {
     const invitation = ref(null)
     const formData = reactive({
       residentId: authenticationStore.userEmail,
-      residentName: `${authenticationStore.userGivenName} + ${authenticationStore.userFamilyName}`,
+      residentName: `${authenticationStore.userGivenName} ${authenticationStore.userFamilyName}`,
       residentContact: authenticationStore.userPhoneNumber,
     })
     const errorMsg = ref('')

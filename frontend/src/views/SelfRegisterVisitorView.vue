@@ -2,59 +2,101 @@
   <div class="container mt-4">
     <h3 class="mb-3">Self-Register</h3>
     <div class="mb-4 border p-3 rounded shadow-sm">
-      <form v-if="!errorMsg && 
-        !isGetInviteByTokenLoading &&
-        !isGetVisitRequestByTokenLoading" 
-        @submit.prevent="requestVisit" 
-        class="row g-3">
+      <form
+        v-if="
+          !errorMsg &&
+          !isGetInviteByTokenLoading &&
+          !isGetVisitRequestByTokenLoading
+        "
+        @submit.prevent="requestVisit"
+        class="row g-3"
+      >
         <div class="col-md-6">
           <label for="visitorName" class="form-label">Visitor Name</label>
-          <input type="text" class="form-control" id="visitorName" v-model="formData.visitorName" required/>
+          <input
+            type="text"
+            class="form-control"
+            id="visitorName"
+            v-model="formData.visitorName"
+            required
+          />
         </div>
         <div class="col-md-6">
           <label for="visitDate" class="form-label">Visit Date</label>
-          <input type="date" class="form-control" id="visitDate" v-model="formData.visitDate" required :min="today"/>
+          <input
+            type="date"
+            class="form-control"
+            id="visitDate"
+            v-model="formData.visitDate"
+            required
+            :min="today"
+          />
         </div>
         <div class="col-12">
-          <button v-if="
-            !isGetVisitRequestByTokenLoading &&
-            !visitRequest && 
-            !isGetInviteByTokenLoading" 
-            type="submit" 
-            class="mb-3 btn btn-primary" 
-            :disabled="isRequestVisitLoading">
-            <span v-if="isRequestVisitLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-              Submit
+          <button
+            v-if="
+              !isGetVisitRequestByTokenLoading &&
+              !visitRequest &&
+              !isGetInviteByTokenLoading
+            "
+            type="submit"
+            class="mb-3 btn btn-primary"
+            :disabled="isRequestVisitLoading"
+          >
+            <span
+              v-if="isRequestVisitLoading"
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Submit
           </button>
         </div>
       </form>
       <div v-if="isGetInviteByTokenLoading" class="alert alert-info mt-3">
-        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-          Verifying Invitation...
+        <span
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        Verifying Invitation...
       </div>
-      <div v-if="
-        !isGetVisitRequestByTokenLoading &&
-        visitRequest && 
-        visitRequest.requestStatus === 'PENDING' &&
-        !isGetInviteByTokenLoading" 
-        class="alert alert-info mt-3">
-        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-          Waiting for Approval...
+      <div
+        v-if="
+          !isGetVisitRequestByTokenLoading &&
+          visitRequest &&
+          visitRequest.requestStatus === 'PENDING' &&
+          !isGetInviteByTokenLoading
+        "
+        class="alert alert-info mt-3"
+      >
+        <span
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        Waiting for Approval...
       </div>
-      <div v-if="
-        !isGetVisitRequestByTokenLoading &&
-        visitRequest && 
-        visitRequest.requestStatus === 'DECLINED' &&
-        !isGetInviteByTokenLoading" 
-        class="alert alert-danger mt-3 text-center">
+      <div
+        v-if="
+          !isGetVisitRequestByTokenLoading &&
+          visitRequest &&
+          visitRequest.requestStatus === 'DECLINED' &&
+          !isGetInviteByTokenLoading
+        "
+        class="alert alert-danger mt-3 text-center"
+      >
         Request has been declined!
       </div>
-      <div v-if="
-        !isGetVisitRequestByTokenLoading &&
-        visitRequest && 
-        visitRequest.requestStatus === 'APPROVED' &&
-        !isGetInviteByTokenLoading" 
-        class="alert alert-success mt-3 text-center">
+      <div
+        v-if="
+          !isGetVisitRequestByTokenLoading &&
+          visitRequest &&
+          visitRequest.requestStatus === 'APPROVED' &&
+          !isGetInviteByTokenLoading
+        "
+        class="alert alert-success mt-3 text-center"
+      >
         Request has been approved!
       </div>
       <div v-if="isGetVisitorLoading" aria-hidden="true">
@@ -68,33 +110,53 @@
           </p>
         </div>
       </div>
-      <div v-if="
-        visitor && 
-        visitor.qrCodeDataURL"
-        class="mt-4 d-flex flex-column align-items-center">
+      <div
+        v-if="visitor && visitor.qrCodeDataURL"
+        class="mt-4 d-flex flex-column align-items-center"
+      >
         <p class="mt-2 mb-2 text-center">{{ visitor.visitorName }}</p>
-        <img :src="visitor.qrCodeDataURL" alt="Visitor QR Code" width="150" height="150" class="img-thumbnail mb-2">
-        <p class="mt-2 mb-0 text-center">Registration ID: {{ visitor.registrationId }}</p>
-        <h6 class="alert alert-success mt-3">Registered for visit on <strong>{{ formatDate(new Date(visitor.visitDate)) }}</strong></h6>
-        <p class="mt-0 text-muted text-center small">Present this at the gate on the day of your visit.</p>
-      </div>
-      <p 
-        v-if="
-        !errorMsg && 
-        invitation && 
-        !isGetInviteByTokenLoading &&
-        !isGetVisitRequestByTokenLoading &&
-        !isGetVisitorLoading &&
-        (!visitRequest || visitRequest.requestStatus !== 'DECLINED')"
-        class="mt-2 mb-0 text-muted text-center small fst-italic">
-          Expires on {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }}.
+        <img
+          :src="visitor.qrCodeDataURL"
+          alt="Visitor QR Code"
+          width="150"
+          height="150"
+          class="img-thumbnail mb-2"
+        />
+        <p class="mt-2 mb-0 text-center">
+          Registration ID: {{ visitor.registrationId }}
         </p>
-      <h6 class="alert alert-danger mt-4" v-if="
-        errorMsg && 
-        !isRequestVisitLoading && 
-        !isGetInviteByTokenLoading && 
-        !isGetVisitRequestByTokenLoading">
-          {{ errorMsg }}
+        <h6 class="alert alert-success mt-3">
+          Registered for visit on
+          <strong>{{ formatDate(new Date(visitor.visitDate)) }}</strong>
+        </h6>
+        <p class="mt-0 text-muted text-center small">
+          Present this at the gate on the day of your visit.
+        </p>
+      </div>
+      <p
+        v-if="
+          !errorMsg &&
+          invitation &&
+          !isGetInviteByTokenLoading &&
+          !isGetVisitRequestByTokenLoading &&
+          !isGetVisitorLoading &&
+          (!visitRequest || visitRequest.requestStatus !== 'DECLINED')
+        "
+        class="mt-2 mb-0 text-muted text-center small fst-italic"
+      >
+        Expires on
+        {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }}.
+      </p>
+      <h6
+        class="alert alert-danger mt-4"
+        v-if="
+          errorMsg &&
+          !isRequestVisitLoading &&
+          !isGetInviteByTokenLoading &&
+          !isGetVisitRequestByTokenLoading
+        "
+      >
+        {{ errorMsg }}
       </h6>
     </div>
   </div>
@@ -107,7 +169,7 @@ import {
   postInvite,
   getInviteByToken,
   getVisitRequestByToken,
-  getVisitorByRegistrationId
+  getVisitorByRegistrationId,
 } from '@/services/apiService'
 import { useVisitRequestStore } from '@/stores/visitRequestStore'
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils'
@@ -117,8 +179,8 @@ export default {
   props: {
     inviteToken: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   setup(props) {
     const visitRequestStore = useVisitRequestStore()
@@ -131,7 +193,7 @@ export default {
 
     const formData = ref({
       visitorName: null,
-      visitDate: yearMonthDateToday
+      visitDate: yearMonthDateToday,
     })
 
     const errorMsg = ref('')
@@ -149,7 +211,7 @@ export default {
         inviteToken: props.inviteToken,
         visitorName: formData.value.visitorName,
         visitDate: formData.value.visitDate,
-        requestStatus: 'PENDING'
+        requestStatus: 'PENDING',
       }
       try {
         const response = await postVisitRequest(requestVisitData)
@@ -193,7 +255,9 @@ export default {
         visitRequest.value = response
         if (visitRequest.value) {
           formData.value.visitorName = visitRequest.value.visitorName
-          formData.value.visitDate = getYearMonthDay(new Date(visitRequest.value.visitDate))
+          formData.value.visitDate = getYearMonthDay(
+            new Date(visitRequest.value.visitDate),
+          )
           errorMsg.value = ''
           if (visitRequest.value.requestStatus === 'APPROVED') {
             await getVisitor(visitRequest.value.registrationId)
@@ -215,7 +279,8 @@ export default {
         errorMsg.value = ''
       } catch (error) {
         console.error(error)
-        errorMsg.value = error.response?.data?.message || 'Error retrieving data'
+        errorMsg.value =
+          error.response?.data?.message || 'Error retrieving data'
       } finally {
         isGetVisitorLoading.value = false
       }
@@ -224,13 +289,18 @@ export default {
     const extendInviteLinkExpiration = async (visitRequest) => {
       try {
         const oneDayInMillis = 24 * 60 * 60 * 1000
-        const expirationDate = new Date(new Date(visitRequest.visitDate).getTime() + oneDayInMillis).toISOString()
+        const expirationDate = new Date(
+          new Date(visitRequest.visitDate).getTime() + oneDayInMillis,
+        ).toISOString()
         const inviteData = {
           inviteToken: visitRequest.inviteToken,
           residentId: residentId.value,
-          inviteLinkExpiration: expirationDate
+          inviteLinkExpiration: expirationDate,
         }
-        console.log('inviteData.inviteLinkExpiration: ', inviteData.inviteLinkExpiration)
+        console.log(
+          'inviteData.inviteLinkExpiration: ',
+          inviteData.inviteLinkExpiration,
+        )
         const response = await postInvite(inviteData)
         console.log(response)
         invitation.value = response
@@ -265,12 +335,11 @@ export default {
       getVisitor,
       extendInviteLinkExpiration,
       formatDate,
-      formatDateAndTime
+      formatDateAndTime,
     }
-  }
+  },
 }
 </script>
-
 
 <style scoped>
 .placeholder-box {
