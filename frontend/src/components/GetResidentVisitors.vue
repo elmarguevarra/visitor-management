@@ -73,7 +73,7 @@
     </div>
 
     <p v-if="visitors.length === 0" class="text-muted">No visitors</p>
-    <h5 v-if="todayVisitors.length > 0">Today's</h5>
+    <h5 v-if="todayVisitors.length > 0" class="text-muted">Today's</h5>
     <div
       v-for="visitor in todayVisitors"
       :key="visitor.registrationId"
@@ -128,7 +128,7 @@
       No visitors today.
     </p>
 
-    <h5 v-if="upcomingVisitors.length > 0" class="mt-4">Upcoming</h5>
+    <h5 v-if="upcomingVisitors.length > 0" class="mt-4 text-muted">Upcoming</h5>
     <div
       v-for="visitor in upcomingVisitors"
       :key="visitor.registrationId"
@@ -158,7 +158,7 @@
       No upcoming visitors.
     </p>
 
-    <h5 v-if="expiredVisitors.length > 0" class="mt-4">Past</h5>
+    <h5 v-if="expiredVisitors.length > 0" class="mt-4 text-muted">Past</h5>
     <div
       v-for="visitor in expiredVisitors"
       :key="visitor.registrationId"
