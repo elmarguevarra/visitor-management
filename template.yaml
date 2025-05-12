@@ -488,6 +488,16 @@ Resources:
   CognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
+      ReadAttributes:
+        - email
+        - given_name
+        - family_name
+        - phone_number
+      WriteAttributes:
+        - email
+        - given_name
+        - family_name
+        - phone_number
       UserPoolName: VisitorManagementCognitoUserPool
       Policies:
         PasswordPolicy:
@@ -499,23 +509,7 @@ Resources:
       UsernameAttributes:
         - email
       AutoVerifiedAttributes: []
-      Schema:
-        - Name: phone_number
-          AttributeDataType: String
-          Required: true
-          Mutable: true
-        - Name: email
-          AttributeDataType: String
-          Required: true
-          Mutable: true
-        - Name: given_name
-          AttributeDataType: String
-          Required: true
-          Mutable: true
-        - Name: family_name
-          AttributeDataType: String
-          Required: true
-          Mutable: true
+
       # Configure message customizations (email verification, password reset)
       # MessageConfigurations:
       #   EmailMessage: "..."
