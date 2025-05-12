@@ -579,13 +579,13 @@ Resources:
   #     Description: Admin users
   #     Precedence: 0
 
-  ResidentUserGroup:
-    Type: AWS::Cognito::UserPoolGroup
-    Properties:
-      GroupName: resident
-      UserPoolId: !Ref CognitoUserPool
-      Description: Resident users
-      Precedence: 1
+  # ResidentUserGroup:
+  #   Type: AWS::Cognito::UserPoolGroup
+  #   Properties:
+  #     GroupName: resident
+  #     UserPoolId: !Ref CognitoUserPool
+  #     Description: Resident users
+  #     Precedence: 1
 
 Outputs:
   APIGatewayEndpoint:
