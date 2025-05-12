@@ -97,8 +97,8 @@ export default {
     const invitation = ref(null)
     const formData = reactive({
       residentId: authenticationStore.userEmail,
-      residentName: 'Jua Delacruz',
-      residentContact: '+6309123456',
+      residentName: `${authenticationStore.userGivenName} + ${authenticationStore.userFamilyName}`,
+      residentContact: authenticationStore.userPhoneNumber,
     })
     const errorMsg = ref('')
     const isLoading = ref(false)
