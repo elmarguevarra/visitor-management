@@ -552,6 +552,26 @@ Resources:
       Description: Resident users
       Precedence: 1
 
+  AdminUser:
+    Type: AWS::Cognito::User
+    Properties:
+      UserPoolId: !Ref CognitoUserPool
+      Username: "admin@alphinecodetech.click"
+      Password: "AdminPass123!"
+      UserAttributes:
+        - Name: "given_name"
+          Value: "Admin"
+        - Name: "family_name"
+          Value: "User"
+        - Name: "email"
+          Value: "admin@alphinecodetech.click"
+        - Name: "phone_number"
+          Value: "+15551234567" #  E.164 format
+        - Name: "email_verified"
+          Value: "true"
+      GroupList:
+        - !Ref AdminUserGroup
+
 Outputs:
   APIGatewayEndpoint:
     Description: API Gateway endpoint URL for Prod stage
