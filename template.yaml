@@ -527,6 +527,16 @@ Resources:
         AccessToken: minutes
         IdToken: minutes
         RefreshToken: days
+      ReadAttributes:
+        - email
+        - given_name
+        - family_name
+        - phone_number
+      WriteAttributes:
+        - email
+        - given_name
+        - family_name
+        - phone_number
 
   CognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
