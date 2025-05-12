@@ -29,9 +29,9 @@ Resources:
     Properties:
       StageName: Prod
       Cors:
-        AllowMethods: '''OPTIONS, POST, GET'''
-        AllowHeaders: '''Content-Type'''
-        AllowOrigin: '''*''' #DO NOT USE THIS VALUE IN PRODUCTION - https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html
+        AllowMethods: "'OPTIONS, POST, GET'"
+        AllowHeaders: "'Content-Type'"
+        AllowOrigin: "'*'" #DO NOT USE THIS VALUE IN PRODUCTION - https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html
 
   # This is a Lambda function config associated with the source code: get-by-id.js
   getVisitorsFunction:
@@ -44,7 +44,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP get method to get all items by id
+      Description:
+        A simple example includes a HTTP get method to get all items by id
         from a DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
@@ -55,7 +56,7 @@ Resources:
           # Make table name accessible as environment variable from function code during execution
           VISITORS_TABLE: !Ref VisitorsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
-          ENDPOINT_OVERRIDE: ''
+          ENDPOINT_OVERRIDE: ""
       Events:
         Api:
           Type: Api
@@ -78,7 +79,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP get method to get all items by id
+      Description:
+        A simple example includes a HTTP get method to get all items by id
         from a DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
@@ -87,7 +89,7 @@ Resources:
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
-          ENDPOINT_OVERRIDE: ''
+          ENDPOINT_OVERRIDE: ""
           # Make table name accessible as environment variable from function code during execution
           VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
       Events:
@@ -115,7 +117,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP get method to get one item by id
+      Description:
+        A simple example includes a HTTP get method to get one item by id
         from a DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
@@ -126,7 +129,7 @@ Resources:
           # Make table name accessible as environment variable from function code during execution
           VISITORS_TABLE: !Ref VisitorsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
-          ENDPOINT_OVERRIDE: ''
+          ENDPOINT_OVERRIDE: ""
       Events:
         Api:
           Type: Api
@@ -146,7 +149,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP get method to get one item by id
+      Description:
+        A simple example includes a HTTP get method to get one item by id
         from a DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
@@ -157,7 +161,7 @@ Resources:
           # Make table name accessible as environment variable from function code during execution
           INVITE_LINKS_TABLE: !Ref InviteLinksTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
-          ENDPOINT_OVERRIDE: ''
+          ENDPOINT_OVERRIDE: ""
       Events:
         Api:
           Type: Api
@@ -177,7 +181,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP get method to get one item by id
+      Description:
+        A simple example includes a HTTP get method to get one item by id
         from a DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
@@ -188,7 +193,7 @@ Resources:
           # Make table name accessible as environment variable from function code during execution
           VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
-          ENDPOINT_OVERRIDE: ''
+          ENDPOINT_OVERRIDE: ""
       Events:
         Api:
           Type: Api
@@ -211,7 +216,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP post method to add one item to a
+      Description:
+        A simple example includes a HTTP post method to add one item to a
         DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
@@ -221,7 +227,7 @@ Resources:
         Variables:
           VISITORS_TABLE: !Ref VisitorsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
-          ENDPOINT_OVERRIDE: ''
+          ENDPOINT_OVERRIDE: ""
           APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
       Events:
         Api:
@@ -241,7 +247,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP post method to add one item to a
+      Description:
+        A simple example includes a HTTP post method to add one item to a
         DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the InviteLinksTable
@@ -250,7 +257,7 @@ Resources:
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
-          ENDPOINT_OVERRIDE: ''
+          ENDPOINT_OVERRIDE: ""
           APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
           INVITE_LINKS_TABLE: !Ref InviteLinksTable
       Events:
@@ -271,7 +278,8 @@ Resources:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP post method to add one item to a
+      Description:
+        A simple example includes a HTTP post method to add one item to a
         DynamoDB table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitRequestsTable
@@ -280,7 +288,7 @@ Resources:
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
-          ENDPOINT_OVERRIDE: ''
+          ENDPOINT_OVERRIDE: ""
           VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
       Events:
         Api:
@@ -350,7 +358,7 @@ Resources:
     Properties:
       Bucket: !Ref WebSiteBucket
       PolicyDocument:
-        Version: '2012-10-17'
+        Version: "2012-10-17"
         Id: PolicyForCloudFrontPrivateContent
         Statement:
           - Sid: AllowCloudFrontServicePrincipal
@@ -359,17 +367,17 @@ Resources:
               Service: cloudfront.amazonaws.com
             Action: s3:GetObject
             Resource: !Join
-              - ''
-              - - 'arn:aws:s3:::'
+              - ""
+              - - "arn:aws:s3:::"
                 - !Ref WebSiteBucket
                 - /*
             Condition:
               StringEquals:
                 AWS:SourceArn: !Join
-                  - ''
-                  - - 'arn:aws:cloudfront::'
+                  - ""
+                  - - "arn:aws:cloudfront::"
                     - !Ref AWS::AccountId
-                    - ':distribution/'
+                    - ":distribution/"
                     - !Ref CloudFrontDistribution
   # CloudFront Distribution for hosting the single page app website
   CloudFrontDistribution:
@@ -381,7 +389,7 @@ Resources:
             Id: myS3Origin
             OriginAccessControlId: !GetAtt CloudFrontOriginAccessControl.Id
             S3OriginConfig:
-              OriginAccessIdentity: ''
+              OriginAccessIdentity: ""
         Enabled: true
         DefaultRootObject: index.html
         HttpVersion: http2
@@ -494,19 +502,19 @@ Resources:
       Schema:
         - Name: phone_number
           AttributeDataType: String
-          Required: false
+          Required: true
           Mutable: true
         - Name: email
           AttributeDataType: String
-          Required: false
+          Required: true
           Mutable: true
         - Name: given_name
           AttributeDataType: String
-          Required: false
+          Required: true
           Mutable: true
         - Name: family_name
           AttributeDataType: String
-          Required: false
+          Required: true
           Mutable: true
       # Configure message customizations (email verification, password reset)
       # MessageConfigurations:
