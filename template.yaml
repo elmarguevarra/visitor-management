@@ -498,21 +498,12 @@ Resources:
           RequireUppercase: true
       UsernameAttributes:
         - email
-      AutoVerifiedAttributes: []
+      AutoVerifiedAttributes:
+        - email
 
   CognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
-      # ReadAttributes:
-      #   - email
-      #   - given_name
-      #   - family_name
-      #   - phone_number
-      # WriteAttributes:
-      #   - email
-      #   - given_name
-      #   - family_name
-      #   - phone_number
       ClientName: VisitorManagementCognitoClient
       UserPoolId: !Ref CognitoUserPool
       AllowedOAuthFlowsUserPoolClient: true
