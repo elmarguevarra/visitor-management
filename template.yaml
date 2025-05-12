@@ -488,16 +488,6 @@ Resources:
   CognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
-      ReadAttributes:
-        - email
-        - given_name
-        - family_name
-        - phone_number
-      WriteAttributes:
-        - email
-        - given_name
-        - family_name
-        - phone_number
       UserPoolName: VisitorManagementCognitoUserPool
       Policies:
         PasswordPolicy:
@@ -526,6 +516,16 @@ Resources:
   CognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
+      ReadAttributes:
+        - email
+        - given_name
+        - family_name
+        - phone_number
+      WriteAttributes:
+        - email
+        - given_name
+        - family_name
+        - phone_number
       ClientName: VisitorManagementCognitoClient
       UserPoolId: !Ref CognitoUserPool
       AllowedOAuthFlowsUserPoolClient: true
