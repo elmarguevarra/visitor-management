@@ -489,6 +489,19 @@ Resources:
   #   Type: AWS::Cognito::UserPool
   #   Properties:
   #     UserPoolName: VisitorManagementCognitoUserPool
+  #     Schema:
+  #       - Name: "given_name"
+  #         Required: true
+  #         Mutable: true
+  #       - Name: "family_name"
+  #         Required: true
+  #         Mutable: true
+  #       - Name: "email"
+  #         Required: true
+  #         Mutable: true
+  #       - Name: "phone_number"
+  #         Required: true
+  #         Mutable: true
   #     Policies:
   #       PasswordPolicy:
   #         MinimumLength: 8
@@ -516,16 +529,16 @@ Resources:
   # CognitoUserPoolClient:
   #   Type: AWS::Cognito::UserPoolClient
   #   Properties:
-  #     ReadAttributes:
-  #       - email
-  #       - given_name
-  #       - family_name
-  #       - phone_number
-  #     WriteAttributes:
-  #       - email
-  #       - given_name
-  #       - family_name
-  #       - phone_number
+  #     # ReadAttributes:
+  #     #   - email
+  #     #   - given_name
+  #     #   - family_name
+  #     #   - phone_number
+  #     # WriteAttributes:
+  #     #   - email
+  #     #   - given_name
+  #     #   - family_name
+  #     #   - phone_number
   #     ClientName: VisitorManagementCognitoClient
   #     UserPoolId: !Ref CognitoUserPool
   #     AllowedOAuthFlowsUserPoolClient: true
@@ -558,13 +571,13 @@ Resources:
   #     # CustomDomainConfig:
   #     #   CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
 
-  AdminUserGroup:
-    Type: AWS::Cognito::UserPoolGroup
-    Properties:
-      GroupName: admin
-      UserPoolId: !Ref CognitoUserPool
-      Description: Admin users
-      Precedence: 0
+  # AdminUserGroup:
+  #   Type: AWS::Cognito::UserPoolGroup
+  #   Properties:
+  #     GroupName: admin
+  #     UserPoolId: !Ref CognitoUserPool
+  #     Description: Admin users
+  #     Precedence: 0
 
   ResidentUserGroup:
     Type: AWS::Cognito::UserPoolGroup
