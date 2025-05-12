@@ -1,6 +1,8 @@
 <template>
-  <div class="container mt-4">
-    <h3 class="mb-3" style="margin-left: -0.5rem">Invite a Visitor</h3>
+  <div class="container mt-2">
+    <h4 class="mb-3 text-muted" style="margin-left: -0.5rem">
+      Invite a Visitor
+    </h4>
     <div>
       <form @submit.prevent="generateInviteLink" class="row g-3">
         <div class="col-md-6">

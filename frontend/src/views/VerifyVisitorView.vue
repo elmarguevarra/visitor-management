@@ -1,6 +1,6 @@
 <template>
-  <div class="container mt-4">
-    <h3 style="margin-left: -0.5rem">Visitor Access</h3>
+  <div class="container mt-2">
+    <h4 class="mb-3 text-muted" style="margin-left: -0.5rem">Visitor Access</h4>
     <form @submit.prevent="getItemsById" class="row g-3 mb-3">
       <div class="col-md-6">
         <label for="registrationId" class="form-label">Registration ID</label>

@@ -1,6 +1,8 @@
 <template>
-  <div class="container mt-4">
-    <h3 class="mb-3" style="margin-left: -0.5rem">Register a Visitor</h3>
+  <div class="container mt-2">
+    <h4 class="mb-3 text-muted" style="margin-left: -0.5rem">
+      Register a Visitor
+    </h4>
     <CreateItem />
   </div>
 </template>

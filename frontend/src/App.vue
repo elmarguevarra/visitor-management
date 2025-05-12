@@ -149,7 +149,7 @@
       </div>
     </main>
 
-    <footer class="bg-light py-3 mt-4 text-center small shadow-sm">
+    <footer class="bg-light py-3 mt-4 text-center small shadow-sm text-muted">
       <div class="container">
         <p class="mb-0">&copy; 2025 E.Guevarra. All rights reserved.</p>
       </div>
