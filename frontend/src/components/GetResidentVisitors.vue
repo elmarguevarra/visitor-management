@@ -18,7 +18,9 @@
       </div>
     </div>
 
-    <h5 v-if="visitRequests.length > 0" class="mt-4">Visit Requests</h5>
+    <h5 v-if="visitRequests.length > 0" class="mt-4 text-muted">
+      Visit Requests
+    </h5>
     <div
       v-for="visitRequest in visitRequests"
       :key="visitRequest.inviteToken"

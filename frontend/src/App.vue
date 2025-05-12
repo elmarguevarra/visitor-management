@@ -186,8 +186,9 @@ export default {
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   /* Add the box-shadow property here */
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1); */
   z-index: 1;
+  overflow: hidden;
 }
 
 header {
@@ -266,6 +267,23 @@ footer {
 @media (max-width: 576px) {
   .hero-image {
     max-height: 200px; /* Further adjust height for very small screens */
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-image-container::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1.2rem; /* Adjust the height of the gradient area for mobile */
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 100%
+    );
+    z-index: 2; /* Ensure it's above the image */
   }
 }
 </style>

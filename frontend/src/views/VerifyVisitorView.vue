@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <h3>Visitor Access</h3>
+    <h3 style="margin-left: -0.5rem">Visitor Access</h3>
     <form @submit.prevent="getItemsById" class="row g-3 mb-3">
       <div class="col-md-6">
         <label for="registrationId" class="form-label">Registration ID</label>
@@ -15,34 +15,89 @@
     </form>
 
     <div v-if="isFetchDataLoading" class="alert alert-info mt-3">
-      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      <span
+        class="spinner-border spinner-border-sm me-2"
+        role="status"
+        aria-hidden="true"
+      ></span>
       Verifying visitor...
     </div>
-    <div v-else-if="visitor.registrationId && !isFetchDataLoading && isVisitToday" class="alert alert-success mt-3">
-      <span><strong>{{ visitor.visitorName }}</strong> is scheduled to visit today.</span>
+    <div
+      v-else-if="visitor.registrationId && !isFetchDataLoading && isVisitToday"
+      class="alert alert-success mt-3"
+    >
+      <span
+        ><strong>{{ visitor.visitorName }}</strong> is scheduled to visit
+        today.</span
+      >
     </div>
-    <div v-else-if="(visitor.registrationId && !isFetchDataLoading && !isVisitToday && errorMsg === '')" class="alert alert-warning mt-3">
+    <div
+      v-else-if="
+        visitor.registrationId &&
+        !isFetchDataLoading &&
+        !isVisitToday &&
+        errorMsg === ''
+      "
+      class="alert alert-warning mt-3"
+    >
       No scheduled visit for today.
     </div>
 
-    <div v-if="visitor.registrationId && isVisitToday && !visitor.hasArrived" class="col-12">
-      <button @click="setVisitorArrived" class="btn btn-primary" :disabled="isSetArrivedDataLoading">
-        <span v-if="isSetArrivedDataLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+    <div
+      v-if="visitor.registrationId && isVisitToday && !visitor.hasArrived"
+      class="col-12"
+    >
+      <button
+        @click="setVisitorArrived"
+        class="btn btn-primary"
+        :disabled="isSetArrivedDataLoading"
+      >
+        <span
+          v-if="isSetArrivedDataLoading"
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+          aria-hidden="true"
+        ></span>
         Check-in
       </button>
     </div>
-    <div v-if="visitor.hasArrived && !errorMsg" class="alert alert-success mt-3">
-      Arrived on <strong>{{ formatDateAndTime(new Date(visitor.arrivalTime)) }}</strong>
+    <div
+      v-if="visitor.hasArrived && !errorMsg"
+      class="alert alert-success mt-3"
+    >
+      Arrived on
+      <strong>{{ formatDateAndTime(new Date(visitor.arrivalTime)) }}</strong>
     </div>
 
-    <div v-if="visitor.registrationId && isVisitToday && visitor.hasArrived && !visitor.hasDeparted" class="col-12">
-      <button @click="setVisitorDeparted" class="btn btn-secondary" :disabled="isSetDepartedDataLoading">
-        <span v-if="isSetDepartedDataLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+    <div
+      v-if="
+        visitor.registrationId &&
+        isVisitToday &&
+        visitor.hasArrived &&
+        !visitor.hasDeparted
+      "
+      class="col-12"
+    >
+      <button
+        @click="setVisitorDeparted"
+        class="btn btn-secondary"
+        :disabled="isSetDepartedDataLoading"
+      >
+        <span
+          v-if="isSetDepartedDataLoading"
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+          aria-hidden="true"
+        ></span>
         Check-out
       </button>
     </div>
-    <div v-if="visitor.hasDeparted && !errorMsg" class="alert alert-success mt-3">
-      Departed on <strong>{{ formatDateAndTime(new Date(visitor.departureTime)) }}</strong>
+    <div
+      v-if="visitor.hasDeparted && !errorMsg"
+      class="alert alert-success mt-3"
+    >
+      Departed on
+      <strong>{{ formatDateAndTime(new Date(visitor.departureTime)) }}</strong>
     </div>
 
     <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
@@ -59,8 +114,8 @@ export default {
   props: {
     registrationId: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   setup(props) {
     const visitor = ref({
@@ -72,11 +127,11 @@ export default {
       arrivalTime: null,
       departureTime: null,
       hasArrived: false,
-      hasDeparted: false
+      hasDeparted: false,
     })
 
     const formData = ref({
-      registrationId: props.registrationId || ''
+      registrationId: props.registrationId || '',
     })
 
     const errorMsg = ref('')
@@ -110,9 +165,10 @@ export default {
           registrationId: '',
           visitorName: '',
           visitDate: '',
-          hasArrived: false
+          hasArrived: false,
         }
-        errorMsg.value = error.response?.data?.message || 'Error retrieving data'
+        errorMsg.value =
+          error.response?.data?.message || 'Error retrieving data'
       } finally {
         isFetchDataLoading.value = false
       }
@@ -124,7 +180,7 @@ export default {
         ...visitor.value,
         registrationId: props.registrationId,
         arrivalTime: new Date(),
-        hasArrived: true
+        hasArrived: true,
       }
       try {
         const response = await postVisitor(updateData)
@@ -145,7 +201,7 @@ export default {
         ...visitor.value,
         registrationId: props.registrationId,
         departureTime: new Date(),
-        hasDeparted: true
+        hasDeparted: true,
       }
       try {
         const response = await postVisitor(updateData)
@@ -177,9 +233,8 @@ export default {
       isVisitToday,
       setVisitorArrived,
       setVisitorDeparted,
-      formatDateAndTime
+      formatDateAndTime,
     }
-  }
+  },
 }
 </script>
-

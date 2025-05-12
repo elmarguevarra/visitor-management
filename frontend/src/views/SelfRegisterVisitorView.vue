@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <h3 class="mb-3">Self-Register</h3>
+    <h3 class="mb-3" style="margin-left: -0.5rem">Self-Register</h3>
     <div>
       <form
         v-if="

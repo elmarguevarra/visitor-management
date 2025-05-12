@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <h3 class="mb-3">My Visitors</h3>
+    <h3 class="mb-3" style="margin-left: -0.5rem">My Visitors</h3>
     <GetUserItems :residentId="residentId" />
   </div>
 </template>
