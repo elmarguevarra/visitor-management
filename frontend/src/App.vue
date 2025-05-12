@@ -27,10 +27,9 @@
               >
             </div>
             <div class="mt-0">
-              <p v-if="authenticationStore?.user" class="mb-0 email-text">
-                {{ authenticationStore.userEmail }}
+              <p class="mb-0 email-text">
+                {{ authenticationStore?.userEmail }}
               </p>
-              <p v-else class="mb-0 email-text">juandelacruz@email.com</p>
             </div>
           </router-link>
           <button
