@@ -5,25 +5,33 @@
         <nav class="navbar navbar-expand-lg navbar-light">
           <router-link
             to="/visitors"
-            class="navbar-brand d-flex align-items-center"
+            class="navbar-brand d-flex flex-column align-items-start"
           >
-            <img
-              src="/logo.png"
-              alt="Website Logo"
-              height="30"
-              class="d-inline-block align-middle me-2"
-            />
-            AlphineCodeTech
-            <span
-              class="ms-1 badge text-secondary"
-              style="
-                font-size: 0.4rem;
-                align-self: center;
-                background-color: #e0e0e0;
-                font-weight: normal;
-              "
-              >Admin</span
-            >
+            <div class="d-flex align-items-center">
+              <img
+                src="/logo.png"
+                alt="Website Logo"
+                height="24"
+                class="d-inline-block align-middle me-2"
+              />
+              <span style="font-size: 1rem">AlphineCodeTech</span>
+              <span
+                class="ms-1 badge text-secondary"
+                style="
+                  font-size: 0.3rem;
+                  align-self: center;
+                  background-color: #e0e0e0;
+                  font-weight: normal;
+                "
+                >Admin</span
+              >
+            </div>
+            <div class="mt-0">
+              <p v-if="authenticationStore?.user" class="mb-0 email-text">
+                {{ authenticationStore.userEmail }}
+              </p>
+              <p v-else class="mb-0 email-text">juandelacruz@email.com</p>
+            </div>
           </router-link>
           <button
             v-if="
@@ -125,12 +133,6 @@
             display: block;
           "
         />
-        <div class="hero-text-overlay">
-          <p v-if="authenticationStore?.user" class="lead">
-            Hi {{ authenticationStore.userEmail }}
-          </p>
-          <p v-else class="lead">Hi User</p>
-        </div>
       </div>
     </div>
 
@@ -182,20 +184,6 @@ export default {
   z-index: 1;
 }
 
-.hero-text-overlay p {
-  position: absolute;
-  top: 15%;
-  left: 55%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  color: #285692;
-  padding: 1rem;
-  width: 100%;
-  max-width: 90%;
-  font-weight: 500;
-  font-size: 0.85em;
-}
-
 header {
   z-index: 3;
   background-color: #effafe !important;
@@ -210,7 +198,13 @@ header {
 
 /* Target the admin badge to make it smaller as well (optional) */
 .navbar-brand .badge {
-  font-size: 0.3rem !important; /* Adjust the badge size */
+  font-size: 0.4rem !important; /* Adjust the badge size */
+}
+
+.email-text {
+  font-size: 0.6rem;
+  color: #6c757d;
+  padding-left: 2.2rem;
 }
 
 @media (max-width: 991.98px) {
