@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-2">
-    <h4 class="mb-3 text-muted" style="margin-left: -0.5rem">
+    <h4 class="mb-3 text-muted" style="margin-left: -0.2rem">
       Invite a Visitor
     </h4>
     <div>

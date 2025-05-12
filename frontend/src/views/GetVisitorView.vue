@@ -1,6 +1,8 @@
 <template>
   <div class="container mt-2">
-    <h4 style="margin-left: -0.5rem">Search a Visitor</h4>
+    <h4 class="mb-3 text-muted" style="margin-left: -0.2rem">
+      Search a Visitor
+    </h4>
     <form @submit.prevent="getVisitor" class="row g-3 mb-4">
       <div class="col-md-6">
         <label for="registrationId" class="form-label">Registration ID</label>
