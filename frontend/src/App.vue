@@ -127,7 +127,7 @@
         />
         <div class="hero-text-overlay">
           <p v-if="authenticationStore?.user" class="lead">
-            Hi {{ authenticationStore.user.profile.email }}
+            Hi {{ authenticationStore.userEmail }}
           </p>
           <p v-else class="lead">Hi User</p>
         </div>

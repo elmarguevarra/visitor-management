@@ -293,7 +293,7 @@ export default {
       isGetVisitorsLoading.value = true
       try {
         const response = await getVisitorsByResidentId(
-          authenticationStore.user.profile.email,
+          authenticationStore.userEmail,
         )
         visitorStore.setVisitors(response)
       } catch (error) {
@@ -307,7 +307,7 @@ export default {
     const getVisitRequests = async () => {
       try {
         const response = await getVisitRequestsByResidentId(
-          authenticationStore.user.profile.email,
+          authenticationStore.userEmail,
         )
         const pendingVisitRequests = response.filter(
           (v) => v.requestStatus === 'PENDING',

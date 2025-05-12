@@ -104,7 +104,7 @@ export default {
     const today = getYearMonthDay(new Date())
 
     const formData = reactive({
-      residentId: authenticationStore.user.profile.email,
+      residentId: authenticationStore.userEmail,
       residentName: 'Jua Delacruz',
       residentContact: '+6309123456',
       visitorName: null,

@@ -6,6 +6,7 @@ export const useAuthenticationStore = defineStore('authentication', {
   state: () => ({
     isLoggedIn: false,
     user: null as User | null,
+    userEmail: undefined as string | undefined,
   }),
   actions: {
     async checkAuthenticationStatus() {
@@ -13,6 +14,7 @@ export const useAuthenticationStore = defineStore('authentication', {
         const user = await userManager.getUser()
         this.isLoggedIn = !!user && !user.expired
         this.user = user
+        this.userEmail = user?.profile.email
       } catch (err) {
         this.isLoggedIn = false
         console.error('Auth check failed:', err)
