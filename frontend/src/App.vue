@@ -160,7 +160,6 @@ export default {
 
     onMounted(async () => {
       await authenticationStore.checkAuthenticationStatus()
-      console.log('authenticationStore.user: ', authenticationStore.user)
     })
 
     return {

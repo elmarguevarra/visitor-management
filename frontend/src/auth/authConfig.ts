@@ -24,7 +24,7 @@ const cognitoAuthConfig = {
   client_id: USER_POOL_CLIENT_ID,
   redirect_uri: 'https://vms.alphinecodetech.click/signin-callback',
   response_type: 'code',
-  scope: 'email openid',
+  scope: 'email openid profile',
 }
 
 // create a UserManager instance

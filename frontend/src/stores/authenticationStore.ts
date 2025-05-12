@@ -12,6 +12,7 @@ export const useAuthenticationStore = defineStore('authentication', {
     async checkAuthenticationStatus() {
       try {
         const user = await userManager.getUser()
+        console.log('authenticationStore.user: ', user)
         this.isLoggedIn = !!user && !user.expired
         this.user = user
         this.userEmail = user?.profile.email
