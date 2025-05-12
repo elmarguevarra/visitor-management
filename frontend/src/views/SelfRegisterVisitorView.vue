@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-4">
     <h3 class="mb-3">Self-Register</h3>
-    <div class="mb-4 border p-3 rounded shadow-sm">
+    <div>
       <form
         v-if="
           !errorMsg &&

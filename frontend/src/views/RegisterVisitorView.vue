@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-4">
     <h3 class="mb-3">Register a Visitor</h3>
-    <CreateItem class="mb-4 border p-3 rounded shadow-sm" />
+    <CreateItem />
   </div>
 </template>
 
