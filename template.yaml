@@ -43,53 +43,34 @@ Resources:
                 "UserGroup": {
                   "shape": {
                     "type": "Record",
-                    "attributes": {}
-                  }
-                },
-                "VisitorManagement": {
-                  "shape": {
-                    "type": "Record",
-                    "attributes": {}
+                    "attributes": {
+                      "id": { "type": "String" }
+                    }
                   }
                 },
                 "Visitor": {
                   "shape": {
                     "type": "Record",
-                    "attributes": {}
+                    "attributes": {
+                      "id": { "type": "String" }
+                    }
                   }
                 }
               },
               "actions": {
                 "searchVisitor": {
                   "appliesTo": {
-                    "principalTypes": ["UserGroup"],
-                    "resourceTypes": ["VisitorManagement"]
+                    "principalTypes": ["VisitorManagement::UserGroup"],
+                    "resourceTypes": ["VisitorManagement::Visitor"]
                   }
                 },
                 "registerVisitor": {
                   "appliesTo": {
-                    "principalTypes": ["UserGroup"],
-                    "resourceTypes": ["VisitorManagement"]
-                  }
-                },
-                "inviteVisitor": {
-                  "appliesTo": {
-                    "principalTypes": ["UserGroup"],
-                    "resourceTypes": ["VisitorManagement"]
-                  }
-                },
-                "verifyVisitor": {
-                  "appliesTo": {
-                    "principalTypes": ["UserGroup"],
-                    "resourceTypes": ["VisitorManagement"]
-                  }
-                },
-                "browseVisitors": {
-                  "appliesTo": {
-                    "principalTypes": ["UserGroup"],
-                    "resourceTypes": ["VisitorManagement"]
+                    "principalTypes": ["VisitorManagement::UserGroup"],
+                    "resourceTypes": ["VisitorManagement::Visitor"]
                   }
                 }
+                # Add other actions (inviteVisitor, verifyVisitor, etc.)
               }
             }
           }
