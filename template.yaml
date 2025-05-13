@@ -16,14 +16,102 @@ Parameters:
     Type: String
     Default: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
     Description: The public certificate arn in us-east-1 region
+  VerifiedPermissionsPolicyStoreName:
+    Type: String
+    Default: VisitorManagementPolicyStore
+    Description: Name for the Verified Permissions Policy Store
+  AdminGroupName:
+    Type: String
+    Default: admin
+    Description: Name of the admin user group in Verified Permissions
+  ResidentGroupName:
+    Type: String
+    Default: resident
+    Description: Name of the resident user group in Verified Permissions
+  GuardGroupName:
+    Type: String
+    Default: guard
+    Description: Name of the guard user group in Verified Permissions
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  VisitorManagementPolicyStore:
+    Type: AWS::VerifiedPermissions::PolicyStore
+    Properties:
+      Schema:
+        EntityTypeSchemas:
+          User:
+            Shape:
+              type: Record
+              attributes:
+                groups:
+                  type: List
+                  element:
+                    type: String
+          VisitorManagement:
+            Shape:
+              type: Record
+              attributes:
+                registrationId:
+                  type: String
+        ActionSchemas:
+          searchVisitor:
+            appliesTo:
+              principalTypes: [User]
+              resourceTypes: [VisitorManagement]
+          registerVisitor:
+            appliesTo:
+              principalTypes: [Group]
+              resourceTypes: [VisitorManagement]
+          inviteVisitor:
+            appliesTo:
+              principalTypes: [Group]
+              resourceTypes: [VisitorManagement]
+          verifyVisitor:
+            appliesTo:
+              principalTypes: [Group]
+              resourceTypes: [VisitorManagement]
+          browseVisitors:
+            appliesTo:
+              principalTypes: [Group]
+              resourceTypes: [VisitorManagement]
+      Name: !Ref VerifiedPermissionsPolicyStoreName
 
-  # This is an API gateway associated with the getByIdFunction and putItemFunctions
+    AdminVPGroup:
+      Type: AWS::VerifiedPermissions::Group
+      Properties:
+        PolicyStoreId: !Ref VisitorManagementPolicyStore
+        GroupName: !Ref AdminGroupName
+
+    ResidentVPGroup:
+      Type: AWS::VerifiedPermissions::Group
+      Properties:
+        PolicyStoreId: !Ref VisitorManagementPolicyStore
+        GroupName: !Ref ResidentGroupName
+
+    GuardVPGroup:
+      Type: AWS::VerifiedPermissions::Group
+      Properties:
+        PolicyStoreId: !Ref VisitorManagementPolicyStore
+        GroupName: !Ref GuardGroupName
+
+    AllowAdminGroupFullAccessPolicy:
+      Type: AWS::VerifiedPermissions::Policy
+      Properties:
+        PolicyStoreId: !Ref VisitorManagementPolicyStore
+        PolicyDefinition:
+          StaticPolicy:
+            PolicyDefinition: |
+              permit(
+                principal == Group::"${AdminGroupName}",
+                action in [Action::"searchVisitor", Action::"registerVisitor", Action::"inviteVisitor", Action::"verifyVisitor", Action::"browseVisitors"],
+                resource == VisitorManagement::"app"
+              );
+        PolicyType: STATIC
+        PrincipalEntityType: Group
+        PrincipalId: !Ref AdminGroupName
+
   ApiGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -539,7 +627,7 @@ Resources:
   AdminUserGroup:
     Type: AWS::Cognito::UserPoolGroup
     Properties:
-      GroupName: admin
+      GroupName: !Ref AdminGroupName
       UserPoolId: !Ref CognitoUserPool
       Description: Admin users
       Precedence: 0
@@ -547,30 +635,38 @@ Resources:
   ResidentUserGroup:
     Type: AWS::Cognito::UserPoolGroup
     Properties:
-      GroupName: resident
+      GroupName: !Ref ResidentGroupName
       UserPoolId: !Ref CognitoUserPool
       Description: Resident users
       Precedence: 1
 
-  AdminUser:
-    Type: AWS::Cognito::User
+  GuardUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
     Properties:
+      GroupName: !Ref GuardUserGroupName
       UserPoolId: !Ref CognitoUserPool
-      Username: "admin@alphinecodetech.click"
-      Password: "AdminPass123!"
-      UserAttributes:
-        - Name: "given_name"
-          Value: "Admin"
-        - Name: "family_name"
-          Value: "User"
-        - Name: "email"
-          Value: "admin@alphinecodetech.click"
-        - Name: "phone_number"
-          Value: "+15551234567" #  E.164 format
-        - Name: "email_verified"
-          Value: "true"
-      GroupList:
-        - !Ref AdminUserGroup
+      Description: Guard users
+      Precedence: 2
+
+  # AdminUser:
+  #   Type: AWS::Cognito::User
+  #   Properties:
+  #     UserPoolId: !Ref CognitoUserPool
+  #     Username: "admin@alphinecodetech.click"
+  #     Password: "AdminPass123!"
+  #     UserAttributes:
+  #       - Name: "given_name"
+  #         Value: "Admin"
+  #       - Name: "family_name"
+  #         Value: "User"
+  #       - Name: "email"
+  #         Value: "admin@alphinecodetech.click"
+  #       - Name: "phone_number"
+  #         Value: "+15551234567" #  E.164 format
+  #       - Name: "email_verified"
+  #         Value: "true"
+  #     GroupList:
+  #       - !Ref AdminUserGroup
 
 Outputs:
   APIGatewayEndpoint:
