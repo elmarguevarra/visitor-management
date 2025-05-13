@@ -41,7 +41,7 @@
             id="Group"
             v-model="formData.Group"
             readonly
-            :class="{ 'text-muted': !authenticationStore.Group }"
+            :class="{ 'text-muted': !authenticationStore.userGroup }"
           />
         </div>
       </form>
