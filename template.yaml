@@ -74,45 +74,26 @@ Resources:
             appliesTo:
               principalTypes: [UserGroup]
               resourceTypes: [VisitorManagement]
-      Name: !Ref VerifiedPermissionsPolicyStoreName
+        ValidationSettings:
+          Mode: STRICT
 
-    # AdminVPGroup:
-    #   Type: AWS::VerifiedPermissions::Group
-    #   Properties:
-    #     PolicyStoreId: !Ref VisitorManagementPolicyStore
-    #     GroupName: !Ref AdminGroupName
-
-    # ResidentVPGroup:
-    #   Type: AWS::VerifiedPermissions::Group
-    #   Properties:
-    #     PolicyStoreId: !Ref VisitorManagementPolicyStore
-    #     GroupName: !Ref ResidentGroupName
-
-    # GuardVPGroup:
-    #   Type: AWS::VerifiedPermissions::Group
-    #   Properties:
-    #     PolicyStoreId: !Ref VisitorManagementPolicyStore
-    #     GroupName: !Ref GuardGroupName
-
-    AllowAdminGroupFullAccessPolicy:
-      Type: AWS::VerifiedPermissions::Policy
-      Properties:
-        PolicyStoreId: !Ref VisitorManagementPolicyStore
-        PolicyDefinition:
-          StaticPolicy:
-            PolicyDefinition: |
-              permit(
-                principal == VisitorManagement::Group::"${AdminGroupName}",
-                action in [VisitorManagement::Action::"searchVisitor", 
-                           VisitorManagement::Action::"registerVisitor", 
-                           VisitorManagement::Action::"inviteVisitor", 
-                           VisitorManagement::Action::"verifyVisitor", 
-                           VisitorManagement::Action::"browseVisitors"],
-                resource == VisitorManagement::Visitor::"visitorResource"
-              );
-        PolicyType: STATIC
-        PrincipalEntityType: UserGroup
-        PrincipalId: !Ref AdminGroupName
+  AllowAdminGroupFullAccessPolicy:
+    Type: AWS::VerifiedPermissions::Policy
+    Properties:
+      PolicyStoreId: !Ref VisitorManagementPolicyStore
+      PolicyDefinition:
+        StaticPolicy:
+          PolicyDefinition: !Sub |
+            permit(
+              principal == VisitorManagement::Group::"${AdminGroupName}",
+              action in [VisitorManagement::Action::"searchVisitor", 
+                          VisitorManagement::Action::"registerVisitor", 
+                          VisitorManagement::Action::"inviteVisitor", 
+                          VisitorManagement::Action::"verifyVisitor", 
+                          VisitorManagement::Action::"browseVisitors"],
+              resource == VisitorManagement::Visitor::"visitorResource"
+            );
+      PolicyType: STATIC
 
   ApiGatewayApi:
     Type: AWS::Serverless::Api
