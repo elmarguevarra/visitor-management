@@ -143,9 +143,6 @@ Resources:
 
   AllowAdminGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
-    Metadata:
-      Description: >
-        Permit policy for the Admin user group
     Properties:
       PolicyStoreId: !Ref VisitorManagementPolicyStore
       Definition:
@@ -163,9 +160,6 @@ Resources:
             );
   AllowResidentGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
-    Metadata:
-      Description: >
-        Permit policy for the Resident user group
     Properties:
       PolicyStoreId: !Ref VisitorManagementPolicyStore
       Definition:
@@ -181,9 +175,6 @@ Resources:
             );
   AllowGuardGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
-    Metadata:
-      Description: >
-        Permit policy for the Guard user group
     Properties:
       PolicyStoreId: !Ref VisitorManagementPolicyStore
       Definition:
@@ -191,7 +182,8 @@ Resources:
           Statement: !Sub |
             permit (
                 principal in VisitorManagement::UserGroup::"${GuardGroupName}",
-                action in [VisitorManagement::Action::"verifyVisitor"],
+                action in [VisitorManagement::Action::"verifyVisitor",
+                           VisitorManagement::Action::"searchVisitor"],
                 resource == VisitorManagement::Visitor::"visitorResource"
             );
 
