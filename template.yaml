@@ -25,12 +25,36 @@ Parameters:
     Default: guard
     Description: Name of the guard user group in Verified Permissions
 
-Resources: !Include resources/verified-permissions.yaml
-  !Include resources/api-gateway.yaml
-  !Include resources/lambda-functions.yaml
-  !Include resources/dynamo-db-tables.yaml
-  !Include resources/s3-cloudfront.yaml
-  !Include resources/cognito.yaml
+Resources:
+  VerifiedPermissionsStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./resources/verified-permissions.yaml
+
+  ApiGatewayStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./resources/api-gateway.yaml
+
+  LambdaFunctionsStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./resources/lambda-functions.yaml
+
+  DynamoDbTablesStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./resources/dynamo-db-tables.yaml
+
+  S3CloudFrontStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./resources/s3-cloudfront.yaml
+
+  CognitoStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./resources/cognito.yaml
 
 Outputs:
   APIGatewayEndpoint: !GetAtt ApiGatewayApi.Outputs.Endpoint
