@@ -143,6 +143,9 @@ Resources:
 
   AllowAdminGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
+    Metadata:
+      Description: >
+        Permit policy for the Admin user group
     Properties:
       PolicyStoreId: !Ref VisitorManagementPolicyStore
       Definition:
@@ -158,35 +161,39 @@ Resources:
                     VisitorManagement::Action::"verifyVisitor"],
                 resource == VisitorManagement::Visitor::"visitorResource"
             );
-
-    AllowResidentGroupAccessPolicy:
-      Type: AWS::VerifiedPermissions::Policy
-      Properties:
-        PolicyStoreId: !Ref VisitorManagementPolicyStore
-        Definition:
-          Static:
-            Statement: !Sub |
-              permit (
-                  principal in VisitorManagement::UserGroup::"${ResidentGroupName}",
-                  action in
-                      [VisitorManagement::Action::"browseVisitors",
-                      VisitorManagement::Action::"inviteVisitor",
-                      VisitorManagement::Action::"registerVisitor"],
-                  resource == VisitorManagement::Visitor::"visitorResource"
-              );
-
-    AllowGuardGroupAccessPolicy:
-      Type: AWS::VerifiedPermissions::Policy
-      Properties:
-        PolicyStoreId: !Ref VisitorManagementPolicyStore
-        Definition:
-          Static:
-            Statement: !Sub |
-              permit (
-                  principal in VisitorManagement::UserGroup::"${GuardGroupName}",
-                  action in [VisitorManagement::Action::"verifyVisitor"],
-                  resource == VisitorManagement::Visitor::"visitorResource"
-              );
+  AllowResidentGroupAccessPolicy:
+    Type: AWS::VerifiedPermissions::Policy
+    Metadata:
+      Description: >
+        Permit policy for the Resident user group
+    Properties:
+      PolicyStoreId: !Ref VisitorManagementPolicyStore
+      Definition:
+        Static:
+          Statement: !Sub |
+            permit (
+                principal in VisitorManagement::UserGroup::"${ResidentGroupName}",
+                action in
+                    [VisitorManagement::Action::"browseVisitors",
+                    VisitorManagement::Action::"inviteVisitor",
+                    VisitorManagement::Action::"registerVisitor"],
+                resource == VisitorManagement::Visitor::"visitorResource"
+            );
+  AllowGuardGroupAccessPolicy:
+    Type: AWS::VerifiedPermissions::Policy
+    Metadata:
+      Description: >
+        Permit policy for the Guard user group
+    Properties:
+      PolicyStoreId: !Ref VisitorManagementPolicyStore
+      Definition:
+        Static:
+          Statement: !Sub |
+            permit (
+                principal in VisitorManagement::UserGroup::"${GuardGroupName}",
+                action in [VisitorManagement::Action::"verifyVisitor"],
+                resource == VisitorManagement::Visitor::"visitorResource"
+            );
 
   ApiGatewayApi:
     Type: AWS::Serverless::Api
