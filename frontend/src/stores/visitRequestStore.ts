@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getVisitRequestsByResidentId } from '@/services/apiService'
+import { getVisitRequestsByResidentId } from '@/services/internalApiServices'
 
 export const useVisitRequestStore = defineStore('visitRequests', {
   state: () => ({

@@ -20,6 +20,9 @@ resolve_s3 = true
 s3_prefix = "visitor-management"
 region = "ap-southeast-1"
 image_repositories = []
+environment_variables = [
+    { name = "AWS_REGION", value = "{region}" }
+]
 
 [default.package.parameters]
 resolve_s3 = true

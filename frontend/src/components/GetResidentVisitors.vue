@@ -212,7 +212,7 @@ import {
   getVisitRequestsByResidentId,
   postVisitRequest,
   postVisitor,
-} from '@/services/apiService'
+} from '@/services/internalApiServices'
 import { formatDate } from '@/utils'
 import { useVisitRequestStore } from '@/stores/visitRequestStore'
 import { useVisitorStore } from '@/stores/visitorStore'

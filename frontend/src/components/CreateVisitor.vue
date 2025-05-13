@@ -82,7 +82,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { postVisitor } from '@/services/apiService'
+import { postVisitor } from '@/services/internalApiServices'
 import { getYearMonthDay, formatDate } from '@/utils'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 

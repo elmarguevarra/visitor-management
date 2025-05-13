@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { getVisitorByRegistrationId } from '@/services/apiService'
+import { getVisitorByRegistrationId } from '@/services/internalApiServices'
 import { formatDate, formatDateAndTime } from '@/utils'
 
 export default {

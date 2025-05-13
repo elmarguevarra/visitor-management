@@ -775,3 +775,6 @@ Globals:
   Function:
     LoggingConfig:
       LogFormat: JSON
+    Environment:
+      Variables:
+        POLICY_STORE_ID: !Ref VisitorManagementPolicyStore

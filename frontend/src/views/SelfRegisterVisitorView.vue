@@ -170,7 +170,7 @@ import {
   getInviteByToken,
   getVisitRequestByToken,
   getVisitorByRegistrationId,
-} from '@/services/apiService'
+} from '@/services/internalApiServices'
 import { useVisitRequestStore } from '@/stores/visitRequestStore'
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils'
 

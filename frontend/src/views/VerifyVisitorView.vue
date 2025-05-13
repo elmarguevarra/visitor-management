@@ -106,7 +106,10 @@
 
 <script>
 import { ref, computed, onMounted } from 'vue'
-import { getVisitorByRegistrationId, postVisitor } from '@/services/apiService'
+import {
+  getVisitorByRegistrationId,
+  postVisitor,
+} from '@/services/internalApiServices'
 import { formatDateAndTime } from '@/utils'
 
 export default {

@@ -1,1 +1,5 @@
-{}
+{
+  "dependencies": {
+    "@aws-sdk/client-verifiedpermissions": "^3.808.0"
+  }
+}
