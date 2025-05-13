@@ -626,7 +626,7 @@ Resources:
   GuardUserGroup:
     Type: AWS::Cognito::UserPoolGroup
     Properties:
-      GroupName: !Ref GuardUserGroupName
+      GroupName: !Ref GuardGroupName
       UserPoolId: !Ref CognitoUserPool
       Description: Guard users
       Precedence: 2
