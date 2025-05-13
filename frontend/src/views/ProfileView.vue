@@ -24,9 +24,7 @@
           />
         </div>
         <div class="col-md-6">
-          <label for="Name" class="form-label"
-            >Contact</label
-          >
+          <label for="Name" class="form-label">Contact</label>
           <input
             type="text"
             class="form-control"
@@ -36,15 +34,14 @@
           />
         </div>
         <div class="col-md-6">
-          <label for="Group" class="form-label"
-            >Group</label
-          >
+          <label for="Group" class="form-label">Group</label>
           <input
             type="text"
             class="form-control"
             id="Group"
             v-model="formData.Group"
             readonly
+            :class="{ 'text-muted': !authenticationStore.Group }"
           />
         </div>
       </form>
@@ -65,10 +62,11 @@ export default {
       Id: authenticationStore.userEmail,
       Name: `${authenticationStore.userGivenName} ${authenticationStore.userFamilyName}`,
       Contact: authenticationStore.userPhoneNumber,
-      Group: authenticationStore.userGroup
+      Group: authenticationStore.userGroup ?? 'to be assigned...',
     })
 
     return {
+      authenticationStore,
       formData,
     }
   },
