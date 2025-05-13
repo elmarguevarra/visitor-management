@@ -141,7 +141,7 @@ Resources:
       ValidationSettings:
         Mode: STRICT
 
-  AllowAdminGroupFullAccessPolicy:
+  AllowAdminGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
     Properties:
       PolicyStoreId: !Ref VisitorManagementPolicyStore
@@ -149,7 +149,7 @@ Resources:
         Static:
           Statement: !Sub |
             permit (
-                principal in VisitorManagement::UserGroup::${AdminGroupName},
+                principal in VisitorManagement::UserGroup::"${AdminGroupName}",
                 action in
                     [VisitorManagement::Action::"browseVisitors",
                     VisitorManagement::Action::"inviteVisitor",
