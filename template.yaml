@@ -16,10 +16,6 @@ Parameters:
     Type: String
     Default: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
     Description: The public certificate arn in us-east-1 region
-  VerifiedPermissionsPolicyStoreName:
-    Type: String
-    Default: VisitorManagementPolicyStore
-    Description: Name for the Verified Permissions Policy Store
   AdminGroupName:
     Type: String
     Default: admin
@@ -37,68 +33,68 @@ Parameters:
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
   VisitorManagementPolicyStore:
-  Type: AWS::VerifiedPermissions::PolicyStore
-  Properties:
-    Schema:
-      CedarJson: |
-        {
-          "VisitorManagement": {
-            "entityTypes": {
-              "UserGroup": {
-                "shape": {
-                  "type": "Record",
-                  "attributes": {}
+    Type: AWS::VerifiedPermissions::PolicyStore
+    Properties:
+      Schema:
+        CedarJson: |
+          {
+            "VisitorManagement": {
+              "entityTypes": {
+                "UserGroup": {
+                  "shape": {
+                    "type": "Record",
+                    "attributes": {}
+                  }
+                },
+                "VisitorManagement": {
+                  "shape": {
+                    "type": "Record",
+                    "attributes": {}
+                  }
+                },
+                "Visitor": {
+                  "shape": {
+                    "type": "Record",
+                    "attributes": {}
+                  }
                 }
               },
-              "VisitorManagement": {
-                "shape": {
-                  "type": "Record",
-                  "attributes": {}
-                }
-              },
-              "Visitor": {
-                "shape": {
-                  "type": "Record",
-                  "attributes": {}
-                }
-              }
-            },
-            "actions": {
-              "searchVisitor": {
-                "appliesTo": {
-                  "principalTypes": ["UserGroup"],
-                  "resourceTypes": ["VisitorManagement"]
-                }
-              },
-              "registerVisitor": {
-                "appliesTo": {
-                  "principalTypes": ["UserGroup"],
-                  "resourceTypes": ["VisitorManagement"]
-                }
-              },
-              "inviteVisitor": {
-                "appliesTo": {
-                  "principalTypes": ["UserGroup"],
-                  "resourceTypes": ["VisitorManagement"]
-                }
-              },
-              "verifyVisitor": {
-                "appliesTo": {
-                  "principalTypes": ["UserGroup"],
-                  "resourceTypes": ["VisitorManagement"]
-                }
-              },
-              "browseVisitors": {
-                "appliesTo": {
-                  "principalTypes": ["UserGroup"],
-                  "resourceTypes": ["VisitorManagement"]
+              "actions": {
+                "searchVisitor": {
+                  "appliesTo": {
+                    "principalTypes": ["UserGroup"],
+                    "resourceTypes": ["VisitorManagement"]
+                  }
+                },
+                "registerVisitor": {
+                  "appliesTo": {
+                    "principalTypes": ["UserGroup"],
+                    "resourceTypes": ["VisitorManagement"]
+                  }
+                },
+                "inviteVisitor": {
+                  "appliesTo": {
+                    "principalTypes": ["UserGroup"],
+                    "resourceTypes": ["VisitorManagement"]
+                  }
+                },
+                "verifyVisitor": {
+                  "appliesTo": {
+                    "principalTypes": ["UserGroup"],
+                    "resourceTypes": ["VisitorManagement"]
+                  }
+                },
+                "browseVisitors": {
+                  "appliesTo": {
+                    "principalTypes": ["UserGroup"],
+                    "resourceTypes": ["VisitorManagement"]
+                  }
                 }
               }
             }
           }
-        }
-    ValidationSettings:
-      Mode: STRICT
+      ValidationSettings:
+        Mode: STRICT
 
   AllowAdminGroupFullAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
