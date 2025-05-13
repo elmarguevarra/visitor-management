@@ -149,7 +149,7 @@ Resources:
         Static:
           Statement: !Sub |
             permit(
-              principal == VisitorManagement::UserGroup::"${AdminGroupName}",
+              principal in VisitorManagement::UserGroup::"${AdminGroupName}",
               action in [
                 VisitorManagement::Action::"searchVisitor",
                 VisitorManagement::Action::"registerVisitor",
@@ -157,7 +157,7 @@ Resources:
                 VisitorManagement::Action::"verifyVisitor",
                 VisitorManagement::Action::"browseVisitors"
               ],
-              resource == VisitorManagement::Visitor::"visitorResource"
+              resource in VisitorManagement::Visitor::"visitorResource"
             );
 
   ApiGatewayApi:
