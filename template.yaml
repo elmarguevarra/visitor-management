@@ -81,19 +81,20 @@ Resources:
     Type: AWS::VerifiedPermissions::Policy
     Properties:
       PolicyStoreId: !Ref VisitorManagementPolicyStore
-      PolicyDefinition:
-        StaticPolicy:
-          PolicyDefinition: !Sub |
+      Definition:
+        Static:
+          Statement: !Sub |
             permit(
-              principal == VisitorManagement::Group::"${AdminGroupName}",
-              action in [VisitorManagement::Action::"searchVisitor", 
-                          VisitorManagement::Action::"registerVisitor", 
-                          VisitorManagement::Action::"inviteVisitor", 
-                          VisitorManagement::Action::"verifyVisitor", 
-                          VisitorManagement::Action::"browseVisitors"],
+              principal == UserGroup::"${AdminGroupName}",
+              action in [
+                VisitorManagement::Action::"searchVisitor",
+                VisitorManagement::Action::"registerVisitor",
+                VisitorManagement::Action::"inviteVisitor",
+                VisitorManagement::Action::"verifyVisitor",
+                VisitorManagement::Action::"browseVisitors"
+              ],
               resource == VisitorManagement::Visitor::"visitorResource"
             );
-      PolicyType: STATIC
 
   ApiGatewayApi:
     Type: AWS::Serverless::Api
