@@ -1,154 +1,160 @@
-VisitorManagementPolicyStore:
-  Type: AWS::VerifiedPermissions::PolicyStore
-  Properties:
-    Schema:
-      CedarJson: |
-        {
-          "VisitorManagement": {
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Visitor Management Verified Permissions resources
+
+Resources:
+  VisitorManagementPolicyStore:
+    Type: AWS::VerifiedPermissions::PolicyStore
+    Properties:
+      Schema:
+        CedarJson: |
+          {
+            "VisitorManagement": {
               "entityTypes": {
-                  "User": {
-                      "memberOfTypes": [
-                          "UserGroup"
-                      ],
-                      "shape": {
-                          "type": "Record",
-                          "attributes": {}
-                      }
-                  },
-                  "Visitor": {
-                      "memberOfTypes": [],
-                      "shape": {
-                          "type": "Record",
-                          "attributes": {}
-                      }
-                  },
-                  "UserGroup": {
-                      "memberOfTypes": [],
-                      "shape": {
-                          "type": "Record",
-                          "attributes": {}
-                      }
+                "User": {
+                  "memberOfTypes": [
+                    "UserGroup"
+                  ],
+                  "shape": {
+                    "type": "Record",
+                    "attributes": {}
                   }
+                },
+                "Visitor": {
+                  "memberOfTypes": [],
+                  "shape": {
+                    "type": "Record",
+                    "attributes": {}
+                  }
+                },
+                "UserGroup": {
+                  "memberOfTypes": [],
+                  "shape": {
+                    "type": "Record",
+                    "attributes": {}
+                  }
+                }
               },
               "actions": {
-                  "searchVisitor": {
-                      "appliesTo": {
-                          "context": {
-                              "type": "Record",
-                              "attributes": {}
-                          },
-                          "principalTypes": [
-                              "User"
-                          ],
-                          "resourceTypes": [
-                              "Visitor"
-                          ]
-                      }
-                  },
-                  "registerVisitor": {
-                      "appliesTo": {
-                          "context": {
-                              "type": "Record",
-                              "attributes": {}
-                          },
-                          "principalTypes": [
-                              "User"
-                          ],
-                          "resourceTypes": [
-                              "Visitor"
-                          ]
-                      }
-                  },
-                  "inviteVisitor": {
-                      "appliesTo": {
-                          "context": {
-                              "type": "Record",
-                              "attributes": {}
-                          },
-                          "principalTypes": [
-                              "User"
-                          ],
-                          "resourceTypes": [
-                              "Visitor"
-                          ]
-                      }
-                  },
-                  "verifyVisitor": {
-                      "appliesTo": {
-                          "context": {
-                              "type": "Record",
-                              "attributes": {}
-                          },
-                          "principalTypes": [
-                              "User"
-                          ],
-                          "resourceTypes": [
-                              "Visitor"
-                          ]
-                      }
-                  },
-                  "browseVisitors": {
-                      "appliesTo": {
-                          "context": {
-                              "type": "Record",
-                              "attributes": {}
-                          },
-                          "principalTypes": [
-                              "User"
-                          ],
-                          "resourceTypes": [
-                              "Visitor"
-                          ]
-                      }
+                "searchVisitor": {
+                  "appliesTo": {
+                    "context": {
+                      "type": "Record",
+                      "attributes": {}
+                    },
+                    "principalTypes": [
+                      "User"
+                    ],
+                    "resourceTypes": [
+                      "Visitor"
+                    ]
                   }
+                },
+                "registerVisitor": {
+                  "appliesTo": {
+                    "context": {
+                      "type": "Record",
+                      "attributes": {}
+                    },
+                    "principalTypes": [
+                      "User"
+                    ],
+                    "resourceTypes": [
+                      "Visitor"
+                    ]
+                  }
+                },
+                "inviteVisitor": {
+                  "appliesTo": {
+                    "context": {
+                      "type": "Record",
+                      "attributes": {}
+                    },
+                    "principalTypes": [
+                      "User"
+                    ],
+                    "resourceTypes": [
+                      "Visitor"
+                    ]
+                  }
+                },
+                "verifyVisitor": {
+                  "appliesTo": {
+                    "context": {
+                      "type": "Record",
+                      "attributes": {}
+                    },
+                    "principalTypes": [
+                      "User"
+                    ],
+                    "resourceTypes": [
+                      "Visitor"
+                    ]
+                  }
+                },
+                "browseVisitors": {
+                  "appliesTo": {
+                    "context": {
+                      "type": "Record",
+                      "attributes": {}
+                    },
+                    "principalTypes": [
+                      "User"
+                    ],
+                    "resourceTypes": [
+                      "Visitor"
+                    ]
+                  }
+                }
               }
+            }
           }
-        }
-    ValidationSettings:
-      Mode: STRICT
+      ValidationSettings:
+        Mode: STRICT
 
-AllowAdminGroupAccessPolicy:
-  Type: AWS::VerifiedPermissions::Policy
-  Properties:
-    PolicyStoreId: !Ref VisitorManagementPolicyStore
-    Definition:
-      Static:
-        Statement: !Sub |
-          permit (
-              principal in VisitorManagement::UserGroup::"${AdminGroupName}",
-              action in
-                  [VisitorManagement::Action::"browseVisitors",
-                  VisitorManagement::Action::"inviteVisitor",
-                  VisitorManagement::Action::"registerVisitor",
-                  VisitorManagement::Action::"searchVisitor",
-                  VisitorManagement::Action::"verifyVisitor"],
-              resource == VisitorManagement::Visitor::"visitorResource"
-          );
-AllowResidentGroupAccessPolicy:
-  Type: AWS::VerifiedPermissions::Policy
-  Properties:
-    PolicyStoreId: !Ref VisitorManagementPolicyStore
-    Definition:
-      Static:
-        Statement: !Sub |
-          permit (
-              principal in VisitorManagement::UserGroup::"${ResidentGroupName}",
-              action in
-                  [VisitorManagement::Action::"browseVisitors",
-                  VisitorManagement::Action::"inviteVisitor",
-                  VisitorManagement::Action::"registerVisitor"],
-              resource == VisitorManagement::Visitor::"visitorResource"
-          );
-AllowGuardGroupAccessPolicy:
-  Type: AWS::VerifiedPermissions::Policy
-  Properties:
-    PolicyStoreId: !Ref VisitorManagementPolicyStore
-    Definition:
-      Static:
-        Statement: !Sub |
-          permit (
-              principal in VisitorManagement::UserGroup::"${GuardGroupName}",
-              action in [VisitorManagement::Action::"verifyVisitor",
-                         VisitorManagement::Action::"searchVisitor"],
-              resource == VisitorManagement::Visitor::"visitorResource"
-          );
+  AllowAdminGroupAccessPolicy:
+    Type: AWS::VerifiedPermissions::Policy
+    Properties:
+      PolicyStoreId: !Ref VisitorManagementPolicyStore
+      Definition:
+        Static:
+          Statement: !Sub |
+            permit (
+                principal in VisitorManagement::UserGroup::"${AdminGroupName}",
+                action in
+                    [VisitorManagement::Action::"browseVisitors",
+                    VisitorManagement::Action::"inviteVisitor",
+                    VisitorManagement::Action::"registerVisitor",
+                    VisitorManagement::Action::"searchVisitor",
+                    VisitorManagement::Action::"verifyVisitor"],
+                resource == VisitorManagement::Visitor::"visitorResource"
+            );
+
+  AllowResidentGroupAccessPolicy:
+    Type: AWS::VerifiedPermissions::Policy
+    Properties:
+      PolicyStoreId: !Ref VisitorManagementPolicyStore
+      Definition:
+        Static:
+          Statement: !Sub |
+            permit (
+                principal in VisitorManagement::UserGroup::"${ResidentGroupName}",
+                action in
+                    [VisitorManagement::Action::"browseVisitors",
+                    VisitorManagement::Action::"inviteVisitor",
+                    VisitorManagement::Action::"registerVisitor"],
+                resource == VisitorManagement::Visitor::"visitorResource"
+            );
+
+  AllowGuardGroupAccessPolicy:
+    Type: AWS::VerifiedPermissions::Policy
+    Properties:
+      PolicyStoreId: !Ref VisitorManagementPolicyStore
+      Definition:
+        Static:
+          Statement: !Sub |
+            permit (
+                principal in VisitorManagement::UserGroup::"${GuardGroupName}",
+                action in [VisitorManagement::Action::"verifyVisitor",
+                           VisitorManagement::Action::"searchVisitor"],
+                resource == VisitorManagement::Visitor::"visitorResource"
+            );

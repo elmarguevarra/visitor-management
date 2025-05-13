@@ -1,3 +1,5 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
 ApiGatewayApi:
   Type: AWS::Serverless::Api
   Properties:
