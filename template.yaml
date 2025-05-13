@@ -37,45 +37,68 @@ Parameters:
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
   VisitorManagementPolicyStore:
-    Type: AWS::VerifiedPermissions::PolicyStore
-    Properties:
-      Schema:
-        EntityTypeSchemas:
-          UserGroup:
-            Shape:
-              type: Record
-              attributes: {}
-          VisitorManagement:
-            Shape:
-              type: Record
-              attributes: {}
-          Visitor:
-            Shape:
-              type: Record
-              attributes: {}
-        ActionSchemas:
-          searchVisitor:
-            appliesTo:
-              principalTypes: [UserGroup]
-              resourceTypes: [VisitorManagement]
-          registerVisitor:
-            appliesTo:
-              principalTypes: [UserGroup]
-              resourceTypes: [VisitorManagement]
-          inviteVisitor:
-            appliesTo:
-              principalTypes: [UserGroup]
-              resourceTypes: [VisitorManagement]
-          verifyVisitor:
-            appliesTo:
-              principalTypes: [UserGroup]
-              resourceTypes: [VisitorManagement]
-          browseVisitors:
-            appliesTo:
-              principalTypes: [UserGroup]
-              resourceTypes: [VisitorManagement]
-        ValidationSettings:
-          Mode: STRICT
+  Type: AWS::VerifiedPermissions::PolicyStore
+  Properties:
+    Schema:
+      CedarJson: |
+        {
+          "VisitorManagement": {
+            "entityTypes": {
+              "UserGroup": {
+                "shape": {
+                  "type": "Record",
+                  "attributes": {}
+                }
+              },
+              "VisitorManagement": {
+                "shape": {
+                  "type": "Record",
+                  "attributes": {}
+                }
+              },
+              "Visitor": {
+                "shape": {
+                  "type": "Record",
+                  "attributes": {}
+                }
+              }
+            },
+            "actions": {
+              "searchVisitor": {
+                "appliesTo": {
+                  "principalTypes": ["UserGroup"],
+                  "resourceTypes": ["VisitorManagement"]
+                }
+              },
+              "registerVisitor": {
+                "appliesTo": {
+                  "principalTypes": ["UserGroup"],
+                  "resourceTypes": ["VisitorManagement"]
+                }
+              },
+              "inviteVisitor": {
+                "appliesTo": {
+                  "principalTypes": ["UserGroup"],
+                  "resourceTypes": ["VisitorManagement"]
+                }
+              },
+              "verifyVisitor": {
+                "appliesTo": {
+                  "principalTypes": ["UserGroup"],
+                  "resourceTypes": ["VisitorManagement"]
+                }
+              },
+              "browseVisitors": {
+                "appliesTo": {
+                  "principalTypes": ["UserGroup"],
+                  "resourceTypes": ["VisitorManagement"]
+                }
+              }
+            }
+          }
+        }
+    ValidationSettings:
+      Mode: STRICT
 
   AllowAdminGroupFullAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
