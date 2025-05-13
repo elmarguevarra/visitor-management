@@ -65,7 +65,7 @@ Resources:
                     }
                 },
                 "actions": {
-                    "CreateVisitor": {
+                    "registerVisitor": {
                         "appliesTo": {
                             "context": {
                                 "type": "Record",
@@ -93,7 +93,7 @@ Resources:
         Static:
           Statement: !Sub |
             permit(
-              principal == UserGroup::"${AdminGroupName}",
+              principal == VisitorManagement::UserGroup::"${AdminGroupName}",
               action in [
                 VisitorManagement::Action::"searchVisitor",
                 VisitorManagement::Action::"registerVisitor",
