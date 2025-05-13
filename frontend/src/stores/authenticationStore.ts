@@ -31,7 +31,7 @@ export const useAuthenticationStore = defineStore('authentication', {
 
         const profile = user?.profile as UserProfile | undefined
         this.userEmail = profile?.email
-        this.userGivenName = profile?.given_names
+        this.userGivenName = profile?.given_name
         this.userFamilyName = profile?.family_name
         this.userPhoneNumber = profile?.phone_number
         this.userGroup = profile?.['cognito:groups']?.[0]
