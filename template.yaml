@@ -39,40 +39,47 @@ Resources:
         CedarJson: |
           {
             "VisitorManagement": {
-              "entityTypes": {
-                "UserGroup": {
-                  "shape": {
-                    "type": "Record",
-                    "attributes": {}
-                  }
+                "entityTypes": {
+                    "User": {
+                        "memberOfTypes": [
+                            "UserGroup"
+                        ],
+                        "shape": {
+                            "type": "Record",
+                            "attributes": {}
+                        }
+                    },
+                    "Visitor": {
+                        "memberOfTypes": [],
+                        "shape": {
+                            "type": "Record",
+                            "attributes": {}
+                        }
+                    },
+                    "UserGroup": {
+                        "memberOfTypes": [],
+                        "shape": {
+                            "type": "Record",
+                            "attributes": {}
+                        }
+                    }
                 },
-                "VisitorManagement": {
-                  "shape": {
-                    "type": "Record",
-                    "attributes": {}
-                  }
-                },
-                "Visitor": {
-                  "shape": {
-                    "type": "Record",
-                    "attributes": {}
-                  }
+                "actions": {
+                    "CreateVisitor": {
+                        "appliesTo": {
+                            "context": {
+                                "type": "Record",
+                                "attributes": {}
+                            },
+                            "principalTypes": [
+                                "User"
+                            ],
+                            "resourceTypes": [
+                                "Visitor"
+                            ]
+                        }
+                    }
                 }
-              },
-              "actions": {
-                "searchVisitor": {
-                  "appliesTo": {
-                    "principalTypes": ["VisitorManagement::UserGroup"],
-                    "resourceTypes": ["VisitorManagement::Visitor"]
-                  }
-                },
-                "registerVisitor": {
-                  "appliesTo": {
-                    "principalTypes": ["VisitorManagement::UserGroup"],
-                    "resourceTypes": ["VisitorManagement::Visitor"]
-                  }
-                }
-              }
             }
           }
       ValidationSettings:
