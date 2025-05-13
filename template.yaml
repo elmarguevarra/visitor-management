@@ -43,17 +43,19 @@ Resources:
                 "UserGroup": {
                   "shape": {
                     "type": "Record",
-                    "attributes": {
-                      "id": { "type": "String" }
-                    }
+                    "attributes": {}
+                  }
+                },
+                "VisitorManagement": {
+                  "shape": {
+                    "type": "Record",
+                    "attributes": {}
                   }
                 },
                 "Visitor": {
                   "shape": {
                     "type": "Record",
-                    "attributes": {
-                      "id": { "type": "String" }
-                    }
+                    "attributes": {}
                   }
                 }
               },
@@ -70,7 +72,6 @@ Resources:
                     "resourceTypes": ["VisitorManagement::Visitor"]
                   }
                 }
-                # Add other actions (inviteVisitor, verifyVisitor, etc.)
               }
             }
           }
