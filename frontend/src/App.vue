@@ -55,7 +55,7 @@
             <ul class="navbar-nav align-items-center">
               <li class="nav-item">
                 <router-link
-                  to="/resident-profile"
+                  to="/profile"
                   class="nav-link py-1"
                   active-class="active"
                   >Profile</router-link

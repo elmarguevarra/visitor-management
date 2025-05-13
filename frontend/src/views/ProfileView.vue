@@ -2,36 +2,48 @@
   <div class="container mt-2">
     <h4 class="mb-3 text-muted" style="margin-left: -0.2rem">Profile</h4>
     <div>
-      <form @submit.prevent="generateInviteLink" class="row g-3">
+      <form class="row g-3">
         <div class="col-md-6">
-          <label for="residentId" class="form-label">Resident Email</label>
+          <label for="Id" class="form-label">Email</label>
           <input
             type="text"
             class="form-control"
-            id="residentId"
-            v-model="formData.residentId"
+            id="Id"
+            v-model="formData.Id"
             readonly
           />
         </div>
         <div class="col-md-6">
-          <label for="residentName" class="form-label">Resident Name</label>
+          <label for="Name" class="form-label">Name</label>
           <input
             type="text"
             class="form-control"
-            id="residentName"
-            v-model="formData.residentName"
+            id="Name"
+            v-model="formData.Name"
             readonly
           />
         </div>
         <div class="col-md-6">
-          <label for="residentContact" class="form-label"
-            >Resident Contact</label
+          <label for="Name" class="form-label"
+            >Contact</label
           >
           <input
             type="text"
             class="form-control"
-            id="residentContact"
-            v-model="formData.residentContact"
+            id="Contact"
+            v-model="formData.Contact"
+            readonly
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="Group" class="form-label"
+            >Group</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="Group"
+            v-model="formData.Group"
             readonly
           />
         </div>
@@ -45,14 +57,15 @@ import { reactive } from 'vue'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 
 export default {
-  name: 'ResidentProfileView',
+  name: 'ProfileView',
   setup() {
     const authenticationStore = useAuthenticationStore()
 
     const formData = reactive({
-      residentId: authenticationStore.userEmail,
-      residentName: `${authenticationStore.userGivenName} ${authenticationStore.userFamilyName}`,
-      residentContact: authenticationStore.userPhoneNumber,
+      Id: authenticationStore.userEmail,
+      Name: `${authenticationStore.userGivenName} ${authenticationStore.userFamilyName}`,
+      Contact: authenticationStore.userPhoneNumber,
+      Group: authenticationStore.userGroup
     })
 
     return {

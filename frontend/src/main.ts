@@ -14,7 +14,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { userManager } from './auth/authConfig'
 import LandingView from './views/LandingView.vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
-import ResidentProfileView from './views/ResidentProfileView.vue'
+import ProfileView from './views/ProfileView.vue'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -55,9 +55,9 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/resident-profile',
-    name: 'ResidentProfileView',
-    component: ResidentProfileView,
+    path: '/profile',
+    name: 'ProfileView',
+    component: ProfileView,
     meta: { requiresAuth: true },
   },
   {
