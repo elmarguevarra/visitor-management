@@ -1,0 +1,251 @@
+getVisitorsFunction:
+  Type: AWS::Serverless::Function
+  Properties:
+    CodeUri: backend/
+    Handler: src/handlers/get-visitors.getVisitorsHandler
+    Runtime: nodejs20.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 100
+    Description:
+      A simple example includes a HTTP get method to get all items by id
+      from a DynamoDB table.
+    Policies:
+      # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+      - DynamoDBCrudPolicy:
+          TableName: !Ref VisitorsTable
+    Environment:
+      Variables:
+        # Make table name accessible as environment variable from function code during execution
+        VISITORS_TABLE: !Ref VisitorsTable
+        # Make DynamoDB endpoint accessible as environment variable from function code during execution
+        ENDPOINT_OVERRIDE: ""
+    Events:
+      Api:
+        Type: Api
+        Properties:
+          Path: /visitors
+          Method: GET
+          RestApiId: !Ref ApiGatewayApi
+          RequestParameters:
+            - method.request.querystring.residentId:
+                Required: false
+
+getVisitRequestsFunction:
+  Type: AWS::Serverless::Function
+  Properties:
+    CodeUri: backend/
+    Handler: src/handlers/get-visit-requests.getVisitRequestsHandler
+    Runtime: nodejs20.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 100
+    Description:
+      A simple example includes a HTTP get method to get all items by id
+      from a DynamoDB table.
+    Policies:
+      # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+      - DynamoDBCrudPolicy:
+          TableName: !Ref VisitRequestsTable
+    Environment:
+      Variables:
+        # Make DynamoDB endpoint accessible as environment variable from function code during execution
+        ENDPOINT_OVERRIDE: ""
+        # Make table name accessible as environment variable from function code during execution
+        VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
+    Events:
+      Api:
+        Type: Api
+        Properties:
+          Path: /visit-requests
+          Method: GET
+          RestApiId: !Ref ApiGatewayApi
+          RequestParameters:
+            - method.request.querystring.residentId:
+                Required: false
+
+getVisitorByIdFunction:
+  Type: AWS::Serverless::Function
+  Properties:
+    CodeUri: backend/
+    Handler: src/handlers/get-visitor-by-id.getVisitorByIdHandler
+    Runtime: nodejs20.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 100
+    Description:
+      A simple example includes a HTTP get method to get one item by id
+      from a DynamoDB table.
+    Policies:
+      # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+      - DynamoDBCrudPolicy:
+          TableName: !Ref VisitorsTable
+    Environment:
+      Variables:
+        # Make table name accessible as environment variable from function code during execution
+        VISITORS_TABLE: !Ref VisitorsTable
+        # Make DynamoDB endpoint accessible as environment variable from function code during execution
+        ENDPOINT_OVERRIDE: ""
+    Events:
+      Api:
+        Type: Api
+        Properties:
+          Path: /visitor/{id}
+          Method: GET
+          RestApiId: !Ref ApiGatewayApi
+
+getInviteByTokenFunction:
+  Type: AWS::Serverless::Function
+  Properties:
+    CodeUri: backend/
+    Handler: src/handlers/get-invite-by-token.getInviteByTokenHandler
+    Runtime: nodejs20.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 100
+    Description:
+      A simple example includes a HTTP get method to get one item by id
+      from a DynamoDB table.
+    Policies:
+      # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+      - DynamoDBCrudPolicy:
+          TableName: !Ref InviteLinksTable
+    Environment:
+      Variables:
+        # Make table name accessible as environment variable from function code during execution
+        INVITE_LINKS_TABLE: !Ref InviteLinksTable
+        # Make DynamoDB endpoint accessible as environment variable from function code during execution
+        ENDPOINT_OVERRIDE: ""
+    Events:
+      Api:
+        Type: Api
+        Properties:
+          Path: /invite/{inviteToken}
+          Method: GET
+          RestApiId: !Ref ApiGatewayApi
+
+getVisitRequestByTokenFunction:
+  Type: AWS::Serverless::Function
+  Properties:
+    CodeUri: backend/
+    Handler: src/handlers/get-visit-request-by-token.getVisitRequestByTokenHandler
+    Runtime: nodejs20.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 100
+    Description:
+      A simple example includes a HTTP get method to get one item by id
+      from a DynamoDB table.
+    Policies:
+      # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+      - DynamoDBCrudPolicy:
+          TableName: !Ref VisitRequestsTable
+    Environment:
+      Variables:
+        # Make DynamoDB endpoint accessible as environment variable from function code during execution
+        ENDPOINT_OVERRIDE: ""
+        VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
+    Events:
+      Api:
+        Type: Api
+        Properties:
+          Path: /visit-request/{inviteToken}
+          Method: GET
+          RestApiId: !Ref ApiGatewayApi
+
+putVisitorFunction:
+  Type: AWS::Serverless::Function
+  Properties:
+    CodeUri: backend/
+    Handler: src/handlers/put-visitor.putVisitorHandler
+    Runtime: nodejs20.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 100
+    Description:
+      A simple example includes a HTTP post method to add one item to a
+      DynamoDB table.
+    Policies:
+      # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+      - DynamoDBCrudPolicy:
+          TableName: !Ref VisitorsTable
+    Environment:
+      Variables:
+        VISITORS_TABLE: !Ref VisitorsTable
+        # Make DynamoDB endpoint accessible as environment variable from function code during execution
+        ENDPOINT_OVERRIDE: ""
+        APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
+    Events:
+      Api:
+        Type: Api
+        Properties:
+          Path: /visitor
+          Method: POST
+          RestApiId: !Ref ApiGatewayApi
+
+putInviteLinkFunction:
+  Type: AWS::Serverless::Function
+  Properties:
+    CodeUri: backend/
+    Handler: src/handlers/put-invite-link.putInviteLinkItemHandler
+    Runtime: nodejs20.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 100
+    Description:
+      A simple example includes a HTTP post method to add one item to a
+      DynamoDB table.
+    Policies:
+      # Give Create/Read/Update/Delete Permissions to the InviteLinksTable
+      - DynamoDBCrudPolicy:
+          TableName: !Ref InviteLinksTable
+    Environment:
+      Variables:
+        # Make DynamoDB endpoint accessible as environment variable from function code during execution
+        ENDPOINT_OVERRIDE: ""
+        APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
+        INVITE_LINKS_TABLE: !Ref InviteLinksTable
+    Events:
+      Api:
+        Type: Api
+        Properties:
+          Path: /invite
+          Method: POST
+          RestApiId: !Ref ApiGatewayApi
+
+putVisitRequestFunction:
+  Type: AWS::Serverless::Function
+  Properties:
+    CodeUri: backend/
+    Handler: src/handlers/put-visit-request.putVisitRequestHandler
+    Runtime: nodejs20.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 100
+    Description:
+      A simple example includes a HTTP post method to add one item to a
+      DynamoDB table.
+    Policies:
+      # Give Create/Read/Update/Delete Permissions to the VisitRequestsTable
+      - DynamoDBCrudPolicy:
+          TableName: !Ref VisitRequestsTable
+    Environment:
+      Variables:
+        # Make DynamoDB endpoint accessible as environment variable from function code during execution
+        ENDPOINT_OVERRIDE: ""
+        VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
+    Events:
+      Api:
+        Type: Api
+        Properties:
+          Path: /visit-request
+          Method: POST
+          RestApiId: !Ref ApiGatewayApi

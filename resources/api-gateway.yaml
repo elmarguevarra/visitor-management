@@ -1,0 +1,8 @@
+ApiGatewayApi:
+  Type: AWS::Serverless::Api
+  Properties:
+    StageName: Prod
+    Cors:
+      AllowMethods: "'OPTIONS, POST, GET'"
+      AllowHeaders: "'Content-Type'"
+      AllowOrigin: "'*'" #DO NOT USE THIS VALUE IN PRODUCTION - https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html
