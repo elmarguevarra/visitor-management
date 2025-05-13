@@ -85,24 +85,24 @@ Resources:
       ValidationSettings:
         Mode: STRICT
 
-  AllowAdminGroupFullAccessPolicy:
-    Type: AWS::VerifiedPermissions::Policy
-    Properties:
-      PolicyStoreId: !Ref VisitorManagementPolicyStore
-      Definition:
-        Static:
-          Statement: !Sub |
-            permit(
-              principal == VisitorManagement::UserGroup::"${AdminGroupName}",
-              action in [
-                VisitorManagement::Action::"searchVisitor",
-                VisitorManagement::Action::"registerVisitor",
-                VisitorManagement::Action::"inviteVisitor",
-                VisitorManagement::Action::"verifyVisitor",
-                VisitorManagement::Action::"browseVisitors"
-              ],
-              resource == VisitorManagement::Visitor::"visitorResource"
-            );
+  # AllowAdminGroupFullAccessPolicy:
+  #   Type: AWS::VerifiedPermissions::Policy
+  #   Properties:
+  #     PolicyStoreId: !Ref VisitorManagementPolicyStore
+  #     Definition:
+  #       Static:
+  #         Statement: !Sub |
+  #           permit(
+  #             principal == VisitorManagement::UserGroup::"${AdminGroupName}",
+  #             action in [
+  #               VisitorManagement::Action::"searchVisitor",
+  #               VisitorManagement::Action::"registerVisitor",
+  #               VisitorManagement::Action::"inviteVisitor",
+  #               VisitorManagement::Action::"verifyVisitor",
+  #               VisitorManagement::Action::"browseVisitors"
+  #             ],
+  #             resource == VisitorManagement::Visitor::"visitorResource"
+  #           );
 
   ApiGatewayApi:
     Type: AWS::Serverless::Api
