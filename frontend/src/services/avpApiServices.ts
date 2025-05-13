@@ -3,7 +3,6 @@ import {
   BatchIsAuthorizedCommand,
   BatchIsAuthorizedCommandOutput,
   BatchIsAuthorizedInput,
-  BatchIsAuthorizedInputItem,
   BatchIsAuthorizedOutputItem,
 } from '@aws-sdk/client-verifiedpermissions'
 
