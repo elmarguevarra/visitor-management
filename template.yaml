@@ -41,60 +41,58 @@ Resources:
     Properties:
       Schema:
         EntityTypeSchemas:
-          User:
+          UserGroup:
             Shape:
               type: Record
-              attributes:
-                groups:
-                  type: List
-                  element:
-                    type: String
+              attributes: {}
           VisitorManagement:
             Shape:
               type: Record
-              attributes:
-                registrationId:
-                  type: String
+              attributes: {}
+          Visitor:
+            Shape:
+              type: Record
+              attributes: {}
         ActionSchemas:
           searchVisitor:
             appliesTo:
-              principalTypes: [User]
+              principalTypes: [UserGroup]
               resourceTypes: [VisitorManagement]
           registerVisitor:
             appliesTo:
-              principalTypes: [Group]
+              principalTypes: [UserGroup]
               resourceTypes: [VisitorManagement]
           inviteVisitor:
             appliesTo:
-              principalTypes: [Group]
+              principalTypes: [UserGroup]
               resourceTypes: [VisitorManagement]
           verifyVisitor:
             appliesTo:
-              principalTypes: [Group]
+              principalTypes: [UserGroup]
               resourceTypes: [VisitorManagement]
           browseVisitors:
             appliesTo:
-              principalTypes: [Group]
+              principalTypes: [UserGroup]
               resourceTypes: [VisitorManagement]
       Name: !Ref VerifiedPermissionsPolicyStoreName
 
-    AdminVPGroup:
-      Type: AWS::VerifiedPermissions::Group
-      Properties:
-        PolicyStoreId: !Ref VisitorManagementPolicyStore
-        GroupName: !Ref AdminGroupName
+    # AdminVPGroup:
+    #   Type: AWS::VerifiedPermissions::Group
+    #   Properties:
+    #     PolicyStoreId: !Ref VisitorManagementPolicyStore
+    #     GroupName: !Ref AdminGroupName
 
-    ResidentVPGroup:
-      Type: AWS::VerifiedPermissions::Group
-      Properties:
-        PolicyStoreId: !Ref VisitorManagementPolicyStore
-        GroupName: !Ref ResidentGroupName
+    # ResidentVPGroup:
+    #   Type: AWS::VerifiedPermissions::Group
+    #   Properties:
+    #     PolicyStoreId: !Ref VisitorManagementPolicyStore
+    #     GroupName: !Ref ResidentGroupName
 
-    GuardVPGroup:
-      Type: AWS::VerifiedPermissions::Group
-      Properties:
-        PolicyStoreId: !Ref VisitorManagementPolicyStore
-        GroupName: !Ref GuardGroupName
+    # GuardVPGroup:
+    #   Type: AWS::VerifiedPermissions::Group
+    #   Properties:
+    #     PolicyStoreId: !Ref VisitorManagementPolicyStore
+    #     GroupName: !Ref GuardGroupName
 
     AllowAdminGroupFullAccessPolicy:
       Type: AWS::VerifiedPermissions::Policy
@@ -104,12 +102,16 @@ Resources:
           StaticPolicy:
             PolicyDefinition: |
               permit(
-                principal == Group::"${AdminGroupName}",
-                action in [Action::"searchVisitor", Action::"registerVisitor", Action::"inviteVisitor", Action::"verifyVisitor", Action::"browseVisitors"],
-                resource == VisitorManagement::"app"
+                principal == VisitorManagement::Group::"${AdminGroupName}",
+                action in [VisitorManagement::Action::"searchVisitor", 
+                           VisitorManagement::Action::"registerVisitor", 
+                           VisitorManagement::Action::"inviteVisitor", 
+                           VisitorManagement::Action::"verifyVisitor", 
+                           VisitorManagement::Action::"browseVisitors"],
+                resource == VisitorManagement::Visitor::"visitorResource"
               );
         PolicyType: STATIC
-        PrincipalEntityType: Group
+        PrincipalEntityType: UserGroup
         PrincipalId: !Ref AdminGroupName
 
   ApiGatewayApi:
