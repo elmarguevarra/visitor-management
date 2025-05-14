@@ -778,6 +778,3 @@ Globals:
   Function:
     LoggingConfig:
       LogFormat: JSON
-    Environment:
-      Variables:
-        AWS_REGION: !Ref "AWS::Region"
