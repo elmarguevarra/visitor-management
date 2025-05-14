@@ -8,6 +8,9 @@ import {
 const policyStoreId = process.env.VUE_APP_POLICY_STORE_ID
 console.log('policyStoreId: ', policyStoreId)
 
+const region = process.env.AWS_REGION
+console.log('awsRegion: ', region)
+
 const verifiedPermissionsClient = new VerifiedPermissionsClient()
 
 export async function authorizeBatch(

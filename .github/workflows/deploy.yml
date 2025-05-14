@@ -26,6 +26,5 @@ jobs:
 
       - name: Run deploy script
         run: ./deploy.sh
-        # env:
-        #   # Optional: Add environment variables if required for your deploy script
-        #   # EXAMPLE_ENV_VAR: ${{ secrets.YOUR_SECRET }}
+        env:
+          AWS_REGION: ap-southeast-1
