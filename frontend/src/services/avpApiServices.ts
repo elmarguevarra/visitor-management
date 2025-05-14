@@ -5,7 +5,7 @@ import {
   BatchIsAuthorizedOutputItem,
 } from '@aws-sdk/client-verifiedpermissions'
 
-const region = process.env.AWS_REGION
+const region = process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION
 console.log('region: ', region)
 
 const policyStoreId = process.env.POLICY_STORE_ID

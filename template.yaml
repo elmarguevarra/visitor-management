@@ -769,12 +769,13 @@ Outputs:
   AuthorityUrl:
     Description: Cognito User Pool Authority URL (for OIDC client)
     Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoUserPool}
+  Outputs:
+    PolicyStoreId:
+      Description: "Identifier of the Amazon Verified Permissions policy store."
+      Value: !Ref VisitorManagementPolicyStore
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     LoggingConfig:
       LogFormat: JSON
-    Environment:
-      Variables:
-        POLICY_STORE_ID: !Ref VisitorManagementPolicyStore
