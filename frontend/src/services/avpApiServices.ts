@@ -5,13 +5,10 @@ import {
   BatchIsAuthorizedOutputItem,
 } from '@aws-sdk/client-verifiedpermissions'
 
-const region = process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION
-console.log('region: ', region)
-
-const policyStoreId = process.env.POLICY_STORE_ID
+const policyStoreId = process.env.VUE_APP_POLICY_STORE_ID
 console.log('policyStoreId: ', policyStoreId)
 
-const verifiedPermissionsClient = new VerifiedPermissionsClient({ region })
+const verifiedPermissionsClient = new VerifiedPermissionsClient()
 
 export async function authorizeBatch(
   principalId: string,

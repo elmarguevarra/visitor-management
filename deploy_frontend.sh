@@ -35,6 +35,10 @@ echo "CloudFront Distribution ID: $cloudfront_distribution_id"
 s3_bucket_name=$(get_stack_output "WebS3BucketName")
 echo "S3 Bucket Name: $s3_bucket_name"
 
+# Get Verified Permission Policy Store Id from stack
+policy_store_id=$(get_stack_output "PolicyStoreId")
+echo "Policy store Id: $policy_store_id"
+
 echo "--- Frontend Build and Configuration ---"
 
 # Move to frontend and install dependencies
@@ -58,6 +62,9 @@ echo "VUE_APP_COGNITO_USER_POOL_ID=$user_pool_id" >> .env
 echo "VUE_APP_COGNITO_USER_POOL_CLIENT_ID=$user_pool_client_id" >> .env
 echo "VUE_APP_COGNITO_USER_POOL_DOMAIN_URL=$user_pool_domain_url" >> .env
 echo "VUE_APP_COGNITO_AUTHORITY_URL=$authority_url" >> .env
+
+# Add Policy store id to .env file
+echo "VUE_APP_POLICY_STORE_ID=$policy_store_id" >> .env
 
 # Confirm that the endpoint has been added to the .env file
 echo "Contents of .env:"
