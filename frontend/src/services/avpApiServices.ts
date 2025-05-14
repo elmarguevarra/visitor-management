@@ -2,26 +2,18 @@ import {
   VerifiedPermissionsClient,
   BatchIsAuthorizedCommand,
   BatchIsAuthorizedInput,
-  BatchIsAuthorizedOutputItem,
+  BatchIsAuthorizedOutput,
 } from '@aws-sdk/client-verifiedpermissions'
 
 const policyStoreId = process.env.VUE_APP_POLICY_STORE_ID
 console.log('policyStoreId: ', policyStoreId)
 
-const region = process.env.AWS_REGION
-console.log('aws region: ', region)
-
-const verifiedPermissionsClient = new VerifiedPermissionsClient({ region })
+const verifiedPermissionsClient = new VerifiedPermissionsClient()
 
 export async function authorizeBatch(
   principalId: string,
   actions: string[],
-): Promise<BatchIsAuthorizedOutputItem[]> {
-  if (!policyStoreId) {
-    console.error('POLICY_STORE_ID environment variable not set!')
-    return []
-  }
-
+): Promise<BatchIsAuthorizedOutput> {
   const batchIsAuthorizedInput: BatchIsAuthorizedInput = {
     policyStoreId,
     requests: actions.map((action) => ({
@@ -44,14 +36,13 @@ export async function authorizeBatch(
   const command = new BatchIsAuthorizedCommand(batchIsAuthorizedInput)
 
   try {
-    const batchIsAuthorizedCommandOutput =
+    const batchIsAuthorizedOutput =
       await verifiedPermissionsClient.send(command)
+    console.log('batchIsAuthorizedOutput: ', batchIsAuthorizedOutput)
 
-    const results = batchIsAuthorizedCommandOutput.results ?? []
-    console.log('batchIsAuthorizedOutput: ', results)
-    return results
+    return batchIsAuthorizedOutput
   } catch (err: any) {
     console.error('Error checking batch authorization:', err)
-    return []
+    throw new Error('Failed to evaluate access')
   }
 }
