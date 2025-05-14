@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { authorizeBatch } from '@/services/avpApiServices'
 import { useAuthenticationStore } from './authenticationStore'
 
 const actions = [
@@ -16,16 +15,15 @@ export const useAuthorizationStore = defineStore('authorization', {
     isInviteVisitorAllowed: false,
   }),
   actions: {
-    async checkPermissions() {
-      try {
-        const authenticationStore = useAuthenticationStore()
-        const userGroup = authenticationStore.userGroup ?? ''
-
-        const permissions = await authorizeBatch(userGroup, actions)
-        console.log('permissions: ', permissions)
-      } catch (err) {
-        console.error('Permissions check failed:', err)
-      }
-    },
+    // async checkPermissions() {
+    //   try {
+    //     const authenticationStore = useAuthenticationStore()
+    //     const userGroup = authenticationStore.userGroup ?? ''
+    //     const permissions = await authorizeBatch(userGroup, actions)
+    //     console.log('permissions: ', permissions)
+    //   } catch (err) {
+    //     console.error('Permissions check failed:', err)
+    //   }
+    // },
   },
 })
