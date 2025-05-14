@@ -236,7 +236,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: backend/
-      Handler: src/handlers/get-permissions.getPermissionssHandler
+      Handler: src/handlers/get-permissions.getPermissionsHandler
       Runtime: nodejs20.x
       Architectures:
         - x86_64
