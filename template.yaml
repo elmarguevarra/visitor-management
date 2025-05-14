@@ -247,7 +247,7 @@ Resources:
         - Statement:
             - Effect: Allow
               Action:
-                - verifiedpermissions:BatchIsAuthorized
+                - verifiedpermissions:IsAuthorized
               Resource: "*"
       Environment:
         Variables:
