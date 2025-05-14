@@ -232,6 +232,37 @@ Resources:
               - method.request.querystring.residentId:
                   Required: false
 
+  getPermissionsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/get-permissions.getPermissionssHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Get permissions from amazon verified permissions
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - verifiedpermissions:BatchIsAuthorized
+              Resource: "*"
+      Environment:
+        Variables:
+          POLICY_STORE_ID: !Ref VisitorManagementPolicyStore
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /permissions
+            Method: GET
+            RestApiId: !Ref ApiGatewayApi
+            RequestParameters:
+              - method.request.querystring.residentId:
+                  Required: false
+
   # This is a Lambda function config associated with the source code: get-visit-requests
   getVisitRequestsFunction:
     Type: AWS::Serverless::Function
@@ -769,9 +800,6 @@ Outputs:
   AuthorityUrl:
     Description: Cognito User Pool Authority URL (for OIDC client)
     Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoUserPool}
-  PolicyStoreId:
-    Description: "Identifier of the Amazon Verified Permissions policy store."
-    Value: !Ref VisitorManagementPolicyStore
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:

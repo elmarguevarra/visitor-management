@@ -5,6 +5,7 @@
     "private": true,
     "dependencies": {
         "@aws-sdk/client-dynamodb": "^3.398.0",
+        "@aws-sdk/client-verifiedpermissions": "^3.808.0",
         "@aws-sdk/lib-dynamodb": "^3.398.0",
         "luxon": "^3.6.1",
         "qrcode": "^1.5.4",
