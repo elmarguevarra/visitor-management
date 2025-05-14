@@ -41,10 +41,9 @@ export const getPermissionsHandler = async (event) => {
   console.log("batchIsAuthorizedInput: ", batchIsAuthorizedInput);
   const command = new BatchIsAuthorizedCommand(batchIsAuthorizedInput);
 
+  var batchIsAuthorizedOutput;
   try {
-    const batchIsAuthorizedOutput = await verifiedPermissionsClient.send(
-      command
-    );
+    batchIsAuthorizedOutput = await verifiedPermissionsClient.send(command);
     console.log("batchIsAuthorizedOutput: ", batchIsAuthorizedOutput);
   } catch (err) {
     console.error("Error checking batch authorization:", err);
