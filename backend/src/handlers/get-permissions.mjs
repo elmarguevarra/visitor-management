@@ -14,6 +14,12 @@ export const getPermissionsHandler = async (event) => {
   }
   console.info("received:", event);
 
+  const principalId = event.queryStringParameters.principalId;
+
+  const actions = event.queryStringParameters.actions
+    ? event.queryStringParameters.actions.split(",").map((a) => a.trim())
+    : [];
+
   const batchIsAuthorizedInput = {
     policyStoreId,
     requests: actions.map((action) => ({
