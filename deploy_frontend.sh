@@ -66,6 +66,10 @@ echo "VUE_APP_COGNITO_AUTHORITY_URL=$authority_url" >> .env
 # Add Policy store id to .env file
 echo "VUE_APP_POLICY_STORE_ID=$policy_store_id" >> .env
 
+# Add AWS region to .env file
+aws_region=$(aws configure get region)
+echo "VUE_APP_AWS_REGION=$aws_region" >> .env
+
 # Confirm that the endpoint has been added to the .env file
 echo "Contents of .env:"
 cat .env

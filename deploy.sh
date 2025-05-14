@@ -18,6 +18,8 @@ echo "Building and deploying the SAM application (backend)..."
 echo "Running: sam build"
 sam build
 echo "Running: sam deploy --stack-name \"$STACK_NAME\""
+
+echo "AWS_REGION is: $AWS_REGION"
 sam deploy --region $AWS_REGION || true
 
 # --- Frontend Deployment ---
