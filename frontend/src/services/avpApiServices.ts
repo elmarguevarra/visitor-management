@@ -1,13 +1,15 @@
 import {
   VerifiedPermissionsClient,
   BatchIsAuthorizedCommand,
-  BatchIsAuthorizedCommandOutput,
   BatchIsAuthorizedInput,
   BatchIsAuthorizedOutputItem,
 } from '@aws-sdk/client-verifiedpermissions'
 
 const region = process.env.AWS_REGION
+console.log('region: ', region)
+
 const policyStoreId = process.env.POLICY_STORE_ID
+console.log('policyStoreId: ', policyStoreId)
 
 const verifiedPermissionsClient = new VerifiedPermissionsClient({ region })
 
@@ -38,13 +40,16 @@ export async function authorizeBatch(
     })),
   }
 
+  console.log('batchIsAuthorizedInput: ', batchIsAuthorizedInput)
   const command = new BatchIsAuthorizedCommand(batchIsAuthorizedInput)
 
   try {
-    const batchIsAuthorizedCommandOutput: BatchIsAuthorizedCommandOutput =
+    const batchIsAuthorizedCommandOutput =
       await verifiedPermissionsClient.send(command)
 
-    return batchIsAuthorizedCommandOutput.results ?? []
+    const results = batchIsAuthorizedCommandOutput.results ?? []
+    console.log('batchIsAuthorizedOutput: ', results)
+    return results
   } catch (err: any) {
     console.error('Error checking batch authorization:', err)
     return []
