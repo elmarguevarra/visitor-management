@@ -21,7 +21,7 @@ export const useAuthorizationStore = defineStore('authorization', {
         const authenticationStore = useAuthenticationStore()
         const userGroup = authenticationStore.userGroup ?? ''
 
-        const permissions = authorizeBatch(userGroup, actions)
+        const permissions = await authorizeBatch(userGroup, actions)
         console.log('permissions: ', permissions)
       } catch (err) {
         console.error('Permissions check failed:', err)
