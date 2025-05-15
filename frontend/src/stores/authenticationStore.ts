@@ -46,6 +46,15 @@ export const useAuthenticationStore = defineStore('authentication', {
       await userManager.signinRedirect()
     },
     async signOut() {
+      this.isLoggedIn = false
+      this.user = null
+      this.userEmail = undefined
+      this.userGivenName = undefined
+      this.userFamilyName = undefined
+      this.userPhoneNumber = undefined
+      this.userGroup = undefined
+
+      await this.removeUser()
       await signOutRedirect()
     },
     async removeUser() {

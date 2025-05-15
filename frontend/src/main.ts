@@ -116,8 +116,6 @@ const routes = [
       async created() {
         try {
           await userManager.signoutRedirectCallback()
-          await userManager.removeUser()
-
           router.push('/')
         } catch (error) {
           console.error('Error handling sign-out callback:', error)
@@ -156,7 +154,6 @@ if (process.env.NODE_ENV !== 'development') {
     }
     await authenticationStore.loadUser()
     if (authenticationStore.isLoggedIn) {
-      await authorizationStore.loadUserPermissions()
       next()
     } else {
       await authenticationStore.removeUser()
