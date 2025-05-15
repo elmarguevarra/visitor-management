@@ -28,9 +28,8 @@ echo "$SAM_DEPLOY_OUTPUT"
 if [ $SAM_DEPLOY_EXIT_CODE -ne 0 ]; then
   echo "SAM Deploy failed with exit code: $SAM_DEPLOY_EXIT_CODE"
   # Check if the failure was due to no changes detected
-  if [[ "$SAM_DEPLOY_OUTPUT" == "Error: No changes to deploy. Stack $STACK_NAME is up to date" ]]; then
+  if echo "$SAM_DEPLOY_OUTPUT" | grep -q "No changes to deploy"; then
     echo "No infrastructure changes detected. Proceeding with frontend deployment."
-    exit 0
   else
     echo "An actual error occurred during SAM deployment. Stopping."
     echo "Error details:"
