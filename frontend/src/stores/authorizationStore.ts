@@ -9,6 +9,7 @@ const actions = [
   'searchVisitor',
   'verifyVisitor',
   'viewVisitorManagement',
+  'showAdminBadge',
 ]
 
 const ALLOW = 'ALLOW'
@@ -21,6 +22,7 @@ export const useAuthorizationStore = defineStore('authorization', {
     isSearchVisitorAllowed: false,
     isVerifyVisitorAllowed: false,
     isViewVisitorManagementAllowed: false,
+    isShowAdminBadgeAllowed: false,
     permissions: {} as Record<string, boolean>,
   }),
   actions: {
@@ -42,6 +44,7 @@ export const useAuthorizationStore = defineStore('authorization', {
           this.isRegisterVisitorAllowed = !!permissionMap.registerVisitor
           this.isSearchVisitorAllowed = !!permissionMap.searchVisitor
           this.isVerifyVisitorAllowed = !!permissionMap.verifyVisitor
+          this.isShowAdminBadgeAllowed = !!permissionMap.showAdminBadge
           this.isViewVisitorManagementAllowed =
             !!permissionMap.viewVisitorManagement
 
@@ -64,6 +67,7 @@ export const useAuthorizationStore = defineStore('authorization', {
       this.isSearchVisitorAllowed = false
       this.isVerifyVisitorAllowed = false
       this.isViewVisitorManagementAllowed = false
+      this.isShowAdminBadgeAllowed = false
     },
   },
 })
