@@ -11,7 +11,6 @@ const actions = [
   'viewVisitorManagement',
 ]
 
-const defaultUserGroup = ''
 const ALLOW = 'ALLOW'
 
 export const useAuthorizationStore = defineStore('authorization', {
@@ -28,7 +27,7 @@ export const useAuthorizationStore = defineStore('authorization', {
     async checkPermissions() {
       try {
         const authenticationStore = useAuthenticationStore()
-        const userGroup = authenticationStore.userGroup ?? defaultUserGroup
+        const userGroup = authenticationStore.userGroup
         const permissions = await getPermissions(userGroup, actions)
 
         if (permissions.results) {
