@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'UnAssignedPageView',
+  name: 'UnAssignedView',
 }
 </script>
 

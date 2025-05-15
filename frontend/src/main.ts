@@ -16,6 +16,7 @@ import LandingView from './views/LandingView.vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
 import ProfileView from './views/ProfileView.vue'
 import { useAuthorizationStore } from './stores/authorizationStore'
+import UnAssignedView from './views/UnAssignedView.vue'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -73,6 +74,12 @@ const routes = [
     name: 'VerifyVisitorView',
     component: VerifyVisitorView,
     props: true,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/unassigned',
+    name: 'UnAssignedView',
+    component: UnAssignedView,
     meta: { requiresAuth: true },
   },
   {
@@ -144,13 +151,13 @@ if (process.env.NODE_ENV !== 'development') {
     }
 
     if (authenticationStore.isLoggedIn) {
-      await authorizationStore.getPermissions()
       next()
     } else {
       await authenticationStore.removeUser()
       if (to.name !== 'SignInCallback') {
         sessionStorage.setItem('postLoginRedirectPath', to.fullPath)
         await authenticationStore.signIn()
+        await authorizationStore.getPermissions()
       } else {
         next()
       }
