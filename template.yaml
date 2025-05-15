@@ -214,6 +214,7 @@ Resources:
             permit (
                 principal in VisitorManagement::UserGroup::"${GuardGroupName}",
                 action in [VisitorManagement::Action::"verifyVisitor",
+                           VisitorManagement::Action::"browseVisitors",
                            VisitorManagement::Action::"searchVisitor",
                            VisitorManagement::Action::"viewVisitorManagement"],
                 resource == VisitorManagement::Resource::"visitorResource"
