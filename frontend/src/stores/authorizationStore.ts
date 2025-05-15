@@ -37,7 +37,7 @@ export const useAuthorizationStore = defineStore('authorization', {
           const permissionMap: Record<string, boolean> = {}
           permissions.results.forEach((permission: any) => {
             permissionMap[permission.request.action.actionId] =
-              permission.decision == ALLOW
+              permission.decision === ALLOW
           })
           this.isBrowseVisitorsAllowed = !!permissionMap.browseVisitors
           this.isInviteVisitorAllowed = !!permissionMap.inviteVisitor
