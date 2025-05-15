@@ -156,6 +156,7 @@ if (process.env.NODE_ENV !== 'development') {
     }
     await authenticationStore.loadUser()
     if (authenticationStore.isLoggedIn) {
+      await authorizationStore.loadUserPermissions()
       next()
     } else {
       await authenticationStore.removeUser()
