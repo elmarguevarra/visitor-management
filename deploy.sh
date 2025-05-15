@@ -8,7 +8,7 @@
 # - A deploy_frontend.sh script in the same directory.
 # - STACK_NAME and AWS_REGION environment variables set.
 
-# set -e  # Exit immediately if a command exits with a non-zero status.
+set -e  # Exit immediately if a command exits with a non-zero status.
 # set -x # Uncomment this line to enable verbose output (for debugging).
 
 # --- Backend Deployment (SAM) ---
@@ -30,6 +30,7 @@ if [ $SAM_DEPLOY_EXIT_CODE -ne 0 ]; then
   # Check if the failure was due to no changes detected
   if [[ "$SAM_DEPLOY_OUTPUT" == "Error: No changes to deploy. Stack $STACK_NAME is up to date" ]]; then
     echo "No infrastructure changes detected. Proceeding with frontend deployment."
+    exit 0
   else
     echo "An actual error occurred during SAM deployment. Stopping."
     echo "Error details:"
