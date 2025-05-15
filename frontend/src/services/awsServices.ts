@@ -3,7 +3,7 @@ import axios from 'axios'
 const API_BASE = process.env.VUE_APP_API_ENDPOINT || ''
 
 export async function getPermissions(
-  userGroup: string | undefined,
+  userGroup: string,
   actions: string[] | undefined,
 ): Promise<any> {
   const params = new URLSearchParams()
