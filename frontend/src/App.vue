@@ -61,7 +61,10 @@
                   >Profile</router-link
                 >
               </li>
-              <li class="nav-item">
+              <li
+                v-if="authorizationStore.isBrowseVisitorsAllowed"
+                class="nav-item"
+              >
                 <router-link
                   to="/visitors"
                   class="nav-link py-1"
@@ -160,18 +163,21 @@
 <script>
 import { onMounted } from 'vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
+import { useAuthorizationStore } from './stores/authorizationStore'
 
 export default {
   name: 'App',
   setup() {
     const authenticationStore = useAuthenticationStore()
+    const authorizationStore = useAuthorizationStore()
 
     onMounted(async () => {
-      await authenticationStore.checkAuthenticationStatus()
+      await authenticationStore.loadUser()
     })
 
     return {
       authenticationStore,
+      authorizationStore,
       signIn: authenticationStore.signIn,
       signOut: authenticationStore.signOut,
     }

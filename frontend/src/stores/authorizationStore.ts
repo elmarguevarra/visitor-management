@@ -24,10 +24,11 @@ export const useAuthorizationStore = defineStore('authorization', {
     permissions: {} as Record<string, boolean>,
   }),
   actions: {
-    async getPermissions() {
+    async loadUserPermissions() {
       try {
         const authenticationStore = useAuthenticationStore()
         const userGroup = authenticationStore.userGroup
+
         const permissions = await getPermissions(userGroup, actions)
 
         if (permissions.results) {

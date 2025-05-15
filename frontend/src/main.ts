@@ -15,14 +15,17 @@ import { userManager } from './auth/authConfig'
 import LandingView from './views/LandingView.vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
 import ProfileView from './views/ProfileView.vue'
-import { useAuthorizationStore } from './stores/authorizationStore'
 import UnAssignedView from './views/UnAssignedView.vue'
+import { useAuthorizationStore } from './stores/authorizationStore'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
 }
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV)
+
+const authenticationStore = useAuthenticationStore()
+const authorizationStore = useAuthorizationStore()
 
 const pinia = createPinia()
 const routes = [
@@ -90,7 +93,12 @@ const routes = [
       async created() {
         const router = useRouter()
         try {
-          await userManager.signinRedirectCallback()
+          await userManager.signinRedirectCallback().then(async (user) => {
+            if (user) {
+              await authenticationStore.loadUser(user)
+              await authorizationStore.loadUserPermissions()
+            }
+          })
           const redirectPath =
             sessionStorage.getItem('postLoginRedirectPath') || '/visitors'
           sessionStorage.removeItem('postLoginRedirectPath')
@@ -142,10 +150,6 @@ app.mount('#app')
 
 if (process.env.NODE_ENV !== 'development') {
   router.beforeEach(async (to, from, next) => {
-    const authenticationStore = useAuthenticationStore()
-    const authorizationStore = useAuthorizationStore()
-    await authenticationStore.checkAuthenticationStatus()
-
     if (!to.meta.requiresAuth) {
       return next()
     }
@@ -157,7 +161,6 @@ if (process.env.NODE_ENV !== 'development') {
       if (to.name !== 'SignInCallback') {
         sessionStorage.setItem('postLoginRedirectPath', to.fullPath)
         await authenticationStore.signIn()
-        await authorizationStore.getPermissions()
       } else {
         next()
       }

@@ -22,9 +22,11 @@ export const useAuthenticationStore = defineStore('authentication', {
     userGroup: undefined as string | undefined,
   }),
   actions: {
-    async checkAuthenticationStatus() {
+    async loadUser(user: any | undefined) {
       try {
-        const user = await userManager.getUser()
+        if (!user) {
+          user = await userManager.getUser()
+        }
         console.log('authenticationStore.user: ', user)
         this.isLoggedIn = !!user && !user.expired
         this.user = user
