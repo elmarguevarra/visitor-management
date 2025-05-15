@@ -23,6 +23,7 @@ echo "AWS_REGION is: $AWS_REGION"
 
 SAM_DEPLOY_OUTPUT=$(sam deploy --stack-name "$STACK_NAME" --region "$AWS_REGION" --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND 2>&1)
 SAM_DEPLOY_EXIT_CODE=$?
+echo "$SAM_DEPLOY_OUTPUT"
 
 if [ $SAM_DEPLOY_EXIT_CODE -ne 0 ]; then
   echo "SAM Deploy failed with exit code: $SAM_DEPLOY_EXIT_CODE"
