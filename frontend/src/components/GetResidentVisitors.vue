@@ -314,8 +314,6 @@ export default {
         const pendingVisitRequests = response.filter(
           (v) => v.requestStatus === 'PENDING',
         )
-        console.log('pendingVisitRequests: ', pendingVisitRequests)
-
         visitRequestStore.setVisitRequests(pendingVisitRequests)
       } catch (error) {
         console.log(error)
