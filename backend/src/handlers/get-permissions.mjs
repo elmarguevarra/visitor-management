@@ -29,7 +29,7 @@ export const getPermissionsHandler = async (event) => {
       },
       resource: {
         entityId: "visitorResource",
-        entityType: "VisitorManagement::Visitor",
+        entityType: "VisitorManagement::Resource",
       },
       action: {
         actionId: action,
