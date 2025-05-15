@@ -73,7 +73,10 @@
                   >Browse</router-link
                 >
               </li>
-              <li class="nav-item">
+              <li
+                v-if="authorizationStore.isRegisterVisitorAllowed"
+                class="nav-item"
+              >
                 <router-link
                   to="/register-visitor"
                   class="nav-link py-1"
@@ -81,7 +84,10 @@
                   >Register</router-link
                 >
               </li>
-              <li class="nav-item">
+              <li
+                v-if="authorizationStore.isSearchVisitorAllowed"
+                class="nav-item"
+              >
                 <router-link
                   to="/get-visitor"
                   class="nav-link py-1"
@@ -89,7 +95,10 @@
                   >Search</router-link
                 >
               </li>
-              <li class="nav-item">
+              <li
+                v-if="authorizationStore.isInviteVisitorAllowed"
+                class="nav-item"
+              >
                 <router-link
                   to="/invite-visitor"
                   class="nav-link py-1"
