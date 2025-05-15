@@ -15,6 +15,7 @@ import { userManager } from './auth/authConfig'
 import LandingView from './views/LandingView.vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
 import ProfileView from './views/ProfileView.vue'
+import { useAuthorizationStore } from './stores/authorizationStore'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -135,6 +136,7 @@ app.mount('#app')
 if (process.env.NODE_ENV !== 'development') {
   router.beforeEach(async (to, from, next) => {
     const authenticationStore = useAuthenticationStore()
+    const authorizationStore = useAuthorizationStore()
     await authenticationStore.checkAuthenticationStatus()
 
     if (!to.meta.requiresAuth) {
@@ -142,6 +144,7 @@ if (process.env.NODE_ENV !== 'development') {
     }
 
     if (authenticationStore.isLoggedIn) {
+      await authorizationStore.getPermissions()
       next()
     } else {
       await authenticationStore.removeUser()
