@@ -32,7 +32,7 @@ Parameters:
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
-  VisitorManagementPolicyStoreNew:
+  VisitorManagementPolicyStore:
     Type: AWS::VerifiedPermissions::PolicyStore
     Properties:
       Schema:
@@ -172,7 +172,7 @@ Resources:
   AllowAdminGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
     Properties:
-      PolicyStoreId: !Ref VisitorManagementPolicyStoreNew
+      PolicyStoreId: !Ref VisitorManagementPolicyStore
       Definition:
         Static:
           Statement: !Sub |
@@ -191,7 +191,7 @@ Resources:
   AllowResidentGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
     Properties:
-      PolicyStoreId: !Ref VisitorManagementPolicyStoreNew
+      PolicyStoreId: !Ref VisitorManagementPolicyStore
       Definition:
         Static:
           Statement: !Sub |
@@ -207,7 +207,7 @@ Resources:
   AllowGuardGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
     Properties:
-      PolicyStoreId: !Ref VisitorManagementPolicyStoreNew
+      PolicyStoreId: !Ref VisitorManagementPolicyStore
       Definition:
         Static:
           Statement: !Sub |
@@ -282,7 +282,7 @@ Resources:
               Resource: "*"
       Environment:
         Variables:
-          POLICY_STORE_ID: !Ref VisitorManagementPolicyStoreNew
+          POLICY_STORE_ID: !Ref VisitorManagementPolicyStore
       Events:
         Api:
           Type: Api

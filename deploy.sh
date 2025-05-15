@@ -20,7 +20,22 @@ sam build
 echo "Running: sam deploy --stack-name \"$STACK_NAME\""
 
 echo "AWS_REGION is: $AWS_REGION"
-sam deploy --region $AWS_REGION || true
+
+SAM_DEPLOY_OUTPUT=$(sam deploy --stack-name "$STACK_NAME" --region "$AWS_REGION" --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND 2>&1)
+SAM_DEPLOY_EXIT_CODE=$?
+
+if [ $SAM_DEPLOY_EXIT_CODE -ne 0 ]; then
+  echo "SAM Deploy failed with exit code: $SAM_DEPLOY_EXIT_CODE"
+  # Check if the failure was due to no changes detected
+  if [[ "$SAM_DEPLOY_OUTPUT" == "Error: No changes to deploy. Stack $STACK_NAME is up to date" ]]; then
+    echo "No infrastructure changes detected. Proceeding with frontend deployment."
+  else
+    echo "An actual error occurred during SAM deployment. Stopping."
+    exit 1
+  fi
+else
+  echo "Backend deployment (SAM) successful. Proceeding with frontend deployment..."
+fi
 
 # --- Frontend Deployment ---
 echo "Deploying the frontend..."
