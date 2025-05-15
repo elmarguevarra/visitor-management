@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { useAuthenticationStore } from './authenticationStore'
 import { getPermissions } from '@/services/awsServices'
-import { permission } from 'process'
 
 const actions = [
   'browseVisitors',
@@ -9,11 +8,12 @@ const actions = [
   'registerVisitor',
   'searchVisitor',
   'verifyVisitor',
+  'viewVisitorManagement',
 ]
 
-const defaultUserGroup = 'restricted'
+const defaultUserGroup = ''
 const ALLOW = 'ALLOW'
-const DENY = 'DENY'
+
 export const useAuthorizationStore = defineStore('authorization', {
   state: () => ({
     isBrowseVisitorsAllowed: false,
@@ -21,6 +21,7 @@ export const useAuthorizationStore = defineStore('authorization', {
     isRegisterVisitorAllowed: false,
     isSearchVisitorAllowed: false,
     isVerifyVisitorAllowed: false,
+    isViewVisitorManagementAllowed: false,
     permissions: {} as Record<string, boolean>,
   }),
   actions: {
@@ -32,7 +33,7 @@ export const useAuthorizationStore = defineStore('authorization', {
 
         if (permissions.results) {
           const permissionMap: Record<string, boolean> = {}
-          permissions.results.foreach((permission: any) => {
+          permissions.results.forEach((permission: any) => {
             permissionMap[permission.request.action.actionId] =
               permission.decision == ALLOW
           })
@@ -41,6 +42,8 @@ export const useAuthorizationStore = defineStore('authorization', {
           this.isRegisterVisitorAllowed = !!permissionMap.registerVisitor
           this.isSearchVisitorAllowed = !!permissionMap.searchVisitor
           this.isVerifyVisitorAllowed = !!permissionMap.verifyVisitor
+          this.isViewVisitorManagementAllowed =
+            !!permissionMap.viewVisitorManagement
 
           this.permissions = permissionMap
 
@@ -60,6 +63,7 @@ export const useAuthorizationStore = defineStore('authorization', {
       this.isRegisterVisitorAllowed = false
       this.isSearchVisitorAllowed = false
       this.isVerifyVisitorAllowed = false
+      this.isViewVisitorManagementAllowed = false
     },
   },
 })

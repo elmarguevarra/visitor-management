@@ -65,6 +65,20 @@ Resources:
                     }
                 },
                 "actions": {
+                    "viewVisitorManagement": {
+                        "appliesTo": {
+                            "context": {
+                                "type": "Record",
+                                "attributes": {}
+                            },
+                            "principalTypes": [
+                                "User"
+                            ],
+                            "resourceTypes": [
+                                "Visitor"
+                            ]
+                        }
+                    },
                     "searchVisitor": {
                         "appliesTo": {
                             "context": {
@@ -143,7 +157,6 @@ Resources:
 
   AllowAdminGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
-
     Properties:
       PolicyStoreId: !Ref VisitorManagementPolicyStore
       Definition:
@@ -156,7 +169,8 @@ Resources:
                     VisitorManagement::Action::"inviteVisitor",
                     VisitorManagement::Action::"registerVisitor",
                     VisitorManagement::Action::"searchVisitor",
-                    VisitorManagement::Action::"verifyVisitor"],
+                    VisitorManagement::Action::"verifyVisitor",
+                    VisitorManagement::Action::"viewVisitorManagement"],
                 resource == VisitorManagement::Visitor::"visitorResource"
             );
   AllowResidentGroupAccessPolicy:
@@ -171,7 +185,8 @@ Resources:
                 action in
                     [VisitorManagement::Action::"browseVisitors",
                     VisitorManagement::Action::"inviteVisitor",
-                    VisitorManagement::Action::"registerVisitor"],
+                    VisitorManagement::Action::"registerVisitor",
+                    VisitorManagement::Action::"viewVisitorManagement"],
                 resource == VisitorManagement::Visitor::"visitorResource"
             );
   AllowGuardGroupAccessPolicy:
@@ -184,7 +199,8 @@ Resources:
             permit (
                 principal in VisitorManagement::UserGroup::"${GuardGroupName}",
                 action in [VisitorManagement::Action::"verifyVisitor",
-                           VisitorManagement::Action::"searchVisitor"],
+                           VisitorManagement::Action::"searchVisitor",
+                           VisitorManagement::Action::"viewVisitorManagement"],
                 resource == VisitorManagement::Visitor::"visitorResource"
             );
 
