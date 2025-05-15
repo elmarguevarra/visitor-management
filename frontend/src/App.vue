@@ -16,6 +16,7 @@
               />
               <span style="font-size: 1rem">AlphineCodeTech</span>
               <span
+                v-if="authorizationStore.isShowAdminBadgeAllowed"
                 class="ms-1 badge text-secondary"
                 style="
                   font-size: 0.3rem;
