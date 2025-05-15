@@ -22,7 +22,7 @@ export const useAuthenticationStore = defineStore('authentication', {
     userGroup: undefined as string | undefined,
   }),
   actions: {
-    async loadUser(user: any | undefined) {
+    async loadUser(user?: any) {
       try {
         if (!user) {
           user = await userManager.getUser()

@@ -24,9 +24,6 @@ if (process.env.NODE_ENV === 'development') {
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 
-const authenticationStore = useAuthenticationStore()
-const authorizationStore = useAuthorizationStore()
-
 const pinia = createPinia()
 const routes = [
   {
@@ -146,6 +143,10 @@ const router = createRouter({
 const app = createApp(App)
 app.use(router)
 app.use(pinia)
+
+const authenticationStore = useAuthenticationStore()
+const authorizationStore = useAuthorizationStore()
+
 app.mount('#app')
 
 if (process.env.NODE_ENV !== 'development') {
@@ -153,7 +154,7 @@ if (process.env.NODE_ENV !== 'development') {
     if (!to.meta.requiresAuth) {
       return next()
     }
-
+    await authenticationStore.loadUser()
     if (authenticationStore.isLoggedIn) {
       next()
     } else {
