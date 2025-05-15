@@ -31,6 +31,8 @@ if [ $SAM_DEPLOY_EXIT_CODE -ne 0 ]; then
     echo "No infrastructure changes detected. Proceeding with frontend deployment."
   else
     echo "An actual error occurred during SAM deployment. Stopping."
+    echo "Error details:"
+    echo "$SAM_DEPLOY_OUTPUT"
     exit 1
   fi
 else
