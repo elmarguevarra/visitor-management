@@ -172,7 +172,7 @@ Resources:
   AllowAdminGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
     Properties:
-      PolicyStoreId: !Ref VisitorManagementPolicyStore
+      PolicyStoreId: !Ref VisitorManagementPolicyStoreNew
       Definition:
         Static:
           Statement: !Sub |
@@ -191,7 +191,7 @@ Resources:
   AllowResidentGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
     Properties:
-      PolicyStoreId: !Ref VisitorManagementPolicyStore
+      PolicyStoreId: !Ref VisitorManagementPolicyStoreNew
       Definition:
         Static:
           Statement: !Sub |
@@ -207,7 +207,7 @@ Resources:
   AllowGuardGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
     Properties:
-      PolicyStoreId: !Ref VisitorManagementPolicyStore
+      PolicyStoreId: !Ref VisitorManagementPolicyStoreNew
       Definition:
         Static:
           Statement: !Sub |
@@ -282,7 +282,7 @@ Resources:
               Resource: "*"
       Environment:
         Variables:
-          POLICY_STORE_ID: !Ref VisitorManagementPolicyStore
+          POLICY_STORE_ID: !Ref VisitorManagementPolicyStoreNew
       Events:
         Api:
           Type: Api
@@ -683,7 +683,7 @@ Resources:
       Name: alphinecodetech.click
       HostedZoneConfig:
         Comment: Hosted zone for my visitor management application
-    DeletionPolicy: Retain #Remove this if no charge after recreation.
+    DeletionPolicy: Retain #NOTE: Hosted zone are charged per creation
 
   # Note that CNAMEs are not included here as they were only used for validation needed for public certificate request in ACM. It is a one time setup.
   # Alias record for the vms subdomain domain IPV4
