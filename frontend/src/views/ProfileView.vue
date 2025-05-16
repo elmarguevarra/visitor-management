@@ -62,7 +62,7 @@ export default {
       Id: authenticationStore.userEmail,
       Name: `${authenticationStore.userGivenName} ${authenticationStore.userFamilyName}`,
       Contact: authenticationStore.userPhoneNumber,
-      Group: authenticationStore.userGroup ?? 'to be assigned...',
+      Group: authenticationStore.userGroup ?? 'Reviewing...',
     })
 
     return {
