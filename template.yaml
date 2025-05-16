@@ -201,6 +201,7 @@ Resources:
                     [VisitorManagement::Action::"browseVisitors",
                     VisitorManagement::Action::"inviteVisitor",
                     VisitorManagement::Action::"registerVisitor",
+                    VisitorManagement::Action::"showGuardBadge",
                     VisitorManagement::Action::"viewVisitorManagement"],
                 resource == VisitorManagement::Resource::"visitorResource"
             );

@@ -26,6 +26,17 @@
                 "
                 >Admin</span
               >
+              <span
+                v-if="hasPermission(ACTIONS.SHOW_GUARD_BADGE)"
+                class="ms-1 badge text-secondary"
+                style="
+                  font-size: 0.3rem;
+                  align-self: center;
+                  background-color: #e0e0e0;
+                  font-weight: normal;
+                "
+                >Guard</span
+              >
             </div>
             <div class="mt-0">
               <p class="mb-0 email-text">
