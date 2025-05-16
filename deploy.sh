@@ -50,17 +50,30 @@ get_stack_output() {
 user_pool_id=$(get_stack_output "UserPoolId")
 echo "User Pool Id: $user_pool_id"
 
-echo "Creating Admin User"
-aws cognito-idp admin-create-user \
+echo "Checking if admin user already exists..."
+if aws cognito-idp admin-get-user \
   --user-pool-id "$user_pool_id" \
-  --username admin@alphinecodetech.click \
-  --user-attributes Name=email,Value=admin@alphinecodetech.click \
-                   Name=email_verified,Value=true \
-                   Name=given_name,Value=Admin \
-                   Name=family_name,Value=User \
-                   Name=phone_number,Value=+15551234567 \
-  --temporary-password AdminPass123! \
-  --message-action SUPPRESS
+  --username admin@alphinecodetech.click 2>/dev/null; then
+  echo "Admin user already exists. Skipping creation."
+else
+  echo "Creating Admin User"
+  aws cognito-idp admin-create-user \
+    --user-pool-id "$user_pool_id" \
+    --username admin@alphinecodetech.click \
+    --user-attributes Name=email,Value=admin@alphinecodetech.click \
+                     Name=email_verified,Value=true \
+                     Name=given_name,Value=Admin \
+                     Name=family_name,Value=User \
+                     Name=phone_number,Value=+15551234567 \
+    --temporary-password AdminPass123! \
+    --message-action SUPPRESS
+
+  echo "Adding Admin User to AdminUserGroup"
+  aws cognito-idp admin-add-user-to-group \
+    --user-pool-id "$user_pool_id" \
+    --username admin@alphinecodetech.click \
+    --group-name AdminUserGroup
+fi
 
 
 # --- Frontend Deployment ---
