@@ -174,7 +174,7 @@ if (process.env.NODE_ENV !== 'development') {
     }
     await authenticationStore.loadUser()
     if (authenticationStore.isLoggedIn) {
-      authorizationStore.loadUserPermissions()
+      await authorizationStore.loadUserPermissions()
       const action = to.meta.requiresPermissionOnAction as Action
       if (action && !authorizationStore.hasPermissionOnAction(action)) {
         return next('/restricted')
