@@ -4,7 +4,7 @@
       <div class="container py-2">
         <nav class="navbar navbar-expand-lg navbar-light">
           <router-link
-            to="/visitors"
+            to="/profile"
             class="navbar-brand d-flex flex-column align-items-start"
           >
             <div class="d-flex align-items-center">
