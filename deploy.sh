@@ -42,6 +42,28 @@ else
   echo "Backend deployment (SAM) successful. Proceeding with frontend deployment..."
 fi
 
+# --- Cognito User Creation---
+get_stack_output() {
+  local output_key="$1"
+  aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query "Stacks[0].Outputs[?OutputKey=='$output_key'].OutputValue" --output text
+}
+user_pool_id=$(get_stack_output "UserPoolId")
+echo "User Pool Id: $user_pool_id"
+
+echo "Creating Admin User"
+aws cognito-idp admin-create-user \
+  --user-pool-id $user_pool_id \
+  --username admin@alphinecodetech.click \
+  --group-name AdminUserGroup \
+  --user-attributes Name=email,Value=admin@alphinecodetech.click \
+                   Name=email_verified,Value=true \
+                   Name=given_name,Value=Admin \
+                   Name=family_name,Value=User \
+                   Name=phone_number,Value=+15551234567 \
+  --temporary-password AdminPass123! \
+  --message-action SUPPRESS
+
+
 # --- Frontend Deployment ---
 echo "Deploying the frontend..."
 if [ -f "./deploy_frontend.sh" ]; then
