@@ -16,11 +16,7 @@
               />
               <span style="font-size: 1rem">AlphineCodeTech</span>
               <span
-                v-if="
-                  authorizationStore.hasPermissionOnAction(
-                    ACTIONS.SHOW_ADMIN_BADGE,
-                  )
-                "
+                v-if="hasPermission(ACTIONS.SHOW_ADMIN_BADGE)"
                 class="ms-1 badge text-secondary"
                 style="
                   font-size: 0.3rem;
@@ -67,11 +63,7 @@
                 >
               </li>
               <li
-                v-if="
-                  authorizationStore.hasPermissionOnAction(
-                    ACTIONS.BROWSE_VISITORS,
-                  )
-                "
+                v-if="hasPermission(ACTIONS.BROWSE_VISITORS)"
                 class="nav-item"
               >
                 <router-link
@@ -82,11 +74,7 @@
                 >
               </li>
               <li
-                v-if="
-                  authorizationStore.hasPermissionOnAction(
-                    ACTIONS.REGISTER_VISITOR,
-                  )
-                "
+                v-if="hasPermission(ACTIONS.REGISTER_VISITOR)"
                 class="nav-item"
               >
                 <router-link
@@ -96,14 +84,7 @@
                   >Register</router-link
                 >
               </li>
-              <li
-                v-if="
-                  authorizationStore.hasPermissionOnAction(
-                    ACTIONS.SEARCH_VISITOR,
-                  )
-                "
-                class="nav-item"
-              >
+              <li v-if="hasPermission(ACTIONS.SEARCH_VISITOR)" class="nav-item">
                 <router-link
                   to="/get-visitor"
                   class="nav-link py-1"
@@ -111,14 +92,7 @@
                   >Search</router-link
                 >
               </li>
-              <li
-                v-if="
-                  authorizationStore.hasPermissionOnAction(
-                    ACTIONS.INVITE_VISITOR,
-                  )
-                "
-                class="nav-item"
-              >
+              <li v-if="hasPermission(ACTIONS.INVITE_VISITOR)" class="nav-item">
                 <router-link
                   to="/invite-visitor"
                   class="nav-link py-1"
@@ -209,6 +183,8 @@ export default {
     return {
       authenticationStore,
       authorizationStore,
+      hasPermission: authorizationStore.hasPermissionOnAction,
+      ACTIONS,
       signIn: authenticationStore.signIn,
       signOut: authenticationStore.signOut,
     }
