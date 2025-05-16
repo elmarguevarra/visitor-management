@@ -44,6 +44,17 @@
             :class="{ 'text-muted': !authenticationStore.userGroup }"
           />
         </div>
+        <div
+          v-if="!authenticationStore.userGroup"
+          class="alert alert-info mt-3"
+        >
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Waiting for Approval...
+        </div>
       </form>
     </div>
   </div>
