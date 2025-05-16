@@ -6,6 +6,8 @@ import {
 const verifiedPermissionsClient = new VerifiedPermissionsClient();
 const policyStoreId = process.env.POLICY_STORE_ID;
 
+const cache = new Map();
+
 export const getPermissionsHandler = async (event) => {
   if (event.httpMethod !== "GET") {
     throw new Error(
@@ -14,8 +16,12 @@ export const getPermissionsHandler = async (event) => {
   }
   console.info("received:", event);
 
-  const principalId = event.queryStringParameters.principalId;
+  const cacheKey = JSON.stringify(event);
+  if (cache.has(cacheKey)) {
+    return cache.get(cacheKey);
+  }
 
+  const principalId = event.queryStringParameters.principalId;
   const actions = event.queryStringParameters.actions
     ? event.queryStringParameters.actions.split(",").map((a) => a.trim())
     : [];
@@ -63,5 +69,7 @@ export const getPermissionsHandler = async (event) => {
   console.info(
     `response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`
   );
+
+  cache.set(cacheKey, response);
   return response;
 };
