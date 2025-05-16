@@ -97,7 +97,7 @@
               </li>
               <li v-if="hasPermission(ACTIONS.SEARCH_VISITOR)" class="nav-item">
                 <router-link
-                  to="/get-visitor"
+                  to="/search-visitor"
                   class="nav-link py-1"
                   active-class="active"
                   >Search</router-link

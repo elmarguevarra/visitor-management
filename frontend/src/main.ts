@@ -15,10 +15,10 @@ import { userManager } from './auth/authConfig'
 import LandingView from './views/LandingView.vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
 import ProfileView from './views/ProfileView.vue'
-import UnAssignedView from './views/UnAssignedView.vue'
 import { useAuthorizationStore } from './stores/authorizationStore'
 import RestrictedView from './views/RestrictedView.vue'
 import { Action, ACTIONS } from './constants/actions'
+import SearchVisitorView from './views/SearchVisitorView.vue'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -45,7 +45,7 @@ const routes = [
   },
   {
     path: '/register-visitor',
-    name: 'Register',
+    name: 'RegisterVisitorView',
     component: RegisterVisitorView,
     meta: {
       requiresAuthentication: true,
@@ -53,9 +53,9 @@ const routes = [
     },
   },
   {
-    path: '/get-visitor',
-    name: 'GetVisitor',
-    component: GetVisitorView,
+    path: '/search-visitor',
+    name: 'SearchVisitorView',
+    component: SearchVisitorView,
     meta: {
       requiresAuthentication: true,
       requiresPermissionOnAction: ACTIONS.SEARCH_VISITOR,

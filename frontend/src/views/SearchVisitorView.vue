@@ -36,6 +36,8 @@
           Registration ID: {{ visitor.registrationId }}
         </h5>
         <p class="card-text mb-0">Name: {{ visitor.visitorName }}</p>
+        <p class="card-text mb-0">Purpose: {{ visitor.purpose }}</p>
+
         <p v-if="visitor.hasArrived" class="card-text mb-0">
           Arrived on {{ formatDateAndTime(new Date(visitor.arrivalTime)) }}
         </p>
@@ -63,12 +65,13 @@ import { getVisitorByRegistrationId } from '@/services/internalApiServices'
 import { formatDate, formatDateAndTime } from '@/utils'
 
 export default {
-  name: 'GetVisitorView',
+  name: 'SearchVisitorView',
   data() {
     return {
       visitor: {
         registrationId: '',
         visitorName: '',
+        purpose: '',
       },
       formData: {
         registrationId: '',
@@ -100,7 +103,7 @@ export default {
         this.errorMsg = ''
       } catch (error) {
         console.error(error)
-        this.visitor = { registrationId: '', visitorName: '' }
+        this.visitor = { registrationId: '', visitorName: '', purpose: '' }
         this.errorMsg = error.response?.data?.message || 'Error retrieving data'
       }
     },
