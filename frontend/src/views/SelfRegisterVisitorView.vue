@@ -267,6 +267,7 @@ export default {
         visitRequest.value = response
         if (visitRequest.value) {
           formData.value.visitorName = visitRequest.value.visitorName
+          formData.value.purpose = visitRequest.value.purpose
           formData.value.visitDate = getYearMonthDay(
             new Date(visitRequest.value.visitDate),
           )
