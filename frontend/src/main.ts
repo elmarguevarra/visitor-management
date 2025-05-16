@@ -114,7 +114,10 @@ const routes = [
             }
           })
           const redirectPath =
-            sessionStorage.getItem('postLoginRedirectPath') || '/visitors'
+            sessionStorage.getItem('postLoginRedirectPath') ||
+            (authorizationStore.hasPermissionOnAction(ACTIONS.BROWSE_VISITORS)
+              ? '/visitors'
+              : '/profile')
           sessionStorage.removeItem('postLoginRedirectPath')
           router.push(redirectPath)
         } catch (error) {
