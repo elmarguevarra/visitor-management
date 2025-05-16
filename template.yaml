@@ -79,6 +79,20 @@ Resources:
                             ]
                         }
                     },
+                    "showGuardBadge": {
+                        "appliesTo": {
+                            "context": {
+                                "type": "Record",
+                                "attributes": {}
+                            },
+                            "principalTypes": [
+                                "User"
+                            ],
+                            "resourceTypes": [
+                                "Resource"
+                            ]
+                        }
+                    },
                     "viewVisitorManagement": {
                         "appliesTo": {
                             "context": {
