@@ -32,6 +32,16 @@
         />
       </div>
       <div class="col-md-6">
+        <label for="purpose" class="form-label">Purpose</label>
+        <input
+          type="text"
+          class="form-control"
+          id="purpose"
+          v-model="formData.purpose"
+          required
+        />
+      </div>
+      <div class="col-md-6">
         <label for="visitDate" class="form-label">Visit Date</label>
         <input
           type="date"
@@ -99,6 +109,7 @@ export default {
       residentContact: authenticationStore.userPhoneNumber,
       visitorName: null,
       visitDate: today,
+      purpose: null,
       arrivalTime: null,
       departureTime: null,
       hasArrived: false,
@@ -116,6 +127,7 @@ export default {
         visitor.value = result
         formData.visitorName = ''
         formData.visitDate = today
+        formData.purpose = ''
         errorMsg.value = ''
       } catch (error) {
         console.error(error)

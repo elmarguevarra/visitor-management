@@ -22,6 +22,16 @@
           />
         </div>
         <div class="col-md-6">
+          <label for="purpose" class="form-label">Purpose</label>
+          <input
+            type="text"
+            class="form-control"
+            id="purpose"
+            v-model="formData.purpose"
+            required
+          />
+        </div>
+        <div class="col-md-6">
           <label for="visitDate" class="form-label">Visit Date</label>
           <input
             type="date"
@@ -194,6 +204,7 @@ export default {
     const formData = ref({
       visitorName: null,
       visitDate: yearMonthDateToday,
+      purpose: null,
     })
 
     const errorMsg = ref('')
@@ -211,6 +222,7 @@ export default {
         inviteToken: props.inviteToken,
         visitorName: formData.value.visitorName,
         visitDate: formData.value.visitDate,
+        purpose: formData.value.purpose,
         requestStatus: 'PENDING',
       }
       try {
