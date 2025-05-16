@@ -54,7 +54,6 @@ echo "Creating Admin User"
 aws cognito-idp admin-create-user \
   --user-pool-id "$user_pool_id" \
   --username admin@alphinecodetech.click \
-  --group-name AdminUserGroup \
   --user-attributes Name=email,Value=admin@alphinecodetech.click \
                    Name=email_verified,Value=true \
                    Name=given_name,Value=Admin \
