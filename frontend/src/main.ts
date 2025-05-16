@@ -94,12 +94,6 @@ const routes = [
     },
   },
   {
-    path: '/unassigned',
-    name: 'UnAssignedView',
-    component: UnAssignedView,
-    meta: { requiresAuthentication: true },
-  },
-  {
     path: '/restricted',
     name: 'RestrictedAccess',
     component: RestrictedView,

@@ -16,7 +16,11 @@
               />
               <span style="font-size: 1rem">AlphineCodeTech</span>
               <span
-                v-if="authorizationStore.isShowAdminBadgeAllowed"
+                v-if="
+                  authorizationStore.hasPermissionOnAction(
+                    ACTIONS.SHOW_ADMIN_BADGE,
+                  )
+                "
                 class="ms-1 badge text-secondary"
                 style="
                   font-size: 0.3rem;
@@ -63,7 +67,11 @@
                 >
               </li>
               <li
-                v-if="authorizationStore.isBrowseVisitorsAllowed"
+                v-if="
+                  authorizationStore.hasPermissionOnAction(
+                    ACTIONS.BROWSE_VISITORS,
+                  )
+                "
                 class="nav-item"
               >
                 <router-link
@@ -74,7 +82,11 @@
                 >
               </li>
               <li
-                v-if="authorizationStore.isRegisterVisitorAllowed"
+                v-if="
+                  authorizationStore.hasPermissionOnAction(
+                    ACTIONS.REGISTER_VISITOR,
+                  )
+                "
                 class="nav-item"
               >
                 <router-link
@@ -85,7 +97,11 @@
                 >
               </li>
               <li
-                v-if="authorizationStore.isSearchVisitorAllowed"
+                v-if="
+                  authorizationStore.hasPermissionOnAction(
+                    ACTIONS.SEARCH_VISITOR,
+                  )
+                "
                 class="nav-item"
               >
                 <router-link
@@ -96,7 +112,11 @@
                 >
               </li>
               <li
-                v-if="authorizationStore.isInviteVisitorAllowed"
+                v-if="
+                  authorizationStore.hasPermissionOnAction(
+                    ACTIONS.INVITE_VISITOR,
+                  )
+                "
                 class="nav-item"
               >
                 <router-link
@@ -174,6 +194,7 @@
 import { onMounted } from 'vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
 import { useAuthorizationStore } from './stores/authorizationStore'
+import { ACTIONS } from './constants/actions'
 
 export default {
   name: 'App',
