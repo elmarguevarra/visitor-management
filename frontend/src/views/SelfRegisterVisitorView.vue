@@ -29,7 +29,7 @@
             id="visitDate"
             v-model="formData.visitDate"
             required
-            :min="today"
+            :min="yearMonthDateToday"
           />
         </div>
         <div class="col-12">
@@ -336,6 +336,7 @@ export default {
       extendInviteLinkExpiration,
       formatDate,
       formatDateAndTime,
+      yearMonthDateToday,
     }
   },
 }
