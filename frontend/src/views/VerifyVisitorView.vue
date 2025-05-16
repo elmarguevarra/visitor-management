@@ -30,6 +30,7 @@
         ><strong>{{ visitor.visitorName }}</strong> is scheduled to visit
         today.</span
       >
+      <span>Purpose: {{ visitor.purpose }}</span>
     </div>
     <div
       v-else-if="
@@ -127,6 +128,7 @@ export default {
       residentContact: null,
       visitorName: null,
       visitDate: null,
+      purpose: null,
       arrivalTime: null,
       departureTime: null,
       hasArrived: false,
@@ -168,6 +170,7 @@ export default {
           registrationId: '',
           visitorName: '',
           visitDate: '',
+          purpose: '',
           hasArrived: false,
         }
         errorMsg.value =
