@@ -30,7 +30,6 @@
         ><strong>{{ visitor.visitorName }}</strong> is scheduled to visit
         today.</span
       >
-      <span>Purpose: {{ visitor.purpose }}</span>
     </div>
     <div
       v-else-if="
