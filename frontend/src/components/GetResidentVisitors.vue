@@ -243,6 +243,7 @@ export default {
         const newVisitorData = {
           residentId: visitRequest.residentId,
           visitorName: visitRequest.visitorName,
+          purpose: visitRequest.purpose,
           visitDate: visitRequest.visitDate,
         }
 
