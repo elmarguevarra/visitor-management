@@ -17,6 +17,8 @@ import { useAuthenticationStore } from './stores/authenticationStore'
 import ProfileView from './views/ProfileView.vue'
 import UnAssignedView from './views/UnAssignedView.vue'
 import { useAuthorizationStore } from './stores/authorizationStore'
+import RestrictedView from './views/RestrictedView.vue'
+import { Action, ACTIONS } from './constants/actions'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -30,57 +32,78 @@ const routes = [
     path: '/',
     name: 'Landing',
     component: LandingView,
-    meta: { requiresAuth: false },
+    meta: { requiresAuthentication: false },
   },
   {
     path: '/visitors',
     name: 'ListVisitors',
     component: ListVisitorsView,
-    meta: { requiresAuth: true },
+    meta: {
+      requiresAuthentication: true,
+      requiredPermissionOnAction: ACTIONS.BROWSE_VISITORS,
+    },
   },
   {
     path: '/register-visitor',
     name: 'Register',
     component: RegisterVisitorView,
-    meta: { requiresAuth: true },
+    meta: {
+      requiresAuthentication: true,
+      requiredPermissionOnAction: ACTIONS.REGISTER_VISITOR,
+    },
   },
   {
     path: '/get-visitor',
     name: 'GetVisitor',
     component: GetVisitorView,
-    meta: { requiresAuth: true },
+    meta: {
+      requiresAuthentication: true,
+      requiredPermissionOnAction: ACTIONS.SEARCH_VISITOR,
+    },
   },
   {
     path: '/invite-visitor',
     name: 'InviteVisitorView',
     component: InviteVisitorView,
-    meta: { requiresAuth: true },
+    meta: {
+      requiresAuthentication: true,
+      requiredPermissionOnAction: ACTIONS.INVITE_VISITOR,
+    },
   },
   {
     path: '/profile',
     name: 'ProfileView',
     component: ProfileView,
-    meta: { requiresAuth: true },
+    meta: { requiresAuthentication: true },
   },
   {
     path: '/self-register-visitor/:inviteToken',
     name: 'SelfRegisterVisitorView',
     component: SelfRegisterVisitorView,
     props: true,
-    meta: { requiresAuth: false },
+    meta: { requiresAuthentication: false },
   },
   {
     path: '/verify-visitor/:registrationId',
     name: 'VerifyVisitorView',
     component: VerifyVisitorView,
     props: true,
-    meta: { requiresAuth: true },
+    meta: {
+      requiresAuthentication: true,
+      requiredPermissionOnAction: ACTIONS.VERIFY_VISITOR,
+    },
   },
   {
     path: '/unassigned',
     name: 'UnAssignedView',
     component: UnAssignedView,
-    meta: { requiresAuth: true },
+    meta: { requiresAuthentication: true },
+  },
+  {
+    path: '/restricted',
+    name: 'RestrictedAccess',
+    component: RestrictedView,
+    meta: { requiresAuthentication: true },
   },
   {
     path: '/signin-callback',
@@ -106,7 +129,7 @@ const routes = [
         }
       },
     },
-    meta: { requiresAuth: false },
+    meta: { requiresAuthentication: false },
   },
   {
     path: '/signout-callback',
@@ -123,13 +146,13 @@ const routes = [
         }
       },
     },
-    meta: { requiresAuth: false },
+    meta: { requiresAuthentication: false },
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     redirect: '/',
-    meta: { requiresAuth: false },
+    meta: { requiresAuthentication: false },
   },
 ]
 
@@ -149,11 +172,15 @@ app.mount('#app')
 
 if (process.env.NODE_ENV !== 'development') {
   router.beforeEach(async (to, from, next) => {
-    if (!to.meta.requiresAuth) {
+    if (!to.meta.requiresAuthentication) {
       return next()
     }
     await authenticationStore.loadUser()
     if (authenticationStore.isLoggedIn) {
+      const action = to.meta.requiredPermissionOnAction as Action
+      if (action && !authorizationStore.hasPermissionOnAction(action)) {
+        return next('/restricted')
+      }
       next()
     } else {
       await authenticationStore.removeUser()

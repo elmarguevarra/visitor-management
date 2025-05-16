@@ -4,7 +4,7 @@ const API_BASE = process.env.VUE_APP_API_ENDPOINT || ''
 
 const defaultUserGroup = 'unassigned'
 
-export async function getPermissions(
+export async function evaluatePermissions(
   userGroup: string | undefined,
   actions: string[] | undefined,
 ): Promise<any> {

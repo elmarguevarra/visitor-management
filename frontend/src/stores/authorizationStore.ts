@@ -1,28 +1,12 @@
 import { defineStore } from 'pinia'
 import { useAuthenticationStore } from './authenticationStore'
-import { getPermissions } from '@/services/awsServices'
-
-const actions = [
-  'browseVisitors',
-  'inviteVisitor',
-  'registerVisitor',
-  'searchVisitor',
-  'verifyVisitor',
-  'viewVisitorManagement',
-  'showAdminBadge',
-]
+import { evaluatePermissions as getPermissions } from '@/services/awsServices'
+import { ALL_ACTIONS, Action } from '@/constants/actions'
 
 const ALLOW = 'ALLOW'
 
 export const useAuthorizationStore = defineStore('authorization', {
   state: () => ({
-    isBrowseVisitorsAllowed: false,
-    isInviteVisitorAllowed: false,
-    isRegisterVisitorAllowed: false,
-    isSearchVisitorAllowed: false,
-    isVerifyVisitorAllowed: false,
-    isViewVisitorManagementAllowed: false,
-    isShowAdminBadgeAllowed: false,
     permissions: {} as Record<string, boolean>,
   }),
   actions: {
@@ -31,7 +15,7 @@ export const useAuthorizationStore = defineStore('authorization', {
         const authenticationStore = useAuthenticationStore()
         const userGroup = authenticationStore.userGroup
 
-        const permissions = await getPermissions(userGroup, actions)
+        const permissions = await getPermissions(userGroup, ALL_ACTIONS)
 
         if (permissions.results) {
           const permissionMap: Record<string, boolean> = {}
@@ -39,35 +23,18 @@ export const useAuthorizationStore = defineStore('authorization', {
             permissionMap[permission.request.action.actionId] =
               permission.decision === ALLOW
           })
-          this.isBrowseVisitorsAllowed = !!permissionMap.browseVisitors
-          this.isInviteVisitorAllowed = !!permissionMap.inviteVisitor
-          this.isRegisterVisitorAllowed = !!permissionMap.registerVisitor
-          this.isSearchVisitorAllowed = !!permissionMap.searchVisitor
-          this.isVerifyVisitorAllowed = !!permissionMap.verifyVisitor
-          this.isShowAdminBadgeAllowed = !!permissionMap.showAdminBadge
-          this.isViewVisitorManagementAllowed =
-            !!permissionMap.viewVisitorManagement
-
           this.permissions = permissionMap
 
           console.log('permissions: ', permissions)
         } else {
           console.warn('Invalid permissions result:', permissions)
-          this.resetPermissions()
         }
       } catch (err) {
         console.error('Permissions check failed:', err)
-        this.resetPermissions()
       }
     },
-    resetPermissions() {
-      this.isBrowseVisitorsAllowed = false
-      this.isInviteVisitorAllowed = false
-      this.isRegisterVisitorAllowed = false
-      this.isSearchVisitorAllowed = false
-      this.isVerifyVisitorAllowed = false
-      this.isViewVisitorManagementAllowed = false
-      this.isShowAdminBadgeAllowed = false
+    hasPermissionOnAction(action: Action): boolean {
+      return !!this.permissions[action]
     },
   },
 })
