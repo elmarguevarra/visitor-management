@@ -93,20 +93,6 @@ Resources:
                             ]
                         }
                     },
-                    "viewVisitorManagement": {
-                        "appliesTo": {
-                            "context": {
-                                "type": "Record",
-                                "attributes": {}
-                            },
-                            "principalTypes": [
-                                "User"
-                            ],
-                            "resourceTypes": [
-                                "Resource"
-                            ]
-                        }
-                    },
                     "searchVisitor": {
                         "appliesTo": {
                             "context": {
@@ -198,8 +184,7 @@ Resources:
                     VisitorManagement::Action::"registerVisitor",
                     VisitorManagement::Action::"searchVisitor",
                     VisitorManagement::Action::"verifyVisitor",
-                    VisitorManagement::Action::"showAdminBadge",
-                    VisitorManagement::Action::"viewVisitorManagement"],
+                    VisitorManagement::Action::"showAdminBadge"],
                 resource == VisitorManagement::Resource::"visitorResource"
             );
   AllowResidentGroupAccessPolicy:
@@ -214,9 +199,7 @@ Resources:
                 action in
                     [VisitorManagement::Action::"browseVisitors",
                     VisitorManagement::Action::"inviteVisitor",
-                    VisitorManagement::Action::"registerVisitor",
-                    VisitorManagement::Action::"showGuardBadge",
-                    VisitorManagement::Action::"viewVisitorManagement"],
+                    VisitorManagement::Action::"registerVisitor"],
                 resource == VisitorManagement::Resource::"visitorResource"
             );
   AllowGuardGroupAccessPolicy:
@@ -230,7 +213,7 @@ Resources:
                 principal in VisitorManagement::UserGroup::"${GuardGroupName}",
                 action in [VisitorManagement::Action::"verifyVisitor",
                            VisitorManagement::Action::"searchVisitor",
-                           VisitorManagement::Action::"viewVisitorManagement"],
+                           VisitorManagement::Action::"showGuardBadge"],
                 resource == VisitorManagement::Resource::"visitorResource"
             );
 
