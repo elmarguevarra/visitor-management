@@ -72,7 +72,7 @@ else
   aws cognito-idp admin-add-user-to-group \
     --user-pool-id "$user_pool_id" \
     --username admin@alphinecodetech.click \
-    --group-name AdminUserGroup
+    --group-name admin
 fi
 
 
