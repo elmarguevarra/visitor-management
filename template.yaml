@@ -282,7 +282,7 @@ Resources:
               Resource: "*"
       Environment:
         Variables:
-          POLICY_STORE_ID: !Ref VisitorManagementPolicyStoreNew
+          POLICY_STORE_ID: !Ref VisitorManagementPolicyStore
       Events:
         Api:
           Type: Api

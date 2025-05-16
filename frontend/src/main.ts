@@ -40,7 +40,7 @@ const routes = [
     component: ListVisitorsView,
     meta: {
       requiresAuthentication: true,
-      requiredPermissionOnAction: ACTIONS.BROWSE_VISITORS,
+      requiresPermissionOnAction: ACTIONS.BROWSE_VISITORS,
     },
   },
   {
@@ -49,7 +49,7 @@ const routes = [
     component: RegisterVisitorView,
     meta: {
       requiresAuthentication: true,
-      requiredPermissionOnAction: ACTIONS.REGISTER_VISITOR,
+      requiresPermissionOnAction: ACTIONS.REGISTER_VISITOR,
     },
   },
   {
@@ -58,7 +58,7 @@ const routes = [
     component: GetVisitorView,
     meta: {
       requiresAuthentication: true,
-      requiredPermissionOnAction: ACTIONS.SEARCH_VISITOR,
+      requiresPermissionOnAction: ACTIONS.SEARCH_VISITOR,
     },
   },
   {
@@ -67,7 +67,7 @@ const routes = [
     component: InviteVisitorView,
     meta: {
       requiresAuthentication: true,
-      requiredPermissionOnAction: ACTIONS.INVITE_VISITOR,
+      requiresPermissionOnAction: ACTIONS.INVITE_VISITOR,
     },
   },
   {
@@ -90,7 +90,7 @@ const routes = [
     props: true,
     meta: {
       requiresAuthentication: true,
-      requiredPermissionOnAction: ACTIONS.VERIFY_VISITOR,
+      requiresPermissionOnAction: ACTIONS.VERIFY_VISITOR,
     },
   },
   {
@@ -177,7 +177,7 @@ if (process.env.NODE_ENV !== 'development') {
     }
     await authenticationStore.loadUser()
     if (authenticationStore.isLoggedIn) {
-      const action = to.meta.requiredPermissionOnAction as Action
+      const action = to.meta.requiresPermissionOnAction as Action
       if (action && !authorizationStore.hasPermissionOnAction(action)) {
         return next('/restricted')
       }
