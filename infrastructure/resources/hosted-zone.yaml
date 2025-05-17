@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: Nested stack for Hosted Zone and RecordSet Type A
 
 Resources:
-  HostedZoneNew:
+  HostedZone:
     Type: AWS::Route53::HostedZone
     Properties:
       Name: alphinecodetech.click
@@ -12,7 +12,7 @@ Resources:
 
   # Note that CNAMEs are not included here as they were only used for validation needed for public certificate request in ACM. It is a one time setup.
   # Alias record for the vms subdomain domain IPV4
-  CloudFrontVMSAliasRecordNew:
+  CloudFrontVMSAliasRecord:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZone

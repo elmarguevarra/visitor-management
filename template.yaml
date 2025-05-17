@@ -61,6 +61,12 @@ Resources:
         AcmCertificateArn: !Ref AcmCertificateArn
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
 
+  # Uncomment on fresh deployment only
+  # HostedZoneStack:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: ./infrastructure/resources/hosted-zone.yaml
+
   # S3 Bucket to host single page app website
   WebSiteBucket:
     Type: AWS::S3::Bucket
