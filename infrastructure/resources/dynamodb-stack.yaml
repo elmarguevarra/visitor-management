@@ -68,7 +68,13 @@ Resources:
 Outputs:
   VisitorsTable:
     Value: !Ref VisitorsTable
+    Export:
+      Name: VisitorsTable
   InviteLinksTable:
     Value: !Ref InviteLinksTable
+    Export:
+      Name: InviteLinksTable
   VisitRequestsTable:
     Value: !Ref VisitRequestsTable
+    Export:
+      Name: VisitRequestsTable

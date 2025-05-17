@@ -14,6 +14,302 @@ Resources:
         AllowOrigin: "'https://vms.alphinecodetech.click'"
         AllowCredentials: true
 
+  # This is a Lambda function config associated with the source code: get-by-id.js
+  getVisitorsFunctionNew:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/get-visitors.getVisitorsHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
+      Description:
+        A simple example includes a HTTP get method to get all items by id
+        from a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+        - DynamoDBCrudPolicy:
+            TableName: !GetAtt DatabaseStack.Outputs.VisitorsTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          VISITORS_TABLE: !GetAtt DatabaseStack.Outputs.VisitorsTable
+          # Make DynamoDB endpoint accessible as environment variable from function code during execution
+          ENDPOINT_OVERRIDE: ""
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /visitors
+            Method: GET
+            RestApiId: !Ref ApiGatewayApiNew
+            RequestParameters:
+              - method.request.querystring.residentId:
+                  Required: false
+
+  getPermissionsFunctionNew:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/get-permissions.getPermissionsHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
+      Description: Get permissions from amazon verified permissions
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - verifiedpermissions:IsAuthorized
+              Resource: "*"
+      Environment:
+        Variables:
+          POLICY_STORE_ID: !GetAtt AuthorizationStack.Outputs.VisitorManagementPolicyStore
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /permissions
+            Method: GET
+            RestApiId: !Ref ApiGatewayApiNew
+            RequestParameters:
+              - method.request.querystring.residentId:
+                  Required: false
+
+  # This is a Lambda function config associated with the source code: get-visit-requests
+  getVisitRequestsFunctionNew:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/get-visit-requests.getVisitRequestsHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
+      Description:
+        A simple example includes a HTTP get method to get all items by id
+        from a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+        - DynamoDBCrudPolicy:
+            TableName: !GetAtt DatabaseStack.Outputs.VisitRequestsTable
+      Environment:
+        Variables:
+          # Make DynamoDB endpoint accessible as environment variable from function code during execution
+          ENDPOINT_OVERRIDE: ""
+          # Make table name accessible as environment variable from function code during execution
+          VISIT_REQUESTS_TABLE: !GetAtt DatabaseStack.Outputs.VisitRequestsTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /visit-requests
+            Method: GET
+            RestApiId: !Ref ApiGatewayApiNew
+            RequestParameters:
+              - method.request.querystring.residentId:
+                  Required: false
+
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # This is a Lambda function config associated with the source code: get-by-id.js
+  getVisitorByIdFunctionNew:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/get-visitor-by-id.getVisitorByIdHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
+      Description:
+        A simple example includes a HTTP get method to get one item by id
+        from a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+        - DynamoDBCrudPolicy:
+            TableName: !GetAtt DatabaseStack.Outputs.VisitorsTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          VISITORS_TABLE: !GetAtt DatabaseStack.Outputs.VisitorsTable
+          # Make DynamoDB endpoint accessible as environment variable from function code during execution
+          ENDPOINT_OVERRIDE: ""
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /visitor/{id}
+            Method: GET
+            RestApiId: !Ref ApiGatewayApiNew
+
+  # This is a Lambda function config associated with the source code: get-invite-by-token.mjs
+  getInviteByTokenFunctionNew:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/get-invite-by-token.getInviteByTokenHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
+      Description:
+        A simple example includes a HTTP get method to get one item by id
+        from a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+        - DynamoDBCrudPolicy:
+            TableName: !GetAtt DatabaseStack.Outputs.InviteLinksTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          INVITE_LINKS_TABLE: !GetAtt DatabaseStack.Outputs.InviteLinksTable
+          # Make DynamoDB endpoint accessible as environment variable from function code during execution
+          ENDPOINT_OVERRIDE: ""
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /invite/{inviteToken}
+            Method: GET
+            RestApiId: !Ref ApiGatewayApiNew
+
+  # This is a Lambda function config associated with the source code: get-visit-request-by-token.mjs
+  getVisitRequestByTokenFunctionNew:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/get-visit-request-by-token.getVisitRequestByTokenHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
+      Description:
+        A simple example includes a HTTP get method to get one item by id
+        from a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+        - DynamoDBCrudPolicy:
+            TableName: !GetAtt DatabaseStack.Outputs.VisitRequestsTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          VISIT_REQUESTS_TABLE: !GetAtt DatabaseStack.Outputs.VisitRequestsTable
+          # Make DynamoDB endpoint accessible as environment variable from function code during execution
+          ENDPOINT_OVERRIDE: ""
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /visit-request/{inviteToken}
+            Method: GET
+            RestApiId: !Ref ApiGatewayApiNew
+
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # This is a Lambda function config associated with the source code: put-item.js
+  putVisitorFunctionNew:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/put-visitor.putVisitorHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
+      Description:
+        A simple example includes a HTTP post method to add one item to a
+        DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
+        - DynamoDBCrudPolicy:
+            TableName: !GetAtt DatabaseStack.Outputs.VisitorsTable
+      Environment:
+        Variables:
+          VISITORS_TABLE: !GetAtt DatabaseStack.Outputs.VisitorsTable
+          # Make DynamoDB endpoint accessible as environment variable from function code during execution
+          ENDPOINT_OVERRIDE: ""
+          APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /visitor
+            Method: POST
+            RestApiId: !Ref ApiGatewayApiNew
+
+  putInviteLinkFunctionNew:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/put-invite-link.putInviteLinkItemHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
+      Description:
+        A simple example includes a HTTP post method to add one item to a
+        DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the InviteLinksTable
+        - DynamoDBCrudPolicy:
+            TableName: !GetAtt DatabaseStack.Outputs.InviteLinksTable
+      Environment:
+        Variables:
+          # Make DynamoDB endpoint accessible as environment variable from function code during execution
+          ENDPOINT_OVERRIDE: ""
+          APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
+          INVITE_LINKS_TABLE: !GetAtt DatabaseStack.Outputs.InviteLinksTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /invite
+            Method: POST
+            RestApiId: !Ref ApiGatewayApiNew
+
+  putVisitRequestFunctionNew:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: src/handlers/put-visit-request.putVisitRequestHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
+      Description:
+        A simple example includes a HTTP post method to add one item to a
+        DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the VisitRequestsTable
+        - DynamoDBCrudPolicy:
+            TableName: !GetAtt DatabaseStack.Outputs.VisitRequestsTable
+      Environment:
+        Variables:
+          # Make DynamoDB endpoint accessible as environment variable from function code during execution
+          ENDPOINT_OVERRIDE: ""
+          VISIT_REQUESTS_TABLE: !GetAtt DatabaseStack.Outputs.VisitRequestsTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /visit-request
+            Method: POST
+            RestApiId: !Ref ApiGatewayApiNew
+
 Outputs:
   ApiGatewayApiNew:
     Value: !Ref ApiGatewayApiNew
