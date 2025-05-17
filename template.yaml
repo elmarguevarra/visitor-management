@@ -381,11 +381,11 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref InviteLinksTable
+            TableName: !GetAtt DatabaseStack.Outputs.InviteLinksTableName
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          INVITE_LINKS_TABLE: !Ref InviteLinksTable
+          INVITE_LINKS_TABLE: !GetAtt DatabaseStack.Outputs.InviteLinksTableName
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
@@ -479,13 +479,13 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the InviteLinksTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref InviteLinksTable
+            TableName: !GetAtt DatabaseStack.Outputs.InviteLinksTableName
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
           APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
-          INVITE_LINKS_TABLE: !Ref InviteLinksTable
+          INVITE_LINKS_TABLE: !Ref !GetAtt DatabaseStack.Outputs.InviteLinksTableName
       Events:
         Api:
           Type: Api
