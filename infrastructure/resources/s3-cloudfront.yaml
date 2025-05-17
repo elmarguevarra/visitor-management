@@ -9,7 +9,7 @@ Parameters:
 
 Resources:
   # S3 Bucket to host single page app website
-  WebSiteBucketNew:
+  WebSiteBucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketEncryption:
@@ -17,10 +17,10 @@ Resources:
           - BucketKeyEnabled: true
       VersioningConfiguration:
         Status: Enabled
-  WebSiteBucketPolicyNew:
+  WebSiteBucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: !Ref WebSiteBucketNew
+      Bucket: !Ref WebSiteBucket
       PolicyDocument:
         Version: "2012-10-17"
         Id: PolicyForCloudFrontPrivateContent
@@ -33,7 +33,7 @@ Resources:
             Resource: !Join
               - ""
               - - "arn:aws:s3:::"
-                - !Ref WebSiteBucketNew
+                - !Ref WebSiteBucket
                 - /*
             Condition:
               StringEquals:
@@ -42,16 +42,16 @@ Resources:
                   - - "arn:aws:cloudfront::"
                     - !Ref AWS::AccountId
                     - ":distribution/"
-                    - !Ref CloudFrontDistributionNew
+                    - !Ref CloudFrontDistribution
   # CloudFront Distribution for hosting the single page app website
-  CloudFrontDistributionNew:
+  CloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Origins:
-          - DomainName: !GetAtt WebSiteBucketNew.RegionalDomainName
+          - DomainName: !GetAtt WebSiteBucket.RegionalDomainName
             Id: myS3Origin
-            OriginAccessControlId: !GetAtt CloudFrontOriginAccessControlNew.Id
+            OriginAccessControlId: !GetAtt CloudFrontOriginAccessControl.Id
             S3OriginConfig:
               OriginAccessIdentity: ""
         Enabled: true
@@ -106,7 +106,7 @@ Resources:
             ResponseCode: 200
             ResponsePagePath: /index.html
             ErrorCachingMinTTL: 0
-  CloudFrontOriginAccessControlNew:
+  CloudFrontOriginAccessControl:
     Type: AWS::CloudFront::OriginAccessControl
     Properties:
       OriginAccessControlConfig:
@@ -116,7 +116,11 @@ Resources:
         SigningProtocol: sigv4
 
 Outputs:
+  CloudFrontDistributionId:
+    Value: !GetAtt CloudFrontDistribution.Id
   CloudFrontDistributionDomainName:
-    Value: !GetAtt CloudFrontDistributionNew.DomainName
+    Value: !GetAtt CloudFrontDistribution.DomainName
     Export:
       Name: CloudFrontDistributionDomainName
+  WebS3BucketName:
+    Value: !Ref WebSiteBucket
