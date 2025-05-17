@@ -11,7 +11,7 @@
 set -e  # Exit immediately if a command exits with a non-zero status.
 # set -x # Uncomment this line to enable verbose output (for debugging).
 
-# --- Backend Deployment (SAM) ---
+## ----- Backend Deployment (SAM) -----
 export STACK_NAME="visitor-management"
 
 echo "Building and deploying the SAM application (backend)..."
@@ -21,8 +21,30 @@ echo "Running: sam deploy --stack-name \"$STACK_NAME\""
 
 echo "AWS_REGION is: $AWS_REGION"
 
+# --- Hosted Zone Deployment ---
+DOMAIN_NAME="alphinecodetech.click"
+EXISTING_ZONE=$(aws route53 list-hosted-zones-by-name \
+  --dns-name "$DOMAIN_NAME" \
+  --query "HostedZones[?Name=='$DOMAIN_NAME'].Id" \
+  --output text)
+
+if [ -z "$EXISTING_ZONE" ]; then
+  echo "Hosted zone does not exist. Creating one..."
+  CREATE_HOSTED_ZONE=true
+else
+  echo "Hosted zone exists: $EXISTING_ZONE"
+  CREATE_HOSTED_ZONE=false
+fi
+
 set +e
-SAM_DEPLOY_OUTPUT=$(sam deploy --stack-name "$STACK_NAME" --region "$AWS_REGION" --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND 2>&1)
+SAM_DEPLOY_OUTPUT=$(
+  sam deploy \
+    --stack-name "$STACK_NAME" \
+    --region "$AWS_REGION" \
+    --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
+    --parameter-overrides CreateHostedZone=$CREATE_HOSTED_ZONE
+    2>&1
+)
 SAM_DEPLOY_EXIT_CODE=$?
 echo "$SAM_DEPLOY_OUTPUT"
 set -e
@@ -76,7 +98,7 @@ else
 fi
 
 
-# --- Frontend Deployment ---
+## ----- Frontend Deployment -----
 echo "Deploying the frontend..."
 if [ -f "./deploy_frontend.sh" ]; then
   ./deploy_frontend.sh
