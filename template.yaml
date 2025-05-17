@@ -36,6 +36,11 @@ Parameters:
     Type: String
     Default: guard
     Description: Name of the guard user group in Verified Permissions
+  CreateHostedZone:
+    Type: String
+    AllowedValues: [true, false]
+    Default: false
+    Description: Whether to create the hosted zone
 
 Conditions:
   CreateHostedZoneCondition: !Equals [!Ref CreateHostedZone, "false"]
