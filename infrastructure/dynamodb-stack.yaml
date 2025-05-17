@@ -13,7 +13,7 @@ Resources:
   VisitorsTableNew:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: VisitorsTable
+      TableName: VisitorsTableNew
       AttributeDefinitions:
         - AttributeName: registrationId
           AttributeType: S
@@ -37,7 +37,7 @@ Resources:
   InviteLinksTableNew:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: InviteLinksTable
+      TableName: InviteLinksTableNew
       AttributeDefinitions:
         - AttributeName: inviteToken
           AttributeType: S
@@ -61,7 +61,7 @@ Resources:
   VisitRequestsTableNew:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: VisitRequestsTable
+      TableName: VisitRequestsTableNew
       AttributeDefinitions:
         - AttributeName: inviteToken
           AttributeType: S
