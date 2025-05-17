@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Api Gateway resource
 
-ApiGatewayApi:
+ApiGatewayApiNew:
   Type: AWS::Serverless::Api
   Properties:
     StageName: Prod
@@ -13,5 +13,5 @@ ApiGatewayApi:
       AllowCredentials: true
 
 Outputs:
-  ApiGatewayApi:
-    Value: !Ref ApiGatewayApi
+  ApiGatewayApiNew:
+    Value: !Ref ApiGatewayApiNew

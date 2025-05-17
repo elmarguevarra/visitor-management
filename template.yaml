@@ -73,7 +73,7 @@ Resources:
           Properties:
             Path: /visitors
             Method: GET
-            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApiNew
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
@@ -104,7 +104,7 @@ Resources:
           Properties:
             Path: /permissions
             Method: GET
-            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApiNew
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
@@ -139,7 +139,7 @@ Resources:
           Properties:
             Path: /visit-requests
             Method: GET
-            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApiNew
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
@@ -177,7 +177,7 @@ Resources:
           Properties:
             Path: /visitor/{id}
             Method: GET
-            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApiNew
 
   # This is a Lambda function config associated with the source code: get-invite-by-token.mjs
   getInviteByTokenFunction:
@@ -209,7 +209,7 @@ Resources:
           Properties:
             Path: /invite/{inviteToken}
             Method: GET
-            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApiNew
 
   # This is a Lambda function config associated with the source code: get-visit-request-by-token.mjs
   getVisitRequestByTokenFunction:
@@ -241,7 +241,7 @@ Resources:
           Properties:
             Path: /visit-request/{inviteToken}
             Method: GET
-            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApiNew
 
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -276,7 +276,7 @@ Resources:
           Properties:
             Path: /visitor
             Method: POST
-            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApiNew
 
   putInviteLinkFunction:
     Type: AWS::Serverless::Function
@@ -307,7 +307,7 @@ Resources:
           Properties:
             Path: /invite
             Method: POST
-            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApiNew
 
   putVisitRequestFunction:
     Type: AWS::Serverless::Function
@@ -337,7 +337,7 @@ Resources:
           Properties:
             Path: /visit-request
             Method: POST
-            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApiNew
 
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
@@ -581,7 +581,7 @@ Resources:
 Outputs:
   APIGatewayEndpoint:
     Description: API Gateway endpoint URL for Prod stage
-    Value: !Sub https://${ApiGatewayStack.Outputs.ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
+    Value: !Sub https://${ApiGatewayStack.Outputs.ApiGatewayApiNew}.execute-api.${AWS::Region}.amazonaws.com/Prod/
   CloudFrontDistributionId:
     Description: CloudFront Distribution ID for hosting web front end
     Value: !Ref CloudFrontDistribution
