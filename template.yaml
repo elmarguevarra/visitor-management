@@ -8,6 +8,10 @@ Parameters:
   #   Type: String
   #   Description: Your custom domain name (e.g., auth.example.com)
   #   Default: login.alphinecodetech.click
+  GlobalCloudFrontHostedZoneId:
+    Type: String
+    Default: Z2FDTNDATAQYW2
+    Description: The Global CloudFront Hosted Zone ID
   CognitoDomainPrefix:
     Type: String
     Default: login
@@ -48,6 +52,14 @@ Resources:
         AdminGroupName: !Ref AdminGroupName
         ResidentGroupName: !Ref ResidentGroupName
         GuardGroupName: !Ref GuardGroupName
+
+  S3BucketCloudFrontStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./infrastructure/resources/s3-cloudfront.yaml
+      Parameters:
+        AcmCertificateArn: !Ref AcmCertificateArn
+        GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
 
   # S3 Bucket to host single page app website
   WebSiteBucket:

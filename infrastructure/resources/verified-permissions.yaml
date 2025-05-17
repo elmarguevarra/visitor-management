@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Visitor Management Verified Permissions resources
+Description: Nested stack for Verified Permissions Policy Store
 
 Parameters:
   AdminGroupName:
