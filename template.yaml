@@ -245,11 +245,11 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitorsTable
+            TableName: !GetAtt DatabaseStack.Outputs.VisitorsTableName
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          VISITORS_TABLE: !Ref VisitorsTable
+          VISITORS_TABLE: !GetAtt DatabaseStack.Outputs.VisitorsTableName
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
@@ -311,13 +311,13 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitRequestsTable
+            TableName: !GetAtt DatabaseStack.Outputs.VisitRequestsTableName
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
           # Make table name accessible as environment variable from function code during execution
-          VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
+          VISIT_REQUESTS_TABLE: !GetAtt DatabaseStack.Outputs.VisitRequestsTableName
       Events:
         Api:
           Type: Api
@@ -349,11 +349,11 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitorsTable
+            TableName: !GetAtt DatabaseStack.Outputs.VisitorsTableName
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          VISITORS_TABLE: !Ref VisitorsTable
+          VISITORS_TABLE: !GetAtt DatabaseStack.Outputs.VisitorsTableName
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
@@ -413,11 +413,11 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitRequestsTable
+            TableName: !GetAtt DatabaseStack.Outputs.VisitRequestsTableName
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
+          VISIT_REQUESTS_TABLE: !GetAtt DatabaseStack.Outputs.VisitRequestsTableName
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
@@ -448,10 +448,10 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitorsTable
+            TableName: !GetAtt DatabaseStack.Outputs.VisitorsTableName
       Environment:
         Variables:
-          VISITORS_TABLE: !Ref VisitorsTable
+          VISITORS_TABLE: !GetAtt DatabaseStack.Outputs.VisitorsTableName
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
           APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
@@ -510,12 +510,12 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitRequestsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitRequestsTable
+            TableName: !GetAtt DatabaseStack.Outputs.VisitRequestsTableName
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
-          VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
+          VISIT_REQUESTS_TABLE: !GetAtt DatabaseStack.Outputs.VisitRequestsTableName
       Events:
         Api:
           Type: Api
