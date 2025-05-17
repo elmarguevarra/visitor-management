@@ -222,20 +222,11 @@ Resources:
     Properties:
       StageName: Prod
       TracingEnabled: true
-      AccessLogSetting:
-        DestinationArn: !GetAtt ApiGatewayLogGroup.Arn
-        Format: '{"requestId":"$context.requestId","ip":"$context.identity.sourceIp","caller":"$context.identity.caller","user":"$context.identity.user","requestTime":"$context.requestTime","httpMethod":"$context.httpMethod","resourcePath":"$context.resourcePath","status":"$context.status","protocol":"$context.protocol","responseLength":"$context.responseLength"}'
       Cors:
         AllowMethods: "'OPTIONS,POST,GET'"
         AllowHeaders: "'Content-Type,Authorization'"
         AllowOrigin: "'https://vms.alphinecodetech.click'"
         AllowCredentials: true
-
-  ApiGatewayLogGroup:
-    Type: AWS::Logs::LogGroup
-    Properties:
-      LogGroupName: !Sub /aws/apigateway/${AWS::StackName}
-      RetentionInDays: 7
 
   # This is a Lambda function config associated with the source code: get-by-id.js
   getVisitorsFunction:
