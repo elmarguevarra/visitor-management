@@ -32,16 +32,16 @@ Parameters:
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
-  ApiGatewayApi:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: Prod
-      TracingEnabled: true
-      Cors:
-        AllowMethods: "'OPTIONS,POST,GET'"
-        AllowHeaders: "'Content-Type,Authorization'"
-        AllowOrigin: "'https://vms.alphinecodetech.click'"
-        AllowCredentials: true
+  # ApiGatewayApi:
+  #   Type: AWS::Serverless::Api
+  #   Properties:
+  #     StageName: Prod
+  #     TracingEnabled: true
+  #     Cors:
+  #       AllowMethods: "'OPTIONS,POST,GET'"
+  #       AllowHeaders: "'Content-Type,Authorization'"
+  #       AllowOrigin: "'https://vms.alphinecodetech.click'"
+  #       AllowCredentials: true
 
   # This is a Lambda function config associated with the source code: get-by-id.js
   getVisitorsFunction:
@@ -73,7 +73,7 @@ Resources:
           Properties:
             Path: /visitors
             Method: GET
-            RestApiId: !Ref ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
@@ -104,7 +104,7 @@ Resources:
           Properties:
             Path: /permissions
             Method: GET
-            RestApiId: !Ref ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
@@ -139,7 +139,7 @@ Resources:
           Properties:
             Path: /visit-requests
             Method: GET
-            RestApiId: !Ref ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
@@ -177,7 +177,7 @@ Resources:
           Properties:
             Path: /visitor/{id}
             Method: GET
-            RestApiId: !Ref ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
 
   # This is a Lambda function config associated with the source code: get-invite-by-token.mjs
   getInviteByTokenFunction:
@@ -209,7 +209,7 @@ Resources:
           Properties:
             Path: /invite/{inviteToken}
             Method: GET
-            RestApiId: !Ref ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
 
   # This is a Lambda function config associated with the source code: get-visit-request-by-token.mjs
   getVisitRequestByTokenFunction:
@@ -241,7 +241,7 @@ Resources:
           Properties:
             Path: /visit-request/{inviteToken}
             Method: GET
-            RestApiId: !Ref ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
 
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -276,7 +276,7 @@ Resources:
           Properties:
             Path: /visitor
             Method: POST
-            RestApiId: !Ref ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
 
   putInviteLinkFunction:
     Type: AWS::Serverless::Function
@@ -307,7 +307,7 @@ Resources:
           Properties:
             Path: /invite
             Method: POST
-            RestApiId: !Ref ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
 
   putVisitRequestFunction:
     Type: AWS::Serverless::Function
@@ -337,10 +337,15 @@ Resources:
           Properties:
             Path: /visit-request
             Method: POST
-            RestApiId: !Ref ApiGatewayApi
+            RestApiId: !GetAtt ApiGatewayStack.Outputs.ApiGatewayApi
 
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
+
+  ApiGatewayStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./infrastructure/api-gateway.yaml
 
   DatabaseStack:
     Type: AWS::CloudFormation::Stack
@@ -576,7 +581,7 @@ Resources:
 Outputs:
   APIGatewayEndpoint:
     Description: API Gateway endpoint URL for Prod stage
-    Value: !Sub https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
+    Value: !Sub https://${ApiGatewayStack.Outputs.ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
   CloudFrontDistributionId:
     Description: CloudFront Distribution ID for hosting web front end
     Value: !Ref CloudFrontDistribution

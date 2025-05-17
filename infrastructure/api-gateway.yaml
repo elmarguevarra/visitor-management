@@ -1,10 +1,17 @@
 AWSTemplateFormatVersion: "2010-09-09"
+Description: Api Gateway resource
 
 ApiGatewayApi:
   Type: AWS::Serverless::Api
   Properties:
     StageName: Prod
+    TracingEnabled: true
     Cors:
-      AllowMethods: "'OPTIONS, POST, GET'"
-      AllowHeaders: "'Content-Type'"
-      AllowOrigin: "'*'" #DO NOT USE THIS VALUE IN PRODUCTION - https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html
+      AllowMethods: "'OPTIONS,POST,GET'"
+      AllowHeaders: "'Content-Type,Authorization'"
+      AllowOrigin: "'https://vms.alphinecodetech.click'"
+      AllowCredentials: true
+
+Outputs:
+  ApiGatewayApi:
+    Value: !Ref ApiGatewayApi
