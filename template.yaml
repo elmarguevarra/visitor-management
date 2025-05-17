@@ -30,10 +30,10 @@ Parameters:
     Description: Name of the guard user group in Verified Permissions
 
 Resources:
-  ApiGatewayStack:
+  ApiGatewayLambdaStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: ./infrastructure/resources/api-gateway.yaml
+      TemplateURL: ./infrastructure/resources/api-gateway-lambda.yaml
 
   DatabaseStack:
     Type: AWS::CloudFormation::Stack
@@ -269,7 +269,7 @@ Resources:
 Outputs:
   APIGatewayEndpoint:
     Description: API Gateway endpoint URL for Prod stage
-    Value: !Sub https://${ApiGatewayStack.Outputs.ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
+    Value: !Sub https://${ApiGatewayLambdaStack.Outputs.ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
   CloudFrontDistributionId:
     Description: CloudFront Distribution ID for hosting web front end
     Value: !Ref CloudFrontDistribution
