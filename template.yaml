@@ -342,10 +342,10 @@ Resources:
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
 
-  ApiGatewayStack:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: ./infrastructure/api-gateway.yaml
+  # ApiGatewayStack:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: ./infrastructure/api-gateway.yaml
 
   DatabaseStack:
     Type: AWS::CloudFormation::Stack
