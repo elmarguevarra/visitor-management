@@ -5,11 +5,11 @@ Parameters:
   HostedZoneId:
     Type: String
 
-Reource:
+Resources:
   CloudFrontVMSAliasRecord:
     Type: AWS::Route53::RecordSet
     Properties:
-      HostedZoneId: !Ref HostedZone
+      HostedZoneId: !Ref HostedZoneId
       Name: vms.alphinecodetech.click
       Type: A
       AliasTarget:
