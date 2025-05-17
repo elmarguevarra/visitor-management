@@ -47,11 +47,10 @@ existing_cert_arn=$(aws acm list-certificates \
 )
 
 if [ -z "$existing_cert_arn" ]; then
-  echo "Public Certificate not exist. Creating one..."
-  create_public_cert=true
+  echo "Public Certificate does not exist. Manually create in us-east-1 then rerun build"
+  exit 1
 else
   echo "Public Certificate exists: $existing_cert_arn"
-  create_public_cert=false
 fi
 
 set +e
@@ -63,7 +62,6 @@ sam_deploy_output=$(
     --parameter-overrides \
         CreateHostedZone=$create_hosted_zone \
         HostedZoneId=$hosted_zone_id \
-        CreatePublicCertificate=$create_public_cert \
         AcmCertificateArn=$existing_cert_arn
     2>&1
 )
