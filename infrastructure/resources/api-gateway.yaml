@@ -18,7 +18,7 @@ Resources:
   getVisitorsFunctionNew:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: backend/
+      CodeUri: ../../backend/
       Handler: src/handlers/get-visitors.getVisitorsHandler
       Runtime: nodejs20.x
       Architectures:
@@ -52,7 +52,7 @@ Resources:
   getPermissionsFunctionNew:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: backend/
+      CodeUri: ../../backend/
       Handler: src/handlers/get-permissions.getPermissionsHandler
       Runtime: nodejs20.x
       Architectures:
@@ -84,7 +84,7 @@ Resources:
   getVisitRequestsFunctionNew:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: backend/
+      CodeUri: ../../backend/
       Handler: src/handlers/get-visit-requests.getVisitRequestsHandler
       Runtime: nodejs20.x
       Architectures:
@@ -122,7 +122,7 @@ Resources:
   getVisitorByIdFunctionNew:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: backend/
+      CodeUri: ../../backend/
       Handler: src/handlers/get-visitor-by-id.getVisitorByIdHandler
       Runtime: nodejs20.x
       Architectures:
@@ -154,7 +154,7 @@ Resources:
   getInviteByTokenFunctionNew:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: backend/
+      CodeUri: ../../backend/
       Handler: src/handlers/get-invite-by-token.getInviteByTokenHandler
       Runtime: nodejs20.x
       Architectures:
@@ -186,7 +186,7 @@ Resources:
   getVisitRequestByTokenFunctionNew:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: backend/
+      CodeUri: ../../backend/
       Handler: src/handlers/get-visit-request-by-token.getVisitRequestByTokenHandler
       Runtime: nodejs20.x
       Architectures:
@@ -221,7 +221,7 @@ Resources:
   putVisitorFunctionNew:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: backend/
+      CodeUri: ../../backend/
       Handler: src/handlers/put-visitor.putVisitorHandler
       Runtime: nodejs20.x
       Architectures:
@@ -252,7 +252,7 @@ Resources:
   putInviteLinkFunctionNew:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: backend/
+      CodeUri: ../../backend/
       Handler: src/handlers/put-invite-link.putInviteLinkItemHandler
       Runtime: nodejs20.x
       Architectures:
@@ -283,7 +283,7 @@ Resources:
   putVisitRequestFunctionNew:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: backend/
+      CodeUri: ../../backend/
       Handler: src/handlers/put-visit-request.putVisitRequestHandler
       Runtime: nodejs20.x
       Architectures:
