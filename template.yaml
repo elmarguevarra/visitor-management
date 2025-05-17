@@ -525,7 +525,6 @@ Resources:
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
 
-  # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
   VisitorsTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -533,10 +532,21 @@ Resources:
       AttributeDefinitions:
         - AttributeName: registrationId
           AttributeType: S
+        - AttributeName: residentId
+          AttributeType: S # Add GSI for residentId queries
       KeySchema:
         - AttributeName: registrationId
           KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: ResidentIdIndex
+          KeySchema:
+            - AttributeName: residentId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
       BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
 
   InviteLinksTable:
     Type: AWS::DynamoDB::Table
@@ -545,9 +555,18 @@ Resources:
       AttributeDefinitions:
         - AttributeName: inviteToken
           AttributeType: S
+        - AttributeName: residentId
+          AttributeType: S # Add GSI for residentId queries
       KeySchema:
         - AttributeName: inviteToken
           KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: ResidentIdIndex
+          KeySchema:
+            - AttributeName: residentId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
       BillingMode: PAY_PER_REQUEST
       TimeToLiveSpecification:
         AttributeName: ttl
