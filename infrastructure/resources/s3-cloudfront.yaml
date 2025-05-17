@@ -94,7 +94,7 @@ Resources:
           - alphinecodetech.click
           - vms.alphinecodetech.click
         ViewerCertificate:
-          AcmCertificateArn: !Ref AcmCertificateArn
+          AcmCertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
           MinimumProtocolVersion: TLSv1.2_2021
           SslSupportMethod: sni-only
         CustomErrorResponses:
