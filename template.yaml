@@ -746,7 +746,7 @@ Resources:
         - email
       AutoVerifiedAttributes:
         - email
-      DeletionProtection: ENABLED
+      DeletionProtection: ACTIVE
 
   CognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
