@@ -1,3 +1,4 @@
+Resources:
 VisitorsTable:
   Type: AWS::DynamoDB::Table
   Properties:

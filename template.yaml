@@ -32,8 +32,6 @@ Parameters:
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
-  !Include infrastructure/dynamo-db-tables.yaml
-  
   VisitorManagementPolicyStore:
     Type: AWS::VerifiedPermissions::PolicyStore
     Properties:
@@ -529,68 +527,68 @@ Resources:
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
 
-  # VisitorsTable:
-  #   Type: AWS::DynamoDB::Table
-  #   Properties:
-  #     TableName: VisitorsTable
-  #     AttributeDefinitions:
-  #       - AttributeName: registrationId
-  #         AttributeType: S
-  #       - AttributeName: residentId
-  #         AttributeType: S # Add GSI for residentId queries
-  #     KeySchema:
-  #       - AttributeName: registrationId
-  #         KeyType: HASH
-  #     GlobalSecondaryIndexes:
-  #       - IndexName: ResidentIdIndex
-  #         KeySchema:
-  #           - AttributeName: residentId
-  #             KeyType: HASH
-  #         Projection:
-  #           ProjectionType: ALL
-  #     BillingMode: PAY_PER_REQUEST
-  #     PointInTimeRecoverySpecification:
-  #       PointInTimeRecoveryEnabled: true
-  #     DeletionProtectionEnabled: true
+  VisitorsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: VisitorsTable
+      AttributeDefinitions:
+        - AttributeName: registrationId
+          AttributeType: S
+        - AttributeName: residentId
+          AttributeType: S # Add GSI for residentId queries
+      KeySchema:
+        - AttributeName: registrationId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: ResidentIdIndex
+          KeySchema:
+            - AttributeName: residentId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      DeletionProtectionEnabled: true
 
-  # InviteLinksTable:
-  #   Type: AWS::DynamoDB::Table
-  #   Properties:
-  #     TableName: InviteLinksTable
-  #     AttributeDefinitions:
-  #       - AttributeName: inviteToken
-  #         AttributeType: S
-  #       - AttributeName: residentId
-  #         AttributeType: S # Add GSI for residentId queries
-  #     KeySchema:
-  #       - AttributeName: inviteToken
-  #         KeyType: HASH
-  #     GlobalSecondaryIndexes:
-  #       - IndexName: ResidentIdIndex
-  #         KeySchema:
-  #           - AttributeName: residentId
-  #             KeyType: HASH
-  #         Projection:
-  #           ProjectionType: ALL
-  #     BillingMode: PAY_PER_REQUEST
-  #     TimeToLiveSpecification:
-  #       AttributeName: ttl
-  #       Enabled: true
+  InviteLinksTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: InviteLinksTable
+      AttributeDefinitions:
+        - AttributeName: inviteToken
+          AttributeType: S
+        - AttributeName: residentId
+          AttributeType: S # Add GSI for residentId queries
+      KeySchema:
+        - AttributeName: inviteToken
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: ResidentIdIndex
+          KeySchema:
+            - AttributeName: residentId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
 
-  # VisitRequestsTable:
-  #   Type: AWS::DynamoDB::Table
-  #   Properties:
-  #     TableName: VisitRequestsTable
-  #     AttributeDefinitions:
-  #       - AttributeName: inviteToken
-  #         AttributeType: S
-  #     KeySchema:
-  #       - AttributeName: inviteToken
-  #         KeyType: HASH
-  #     BillingMode: PAY_PER_REQUEST
-  #     TimeToLiveSpecification:
-  #       AttributeName: ttl
-  #       Enabled: true
+  VisitRequestsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: VisitRequestsTable
+      AttributeDefinitions:
+        - AttributeName: inviteToken
+          AttributeType: S
+      KeySchema:
+        - AttributeName: inviteToken
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
 
   # S3 Bucket to host single page app website
   WebSiteBucket:
