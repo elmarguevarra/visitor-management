@@ -234,9 +234,9 @@ Resources:
       Handler: src/handlers/get-visitors.getVisitorsHandler
       Runtime: nodejs20.x
       Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
       Description:
         A simple example includes a HTTP get method to get all items by id
         from a DynamoDB table.
@@ -268,9 +268,9 @@ Resources:
       Handler: src/handlers/get-permissions.getPermissionsHandler
       Runtime: nodejs20.x
       Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
       Description: Get permissions from amazon verified permissions
       Policies:
         - Statement:
@@ -300,9 +300,9 @@ Resources:
       Handler: src/handlers/get-visit-requests.getVisitRequestsHandler
       Runtime: nodejs20.x
       Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
       Description:
         A simple example includes a HTTP get method to get all items by id
         from a DynamoDB table.
@@ -338,9 +338,9 @@ Resources:
       Handler: src/handlers/get-visitor-by-id.getVisitorByIdHandler
       Runtime: nodejs20.x
       Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
       Description:
         A simple example includes a HTTP get method to get one item by id
         from a DynamoDB table.
@@ -370,9 +370,9 @@ Resources:
       Handler: src/handlers/get-invite-by-token.getInviteByTokenHandler
       Runtime: nodejs20.x
       Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
       Description:
         A simple example includes a HTTP get method to get one item by id
         from a DynamoDB table.
@@ -402,9 +402,9 @@ Resources:
       Handler: src/handlers/get-visit-request-by-token.getVisitRequestByTokenHandler
       Runtime: nodejs20.x
       Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
       Description:
         A simple example includes a HTTP get method to get one item by id
         from a DynamoDB table.
@@ -437,9 +437,9 @@ Resources:
       Handler: src/handlers/put-visitor.putVisitorHandler
       Runtime: nodejs20.x
       Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
       Description:
         A simple example includes a HTTP post method to add one item to a
         DynamoDB table.
@@ -468,9 +468,9 @@ Resources:
       Handler: src/handlers/put-invite-link.putInviteLinkItemHandler
       Runtime: nodejs20.x
       Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
       Description:
         A simple example includes a HTTP post method to add one item to a
         DynamoDB table.
@@ -499,9 +499,9 @@ Resources:
       Handler: src/handlers/put-visit-request.putVisitRequestHandler
       Runtime: nodejs20.x
       Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
       Description:
         A simple example includes a HTTP post method to add one item to a
         DynamoDB table.
