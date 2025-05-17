@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Nested stack for Hosted Zone RecordSet
+
+Parameters:
+  HostedZoneId:
+    Type: String
+
+Reource:
+  CloudFrontVMSAliasRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: vms.alphinecodetech.click
+      Type: A
+      AliasTarget:
+        HostedZoneId: !Ref GlobalCloudFrontHostedZoneId
+        DNSName: !ImportValue CloudFrontDistributionDomainName
+        EvaluateTargetHealth: false # Important for CloudFront
+

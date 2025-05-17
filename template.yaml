@@ -12,6 +12,10 @@ Parameters:
     Type: String
     Default: Z2FDTNDATAQYW2
     Description: The Global CloudFront Hosted Zone ID
+  HostedZoneId:
+    Type: String
+    Default: Z05731382UESHZXWSGHWA
+    Description: The Domain Hosted Zone ID
   CognitoDomainPrefix:
     Type: String
     Default: login
@@ -60,6 +64,14 @@ Resources:
       Parameters:
         AcmCertificateArn: !Ref AcmCertificateArn
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
+
+  RecordSetStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./infrastructure/resources/record-set.yaml
+      Parameters:
+        GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
+        HostedZoneId: !Ref HostedZoneId
 
   # Uncomment on fresh deployment only
   # HostedZoneStack:
