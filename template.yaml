@@ -288,15 +288,15 @@ Outputs:
   APIGatewayEndpoint:
     Description: API Gateway endpoint URL for Prod stage
     Value: !Sub https://${ApiGatewayLambdaStack.Outputs.ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
-  CloudFrontDistributionId:
-    Description: CloudFront Distribution ID for hosting web front end
-    Value: !Ref CloudFrontDistribution
-  CloudFrontDistributionDomainName:
-    Description: CloudFront Distribution Domain Name for accessing web front end
-    Value: !GetAtt CloudFrontDistribution.DomainName
-  WebS3BucketName:
-    Description: S3 Bucket for hosting web frontend
-    Value: !Ref WebSiteBucket
+  # CloudFrontDistributionId:
+  #   Description: CloudFront Distribution ID for hosting web front end
+  #   Value: !Ref CloudFrontDistribution
+  # CloudFrontDistributionDomainName:
+  #   Description: CloudFront Distribution Domain Name for accessing web front end
+  #   Value: !GetAtt CloudFrontDistribution.DomainName
+  # WebS3BucketName:
+  #   Description: S3 Bucket for hosting web frontend
+  #   Value: !Ref WebSiteBucket
   UserPoolId:
     Description: Cognito User Pool ID
     Value: !Ref CognitoUserPool
