@@ -21,7 +21,7 @@ echo "Running: sam deploy --stack-name \"$STACK_NAME\""
 
 echo "AWS_REGION is: $AWS_REGION"
 
-# --- Hosted Zone and Public Certificate Deployment ---
+# --- Hosted Zone ---
 domain_name="alphinecodetech.click"
 domain_name_r53="${domain_name}."
 
@@ -40,8 +40,10 @@ else
   echo "Hosted zone id: $hosted_zone_id"
 fi
 
+# --- Public Certificate ---
+public_cert_region="us-east-1"
 existing_cert_arn=$(aws acm list-certificates \
-  --region "$REGION" \
+  --region $public_cert_region \
   --query "CertificateSummaryList[?DomainName=='$domain_name'] | [0].CertificateArn" \
   --output text
 )
