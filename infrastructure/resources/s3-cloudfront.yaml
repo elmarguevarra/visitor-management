@@ -110,7 +110,7 @@ Resources:
     Type: AWS::CloudFront::OriginAccessControl
     Properties:
       OriginAccessControlConfig:
-        Name: CloudFrontS3OAC-Frontend
+        Name: !Sub "CloudFrontS3OAC-Frontend-${WebSiteBucket}"
         OriginAccessControlOriginType: s3
         SigningBehavior: always
         SigningProtocol: sigv4
