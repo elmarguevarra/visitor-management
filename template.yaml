@@ -342,20 +342,20 @@ Resources:
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
 
-  # ApiGatewayStack:
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: ./infrastructure/api-gateway.yaml
+  ApiGatewayStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./infrastructure/resources/api-gateway.yaml
 
   DatabaseStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: ./infrastructure/dynamodb-stack.yaml
+      TemplateURL: ./infrastructure/resources/dynamodb-stack.yaml
 
   AuthorizationStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: ./infrastructure/verified-permissions.yaml
+      TemplateURL: ./infrastructure/resources/verified-permissions.yaml
       Parameters:
         AdminGroupName: !Ref AdminGroupName
         ResidentGroupName: !Ref ResidentGroupName

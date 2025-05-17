@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Api Gateway resource
+
+Resources:
+  ApiGatewayApiNew:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      TracingEnabled: true
+      Cors:
+        AllowMethods: "'OPTIONS,POST,GET'"
+        AllowHeaders: "'Content-Type,Authorization'"
+        AllowOrigin: "'https://vms.alphinecodetech.click'"
+        AllowCredentials: true
+
+  Outputs:
+    ApiGatewayApiNew:
+      Value: !Ref ApiGatewayApiNew
