@@ -43,7 +43,7 @@ Parameters:
     Description: Whether to create the hosted zone
 
 Conditions:
-  CreateHostedZoneCondition: !Equals [!Ref CreateHostedZone, "false"]
+  CreateHostedZoneCondition: !Equals [!Ref CreateHostedZone, "true"]
 
 Resources:
   HostedZoneStack:
