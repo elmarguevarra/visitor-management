@@ -4,6 +4,8 @@ Description: Nested stack for Hosted Zone RecordSet
 Parameters:
   HostedZoneId:
     Type: String
+  GlobalCloudFrontHostedZoneId:
+    Type: String
 
 Resources:
   CloudFrontVMSAliasRecord:
@@ -16,4 +18,3 @@ Resources:
         HostedZoneId: !Ref GlobalCloudFrontHostedZoneId
         DNSName: !ImportValue CloudFrontDistributionDomainName
         EvaluateTargetHealth: false # Important for CloudFront
-
