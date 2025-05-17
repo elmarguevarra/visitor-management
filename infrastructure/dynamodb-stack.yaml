@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Nested stack for DynamoDB tables
+
+Parameters:
+  AdminGroupName:
+    Type: String
+  ResidentGroupName:
+    Type: String
+  GuardGroupName:
+    Type: String
+
+Resources:
+  VisitorsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: VisitorsTable
+      AttributeDefinitions:
+        - AttributeName: registrationId
+          AttributeType: S
+        - AttributeName: residentId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: registrationId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: ResidentIdIndex
+          KeySchema:
+            - AttributeName: residentId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      DeletionProtectionEnabled: true
+
+  InviteLinksTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: InviteLinksTable
+      AttributeDefinitions:
+        - AttributeName: inviteToken
+          AttributeType: S
+        - AttributeName: residentId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: inviteToken
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: ResidentIdIndex
+          KeySchema:
+            - AttributeName: residentId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+
+  VisitRequestsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: VisitRequestsTable
+      AttributeDefinitions:
+        - AttributeName: inviteToken
+          AttributeType: S
+      KeySchema:
+        - AttributeName: inviteToken
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+
+Outputs:
+  VisitorsTableName:
+    Value: !Ref VisitorsTable
+  InviteLinksTableName:
+    Value: !Ref InviteLinksTable
+  VisitRequestsTableName:
+    Value: !Ref VisitRequestsTable
