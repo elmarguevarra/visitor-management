@@ -37,7 +37,16 @@ Parameters:
     Default: guard
     Description: Name of the guard user group in Verified Permissions
 
+Conditions:
+  CreateHostedZoneCondition: !Equals [!Ref CreateHostedZone, "false"]
+
 Resources:
+  HostedZoneStack:
+    Type: AWS::CloudFormation::Stack
+    Condition: CreateHostedZoneCondition
+    Properties:
+      TemplateURL: ./infrastructure/resources/hosted-zone.yaml
+
   ApiGatewayLambdaStack:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -72,12 +81,6 @@ Resources:
       Parameters:
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
         HostedZoneId: !Ref HostedZoneId
-
-  # Uncomment on fresh deployment only
-  # HostedZoneStack:
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: ./infrastructure/resources/hosted-zone.yaml
 
   CognitoUserPool:
     Type: AWS::Cognito::UserPool

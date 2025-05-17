@@ -9,16 +9,3 @@ Resources:
       HostedZoneConfig:
         Comment: Hosted zone for my visitor management application
     DeletionPolicy: Retain #NOTE: Hosted zone are charged per creation
-
-  # Note that CNAMEs are not included here as they were only used for validation needed for public certificate request in ACM. It is a one time setup.
-  # Alias record for the vms subdomain domain IPV4
-  CloudFrontVMSAliasRecord:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      HostedZoneId: !Ref HostedZone
-      Name: vms.alphinecodetech.click
-      Type: A
-      AliasTarget:
-        HostedZoneId: !Ref GlobalCloudFrontHostedZoneId
-        DNSName: !ImportValue CloudFrontDistributionDomainName # CloudFront distribution's domain name
-        EvaluateTargetHealth: false # Important for CloudFront
