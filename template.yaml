@@ -547,6 +547,7 @@ Resources:
       BillingMode: PAY_PER_REQUEST
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: true
+      DeletionProtectionEnabled: true
 
   InviteLinksTable:
     Type: AWS::DynamoDB::Table
