@@ -245,11 +245,11 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitorsTable
+            TableName: !GetAtt DatabaseStack.Outputs.VisitorsTableName
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          VISITORS_TABLE: !Ref VisitorsTable
+          VISITORS_TABLE: !GetAtt DatabaseStack.Outputs.VisitorsTableName
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
@@ -311,13 +311,13 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitRequestsTable
+            TableName: !GetAtt DatabaseStack.Outputs.VisitRequestsTableName
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
           # Make table name accessible as environment variable from function code during execution
-          VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
+          VISIT_REQUESTS_TABLE: !GetAtt DatabaseStack.Outputs.VisitRequestsTableName
       Events:
         Api:
           Type: Api
@@ -349,11 +349,11 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitorsTable
+            TableName: !GetAtt DatabaseStack.Outputs.VisitorsTableName
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          VISITORS_TABLE: !Ref VisitorsTable
+          VISITORS_TABLE: !GetAtt DatabaseStack.Outputs.VisitorsTableName
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
@@ -381,11 +381,11 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref InviteLinksTable
+            TableName: !GetAtt DatabaseStack.Outputs.InviteLinksTableName
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          INVITE_LINKS_TABLE: !Ref InviteLinksTable
+          INVITE_LINKS_TABLE: !GetAtt DatabaseStack.Outputs.InviteLinksTableName
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
@@ -413,11 +413,11 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitRequestsTable
+            TableName: !GetAtt DatabaseStack.Outputs.VisitRequestsTableName
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
+          VISIT_REQUESTS_TABLE: !GetAtt DatabaseStack.Outputs.VisitRequestsTableName
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
@@ -448,10 +448,10 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitorsTable
+            TableName: !GetAtt DatabaseStack.Outputs.VisitorsTableName
       Environment:
         Variables:
-          VISITORS_TABLE: !Ref VisitorsTable
+          VISITORS_TABLE: !GetAtt DatabaseStack.Outputs.VisitorsTableName
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
           APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
@@ -479,13 +479,13 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the InviteLinksTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref InviteLinksTable
+            TableName: !GetAtt DatabaseStack.Outputs.InviteLinksTableName
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
           APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
-          INVITE_LINKS_TABLE: !Ref InviteLinksTable
+          INVITE_LINKS_TABLE: !GetAtt DatabaseStack.Outputs.InviteLinksTableName
       Events:
         Api:
           Type: Api
@@ -510,12 +510,12 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitRequestsTable
         - DynamoDBCrudPolicy:
-            TableName: !Ref VisitRequestsTable
+            TableName: !GetAtt DatabaseStack.Outputs.VisitRequestsTableName
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
-          VISIT_REQUESTS_TABLE: !Ref VisitRequestsTable
+          VISIT_REQUESTS_TABLE: !GetAtt DatabaseStack.Outputs.VisitRequestsTableName
       Events:
         Api:
           Type: Api
@@ -527,68 +527,77 @@ Resources:
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
 
-  VisitorsTable:
-    Type: AWS::DynamoDB::Table
+  DatabaseStack:
+    Type: AWS::CloudFormation::Stack
     Properties:
-      TableName: VisitorsTable
-      AttributeDefinitions:
-        - AttributeName: registrationId
-          AttributeType: S
-        - AttributeName: residentId
-          AttributeType: S # Add GSI for residentId queries
-      KeySchema:
-        - AttributeName: registrationId
-          KeyType: HASH
-      GlobalSecondaryIndexes:
-        - IndexName: ResidentIdIndex
-          KeySchema:
-            - AttributeName: residentId
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
-      BillingMode: PAY_PER_REQUEST
-      PointInTimeRecoverySpecification:
-        PointInTimeRecoveryEnabled: true
-      DeletionProtectionEnabled: true
+      TemplateURL: ./infrastructure/dynamodb-stack.yaml
+      Parameters:
+        AdminGroupName: !Ref AdminGroupName
+        ResidentGroupName: !Ref ResidentGroupName
+        GuardGroupName: !Ref GuardGroupName
 
-  InviteLinksTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: InviteLinksTable
-      AttributeDefinitions:
-        - AttributeName: inviteToken
-          AttributeType: S
-        - AttributeName: residentId
-          AttributeType: S # Add GSI for residentId queries
-      KeySchema:
-        - AttributeName: inviteToken
-          KeyType: HASH
-      GlobalSecondaryIndexes:
-        - IndexName: ResidentIdIndex
-          KeySchema:
-            - AttributeName: residentId
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
-      BillingMode: PAY_PER_REQUEST
-      TimeToLiveSpecification:
-        AttributeName: ttl
-        Enabled: true
+  # VisitorsTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: VisitorsTable
+  #     AttributeDefinitions:
+  #       - AttributeName: registrationId
+  #         AttributeType: S
+  #       - AttributeName: residentId
+  #         AttributeType: S # Add GSI for residentId queries
+  #     KeySchema:
+  #       - AttributeName: registrationId
+  #         KeyType: HASH
+  #     GlobalSecondaryIndexes:
+  #       - IndexName: ResidentIdIndex
+  #         KeySchema:
+  #           - AttributeName: residentId
+  #             KeyType: HASH
+  #         Projection:
+  #           ProjectionType: ALL
+  #     BillingMode: PAY_PER_REQUEST
+  #     PointInTimeRecoverySpecification:
+  #       PointInTimeRecoveryEnabled: true
+  #     DeletionProtectionEnabled: true
 
-  VisitRequestsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: VisitRequestsTable
-      AttributeDefinitions:
-        - AttributeName: inviteToken
-          AttributeType: S
-      KeySchema:
-        - AttributeName: inviteToken
-          KeyType: HASH
-      BillingMode: PAY_PER_REQUEST
-      TimeToLiveSpecification:
-        AttributeName: ttl
-        Enabled: true
+  # InviteLinksTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: InviteLinksTable
+  #     AttributeDefinitions:
+  #       - AttributeName: inviteToken
+  #         AttributeType: S
+  #       - AttributeName: residentId
+  #         AttributeType: S # Add GSI for residentId queries
+  #     KeySchema:
+  #       - AttributeName: inviteToken
+  #         KeyType: HASH
+  #     GlobalSecondaryIndexes:
+  #       - IndexName: ResidentIdIndex
+  #         KeySchema:
+  #           - AttributeName: residentId
+  #             KeyType: HASH
+  #         Projection:
+  #           ProjectionType: ALL
+  #     BillingMode: PAY_PER_REQUEST
+  #     TimeToLiveSpecification:
+  #       AttributeName: ttl
+  #       Enabled: true
+
+  # VisitRequestsTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: VisitRequestsTable
+  #     AttributeDefinitions:
+  #       - AttributeName: inviteToken
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: inviteToken
+  #         KeyType: HASH
+  #     BillingMode: PAY_PER_REQUEST
+  #     TimeToLiveSpecification:
+  #       AttributeName: ttl
+  #       Enabled: true
 
   # S3 Bucket to host single page app website
   WebSiteBucket:

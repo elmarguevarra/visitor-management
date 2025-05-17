@@ -10,7 +10,7 @@ Parameters:
     Type: String
 
 Resources:
-  VisitorsTable:
+  VisitorsTableNew:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: VisitorsTable
@@ -34,7 +34,7 @@ Resources:
         PointInTimeRecoveryEnabled: true
       DeletionProtectionEnabled: true
 
-  InviteLinksTable:
+  InviteLinksTableNew:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: InviteLinksTable
@@ -58,7 +58,7 @@ Resources:
         AttributeName: ttl
         Enabled: true
 
-  VisitRequestsTable:
+  VisitRequestsTableNew:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: VisitRequestsTable
@@ -75,8 +75,8 @@ Resources:
 
 Outputs:
   VisitorsTableName:
-    Value: !Ref VisitorsTable
+    Value: !Ref VisitorsTableNew
   InviteLinksTableName:
-    Value: !Ref InviteLinksTable
+    Value: !Ref InviteLinksTableNew
   VisitRequestsTableName:
-    Value: !Ref VisitRequestsTable
+    Value: !Ref VisitRequestsTableNew
