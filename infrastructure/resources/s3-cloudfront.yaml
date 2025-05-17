@@ -52,8 +52,6 @@ Resources:
           - DomainName: !GetAtt WebSiteBucketNew.RegionalDomainName
             Id: myS3Origin
             OriginAccessControlId: !GetAtt CloudFrontOriginAccessControlNew.Id
-            S3OriginConfig:
-              OriginAccessIdentity: ""
         Enabled: true
         DefaultRootObject: index.html
         HttpVersion: http2
