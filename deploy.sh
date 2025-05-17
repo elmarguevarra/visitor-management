@@ -12,7 +12,7 @@ set -e  # Exit immediately if a command exits with a non-zero status.
 # set -x # Uncomment this line to enable verbose output (for debugging).
 
 # --- Backend Deployment (SAM) ---
-export STACK_NAME="staging-visitor-management"
+export STACK_NAME="visitor-management"
 
 echo "Building and deploying the SAM application (backend)..."
 echo "Running: sam build"
