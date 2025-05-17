@@ -1,19 +1,11 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Nested stack for DynamoDB tables
 
-Parameters:
-  AdminGroupName:
-    Type: String
-  ResidentGroupName:
-    Type: String
-  GuardGroupName:
-    Type: String
-
 Resources:
-  VisitorsTableNew:
+  VisitorsTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: VisitorsTableNew
+      TableName: VisitorsTable
       AttributeDefinitions:
         - AttributeName: registrationId
           AttributeType: S
@@ -34,10 +26,10 @@ Resources:
         PointInTimeRecoveryEnabled: true
       DeletionProtectionEnabled: true
 
-  InviteLinksTableNew:
+  InviteLinksTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: InviteLinksTableNew
+      TableName: InviteLinksTable
       AttributeDefinitions:
         - AttributeName: inviteToken
           AttributeType: S
@@ -58,10 +50,10 @@ Resources:
         AttributeName: ttl
         Enabled: true
 
-  VisitRequestsTableNew:
+  VisitRequestsTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: VisitRequestsTableNew
+      TableName: VisitRequestsTable
       AttributeDefinitions:
         - AttributeName: inviteToken
           AttributeType: S
@@ -74,9 +66,9 @@ Resources:
         Enabled: true
 
 Outputs:
-  VisitorsTableName:
-    Value: !Ref VisitorsTableNew
-  InviteLinksTableName:
-    Value: !Ref InviteLinksTableNew
-  VisitRequestsTableName:
-    Value: !Ref VisitRequestsTableNew
+  VisitorsTable:
+    Value: !Ref VisitorsTable
+  InviteLinksTable:
+    Value: !Ref InviteLinksTable
+  VisitRequestsTable:
+    Value: !Ref VisitRequestsTable
