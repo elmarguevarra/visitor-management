@@ -22,45 +22,46 @@ echo "Running: sam deploy --stack-name \"$STACK_NAME\""
 echo "AWS_REGION is: $AWS_REGION"
 
 # --- Hosted Zone Deployment ---
-DOMAIN_NAME="alphinecodetech.click."
-EXISTING_ZONE=$(aws route53 list-hosted-zones-by-name \
-  --dns-name "$DOMAIN_NAME" \
-  --query "HostedZones[?Name=='$DOMAIN_NAME'].Id" \
+domain_name="alphinecodetech.click."
+existing_zone=$(aws route53 list-hosted-zones-by-name \
+  --dns-name "$domain_name" \
+  --query "HostedZones[?Name=='$domain_name'].Id" \
   --output text)
 
-if [ -z "$EXISTING_ZONE" ]; then
+if [ -z "$existing_zone" ]; then
   echo "Hosted zone does not exist. Creating one..."
-  CREATE_HOSTED_ZONE=true
+  hosted_zone_id=true
 else
-  echo "Hosted zone exists: $EXISTING_ZONE"
-  CREATE_HOSTED_ZONE=false
-  HOSTED_ZONE_ID=$(basename "$EXISTING_ZONE")
+  echo "Hosted zone exists: $existing_zone"
+  create_hosted_zone=false
+  hosted_zone_id=$(basename "$existing_zone")
+  echo "Hosted zone id: $hosted_zone_id"
 fi
 
 set +e
-SAM_DEPLOY_OUTPUT=$(
+sam_deploy_output=$(
   sam deploy \
     --stack-name "$STACK_NAME" \
     --region "$AWS_REGION" \
     --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
     --parameter-overrides \
-      CreateHostedZone=$CREATE_HOSTED_ZONE \
-      HostedZoneId=$HOSTED_ZONE_ID \
+      CreateHostedZone=$create_hosted_zone \
+      HostedZoneId=$hosted_zone_id \
     2>&1
 )
-SAM_DEPLOY_EXIT_CODE=$?
-echo "$SAM_DEPLOY_OUTPUT"
+sam_deploy_exit_code=$?
+echo "$sam_deploy_output"
 set -e
 
-if [ $SAM_DEPLOY_EXIT_CODE -ne 0 ]; then
-  echo "SAM Deploy failed with exit code: $SAM_DEPLOY_EXIT_CODE"
+if [ $sam_deploy_exit_code -ne 0 ]; then
+  echo "SAM Deploy failed with exit code: $sam_deploy_exit_code"
   # Check if the failure was due to no changes detected
-  if echo "$SAM_DEPLOY_OUTPUT" | grep -q "No changes to deploy"; then
+  if echo "$sam_deploy_output" | grep -q "No changes to deploy"; then
     echo "No infrastructure changes detected. Proceeding with frontend deployment."
   else
     echo "An actual error occurred during SAM deployment. Stopping."
     echo "Error details:"
-    echo "$SAM_DEPLOY_OUTPUT"
+    echo "$sam_deploy_output"
     exit 1
   fi
 else

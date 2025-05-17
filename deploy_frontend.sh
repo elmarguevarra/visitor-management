@@ -2,15 +2,13 @@
 
 set -e
 
-# Hardcoded stack name
-stack_name="visitor-management"
 
 echo "--- Getting AWS Stack Outputs ---"
 
 # Function to get stack output by key
 get_stack_output() {
   local output_key="$1"
-  aws cloudformation describe-stacks --stack-name "$stack_name" --query "Stacks[0].Outputs[?OutputKey=='$output_key'].OutputValue" --output text
+  aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query "Stacks[0].Outputs[?OutputKey=='$output_key'].OutputValue" --output text
 }
 
 # Get the API Gateway URL from the stack
