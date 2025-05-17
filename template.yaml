@@ -485,7 +485,7 @@ Resources:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
           APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
-          INVITE_LINKS_TABLE: !Ref !GetAtt DatabaseStack.Outputs.InviteLinksTableName
+          INVITE_LINKS_TABLE: !GetAtt DatabaseStack.Outputs.InviteLinksTableName
       Events:
         Api:
           Type: Api
