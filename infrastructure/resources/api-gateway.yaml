@@ -31,11 +31,11 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !GetAtt DatabaseStack.Outputs.VisitorsTable
+            TableName: !ImportValue VisitorsTable
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          VISITORS_TABLE: !GetAtt DatabaseStack.Outputs.VisitorsTable
+          VISITORS_TABLE: !ImportValue VisitorsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
@@ -68,7 +68,7 @@ Resources:
               Resource: "*"
       Environment:
         Variables:
-          POLICY_STORE_ID: !GetAtt AuthorizationStack.Outputs.VisitorManagementPolicyStore
+          POLICY_STORE_ID: !ImportValue VisitorManagementPolicyStore
       Events:
         Api:
           Type: Api
@@ -97,13 +97,13 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !GetAtt DatabaseStack.Outputs.VisitRequestsTable
+            TableName: !ImportValue VisitRequestsTable
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
           # Make table name accessible as environment variable from function code during execution
-          VISIT_REQUESTS_TABLE: !GetAtt DatabaseStack.Outputs.VisitRequestsTable
+          VISIT_REQUESTS_TABLE: !ImportValue VisitRequestsTable
       Events:
         Api:
           Type: Api
@@ -135,11 +135,11 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !GetAtt DatabaseStack.Outputs.VisitorsTable
+            TableName: !ImportValue VisitorsTable
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          VISITORS_TABLE: !GetAtt DatabaseStack.Outputs.VisitorsTable
+          VISITORS_TABLE: !ImportValue VisitorsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
@@ -167,11 +167,11 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !GetAtt DatabaseStack.Outputs.InviteLinksTable
+            TableName: !ImportValue InviteLinksTable
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          INVITE_LINKS_TABLE: !GetAtt DatabaseStack.Outputs.InviteLinksTable
+          INVITE_LINKS_TABLE: !ImportValue InviteLinksTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
@@ -199,11 +199,11 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !GetAtt DatabaseStack.Outputs.VisitRequestsTable
+            TableName: !ImportValue VisitRequestsTable
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
-          VISIT_REQUESTS_TABLE: !GetAtt DatabaseStack.Outputs.VisitRequestsTable
+          VISIT_REQUESTS_TABLE: !ImportValue VisitRequestsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
@@ -234,10 +234,10 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
-            TableName: !GetAtt DatabaseStack.Outputs.VisitorsTable
+            TableName: !ImportValue VisitorsTable
       Environment:
         Variables:
-          VISITORS_TABLE: !GetAtt DatabaseStack.Outputs.VisitorsTable
+          VISITORS_TABLE: !ImportValue VisitorsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
           APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
@@ -265,13 +265,13 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the InviteLinksTable
         - DynamoDBCrudPolicy:
-            TableName: !GetAtt DatabaseStack.Outputs.InviteLinksTable
+            TableName: !ImportValue InviteLinksTable
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
           APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
-          INVITE_LINKS_TABLE: !GetAtt DatabaseStack.Outputs.InviteLinksTable
+          INVITE_LINKS_TABLE: !ImportValue InviteLinksTable
       Events:
         Api:
           Type: Api
@@ -296,12 +296,12 @@ Resources:
       Policies:
         # Give Create/Read/Update/Delete Permissions to the VisitRequestsTable
         - DynamoDBCrudPolicy:
-            TableName: !GetAtt DatabaseStack.Outputs.VisitRequestsTable
+            TableName: !ImportValue VisitRequestsTable
       Environment:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
-          VISIT_REQUESTS_TABLE: !GetAtt DatabaseStack.Outputs.VisitRequestsTable
+          VISIT_REQUESTS_TABLE: !ImportValue VisitRequestsTable
       Events:
         Api:
           Type: Api

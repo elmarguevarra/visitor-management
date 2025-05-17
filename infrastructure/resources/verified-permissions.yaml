@@ -198,3 +198,5 @@ Resources:
 Outputs:
   VisitorManagementPolicyStore:
     Value: !Ref VisitorManagementPolicyStore
+    Export:
+      Name: VisitorManagementPolicyStore
