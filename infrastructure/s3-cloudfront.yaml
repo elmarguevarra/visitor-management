@@ -34,6 +34,7 @@ WebSiteBucketPolicy:
                   - !Ref AWS::AccountId
                   - ":distribution/"
                   - !Ref CloudFrontDistribution
+# CloudFront Distribution for hosting the single page app website
 CloudFrontDistribution:
   Type: AWS::CloudFront::Distribution
   Properties:
