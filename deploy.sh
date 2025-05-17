@@ -22,7 +22,7 @@ echo "Running: sam deploy --stack-name \"$STACK_NAME\""
 echo "AWS_REGION is: $AWS_REGION"
 
 # --- Hosted Zone Deployment ---
-DOMAIN_NAME="alphinecodetech.click"
+DOMAIN_NAME="alphinecodetech.click."
 EXISTING_ZONE=$(aws route53 list-hosted-zones-by-name \
   --dns-name "$DOMAIN_NAME" \
   --query "HostedZones[?Name=='$DOMAIN_NAME'].Id" \
