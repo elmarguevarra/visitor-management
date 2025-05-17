@@ -3,7 +3,7 @@
 set -e
 
 # Hardcoded stack name
-stack_name="visitor-management"
+stack_name="staging.visitor-management"
 
 echo "--- Getting AWS Stack Outputs ---"
 
