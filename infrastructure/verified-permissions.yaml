@@ -10,7 +10,7 @@ Parameters:
     Type: String
 
 Resources:
-  VisitorManagementPolicyStoreNew:
+  VisitorManagementPolicyStore:
     Type: AWS::VerifiedPermissions::PolicyStore
     Properties:
       Schema:
@@ -147,10 +147,10 @@ Resources:
       ValidationSettings:
         Mode: STRICT
 
-  AllowAdminGroupAccessPolicyNew:
+  AllowAdminGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
     Properties:
-      PolicyStoreId: !Ref VisitorManagementPolicyStoreNew
+      PolicyStoreId: !Ref VisitorManagementPolicyStore
       Definition:
         Static:
           Statement: !Sub |
@@ -168,7 +168,7 @@ Resources:
   AllowResidentGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
     Properties:
-      PolicyStoreId: !Ref VisitorManagementPolicyStoreNew
+      PolicyStoreId: !Ref VisitorManagementPolicyStore
       Definition:
         Static:
           Statement: !Sub |
@@ -180,10 +180,10 @@ Resources:
                     VisitorManagement::Action::"registerVisitor"],
                 resource == VisitorManagement::Resource::"visitorResource"
             );
-  AllowGuardGroupAccessPolicyNew:
+  AllowGuardGroupAccessPolicy:
     Type: AWS::VerifiedPermissions::Policy
     Properties:
-      PolicyStoreId: !Ref VisitorManagementPolicyStoreNew
+      PolicyStoreId: !Ref VisitorManagementPolicyStore
       Definition:
         Static:
           Statement: !Sub |
@@ -196,5 +196,5 @@ Resources:
             );
 
 Outputs:
-  VisitorManagementPolicyStoreNew:
-    Value: !Ref VisitorManagementPolicyStoreNew
+  VisitorManagementPolicyStore:
+    Value: !Ref VisitorManagementPolicyStore
