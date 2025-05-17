@@ -13,6 +13,6 @@ Resources:
         AllowOrigin: "'https://vms.alphinecodetech.click'"
         AllowCredentials: true
 
-  Outputs:
-    ApiGatewayApiNew:
-      Value: !Ref ApiGatewayApiNew
+Outputs:
+  ApiGatewayApiNew:
+    Value: !Ref ApiGatewayApiNew
