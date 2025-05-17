@@ -3,7 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: Api Gateway resource
 
 Resources:
-  ApiGatewayApiNew:
+  ApiGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
@@ -15,7 +15,7 @@ Resources:
         AllowCredentials: true
 
   # This is a Lambda function config associated with the source code: get-by-id.js
-  getVisitorsFunctionNew:
+  getVisitorsFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../../backend/
@@ -44,12 +44,12 @@ Resources:
           Properties:
             Path: /visitors
             Method: GET
-            RestApiId: !Ref ApiGatewayApiNew
+            RestApiId: !Ref ApiGatewayApi
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
 
-  getPermissionsFunctionNew:
+  getPermissionsFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../../backend/
@@ -75,13 +75,13 @@ Resources:
           Properties:
             Path: /permissions
             Method: GET
-            RestApiId: !Ref ApiGatewayApiNew
+            RestApiId: !Ref ApiGatewayApi
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
 
   # This is a Lambda function config associated with the source code: get-visit-requests
-  getVisitRequestsFunctionNew:
+  getVisitRequestsFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../../backend/
@@ -110,7 +110,7 @@ Resources:
           Properties:
             Path: /visit-requests
             Method: GET
-            RestApiId: !Ref ApiGatewayApiNew
+            RestApiId: !Ref ApiGatewayApi
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
@@ -119,7 +119,7 @@ Resources:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
 
   # This is a Lambda function config associated with the source code: get-by-id.js
-  getVisitorByIdFunctionNew:
+  getVisitorByIdFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../../backend/
@@ -148,10 +148,10 @@ Resources:
           Properties:
             Path: /visitor/{id}
             Method: GET
-            RestApiId: !Ref ApiGatewayApiNew
+            RestApiId: !Ref ApiGatewayApi
 
   # This is a Lambda function config associated with the source code: get-invite-by-token.mjs
-  getInviteByTokenFunctionNew:
+  getInviteByTokenFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../../backend/
@@ -180,10 +180,10 @@ Resources:
           Properties:
             Path: /invite/{inviteToken}
             Method: GET
-            RestApiId: !Ref ApiGatewayApiNew
+            RestApiId: !Ref ApiGatewayApi
 
   # This is a Lambda function config associated with the source code: get-visit-request-by-token.mjs
-  getVisitRequestByTokenFunctionNew:
+  getVisitRequestByTokenFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../../backend/
@@ -212,13 +212,13 @@ Resources:
           Properties:
             Path: /visit-request/{inviteToken}
             Method: GET
-            RestApiId: !Ref ApiGatewayApiNew
+            RestApiId: !Ref ApiGatewayApi
 
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
 
   # This is a Lambda function config associated with the source code: put-item.js
-  putVisitorFunctionNew:
+  putVisitorFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../../backend/
@@ -247,9 +247,9 @@ Resources:
           Properties:
             Path: /visitor
             Method: POST
-            RestApiId: !Ref ApiGatewayApiNew
+            RestApiId: !Ref ApiGatewayApi
 
-  putInviteLinkFunctionNew:
+  putInviteLinkFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../../backend/
@@ -278,9 +278,9 @@ Resources:
           Properties:
             Path: /invite
             Method: POST
-            RestApiId: !Ref ApiGatewayApiNew
+            RestApiId: !Ref ApiGatewayApi
 
-  putVisitRequestFunctionNew:
+  putVisitRequestFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../../backend/
@@ -308,8 +308,8 @@ Resources:
           Properties:
             Path: /visit-request
             Method: POST
-            RestApiId: !Ref ApiGatewayApiNew
+            RestApiId: !Ref ApiGatewayApi
 
 Outputs:
-  ApiGatewayApiNew:
-    Value: !Ref ApiGatewayApiNew
+  ApiGatewayApi:
+    Value: !Ref ApiGatewayApi

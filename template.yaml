@@ -269,7 +269,7 @@ Resources:
 Outputs:
   APIGatewayEndpoint:
     Description: API Gateway endpoint URL for Prod stage
-    Value: !Sub https://${ApiGatewayStack.Outputs.ApiGatewayApiNew}.execute-api.${AWS::Region}.amazonaws.com/Prod/
+    Value: !Sub https://${ApiGatewayStack.Outputs.ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
   CloudFrontDistributionId:
     Description: CloudFront Distribution ID for hosting web front end
     Value: !Ref CloudFrontDistribution
