@@ -21,21 +21,37 @@ echo "Running: sam deploy --stack-name \"$STACK_NAME\""
 
 echo "AWS_REGION is: $AWS_REGION"
 
-# --- Hosted Zone Deployment ---
-domain_name="alphinecodetech.click."
+# --- Hosted Zone and Public Certificate Deployment ---
+domain_name="alphinecodetech.click"
+domain_name_r53="${domain_name}."
+
 existing_zone=$(aws route53 list-hosted-zones-by-name \
-  --dns-name "$domain_name" \
-  --query "HostedZones[?Name=='$domain_name'].Id" \
+  --dns-name "$domain_name_r53" \
+  --query "HostedZones[?Name=='$domain_name_r53'].Id" \
   --output text)
 
 if [ -z "$existing_zone" ]; then
   echo "Hosted zone does not exist. Creating one..."
-  hosted_zone_id=true
+  create_hosted_zone=true
 else
   echo "Hosted zone exists: $existing_zone"
   create_hosted_zone=false
   hosted_zone_id=$(basename "$existing_zone")
   echo "Hosted zone id: $hosted_zone_id"
+fi
+
+existing_cert_arn=$(aws acm list-certificates \
+  --region "$REGION" \
+  --query "CertificateSummaryList[?DomainName=='$domain_name'] | [0].CertificateArn" \
+  --output text
+)
+
+if [ -z "$existing_cert_arn" ]; then
+  echo "Public Certificate not exist. Creating one..."
+  create_public_cert=true
+else
+  echo "Public Certificate exists: $existing_cert_arn"
+  create_public_cert=false
 fi
 
 set +e
@@ -45,8 +61,10 @@ sam_deploy_output=$(
     --region "$AWS_REGION" \
     --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
     --parameter-overrides \
-      CreateHostedZone=$create_hosted_zone \
-      HostedZoneId=$hosted_zone_id \
+        CreateHostedZone=$create_hosted_zone \
+        HostedZoneId=$hosted_zone_id \
+        CreatePublicCertificate=$create_public_cert \
+        AcmCertificateArn=$existing_cert_arn
     2>&1
 )
 sam_deploy_exit_code=$?

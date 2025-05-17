@@ -21,7 +21,6 @@ Parameters:
     Description: The Cognito User Pool domain prefix
   AcmCertificateArn:
     Type: String
-    Default: arn:aws:acm:us-east-1:121216464768:certificate/701751b5-62e5-4526-935f-aeae48311e3e
     Description: The public certificate arn in us-east-1 region
   AdminGroupName:
     Type: String
@@ -40,9 +39,16 @@ Parameters:
     AllowedValues: [true, false]
     Default: false
     Description: Whether to create the hosted zone
+  CreatePublicCertificate:
+    Type: String
+    AllowedValues: [true, false]
+    Default: false
+    Description: Whether to create the public certificate
 
 Conditions:
   CreateHostedZoneCondition: !Equals [!Ref CreateHostedZone, "true"]
+  CreatePublicCertificateCondition:
+    !Equals [!Ref CreatePublicCertificate, "true"]
 
 Resources:
   HostedZoneStack:
@@ -53,6 +59,7 @@ Resources:
 
   CertificateStack:
     Type: AWS::CloudFormation::Stack
+    Condition: CreateHostedZoneCondition
     Properties:
       TemplateURL: ./infrastructure/resources/acm-certificate.yaml
       Parameters:
@@ -85,7 +92,10 @@ Resources:
     Properties:
       TemplateURL: ./infrastructure/resources/s3-cloudfront.yaml
       Parameters:
-        AcmCertificateArn: !Ref AcmCertificateArn
+        AcmCertificateArn: !If
+          - CreatePublicCertificateCondition
+          - !GetAtt CertificateStack.Outputs.CertificateArn
+          - !Ref AcmCertificateArn
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
 
   RecordSetStack:
