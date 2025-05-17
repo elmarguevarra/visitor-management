@@ -34,6 +34,7 @@ if [ -z "$EXISTING_ZONE" ]; then
 else
   echo "Hosted zone exists: $EXISTING_ZONE"
   CREATE_HOSTED_ZONE=false
+  HOSTED_ZONE_ID=$(basename "$EXISTING_ZONE")
 fi
 
 set +e
@@ -42,7 +43,9 @@ SAM_DEPLOY_OUTPUT=$(
     --stack-name "$STACK_NAME" \
     --region "$AWS_REGION" \
     --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
-    --parameter-overrides CreateHostedZone=$CREATE_HOSTED_ZONE
+    --parameter-overrides \
+      CreateHostedZone=$CREATE_HOSTED_ZONE \
+      HostedZoneId=$HOSTED_ZONE_ID \
     2>&1
 )
 SAM_DEPLOY_EXIT_CODE=$?

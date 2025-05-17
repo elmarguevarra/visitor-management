@@ -9,3 +9,7 @@ Resources:
       HostedZoneConfig:
         Comment: Hosted zone for my visitor management application
     DeletionPolicy: Retain #NOTE: Hosted zone are charged per creation
+
+Outputs:
+  HostedZoneId:
+    Value: !Ref HostedZone
