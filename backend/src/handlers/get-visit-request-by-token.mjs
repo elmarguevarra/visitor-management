@@ -1,15 +1,17 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
 
 // DynamoDB Endpoint
 const ENDPOINT_OVERRIDE = process.env.ENDPOINT_OVERRIDE;
 let ddbClient = undefined;
 
 if (ENDPOINT_OVERRIDE) {
-  ddbClient = new DynamoDBClient({ endpoint: ENDPOINT_OVERRIDE });    
+  ddbClient = new DynamoDBClient({ endpoint: ENDPOINT_OVERRIDE });
 } else {
-  ddbClient = new DynamoDBClient({});    // Use default values for DynamoDB endpoint
-  console.warn("No value for ENDPOINT_OVERRIDE provided for DynamoDB, using default");
+  ddbClient = new DynamoDBClient({}); // Use default values for DynamoDB endpoint
+  console.warn(
+    "No value for ENDPOINT_OVERRIDE provided for DynamoDB, using default"
+  );
 }
 
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -21,11 +23,13 @@ const tableName = process.env.VISIT_REQUESTS_TABLE;
  * A simple example includes an HTTP GET method to get one item by id from a DynamoDB table.
  */
 export const getVisitRequestByTokenHandler = async (event) => {
-  if (event.httpMethod !== 'GET') {
-    throw new Error(`getMethod only accepts GET method, you tried: ${event.httpMethod}`);
+  if (event.httpMethod !== "GET") {
+    throw new Error(
+      `getMethod only accepts GET method, you tried: ${event.httpMethod}`
+    );
   }
   // All log statements are written to CloudWatch
-  console.info('received:', event);
+  console.info("received:", event);
 
   // Get inviteToken from pathParameters from API Gateway because of `/{inviteToken}` at template.yaml
   const inviteToken = event.pathParameters.inviteToken;
@@ -51,10 +55,12 @@ export const getVisitRequestByTokenHandler = async (event) => {
       statusCode: 500,
       headers: {
         "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Origin": "*", //DO NOT USE THIS VALUE IN PRODUCTION
-        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT"
+        "Access-Control-Allow-Origin": "https://vms.alphinecodetech.click",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
       },
-      body: JSON.stringify({ error: "An error occurred while retrieving the invite." })
+      body: JSON.stringify({
+        error: "An error occurred while retrieving the invite.",
+      }),
     };
   }
 
@@ -63,12 +69,14 @@ export const getVisitRequestByTokenHandler = async (event) => {
     statusCode: 200,
     headers: {
       "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT"
+      "Access-Control-Allow-Origin": "https://vms.alphinecodetech.click",
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
     },
-    body: JSON.stringify(item)
+    body: JSON.stringify(item),
   };
 
-  console.info(`response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`);
+  console.info(
+    `response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`
+  );
   return response;
 };

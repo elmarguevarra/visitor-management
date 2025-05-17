@@ -60,7 +60,7 @@ export const getPermissionsHandler = async (event) => {
     statusCode: 200,
     headers: {
       "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Origin": "*", //DO NOT USE THIS VALUE IN PRODUCTION - https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html
+      "Access-Control-Allow-Origin": "https://vms.alphinecodetech.click",
       "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
     },
     body: JSON.stringify(batchIsAuthorizedOutput),
