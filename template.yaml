@@ -15,10 +15,10 @@ Parameters:
   HostedZoneId:
     Type: String
     Description: The Domain Hosted Zone ID. Value is overriden by deploy.sh if already exist
-  CognitoDomainPrefix:
-    Type: String
-    Default: login.vms
-    Description: The Cognito User Pool domain prefix
+  # CognitoDomainPrefix:
+  #   Type: String
+  #   Default: login.vms
+  #   Description: The Cognito User Pool domain prefix
   AcmCertificateArn:
     Type: String
     Description: The public certificate arn in us-east-1 region. Value is overriden by deploy.sh if already exist
@@ -121,7 +121,7 @@ Outputs:
     Value: !GetAtt CognitoStack.Outputs.CognitoUserPoolClient
   UserPoolDomainUrl:
     Description: Cognito User Pool Domain URL
-    Value: !Sub https://${CognitoDomainPrefix}.auth.${AWS::Region}.amazoncognito.com
+    Value: !Sub https://${CognitoCustomDomainName}.auth.${AWS::Region}.amazoncognito.com
   AuthorityUrl:
     Description: Cognito User Pool Authority URL (for OIDC client)
     Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoStack.Outputs.CognitoUserPool}
