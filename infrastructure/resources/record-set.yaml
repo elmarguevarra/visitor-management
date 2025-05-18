@@ -29,5 +29,4 @@ Resources:
       Type: CNAME
       TTL: 300
       ResourceRecords:
-        - !ImportValue 
-          !Sub "${AWS::StackName}-CognitoAliasTarget"
+        - !ImportValue CognitoAliasTarget
