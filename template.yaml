@@ -94,6 +94,7 @@ Resources:
         AdminGroupName: !Ref AdminGroupName
         ResidentGroupName: !Ref ResidentGroupName
         GuardGroupName: !Ref GuardGroupName
+        CognitoDomainPrefix: !Ref CognitoDomainPrefix
 
 Outputs:
   APIGatewayEndpoint:
