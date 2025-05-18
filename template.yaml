@@ -53,7 +53,8 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: ./infrastructure/resources/api-gateway-lambda.yaml
-      SubDomain: !Ref SubDomain
+      Parameters:
+        SubDomain: !Ref SubDomain
 
   DatabaseStack:
     Type: AWS::CloudFormation::Stack
