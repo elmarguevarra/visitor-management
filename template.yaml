@@ -15,10 +15,6 @@ Parameters:
   HostedZoneId:
     Type: String
     Description: The Domain Hosted Zone ID. Value is overriden by deploy.sh if already exist
-  # CognitoDomainPrefix:
-  #   Type: String
-  #   Default: login.vms
-  #   Description: The Cognito User Pool domain prefix
   AcmCertificateArn:
     Type: String
     Description: The public certificate arn in us-east-1 region. Value is overriden by deploy.sh if already exist
