@@ -44,9 +44,6 @@ Resources:
           RequireUppercase: true
       UsernameAttributes:
         - email
-      AutoVerifiedAttributes: []
-      AdminCreateUserConfig:
-        AllowAdminCreateUserOnly: false
       # DeletionProtection: ACTIVE
 
   CognitoUserPoolClient:
