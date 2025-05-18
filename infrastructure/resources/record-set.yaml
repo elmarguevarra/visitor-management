@@ -2,9 +2,9 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: Nested stack for Hosted Zone RecordSet
 
 Parameters:
-  HostedZoneId:
-    Type: String
   GlobalCloudFrontHostedZoneId:
+    Type: String
+  HostedZoneId:
     Type: String
 
 Resources:
