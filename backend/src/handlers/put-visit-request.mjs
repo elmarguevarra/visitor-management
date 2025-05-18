@@ -25,6 +25,8 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 // Get the DynamoDB table name from environment variables
 const tableName = process.env.VISIT_REQUESTS_TABLE;
 
+const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
+
 /**
  * A simple example includes a HTTP post method to add one item to a DynamoDB table.
  */
@@ -108,7 +110,7 @@ export const putVisitRequestHandler = async (event) => {
     statusCode: 200,
     headers: {
       "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Origin": "https://vms.alphinecodetech.click",
+      "Access-Control-Allow-Origin": frontEndBaseUrl,
       "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
     },
     body: JSON.stringify(responseBody),

@@ -5,6 +5,7 @@ import {
 
 const verifiedPermissionsClient = new VerifiedPermissionsClient();
 const policyStoreId = process.env.POLICY_STORE_ID;
+const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
 
 const cache = new Map();
 
@@ -60,7 +61,7 @@ export const getPermissionsHandler = async (event) => {
     statusCode: 200,
     headers: {
       "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Origin": "https://vms.alphinecodetech.click",
+      "Access-Control-Allow-Origin": frontEndBaseUrl,
       "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
     },
     body: JSON.stringify(batchIsAuthorizedOutput),

@@ -32,7 +32,7 @@ describe("Test putItemHandler", function () {
       statusCode: 200,
       headers: {
         "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Origin": "https://vms.alphinecodetech.click",
+        "Access-Control-Allow-Origin": frontEndBaseUrl,
         "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
       },
       body: JSON.stringify(returnedItem),

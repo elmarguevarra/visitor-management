@@ -18,6 +18,7 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
 // Get the DynamoDB table name from environment variables
 const tableName = process.env.INVITE_LINKS_TABLE;
+const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
 
 /**
  * A simple example includes an HTTP GET method to get one item by id from a DynamoDB table.
@@ -55,7 +56,7 @@ export const getInviteByTokenHandler = async (event) => {
       statusCode: 500,
       headers: {
         "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Origin": "https://vms.alphinecodetech.click",
+        "Access-Control-Allow-Origin": frontEndBaseUrl,
         "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
       },
       body: JSON.stringify({
@@ -71,7 +72,7 @@ export const getInviteByTokenHandler = async (event) => {
       statusCode: 404,
       headers: {
         "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Origin": "https://vms.alphinecodetech.click",
+        "Access-Control-Allow-Origin": frontEndBaseUrl,
         "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
       },
       body: JSON.stringify({
@@ -85,7 +86,7 @@ export const getInviteByTokenHandler = async (event) => {
     statusCode: 200,
     headers: {
       "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Origin": "https://vms.alphinecodetech.click",
+      "Access-Control-Allow-Origin": frontEndBaseUrl,
       "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
     },
     body: JSON.stringify(item),
