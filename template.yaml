@@ -117,7 +117,7 @@ Outputs:
     Value: !GetAtt CognitoStack.Outputs.CognitoUserPoolClient
   UserPoolDomainUrl:
     Description: Cognito User Pool Domain URL
-    Value: !Sub https://${CognitoCustomDomainName}.auth.${AWS::Region}.amazoncognito.com
+    Value: !Sub https://${CognitoCustomDomainName}
   AuthorityUrl:
     Description: Cognito User Pool Authority URL (for OIDC client)
     Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoStack.Outputs.CognitoUserPool}
