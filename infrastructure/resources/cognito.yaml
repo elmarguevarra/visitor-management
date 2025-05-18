@@ -1,4 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
+Description: Nested stack for Cognito User Pool and User Groups
 
 CognitoUserPool:
   Type: AWS::Cognito::UserPool
@@ -28,81 +29,63 @@ CognitoUserPool:
       - email
     AutoVerifiedAttributes:
       - email
+    DeletionProtection: ACTIVE
 
-CognitoUserPoolClient:
-  Type: AWS::Cognito::UserPoolClient
-  Properties:
-    ClientName: VisitorManagementCognitoClient
-    UserPoolId: !Ref CognitoUserPool
-    AllowedOAuthFlowsUserPoolClient: true
-    AllowedOAuthFlows:
-      - code
-    AllowedOAuthScopes:
-      - email
-      - openid
-      - profile
-    CallbackURLs:
-      - https://vms.alphinecodetech.click/signin-callback
-    LogoutURLs:
-      - https://vms.alphinecodetech.click/signout-callback
-    GenerateSecret: false
-    SupportedIdentityProviders:
-      - COGNITO
-    AccessTokenValidity: 60 # in minutes
-    IdTokenValidity: 60 # in minutes
-    RefreshTokenValidity: 30 # in days
-    TokenValidityUnits:
-      AccessToken: minutes
-      IdToken: minutes
-      RefreshToken: days
+  CognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: VisitorManagementCognitoClient
+      UserPoolId: !Ref CognitoUserPool
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows:
+        - code
+      AllowedOAuthScopes:
+        - email
+        - openid
+        - profile
+      CallbackURLs:
+        - https://vms.alphinecodetech.click/signin-callback
+      LogoutURLs:
+        - https://vms.alphinecodetech.click/signout-callback
+      GenerateSecret: false
+      SupportedIdentityProviders:
+        - COGNITO
+      AccessTokenValidity: 60 # in minutes
+      IdTokenValidity: 60 # in minutes
+      RefreshTokenValidity: 30 # in days
+      TokenValidityUnits:
+        AccessToken: minutes
+        IdToken: minutes
+        RefreshToken: days
 
-CognitoUserPoolDomain:
-  Type: AWS::Cognito::UserPoolDomain
-  Properties:
-    Domain: !Ref CognitoDomainPrefix
-    UserPoolId: !Ref CognitoUserPool
-    # CustomDomainConfig:
-    #   CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
+  CognitoUserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: !Ref CognitoDomainPrefix
+      UserPoolId: !Ref CognitoUserPool
+      # CustomDomainConfig:
+      #   CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
 
-AdminUserGroup:
-  Type: AWS::Cognito::UserPoolGroup
-  Properties:
-    GroupName: !Ref AdminGroupName
-    UserPoolId: !Ref CognitoUserPool
-    Description: Admin users
-    Precedence: 0
+  AdminUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: !Ref AdminGroupName
+      UserPoolId: !Ref CognitoUserPool
+      Description: Admin users
+      Precedence: 0
 
-ResidentUserGroup:
-  Type: AWS::Cognito::UserPoolGroup
-  Properties:
-    GroupName: !Ref ResidentGroupName
-    UserPoolId: !Ref CognitoUserPool
-    Description: Resident users
-    Precedence: 1
+  ResidentUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: !Ref ResidentGroupName
+      UserPoolId: !Ref CognitoUserPool
+      Description: Resident users
+      Precedence: 1
 
-GuardUserGroup:
-  Type: AWS::Cognito::UserPoolGroup
-  Properties:
-    GroupName: !Ref GuardGroupName
-    UserPoolId: !Ref CognitoUserPool
-    Description: Guard users
-    Precedence: 2
-# AdminUser:
-#   Type: AWS::Cognito::User
-#   Properties:
-#     UserPoolId: !Ref CognitoUserPool
-#     Username: "admin@alphinecodetech.click"
-#     Password: "AdminPass123!"
-#     UserAttributes:
-#       - Name: "given_name"
-#         Value: "Admin"
-#       - Name: "family_name"
-#         Value: "User"
-#       - Name: "email"
-#         Value: "admin@alphinecodetech.click"
-#       - Name: "phone_number"
-#         Value: "+15551234567" #  E.164 format
-#       - Name: "email_verified"
-#         Value: "true"
-#     GroupList:
-#       - !Ref AdminUserGroup
+  GuardUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: !Ref GuardGroupName
+      UserPoolId: !Ref CognitoUserPool
+      Description: Guard users
+      Precedence: 2
