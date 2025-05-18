@@ -119,7 +119,7 @@ Outputs:
     Value: !Sub https://${CognitoDomainPrefix}.auth.${AWS::Region}.amazoncognito.com
   AuthorityUrl:
     Description: Cognito User Pool Authority URL (for OIDC client)
-    Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoUserPool}
+    Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoStack.Outputs.CognitoUserPool}
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
