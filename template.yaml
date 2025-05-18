@@ -84,7 +84,7 @@ Resources:
         CognitoCustomDomainName: !Ref CognitoCustomDomainName
         AcmCertificateArn: !Ref AcmCertificateArn
 
-  RecordSetStackNew:
+  RecordSetStack:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: ./infrastructure/resources/record-set.yaml
