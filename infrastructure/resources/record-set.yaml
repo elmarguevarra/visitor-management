@@ -10,7 +10,7 @@ Parameters:
     Type: String
 
 Resources:
-  CloudFrontARecord:
+  CloudFrontTypeARecord:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZoneId
