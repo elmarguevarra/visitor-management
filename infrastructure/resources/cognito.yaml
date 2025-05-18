@@ -116,7 +116,3 @@ Outputs:
     Value: !Ref CognitoUserPool
   CognitoUserPoolClient:
     Value: !Ref CognitoUserPoolClient
-  CognitoCustomDomain:
-    Value: !Ref CognitoCustomDomain
-    Export:
-      Name: CognitoCustomDomain
