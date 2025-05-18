@@ -53,6 +53,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: ./infrastructure/resources/api-gateway-lambda.yaml
+      SubDomain: !Ref SubDomain
 
   DatabaseStack:
     Type: AWS::CloudFormation::Stack
@@ -88,6 +89,8 @@ Resources:
         GuardGroupName: !Ref GuardGroupName
         CognitoCustomDomainName: !Ref CognitoCustomDomainName
         AcmCertificateArn: !Ref AcmCertificateArn
+        BaseDomain: !Ref BaseDomain
+        SubDomain: !Ref SubDomain
 
   HostedZoneRecordSetStack:
     Type: AWS::CloudFormation::Stack
