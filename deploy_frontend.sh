@@ -57,6 +57,10 @@ echo "VUE_APP_COGNITO_USER_POOL_CLIENT_ID=$user_pool_client_id" >> .env
 echo "VUE_APP_COGNITO_USER_POOL_DOMAIN_URL=$user_pool_domain_url" >> .env
 echo "VUE_APP_COGNITO_AUTHORITY_URL=$authority_url" >> .env
 
+# Add Domain name
+echo "Adding Frontend base url to .env..."
+echo "VUE_APP_FRONTEND_BASE_URL=$APP_FRONTEND_BASE_URL" >> .env
+
 # Confirm that the endpoint has been added to the .env file
 echo "Contents of .env:"
 cat .env
