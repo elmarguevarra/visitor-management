@@ -8,7 +8,9 @@ Parameters:
     Type: String
   GuardGroupName:
     Type: String
-  CognitoDomainPrefix:
+  CognitoCustomDomainName:
+    Type: String
+  AcmCertificateArn:
     Type: String
 
 Resources:
@@ -69,13 +71,21 @@ Resources:
         IdToken: minutes
         RefreshToken: days
 
-  CognitoUserPoolDomain:
+  # CognitoUserPoolDomain:
+  #   Type: AWS::Cognito::UserPoolDomain
+  #   Properties:
+  #     Domain: !Ref CognitoDomainPrefix
+  #     UserPoolId: !Ref CognitoUserPool
+  #     # CustomDomainConfig:
+  #     #   CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
+
+  CognitoCustomDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: !Ref CognitoDomainPrefix
+      Domain: !Ref CognitoCustomDomainName
       UserPoolId: !Ref CognitoUserPool
-      # CustomDomainConfig:
-      #   CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
+      CustomDomainConfig:
+        CertificateArn: !Ref AcmCertificateArn
 
   AdminUserGroup:
     Type: AWS::Cognito::UserPoolGroup
@@ -106,3 +116,7 @@ Outputs:
     Value: !Ref CognitoUserPool
   CognitoUserPoolClient:
     Value: !Ref CognitoUserPoolClient
+  CognitoCustomDomain:
+    Value: !Ref CognitoCustomDomain
+    Export:
+      Name: CognitoCustomDomain

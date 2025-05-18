@@ -4,10 +4,10 @@ Transform:
   - AWS::Serverless-2016-10-31
 
 Parameters:
-  # CognitoCustomDomainName:
-  #   Type: String
-  #   Description: Your custom domain name (e.g., auth.example.com)
-  #   Default: login.alphinecodetech.click
+  CognitoCustomDomainName:
+    Type: String
+    Description: Your custom domain name (e.g., auth.example.com)
+    Default: login.vms.alphinecodetech.click
   GlobalCloudFrontHostedZoneId:
     Type: String
     Default: Z2FDTNDATAQYW2
@@ -17,7 +17,7 @@ Parameters:
     Description: The Domain Hosted Zone ID. Value is overriden by deploy.sh if already exist
   CognitoDomainPrefix:
     Type: String
-    Default: login
+    Default: login.vms
     Description: The Cognito User Pool domain prefix
   AcmCertificateArn:
     Type: String
@@ -83,6 +83,7 @@ Resources:
       TemplateURL: ./infrastructure/resources/record-set.yaml
       Parameters:
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
+        CognitoCustomDomainName: !Ref CognitoCustomDomainName
         HostedZoneId: !If
           - CreateHostedZoneCondition
           - !GetAtt HostedZoneStack.Outputs.HostedZoneId
@@ -96,7 +97,8 @@ Resources:
         AdminGroupName: !Ref AdminGroupName
         ResidentGroupName: !Ref ResidentGroupName
         GuardGroupName: !Ref GuardGroupName
-        CognitoDomainPrefix: !Ref CognitoDomainPrefix
+        CognitoCustomDomainName: !Ref CognitoCustomDomainName
+        AcmCertificateArn: !Ref AcmCertificateArn
 
 Outputs:
   APIGatewayEndpoint:
