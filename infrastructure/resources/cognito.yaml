@@ -1,6 +1,14 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Nested stack for Cognito User Pool and User Groups
 
+Parameters:
+  AdminGroupName:
+    Type: String
+  ResidentGroupName:
+    Type: String
+  GuardGroupName:
+    Type: String
+
 CognitoUserPool:
   Type: AWS::Cognito::UserPool
   Properties:
@@ -89,3 +97,9 @@ CognitoUserPool:
       UserPoolId: !Ref CognitoUserPool
       Description: Guard users
       Precedence: 2
+
+Outputs:
+  CognitoUserPool:
+    Value: !Ref CognitoUserPool
+  CognitoUserPoolClient:
+    Value: !Ref CognitoUserPoolClient

@@ -82,100 +82,20 @@ Resources:
     Properties:
       TemplateURL: ./infrastructure/resources/record-set.yaml
       Parameters:
+        AdminGroupName: !Ref AdminGroupName
+        ResidentGroupName: !Ref ResidentGroupName
+        GuardGroupName: !Ref GuardGroupName
+
+  CognitoStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./infrastructure/resources/cognito.yaml
+      Parameters:
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
         HostedZoneId: !If
           - CreateHostedZoneCondition
           - !GetAtt HostedZoneStack.Outputs.HostedZoneId
           - !Ref HostedZoneId
-
-  # CognitoUserPool:
-  #   Type: AWS::Cognito::UserPool
-  #   Properties:
-  #     UserPoolName: VisitorManagementCognitoUserPool
-  #     Schema:
-  #       - Name: "given_name"
-  #         Required: true
-  #         Mutable: true
-  #       - Name: "family_name"
-  #         Required: true
-  #         Mutable: true
-  #       - Name: "email"
-  #         Required: true
-  #         Mutable: true
-  #       - Name: "phone_number"
-  #         Required: true
-  #         Mutable: true
-  #     Policies:
-  #       PasswordPolicy:
-  #         MinimumLength: 8
-  #         RequireLowercase: true
-  #         RequireNumbers: true
-  #         RequireSymbols: false
-  #         RequireUppercase: true
-  #     UsernameAttributes:
-  #       - email
-  #     AutoVerifiedAttributes:
-  #       - email
-  #     # DeletionProtection: ACTIVE
-
-  # CognitoUserPoolClient:
-  #   Type: AWS::Cognito::UserPoolClient
-  #   Properties:
-  #     ClientName: VisitorManagementCognitoClient
-  #     UserPoolId: !Ref CognitoUserPool
-  #     AllowedOAuthFlowsUserPoolClient: true
-  #     AllowedOAuthFlows:
-  #       - code
-  #     AllowedOAuthScopes:
-  #       - email
-  #       - openid
-  #       - profile
-  #     CallbackURLs:
-  #       - https://vms.alphinecodetech.click/signin-callback
-  #     LogoutURLs:
-  #       - https://vms.alphinecodetech.click/signout-callback
-  #     GenerateSecret: false
-  #     SupportedIdentityProviders:
-  #       - COGNITO
-  #     AccessTokenValidity: 60 # in minutes
-  #     IdTokenValidity: 60 # in minutes
-  #     RefreshTokenValidity: 30 # in days
-  #     TokenValidityUnits:
-  #       AccessToken: minutes
-  #       IdToken: minutes
-  #       RefreshToken: days
-
-  # CognitoUserPoolDomain:
-  #   Type: AWS::Cognito::UserPoolDomain
-  #   Properties:
-  #     Domain: !Ref CognitoDomainPrefix
-  #     UserPoolId: !Ref CognitoUserPool
-  #     # CustomDomainConfig:
-  #     #   CertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/4f441ddb-b0d2-493d-b2d0-e5b3ed387553
-
-  # AdminUserGroup:
-  #   Type: AWS::Cognito::UserPoolGroup
-  #   Properties:
-  #     GroupName: !Ref AdminGroupName
-  #     UserPoolId: !Ref CognitoUserPool
-  #     Description: Admin users
-  #     Precedence: 0
-
-  # ResidentUserGroup:
-  #   Type: AWS::Cognito::UserPoolGroup
-  #   Properties:
-  #     GroupName: !Ref ResidentGroupName
-  #     UserPoolId: !Ref CognitoUserPool
-  #     Description: Resident users
-  #     Precedence: 1
-
-  # GuardUserGroup:
-  #   Type: AWS::Cognito::UserPoolGroup
-  #   Properties:
-  #     GroupName: !Ref GuardGroupName
-  #     UserPoolId: !Ref CognitoUserPool
-  #     Description: Guard users
-  #     Precedence: 2
 
 Outputs:
   APIGatewayEndpoint:
@@ -190,18 +110,18 @@ Outputs:
   WebS3BucketName:
     Description: S3 Bucket for hosting web frontend
     Value: !GetAtt S3BucketCloudFrontStack.Outputs.WebS3BucketName
-  # UserPoolId:
-  #   Description: Cognito User Pool ID
-  #   Value: !Ref CognitoUserPool
-  # UserPoolClientId:
-  #   Description: Cognito User Pool Client ID
-  #   Value: !Ref CognitoUserPoolClient
-  # UserPoolDomainUrl:
-  #   Description: Cognito User Pool Domain URL
-  #   Value: !Sub https://${CognitoDomainPrefix}.auth.${AWS::Region}.amazoncognito.com
-  # AuthorityUrl:
-  #   Description: Cognito User Pool Authority URL (for OIDC client)
-  #   Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoUserPool}
+  UserPoolId:
+    Description: Cognito User Pool ID
+    Value: !GetAtt CognitoStack.Outputs.CognitoUserPool
+  UserPoolClientId:
+    Description: Cognito User Pool Client ID
+    Value: !GetAtt CognitoStack.Outputs.CognitoUserPoolClient
+  UserPoolDomainUrl:
+    Description: Cognito User Pool Domain URL
+    Value: !Sub https://${CognitoDomainPrefix}.auth.${AWS::Region}.amazoncognito.com
+  AuthorityUrl:
+    Description: Cognito User Pool Authority URL (for OIDC client)
+    Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoUserPool}
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
