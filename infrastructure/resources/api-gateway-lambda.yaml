@@ -15,7 +15,7 @@ Resources:
       Cors:
         AllowMethods: "'OPTIONS,POST,GET'"
         AllowHeaders: "'Content-Type,Authorization'"
-        AllowOrigin: "'https://vms.alphinecodetech.click'"
+        AllowOrigin: !Sub "'https://${SubDomain}'"
         AllowCredentials: true
 
   # This is a Lambda function config associated with the source code: get-by-id.js
@@ -244,7 +244,7 @@ Resources:
           VISITORS_TABLE: !ImportValue VisitorsTable
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
-          APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
+          APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
       Events:
         Api:
           Type: Api
@@ -274,7 +274,7 @@ Resources:
         Variables:
           # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
-          APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
+          APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           INVITE_LINKS_TABLE: !ImportValue InviteLinksTable
       Events:
         Api:
