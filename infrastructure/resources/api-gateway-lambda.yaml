@@ -2,6 +2,10 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: Nested stack for Api Gateway and Lambda Functions
 
+Parameters:
+  SubDomain:
+    Type: String
+
 Resources:
   ApiGatewayApi:
     Type: AWS::Serverless::Api

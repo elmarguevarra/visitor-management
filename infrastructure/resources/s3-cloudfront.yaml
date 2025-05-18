@@ -6,6 +6,10 @@ Parameters:
     Type: String
   GlobalCloudFrontHostedZoneId:
     Type: String
+  BaseDomain:
+    Type: String
+  SubDomain:
+    Type: String
 
 Resources:
   # S3 Bucket to host single page app website
@@ -90,9 +94,8 @@ Resources:
               - PH
               - AU
         Aliases:
-          # Use Aliases to specify alternate domain names
-          - alphinecodetech.click
-          - vms.alphinecodetech.click
+          - !Ref BaseDomain
+          - !Ref SubDomain
         ViewerCertificate:
           AcmCertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/701751b5-62e5-4526-935f-aeae48311e3e
           MinimumProtocolVersion: TLSv1.2_2021

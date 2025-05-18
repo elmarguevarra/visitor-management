@@ -12,6 +12,10 @@ Parameters:
     Type: String
   AcmCertificateArn:
     Type: String
+  BaseDomain:
+    Type: String
+  SubDomain:
+    Type: String
 
 Resources:
   CognitoUserPool:
@@ -57,9 +61,9 @@ Resources:
         - openid
         - profile
       CallbackURLs:
-        - https://vms.alphinecodetech.click/signin-callback
+        - !Sub "https://${SubDomain}/signin-callback"
       LogoutURLs:
-        - https://vms.alphinecodetech.click/signout-callback
+        - !Sub "https://${SubDomain}/signout-callback"
       GenerateSecret: false
       SupportedIdentityProviders:
         - COGNITO

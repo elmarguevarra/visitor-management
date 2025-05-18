@@ -49,7 +49,9 @@ existing_cert_arn=$(aws acm list-certificates \
 )
 
 if [ -z "$existing_cert_arn" ]; then
-  echo "Public Certificate does not exist. Manually create in us-east-1 then rerun build"
+  echo "Public Certificate does not exist."
+  echo "Manually create a public cert in us-east-1 then rerun build"
+  echo "(sample domain name patterns: alphinecodetech.click, *.alphinecodetech.click, *.vms.alphinecodetech.click)"
   exit 1
 else
   echo "Public Certificate exists: $existing_cert_arn"

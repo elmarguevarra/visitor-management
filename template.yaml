@@ -4,10 +4,16 @@ Transform:
   - AWS::Serverless-2016-10-31
 
 Parameters:
+  BaseDomain:
+    Type: String
+    Default: alphinecodetech.click
+  SubDomain:
+    Type: String
+    Default: !Sub vms.${BaseDomain}
   CognitoCustomDomainName:
     Type: String
     Description: Your custom domain name (e.g., auth.example.com)
-    Default: login.vms.alphinecodetech.click
+    Default: !Sub login.vms.${SubDomain}
   GlobalCloudFrontHostedZoneId:
     Type: String
     Default: Z2FDTNDATAQYW2
@@ -72,6 +78,8 @@ Resources:
       Parameters:
         AcmCertificateArn: AcmCertificateArn
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
+        BaseDomain: !Ref BaseDomain
+        SubDomain: !Ref SubDomain
 
   CognitoStack:
     Type: AWS::CloudFormation::Stack
@@ -91,6 +99,7 @@ Resources:
       Parameters:
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
         CognitoCustomDomainName: !Ref CognitoCustomDomainName
+        SubDomain: !Ref SubDomain
         HostedZoneId: !If
           - CreateHostedZoneCondition
           - !GetAtt HostedZoneStack.Outputs.HostedZoneId
@@ -121,8 +130,6 @@ Outputs:
   AuthorityUrl:
     Description: Cognito User Pool Authority URL (for OIDC client)
     Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoStack.Outputs.CognitoUserPool}
-  CognitoCustomDomainName:
-    Value: !Sub ${CognitoCustomDomainName}
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:

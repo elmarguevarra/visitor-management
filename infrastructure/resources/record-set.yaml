@@ -8,13 +8,15 @@ Parameters:
     Type: String
   CognitoCustomDomainName:
     Type: String
+  SubDomain:
+    Type: String
 
 Resources:
   CloudFrontTypeARecord:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZoneId
-      Name: vms.alphinecodetech.click
+      Name: !Ref SubDomain
       Type: A
       AliasTarget:
         HostedZoneId: !Ref GlobalCloudFrontHostedZoneId
