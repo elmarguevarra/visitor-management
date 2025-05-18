@@ -64,6 +64,9 @@ sam_deploy_output=$(
     --region "$AWS_REGION" \
     --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
     --parameter-overrides \
+        BaseDomain=$domain_name \
+        SubDomain=vms.$domain_name \
+        CognitoCustomDomainName=login.vms.$domain_name \
         CreateHostedZone=$create_hosted_zone \
         HostedZoneId=$hosted_zone_id \
         AcmCertificateArn=$existing_cert_arn

@@ -6,14 +6,11 @@ Transform:
 Parameters:
   BaseDomain:
     Type: String
-    Default: alphinecodetech.click
   SubDomain:
     Type: String
-    Default: !Sub vms.${BaseDomain}
   CognitoCustomDomainName:
     Type: String
     Description: Your custom domain name (e.g., auth.example.com)
-    Default: !Sub login.vms.${SubDomain}
   GlobalCloudFrontHostedZoneId:
     Type: String
     Default: Z2FDTNDATAQYW2
