@@ -18,3 +18,13 @@ Resources:
         HostedZoneId: !Ref GlobalCloudFrontHostedZoneId
         DNSName: !ImportValue CloudFrontDistributionDomainName
         EvaluateTargetHealth: false # Important for CloudFront
+  CloudFrontVMSAliasRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: login.vms.alphinecodetech.click
+      Type: A
+      AliasTarget:
+        HostedZoneId: !Ref GlobalCloudFrontHostedZoneId
+        DNSName: !ImportValue CloudFrontDistributionDomainName
+        EvaluateTargetHealth: false # Important for CloudFront
