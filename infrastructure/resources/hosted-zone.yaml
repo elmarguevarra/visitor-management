@@ -1,11 +1,15 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Nested stack for Hosted Zone and RecordSet Type A
 
+Parameters:
+  BaseDomain:
+    Type: String
+
 Resources:
   HostedZone:
     Type: AWS::Route53::HostedZone
     Properties:
-      Name: alphinecodetech.click
+      Name: !Ref BaseDomain
       HostedZoneConfig:
         Comment: Hosted zone for my visitor management application
     DeletionPolicy: Retain #NOTE: Hosted zone are charged per creation

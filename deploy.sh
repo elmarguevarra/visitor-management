@@ -51,7 +51,7 @@ existing_cert_arn=$(aws acm list-certificates \
 if [ -z "$existing_cert_arn" ]; then
   echo "Public Certificate does not exist."
   echo "Manually create a public cert in us-east-1 then rerun build"
-  echo "(sample domain name patterns: alphinecodetech.click, *.alphinecodetech.click, *.vms.alphinecodetech.click)"
+  echo "(sample domain name patterns: $domain_name, *.$domain_name, *.vms.$domain_name)"
   exit 1
 else
   echo "Public Certificate exists: $existing_cert_arn"
@@ -102,14 +102,14 @@ echo "User Pool Id: $user_pool_id"
 echo "Checking if admin user already exists..."
 if aws cognito-idp admin-get-user \
   --user-pool-id "$user_pool_id" \
-  --username admin@alphinecodetech.click 2>/dev/null; then
+  --username admin@$domain_name 2>/dev/null; then
   echo "Admin user already exists. Skipping creation."
 else
   echo "Creating Admin User"
   aws cognito-idp admin-create-user \
     --user-pool-id "$user_pool_id" \
-    --username admin@alphinecodetech.click \
-    --user-attributes Name=email,Value=admin@alphinecodetech.click \
+    --username admin@$domain_name \
+    --user-attributes Name=email,Value=admin@$domain_name \
                      Name=email_verified,Value=true \
                      Name=given_name,Value=Admin \
                      Name=family_name,Value=User \
@@ -120,7 +120,7 @@ else
   echo "Adding Admin User to AdminUserGroup"
   aws cognito-idp admin-add-user-to-group \
     --user-pool-id "$user_pool_id" \
-    --username admin@alphinecodetech.click \
+    --username admin@$domain_name \
     --group-name admin
 fi
 
