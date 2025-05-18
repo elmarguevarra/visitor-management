@@ -44,6 +44,8 @@ Resources:
           RequireUppercase: true
       UsernameAttributes:
         - email
+      AutoVerifiedAttributes:
+        - email
       # DeletionProtection: ACTIVE
 
   CognitoUserPoolClient:
