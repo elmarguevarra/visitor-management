@@ -9,35 +9,36 @@ Parameters:
   GuardGroupName:
     Type: String
 
-CognitoUserPool:
-  Type: AWS::Cognito::UserPool
-  Properties:
-    UserPoolName: VisitorManagementCognitoUserPool
-    Schema:
-      - Name: "given_name"
-        Required: true
-        Mutable: true
-      - Name: "family_name"
-        Required: true
-        Mutable: true
-      - Name: "email"
-        Required: true
-        Mutable: true
-      - Name: "phone_number"
-        Required: true
-        Mutable: true
-    Policies:
-      PasswordPolicy:
-        MinimumLength: 8
-        RequireLowercase: true
-        RequireNumbers: true
-        RequireSymbols: false
-        RequireUppercase: true
-    UsernameAttributes:
-      - email
-    AutoVerifiedAttributes:
-      - email
-    DeletionProtection: ACTIVE
+Resources:
+  CognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: VisitorManagementCognitoUserPool
+      Schema:
+        - Name: "given_name"
+          Required: true
+          Mutable: true
+        - Name: "family_name"
+          Required: true
+          Mutable: true
+        - Name: "email"
+          Required: true
+          Mutable: true
+        - Name: "phone_number"
+          Required: true
+          Mutable: true
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: false
+          RequireUppercase: true
+      UsernameAttributes:
+        - email
+      AutoVerifiedAttributes:
+        - email
+      DeletionProtection: ACTIVE
 
   CognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
