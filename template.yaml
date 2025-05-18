@@ -77,6 +77,17 @@ Resources:
         AcmCertificateArn: AcmCertificateArn
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
 
+  CognitoStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./infrastructure/resources/cognito.yaml
+      Parameters:
+        AdminGroupName: !Ref AdminGroupName
+        ResidentGroupName: !Ref ResidentGroupName
+        GuardGroupName: !Ref GuardGroupName
+        CognitoCustomDomainName: !Ref CognitoCustomDomainName
+        AcmCertificateArn: !Ref AcmCertificateArn
+
   RecordSetStack:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -88,17 +99,6 @@ Resources:
           - CreateHostedZoneCondition
           - !GetAtt HostedZoneStack.Outputs.HostedZoneId
           - !Ref HostedZoneId
-
-  CognitoStack:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: ./infrastructure/resources/cognito.yaml
-      Parameters:
-        AdminGroupName: !Ref AdminGroupName
-        ResidentGroupName: !Ref ResidentGroupName
-        GuardGroupName: !Ref GuardGroupName
-        CognitoCustomDomainName: !Ref CognitoCustomDomainName
-        AcmCertificateArn: !Ref AcmCertificateArn
 
 Outputs:
   APIGatewayEndpoint:
