@@ -33,7 +33,7 @@ Resources:
           Required: true
           Mutable: true
         - Name: "phone_number"
-          Required: false
+          Required: true
           Mutable: true
       Policies:
         PasswordPolicy:
