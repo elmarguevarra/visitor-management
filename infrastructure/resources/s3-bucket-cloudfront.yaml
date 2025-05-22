@@ -51,7 +51,7 @@ Resources:
     Properties:
       DistributionConfig:
         Origins:
-          - DomainName: !Ref WebSiteBucket.RegionalDomainName
+          - DomainName: !GetAtt WebSiteBucket.RegionalDomainName
             Id: myS3Origin
             OriginAccessControlId: !GetAtt CloudFrontOriginAccessControl.Id
             S3OriginConfig:
