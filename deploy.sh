@@ -71,7 +71,7 @@ sam_deploy_output=$(
         CreateHostedZone=$create_hosted_zone \
         HostedZoneId=$hosted_zone_id \
         AcmCertificateArn=$existing_cert_arn \
-    --no-rollback \
+    --disable-rollback \
     2>&1
 )
 sam_deploy_exit_code=$?
