@@ -116,3 +116,5 @@ Outputs:
     Value: !Ref CognitoUserPoolClient
   CognitoCustomDomainCloudFrontDistribution:
     Value: !GetAtt CognitoCustomDomain.CloudFrontDistribution
+    Export:
+      Name: CognitoCustomDomainCloudFrontDistribution
