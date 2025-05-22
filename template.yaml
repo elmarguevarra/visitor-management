@@ -92,6 +92,10 @@ Resources:
         AcmCertificateArn: !Ref AcmCertificateArn
         BaseDomain: !Ref BaseDomain
         SubDomain: !Ref SubDomain
+        HostedZoneId: !If
+          - CreateHostedZoneCondition
+          - !GetAtt HostedZoneStack.Outputs.HostedZoneId
+          - !Ref HostedZoneId
 
   RecordSetStack:
     Type: AWS::CloudFormation::Stack
@@ -100,7 +104,6 @@ Resources:
       TemplateURL: ./infrastructure/resources/record-set.yaml
       Parameters:
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
-        CognitoCustomDomainName: !Ref CognitoCustomDomainName
         SubDomain: !Ref SubDomain
         HostedZoneId: !If
           - CreateHostedZoneCondition

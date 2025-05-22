@@ -83,6 +83,16 @@ Resources:
       CustomDomainConfig:
         CertificateArn: !Ref AcmCertificateArn
 
+  CloudFrontLoginCNAMERecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref CognitoCustomDomainName
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - !GetAtt CognitoCustomDomain.CloudFrontDistribution
+
   AdminUserGroup:
     Type: AWS::Cognito::UserPoolGroup
     Properties:
@@ -112,7 +122,3 @@ Outputs:
     Value: !Ref CognitoUserPool
   CognitoUserPoolClient:
     Value: !Ref CognitoUserPoolClient
-  CognitoAliasTarget:
-    Value: !GetAtt CognitoCustomDomain.CloudFrontDistribution
-    Export:
-      Name: CognitoAliasTarget
