@@ -76,7 +76,7 @@ Resources:
     Properties:
       TemplateURL: ./infrastructure/resources/s3-cloudfront.yaml
       Parameters:
-        AcmCertificateArn: AcmCertificateArn
+        AcmCertificateArn: !Ref AcmCertificateArn
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
         BaseDomain: !Ref BaseDomain
         SubDomain: !Ref SubDomain
