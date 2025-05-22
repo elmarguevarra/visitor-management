@@ -28,3 +28,5 @@ jobs:
         run: ./deploy.sh
         env:
           AWS_REGION: ap-southeast-1
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}

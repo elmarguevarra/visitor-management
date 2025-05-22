@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Nested stack for Cognito User Pool and User Groups
+
+Parameters:
+  GoogleClientId:
+    Type: String
+    # NoEcho: true
+  GoogleClientSecret:
+    Type: String
+    # NoEcho: true
+
+Resources:
+  GoogleIdentityProvider:
+    Type: AWS::Cognito::UserPoolIdentityProvider
+    Properties:
+      ProviderName: Google
+      ProviderType: Google
+      UserPoolId: !ImportValue CognitoUserPool
+      AttributeMapping:
+        email: email
+        given_name: given_name
+        family_name: family_name
+      ProviderDetails:
+        client_id: !Ref GoogleClientId
+        client_secret: !Ref GoogleClientSecret
+        authorize_scopes: "openid email profile"

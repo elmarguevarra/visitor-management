@@ -69,6 +69,7 @@ Resources:
       GenerateSecret: false
       SupportedIdentityProviders:
         - COGNITO
+        - Google
       AccessTokenValidity: 60 # in minutes
       IdTokenValidity: 60 # in minutes
       RefreshTokenValidity: 30 # in days
@@ -112,6 +113,8 @@ Resources:
 Outputs:
   CognitoUserPool:
     Value: !Ref CognitoUserPool
+    Export:
+      Name: CognitoUserPool
   CognitoUserPoolClient:
     Value: !Ref CognitoUserPoolClient
   CognitoCustomDomainCloudFrontDistribution:

@@ -81,6 +81,8 @@ sam_deploy_output=$(
         CreateHostedZone=$create_hosted_zone \
         HostedZoneId=$hosted_zone_id \
         AcmCertificateArn=$existing_cert_arn \
+        GoogleClientId=$GOOGLE_CLIENT_ID \
+        GoogleClientSecret=$GOOGLE_CLIENT_SECRET \
     --disable-rollback \
     2>&1
 )
@@ -120,7 +122,7 @@ else
     --username admin@$DOMAIN_NAME \
     --user-attributes Name=email,Value=admin@$DOMAIN_NAME \
                      Name=email_verified,Value=true \
-                     Name=given_name,Value=Admin \
+                     Name=given_name,Value=Admin \  
                      Name=family_name,Value=User \
                      Name=phone_number,Value=+15551234567 \
     --temporary-password AdminPass123! \

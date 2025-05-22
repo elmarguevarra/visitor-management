@@ -38,6 +38,12 @@ Parameters:
     AllowedValues: [true, false]
     Default: false
     Description: Whether to create the hosted zone
+  GoogleClientId:
+    Type: String
+    # NoEcho: true
+  GoogleClientSecret:
+    Type: String
+    # NoEcho: true
 
 Conditions:
   CreateHostedZoneCondition: !Equals [!Ref CreateHostedZone, "true"]
@@ -122,6 +128,15 @@ Resources:
           - CreateHostedZoneCondition
           - !GetAtt HostedZoneStack.Outputs.HostedZoneId
           - !Ref HostedZoneId
+
+  GoogleIdentityProviderStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: CognitoStack
+    Properties:
+      TemplateURL: ./infrastructure/resources/google-identity-provider.yaml
+      Parameters:
+        GoogleClientId: !Ref GoogleClientId
+        GoogleClientSecret: !Ref GoogleClientSecret
 
 Outputs:
   APIGatewayEndpoint:
