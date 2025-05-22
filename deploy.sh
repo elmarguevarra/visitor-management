@@ -70,7 +70,8 @@ sam_deploy_output=$(
         CognitoCustomDomainName=login.vms.$DOMAIN_NAME \
         CreateHostedZone=$create_hosted_zone \
         HostedZoneId=$hosted_zone_id \
-        AcmCertificateArn=$existing_cert_arn
+        AcmCertificateArn=$existing_cert_arn \
+    --no-rollback \
     2>&1
 )
 sam_deploy_exit_code=$?
