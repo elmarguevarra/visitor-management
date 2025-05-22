@@ -10,13 +10,48 @@ Parameters:
     Type: String
 
 Resources:
+  WebSiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - BucketKeyEnabled: true
+      VersioningConfiguration:
+        Status: Enabled
+  WebSiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref WebSiteBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Id: PolicyForCloudFrontPrivateContent
+        Statement:
+          - Sid: AllowCloudFrontServicePrincipal
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: !Join
+              - ""
+              - - "arn:aws:s3:::"
+                - !Ref WebSiteBucket
+                - /*
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Join
+                  - ""
+                  - - "arn:aws:cloudfront::"
+                    - !Ref AWS::AccountId
+                    - ":distribution/"
+                    - !Ref CloudFrontDistribution
+
   # CloudFront Distribution for hosting the single page app website
   CloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Origins:
-          - DomainName: !ImportValue WebSiteBucketRegionalDomainName
+          - DomainName: !Ref WebSiteBucket.RegionalDomainName
             Id: myS3Origin
             OriginAccessControlId: !GetAtt CloudFrontOriginAccessControl.Id
             S3OriginConfig:
@@ -88,3 +123,5 @@ Outputs:
     Value: !GetAtt CloudFrontDistribution.DomainName
     Export:
       Name: CloudFrontDistributionDomainName
+  WebS3BucketName:
+    Value: !Ref WebSiteBucket

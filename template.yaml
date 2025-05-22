@@ -71,16 +71,10 @@ Resources:
         ResidentGroupName: !Ref ResidentGroupName
         GuardGroupName: !Ref GuardGroupName
 
-  S3BucketStack:
+  S3BucketCloudFrontStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: ./infrastructure/resources/s3-bucket.yaml
-
-  CloudFrontStack:
-    Type: AWS::CloudFormation::Stack
-    DependsOn: S3BucketStack
-    Properties:
-      TemplateURL: ./infrastructure/resources/cloudfront.yaml
+      TemplateURL: ./infrastructure/resources/s3-bucket-cloudfront.yaml
       Parameters:
         AcmCertificateArn: !Ref AcmCertificateArn
         BaseDomain: !Ref BaseDomain
@@ -119,13 +113,13 @@ Outputs:
     Value: !Sub https://${ApiGatewayLambdaStack.Outputs.ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
   CloudFrontDistributionId:
     Description: CloudFront Distribution ID for hosting web front end
-    Value: !GetAtt CloudFrontStack.Outputs.CloudFrontDistributionId
+    Value: !GetAtt S3BucketCloudFrontStack.Outputs.CloudFrontDistributionId
   CloudFrontDistributionDomainName:
     Description: CloudFront Distribution Domain Name for accessing web front end
-    Value: !GetAtt CloudFrontStack.Outputs.CloudFrontDistributionDomainName
+    Value: !GetAtt S3BucketCloudFrontStack.Outputs.CloudFrontDistributionDomainName
   WebS3BucketName:
     Description: S3 Bucket for hosting web frontend
-    Value: !GetAtt S3BucketStack.Outputs.WebS3BucketName
+    Value: !GetAtt S3BucketCloudFrontStack.Outputs.WebS3BucketName
   UserPoolId:
     Description: Cognito User Pool ID
     Value: !GetAtt CognitoStack.Outputs.CognitoUserPool
