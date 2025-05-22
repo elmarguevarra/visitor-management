@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Nested stack for Hosted Zone RecordSet
+
+Parameters:
+  CognitoCustomDomainName:
+    Type: String
+  HostedZoneId:
+    Type: String
+  CognitoCustomDomainCloudFrontDistribution:
+    Type: String
+
+Resources:
+  CloudFrontLoginCNAMERecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref CognitoCustomDomainName
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - !Ref CognitoCustomDomainCloudFrontDistribution

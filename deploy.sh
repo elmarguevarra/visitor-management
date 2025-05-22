@@ -11,6 +11,13 @@
 set -e  # Exit immediately if a command exits with a non-zero status.
 # set -x # Uncomment this line to enable verbose output (for debugging).
 
+## ----- Function Definitions -----
+# Function to get an output value from a CloudFormation stack
+get_stack_output() {
+  local output_key="$1"
+  aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query "Stacks[0].Outputs[?OutputKey=='$output_key'].OutputValue" --output text
+}
+
 ## ----- Backend Deployment (SAM) -----
 export STACK_NAME="visitor-management"
 export DOMAIN_NAME="alphinecodetech.click"
@@ -74,6 +81,22 @@ sam_deploy_output=$(
     --disable-rollback \
     2>&1
 )
+
+cognito_cd_cf_dist=$(get_stack_output "CognitoCustomDomainCloudFrontDistribution")
+
+sam_deploy_output=$(
+  sam deploy \
+    --template-file ./infrastructure/resources/cognito-record-set.yaml \
+    --stack-name "$STACK_NAME" \
+    --region "$AWS_REGION" \
+    --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
+    --parameter-overrides \
+        CognitoCustomDomainName=login.vms.$DOMAIN_NAME \
+        HostedZoneId=$hosted_zone_id \
+        CognitoCustomDomainCloudFrontDistribution=$sam_deploy_output \
+    --disable-rollback \
+    2>&1
+)
 sam_deploy_exit_code=$?
 echo "$sam_deploy_output"
 set -e
@@ -94,10 +117,6 @@ else
 fi
 
 # --- Cognito User Creation---
-get_stack_output() {
-  local output_key="$1"
-  aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query "Stacks[0].Outputs[?OutputKey=='$output_key'].OutputValue" --output text
-}
 user_pool_id=$(get_stack_output "UserPoolId")
 echo "User Pool Id: $user_pool_id"
 
