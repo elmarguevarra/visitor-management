@@ -80,7 +80,7 @@ Resources:
         BaseDomain: !Ref BaseDomain
         SubDomain: !Ref SubDomain
 
-  CognitoStackNew:
+  CognitoStack:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: ./infrastructure/resources/cognito.yaml
@@ -121,16 +121,16 @@ Outputs:
     Value: !GetAtt S3BucketCloudFrontStack.Outputs.WebS3BucketName
   UserPoolId:
     Description: Cognito User Pool ID
-    Value: !GetAtt CognitoStackNew.Outputs.CognitoUserPool
+    Value: !GetAtt CognitoStack.Outputs.CognitoUserPool
   UserPoolClientId:
     Description: Cognito User Pool Client ID
-    Value: !GetAtt CognitoStackNew.Outputs.CognitoUserPoolClient
+    Value: !GetAtt CognitoStack.Outputs.CognitoUserPoolClient
   UserPoolDomainUrl:
     Description: Cognito User Pool Domain URL
     Value: !Sub https://${CognitoCustomDomainName}
   AuthorityUrl:
     Description: Cognito User Pool Authority URL (for OIDC client)
-    Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoStackNew.Outputs.CognitoUserPool}
+    Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoStack.Outputs.CognitoUserPool}
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
