@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Nested stack for S3 bucket and CloudFront
+
+Resources:
+  # S3 Bucket to host single page app website
+  WebSiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - BucketKeyEnabled: true
+      VersioningConfiguration:
+        Status: Enabled
+  WebSiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref WebSiteBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Id: PolicyForCloudFrontPrivateContent
+        Statement:
+          - Sid: AllowCloudFrontServicePrincipal
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: !Join
+              - ""
+              - - "arn:aws:s3:::"
+                - !Ref WebSiteBucket
+                - /*
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Join
+                  - ""
+                  - - "arn:aws:cloudfront::"
+                    - !Ref AWS::AccountId
+                    - ":distribution/"
+                    - !Ref CloudFrontDistribution
+
+Outputs:
+  WebS3BucketName:
+    Value: !Ref WebSiteBucket
+  WebSiteBucketRegionalDomainName:
+    Value: !GetAtt WebSiteBucket.RegionalDomainName
+    Export: WebSiteBucketRegionalDomainName

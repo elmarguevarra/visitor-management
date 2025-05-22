@@ -71,13 +71,17 @@ Resources:
         ResidentGroupName: !Ref ResidentGroupName
         GuardGroupName: !Ref GuardGroupName
 
-  S3BucketCloudFrontStack:
+  S3BucketStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: ./infrastructure/resources/s3-cloudfront.yaml
+      TemplateURL: ./infrastructure/resources/s3-bucket.yaml
+
+  CloudFrontStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./infrastructure/resources/cloudfront.yaml
       Parameters:
         AcmCertificateArn: !Ref AcmCertificateArn
-        GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
         BaseDomain: !Ref BaseDomain
         SubDomain: !Ref SubDomain
 

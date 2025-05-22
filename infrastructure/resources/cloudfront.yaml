@@ -4,56 +4,19 @@ Description: Nested stack for S3 bucket and CloudFront
 Parameters:
   AcmCertificateArn:
     Type: String
-  GlobalCloudFrontHostedZoneId:
-    Type: String
   BaseDomain:
     Type: String
   SubDomain:
     Type: String
 
 Resources:
-  # S3 Bucket to host single page app website
-  WebSiteBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-          - BucketKeyEnabled: true
-      VersioningConfiguration:
-        Status: Enabled
-  WebSiteBucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref WebSiteBucket
-      PolicyDocument:
-        Version: "2012-10-17"
-        Id: PolicyForCloudFrontPrivateContent
-        Statement:
-          - Sid: AllowCloudFrontServicePrincipal
-            Effect: Allow
-            Principal:
-              Service: cloudfront.amazonaws.com
-            Action: s3:GetObject
-            Resource: !Join
-              - ""
-              - - "arn:aws:s3:::"
-                - !Ref WebSiteBucket
-                - /*
-            Condition:
-              StringEquals:
-                AWS:SourceArn: !Join
-                  - ""
-                  - - "arn:aws:cloudfront::"
-                    - !Ref AWS::AccountId
-                    - ":distribution/"
-                    - !Ref CloudFrontDistribution
   # CloudFront Distribution for hosting the single page app website
   CloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Origins:
-          - DomainName: !GetAtt WebSiteBucket.RegionalDomainName
+          - DomainName: !ImportValue WebSiteBucketRegionalDomainName
             Id: myS3Origin
             OriginAccessControlId: !GetAtt CloudFrontOriginAccessControl.Id
             S3OriginConfig:
@@ -97,7 +60,7 @@ Resources:
           - !Ref BaseDomain
           - !Ref SubDomain
         ViewerCertificate:
-          AcmCertificateArn: arn:aws:acm:us-east-1:121216464768:certificate/701751b5-62e5-4526-935f-aeae48311e3e
+          AcmCertificateArn: !Ref AcmCertificateArn
           MinimumProtocolVersion: TLSv1.2_2021
           SslSupportMethod: sni-only
         CustomErrorResponses:
@@ -125,5 +88,3 @@ Outputs:
     Value: !GetAtt CloudFrontDistribution.DomainName
     Export:
       Name: CloudFrontDistributionDomainName
-  WebS3BucketName:
-    Value: !Ref WebSiteBucket
