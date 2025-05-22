@@ -82,6 +82,7 @@ Resources:
 
   CognitoStack:
     Type: AWS::CloudFormation::Stack
+    DependsOn: RecordSetStack
     Properties:
       TemplateURL: ./infrastructure/resources/cognito.yaml
       Parameters:
@@ -99,6 +100,7 @@ Resources:
 
   RecordSetStack:
     Type: AWS::CloudFormation::Stack
+    DependsOn: S3BucketCloudFrontStack
     Properties:
       TemplateURL: ./infrastructure/resources/record-set.yaml
       Parameters:
