@@ -51,6 +51,7 @@ Resources:
 
   ApiGatewayLambdaStack:
     Type: AWS::CloudFormation::Stack
+    DependsOn: DatabaseStack
     Properties:
       TemplateURL: ./infrastructure/resources/api-gateway-lambda.yaml
       Parameters:
@@ -93,8 +94,9 @@ Resources:
         BaseDomain: !Ref BaseDomain
         SubDomain: !Ref SubDomain
 
-  HostedZoneRecordSetStack:
+  RecordSetStack:
     Type: AWS::CloudFormation::Stack
+    DependsOn: CognitoStack
     Properties:
       TemplateURL: ./infrastructure/resources/record-set.yaml
       Parameters:
