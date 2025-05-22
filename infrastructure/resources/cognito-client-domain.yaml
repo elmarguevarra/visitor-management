@@ -14,7 +14,7 @@ Resources:
     Type: AWS::Cognito::UserPoolClient
     Properties:
       ClientName: VisitorManagementCognitoClient #TODO: base on stack name
-      UserPoolId: !Ref CognitoUserPool
+      UserPoolId: !ImportValue CognitoUserPool
       AllowedOAuthFlowsUserPoolClient: true
       AllowedOAuthFlows:
         - code
@@ -42,7 +42,7 @@ Resources:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
       Domain: !Ref CognitoCustomDomainName
-      UserPoolId: !Ref CognitoUserPool
+      UserPoolId: !ImportValue CognitoUserPool
       CustomDomainConfig:
         CertificateArn: !Ref AcmCertificateArn
 
