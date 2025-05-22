@@ -8,8 +8,6 @@ Parameters:
     Type: String
   SubDomain:
     Type: String
-  CognitoCustomDomainName:
-    Type: String
 
 Resources:
   CloudFrontTypeARecord:
@@ -22,13 +20,3 @@ Resources:
         HostedZoneId: !Ref GlobalCloudFrontHostedZoneId
         DNSName: !ImportValue CloudFrontDistributionDomainName
         EvaluateTargetHealth: false # Important for CloudFront
-
-  CloudFrontLoginCNAMERecord:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      HostedZoneId: !Ref HostedZoneId
-      Name: !Ref CognitoCustomDomainName
-      Type: CNAME
-      TTL: 300
-      ResourceRecords:
-        - !ImportValue CognitoCustomDomainCloudFrontDistribution

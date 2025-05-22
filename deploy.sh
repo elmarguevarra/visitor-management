@@ -20,9 +20,10 @@ get_stack_output() {
 
 ## ----- Backend Deployment (SAM) -----
 export STACK_NAME="visitor-management"
-export COGNITO_CNAME_STACK_NAME="${STACK_NAME}-cognito-cname"
 export DOMAIN_NAME="alphinecodetech.click"
-export APP_FRONTEND_BASE_URL=https://vms.$DOMAIN_NAME
+export SUB_DOMAIN=vms.$DOMAIN_NAME
+export APP_FRONTEND_BASE_URL=https://$SUB_DOMAIN
+export COGNITO_CUSTOM_DOMAIN_NAME=login.vms.$DOMAIN_NAME
 
 echo "Building and deploying the SAM application (backend)..."
 echo "Running: sam build"
@@ -66,39 +67,7 @@ else
   echo "Public Certificate exists: $existing_cert_arn"
 fi
 
-# --- PHASE 1: Deploy CNAME RecordSet with a placeholder ---
-echo "--- Phase 1: Deploying Cognito CNAME RecordSet with placeholder ---"
-set +e
-sam_deploy_output_phase1=$(
-  sam deploy \
-    --template-file ./infrastructure/resources/cognito-record-set.yaml \
-    --stack-name "$COGNITO_CNAME_STACK_NAME" \
-    --region "$AWS_REGION" \
-    --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
-    --parameter-overrides \
-        CognitoCustomDomainName=login.vms.$DOMAIN_NAME \
-        HostedZoneId=$hosted_zone_id \
-        CognitoCustomDomainCloudFrontDistribution="example.com" \
-    --disable-rollback \
-    2>&1
-)
-sam_deploy_exit_code_phase1=$?
-echo "$sam_deploy_output_phase1"
-set -e # Re-enable exit on error
-
-if [ $sam_deploy_exit_code_phase1 -ne 0 ]; then
-  echo "Phase 1 (CNAME Placeholder) Deploy failed with exit code: $sam_deploy_exit_code_phase1"
-  if echo "$sam_deploy_output_phase1" | grep -q "No changes to deploy"; then
-    echo "No changes to deploy for CNAME Placeholder. Proceeding."
-  else
-    echo "An actual error occurred during Phase 1 deployment. Stopping."
-    exit 1
-  fi
-else
-  echo "Phase 1 (CNAME Placeholder) deployment successful."
-fi
-
-# --- PHASE 2: Deploy Main Application Stack (including Cognito User Pool Domain) ---
+# --- Deploy Main Application Stack ---
 set +e
 sam_deploy_output=$(
   sam deploy \
@@ -107,8 +76,8 @@ sam_deploy_output=$(
     --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
     --parameter-overrides \
         BaseDomain=$DOMAIN_NAME \
-        SubDomain=vms.$DOMAIN_NAME \
-        CognitoCustomDomainName=login.vms.$DOMAIN_NAME \
+        SubDomain=$SUB_DOMAIN \
+        CognitoCustomDomainName=$COGNITO_CUSTOM_DOMAIN_NAME \
         CreateHostedZone=$create_hosted_zone \
         HostedZoneId=$hosted_zone_id \
         AcmCertificateArn=$existing_cert_arn \

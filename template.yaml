@@ -80,8 +80,22 @@ Resources:
         BaseDomain: !Ref BaseDomain
         SubDomain: !Ref SubDomain
 
+  RecordSetStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: S3BucketCloudFrontStack
+    Properties:
+      TemplateURL: ./infrastructure/resources/record-set.yaml
+      Parameters:
+        GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
+        SubDomain: !Ref SubDomain
+        HostedZoneId: !If
+          - CreateHostedZoneCondition
+          - !GetAtt HostedZoneStack.Outputs.HostedZoneId
+          - !Ref HostedZoneId
+
   CognitoStack:
     Type: AWS::CloudFormation::Stack
+    DependsOn: RecordSetStack
     Properties:
       TemplateURL: ./infrastructure/resources/cognito.yaml
       Parameters:
@@ -97,17 +111,13 @@ Resources:
           - !GetAtt HostedZoneStack.Outputs.HostedZoneId
           - !Ref HostedZoneId
 
-  RecordSetStack:
+  CognitoRecordSetStack:
     Type: AWS::CloudFormation::Stack
-    DependsOn:
-      - S3BucketCloudFrontStack
-      - CognitoStack
+    DependsOn: CognitoStack
     Properties:
-      TemplateURL: ./infrastructure/resources/record-set.yaml
+      TemplateURL: ./infrastructure/resources/cognito-record-set.yaml
       Parameters:
-        GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
         CognitoCustomDomainName: !Ref CognitoCustomDomainName
-        SubDomain: !Ref SubDomain
         HostedZoneId: !If
           - CreateHostedZoneCondition
           - !GetAtt HostedZoneStack.Outputs.HostedZoneId

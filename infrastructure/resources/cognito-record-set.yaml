@@ -6,8 +6,6 @@ Parameters:
     Type: String
   HostedZoneId:
     Type: String
-  CognitoCustomDomainCloudFrontDistribution:
-    Type: String
 
 Resources:
   CloudFrontLoginCNAMERecord:
@@ -18,4 +16,4 @@ Resources:
       Type: CNAME
       TTL: 300
       ResourceRecords:
-        - !Ref CognitoCustomDomainCloudFrontDistribution
+        - !ImportValue CognitoCustomDomainCloudFrontDistribution
