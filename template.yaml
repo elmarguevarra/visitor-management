@@ -62,7 +62,7 @@ Resources:
     Properties:
       TemplateURL: ./infrastructure/resources/dynamodb-stack.yaml
 
-  AuthorizationStack:
+  VerifiedPermissionsStack:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: ./infrastructure/resources/verified-permissions.yaml
