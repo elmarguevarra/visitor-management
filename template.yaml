@@ -99,27 +99,39 @@ Resources:
           - !GetAtt HostedZoneStack.Outputs.HostedZoneId
           - !Ref HostedZoneId
 
-  CognitoStack:
+  CognitoUserPoolStack:
     Type: AWS::CloudFormation::Stack
-    DependsOn: RecordSetStack
     Properties:
-      TemplateURL: ./infrastructure/resources/cognito.yaml
+      TemplateURL: ./infrastructure/resources/cognito-user-pool.yaml
       Parameters:
         AdminGroupName: !Ref AdminGroupName
         ResidentGroupName: !Ref ResidentGroupName
         GuardGroupName: !Ref GuardGroupName
+
+  GoogleIdentityProviderStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: CognitoUserPoolStack
+    Properties:
+      TemplateURL: ./infrastructure/resources/google-identity-provider.yaml
+      Parameters:
+        GoogleClientId: !Ref GoogleClientId
+        GoogleClientSecret: !Ref GoogleClientSecret
+
+  CognitoClientDomainStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - RecordSetStack
+      - GoogleIdentityProviderStack
+    Properties:
+      TemplateURL: ./infrastructure/resources/cognito-client-domain.yaml
+      Parameters:
         CognitoCustomDomainName: !Ref CognitoCustomDomainName
         AcmCertificateArn: !Ref AcmCertificateArn
-        BaseDomain: !Ref BaseDomain
         SubDomain: !Ref SubDomain
-        HostedZoneId: !If
-          - CreateHostedZoneCondition
-          - !GetAtt HostedZoneStack.Outputs.HostedZoneId
-          - !Ref HostedZoneId
 
   CognitoRecordSetStack:
     Type: AWS::CloudFormation::Stack
-    DependsOn: CognitoStack
+    DependsOn: CognitoClientDomainStack
     Properties:
       TemplateURL: ./infrastructure/resources/cognito-record-set.yaml
       Parameters:
@@ -128,15 +140,6 @@ Resources:
           - CreateHostedZoneCondition
           - !GetAtt HostedZoneStack.Outputs.HostedZoneId
           - !Ref HostedZoneId
-
-  GoogleIdentityProviderStack:
-    Type: AWS::CloudFormation::Stack
-    DependsOn: CognitoStack
-    Properties:
-      TemplateURL: ./infrastructure/resources/google-identity-provider.yaml
-      Parameters:
-        GoogleClientId: !Ref GoogleClientId
-        GoogleClientSecret: !Ref GoogleClientSecret
 
 Outputs:
   APIGatewayEndpoint:
@@ -153,16 +156,16 @@ Outputs:
     Value: !GetAtt S3BucketCloudFrontStack.Outputs.WebS3BucketName
   UserPoolId:
     Description: Cognito User Pool ID
-    Value: !GetAtt CognitoStack.Outputs.CognitoUserPool
+    Value: !GetAtt CognitoUserPoolStack.Outputs.CognitoUserPool
   UserPoolClientId:
     Description: Cognito User Pool Client ID
-    Value: !GetAtt CognitoStack.Outputs.CognitoUserPoolClient
+    Value: !GetAtt CognitoClientDomainStack.Outputs.CognitoUserPoolClient
   UserPoolDomainUrl:
     Description: Cognito User Pool Domain URL
     Value: !Sub https://${CognitoCustomDomainName}
   AuthorityUrl:
     Description: Cognito User Pool Authority URL (for OIDC client)
-    Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoStack.Outputs.CognitoUserPool}
+    Value: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${CognitoUserPoolStack.Outputs.CognitoUserPool}
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:

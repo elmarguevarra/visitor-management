@@ -8,22 +8,12 @@ Parameters:
     Type: String
   GuardGroupName:
     Type: String
-  CognitoCustomDomainName:
-    Type: String
-  AcmCertificateArn:
-    Type: String
-  HostedZoneId:
-    Type: String
-  BaseDomain:
-    Type: String
-  SubDomain:
-    Type: String
 
 Resources:
   CognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
-      UserPoolName: VisitorManagementCognitoUserPool
+      UserPoolName: VisitorManagementCognitoUserPool #TODO: base on stack name
       Schema:
         - Name: "given_name"
           Required: true
@@ -49,42 +39,6 @@ Resources:
       AutoVerifiedAttributes:
         - email
       # DeletionProtection: ACTIVE
-
-  CognitoUserPoolClient:
-    Type: AWS::Cognito::UserPoolClient
-    Properties:
-      ClientName: VisitorManagementCognitoClient
-      UserPoolId: !Ref CognitoUserPool
-      AllowedOAuthFlowsUserPoolClient: true
-      AllowedOAuthFlows:
-        - code
-      AllowedOAuthScopes:
-        - email
-        - openid
-        - profile
-      CallbackURLs:
-        - !Sub "https://${SubDomain}/signin-callback"
-      LogoutURLs:
-        - !Sub "https://${SubDomain}/signout-callback"
-      GenerateSecret: false
-      SupportedIdentityProviders:
-        - COGNITO
-        - Google
-      AccessTokenValidity: 60 # in minutes
-      IdTokenValidity: 60 # in minutes
-      RefreshTokenValidity: 30 # in days
-      TokenValidityUnits:
-        AccessToken: minutes
-        IdToken: minutes
-        RefreshToken: days
-
-  CognitoCustomDomain:
-    Type: AWS::Cognito::UserPoolDomain
-    Properties:
-      Domain: !Ref CognitoCustomDomainName
-      UserPoolId: !Ref CognitoUserPool
-      CustomDomainConfig:
-        CertificateArn: !Ref AcmCertificateArn
 
   AdminUserGroup:
     Type: AWS::Cognito::UserPoolGroup
@@ -115,9 +69,3 @@ Outputs:
     Value: !Ref CognitoUserPool
     Export:
       Name: CognitoUserPool
-  CognitoUserPoolClient:
-    Value: !Ref CognitoUserPoolClient
-  CognitoCustomDomainCloudFrontDistribution:
-    Value: !GetAtt CognitoCustomDomain.CloudFrontDistribution
-    Export:
-      Name: CognitoCustomDomainCloudFrontDistribution

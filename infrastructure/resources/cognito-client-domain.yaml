@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Nested stack for Cognito User Pool and User Groups
+
+Parameters:
+  CognitoCustomDomainName:
+    Type: String
+  AcmCertificateArn:
+    Type: String
+  SubDomain:
+    Type: String
+
+Resources:
+  CognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: VisitorManagementCognitoClient #TODO: base on stack name
+      UserPoolId: !Ref CognitoUserPool
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows:
+        - code
+      AllowedOAuthScopes:
+        - email
+        - openid
+        - profile
+      CallbackURLs:
+        - !Sub "https://${SubDomain}/signin-callback"
+      LogoutURLs:
+        - !Sub "https://${SubDomain}/signout-callback"
+      GenerateSecret: false
+      SupportedIdentityProviders:
+        - COGNITO
+        - Google
+      AccessTokenValidity: 60 # in minutes
+      IdTokenValidity: 60 # in minutes
+      RefreshTokenValidity: 30 # in days
+      TokenValidityUnits:
+        AccessToken: minutes
+        IdToken: minutes
+        RefreshToken: days
+
+  CognitoCustomDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: !Ref CognitoCustomDomainName
+      UserPoolId: !Ref CognitoUserPool
+      CustomDomainConfig:
+        CertificateArn: !Ref AcmCertificateArn
+
+Outputs:
+  CognitoUserPoolClient:
+    Value: !Ref CognitoUserPoolClient
+  CognitoCustomDomainCloudFrontDistribution:
+    Value: !GetAtt CognitoCustomDomain.CloudFrontDistribution
+    Export:
+      Name: CognitoCustomDomainCloudFrontDistribution
