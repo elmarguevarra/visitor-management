@@ -12,6 +12,8 @@ Parameters:
     Type: String
   AcmCertificateArn:
     Type: String
+  HostedZoneId:
+    Type: String
   BaseDomain:
     Type: String
   SubDomain:

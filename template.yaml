@@ -99,7 +99,6 @@ Resources:
 
   RecordSetStack:
     Type: AWS::CloudFormation::Stack
-    DependsOn: CognitoStack
     Properties:
       TemplateURL: ./infrastructure/resources/record-set.yaml
       Parameters:
