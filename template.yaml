@@ -106,6 +106,7 @@ Resources:
       TemplateURL: ./infrastructure/resources/record-set.yaml
       Parameters:
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
+        CognitoCustomDomainName: !Ref CognitoCustomDomainName
         SubDomain: !Ref SubDomain
         HostedZoneId: !If
           - CreateHostedZoneCondition
