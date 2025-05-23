@@ -39,7 +39,7 @@
             type="text"
             class="form-control"
             id="Group"
-            v-model="formData.Group"
+            :value="formData.Group ?? 'Reviewing...'"
             readonly
             :class="{ 'text-muted': !authenticationStore.userGroup }"
           />
@@ -73,7 +73,7 @@ export default {
       Id: authenticationStore.userEmail,
       Name: `${authenticationStore.userGivenName} ${authenticationStore.userFamilyName}`,
       Contact: authenticationStore.userPhoneNumber,
-      Group: authenticationStore.userGroup ?? 'Reviewing...',
+      Group: authenticationStore.userGroup?.includes('Google') ?? undefined,
     })
 
     return {
