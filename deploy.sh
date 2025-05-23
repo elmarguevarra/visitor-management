@@ -118,15 +118,16 @@ if aws cognito-idp admin-get-user \
 else
   echo "Creating Admin User"
   aws cognito-idp admin-create-user \
-    --user-pool-id "$user_pool_id" \
-    --username admin@$DOMAIN_NAME \
-    --user-attributes Name=email,Value=admin@$DOMAIN_NAME \
-                     Name=email_verified,Value=true \
-                     Name=given_name,Value=Admin \  
-                     Name=family_name,Value=User \
-                     Name=phone_number,Value=+15551234567 \
-    --temporary-password AdminPass123! \
-    --message-action SUPPRESS
+      --user-pool-id "$user_pool_id" \
+      --username admin@$DOMAIN_NAME \
+      --user-attributes \
+        Name=email,Value=admin@$DOMAIN_NAME \
+        Name=email_verified,Value=true \
+        Name=given_name,Value=Admin \
+        Name=family_name,Value=User \
+        Name=phone_number,Value=+15551234567 \
+      --temporary-password AdminPass123! \
+      --message-action SUPPRESS
 
   echo "Adding Admin User to AdminUserGroup"
   aws cognito-idp admin-add-user-to-group \
