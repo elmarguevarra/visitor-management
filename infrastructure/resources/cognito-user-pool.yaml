@@ -13,7 +13,7 @@ Resources:
   CognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
-      UserPoolName: VisitorManagementCognitoUserPool #TODO: base on stack name
+      UserPoolName: !Sub "${AWS::StackName}-CognitoUserPool"
       Schema:
         - Name: "given_name"
           Required: true

@@ -13,7 +13,7 @@ Resources:
   CognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
-      ClientName: VisitorManagementCognitoClient #TODO: base on stack name
+      ClientName: !Sub "${AWS::StackName}-CognitoClient"
       UserPoolId: !ImportValue CognitoUserPool
       AllowedOAuthFlowsUserPoolClient: true
       AllowedOAuthFlows:
