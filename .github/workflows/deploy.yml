@@ -30,3 +30,4 @@ jobs:
           AWS_REGION: ap-southeast-1
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          COGNITO_ADMIN_INIT_PASSWORD: ${{secrets.COGNITO_ADMIN_INIT_PASSWORD}}

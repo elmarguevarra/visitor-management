@@ -125,8 +125,7 @@ else
         Name=email_verified,Value=true \
         Name=given_name,Value=Admin \
         Name=family_name,Value=User \
-        Name=phone_number,Value=+15551234567 \
-      --temporary-password AdminPass123! \
+      --temporary-password $COGNITO_ADMIN_INIT_PASSWORD \
       --message-action SUPPRESS
 
   echo "Adding Admin User to AdminUserGroup"
