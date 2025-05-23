@@ -45,7 +45,10 @@
                 : formData.Group
             "
             readonly
-            :class="{ 'text-muted': !authenticationStore.userGroup }"
+            :class="{
+              'text-muted':
+                !formData.userGroup || formData.Group.includes('Google'),
+            }"
           />
         </div>
         <div
