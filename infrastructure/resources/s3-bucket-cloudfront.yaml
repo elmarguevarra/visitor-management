@@ -111,7 +111,7 @@ Resources:
     Type: AWS::CloudFront::OriginAccessControl
     Properties:
       OriginAccessControlConfig:
-        Name: !Sub "OAC-${AWS::StackName}"
+        Name: !Sub "OAC-${AWS::StackName}" # NOTE: Max of 128 characters. Will cause "Invalid Request" on creation
         OriginAccessControlOriginType: s3
         SigningBehavior: always
         SigningProtocol: sigv4
