@@ -83,7 +83,6 @@ sam_deploy_output=$(
         AcmCertificateArn=$existing_cert_arn \
         GoogleClientId=$GOOGLE_CLIENT_ID \
         GoogleClientSecret=$GOOGLE_CLIENT_SECRET \
-    --disable-rollback \
     2>&1
 )
 

@@ -38,7 +38,7 @@ Resources:
         - email
       AutoVerifiedAttributes:
         - email
-      # DeletionProtection: ACTIVE
+      DeletionProtection: ACTIVE
 
   AdminUserGroup:
     Type: AWS::Cognito::UserPoolGroup
