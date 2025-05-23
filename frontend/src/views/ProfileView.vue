@@ -39,7 +39,11 @@
             type="text"
             class="form-control"
             id="Group"
-            :value="formData.Group ?? 'Reviewing...'"
+            :value="
+              !formData.Group || formData.Group.includes('Google')
+                ? 'Reviewing...'
+                : formData.Group
+            "
             readonly
             :class="{ 'text-muted': !authenticationStore.userGroup }"
           />
@@ -73,7 +77,7 @@ export default {
       Id: authenticationStore.userEmail,
       Name: `${authenticationStore.userGivenName} ${authenticationStore.userFamilyName}`,
       Contact: authenticationStore.userPhoneNumber,
-      Group: authenticationStore.userGroup?.includes('Google') ?? undefined,
+      Group: authenticationStore.userGroup,
     })
 
     return {
