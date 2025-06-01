@@ -47,30 +47,31 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
       - name: Plan Deploy Backend and Infra
         id: plan
-        run: |
-          has_changes=$(./plan_deploy_backend_and_infra.sh | tail -n 1)
-          echo "has-changes=$has_changes" >> $GITHUB_OUTPUT
+        # run: |
+        #   has_changes=$(./plan_deploy_backend_and_infra.sh | tail -n 1)
+        #   echo "has-changes=$has_changes" >> $GITHUB_OUTPUT
+        run: ./plan_deploy_backend_and_infra.sh
 
-  deploy-backend-and-infra:
-    runs-on: ubuntu-latest
-    needs: plan-deploy-backend-and-infra
-    if: needs.plan-deploy-backend-and-infra.outputs.has-changes == 'true'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
-          cache: "npm"
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-      - name: Deploy Backend and Infra
-        run: ./deploy_backend_and_infra.sh
+  # deploy-backend-and-infra:
+  #   runs-on: ubuntu-latest
+  #   needs: plan-deploy-backend-and-infra
+  #   if: needs.plan-deploy-backend-and-infra.outputs.has-changes == 'true'
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "20"
+  #         cache: "npm"
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: ${{ env.AWS_REGION }}
+  #     - name: Deploy Backend and Infra
+  #       run: ./deploy_backend_and_infra.sh
 
   # deploy-frontend:
   #   runs-on: ubuntu-latest
