@@ -3,8 +3,14 @@ name: Deploy to Production
 # Trigger the workflow only on push to the main branch
 on:
   push:
-    branches:
-      - main
+    # branches:
+    #   - main
+    paths:
+      - "backend/**"
+      - "frontend/**"
+      - "deploy.sh"
+      - "deploy_frontend.sh"
+      - ".github/workflows/deploy.yml"
 
 jobs:
   deploy:
