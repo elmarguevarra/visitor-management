@@ -53,39 +53,20 @@ set +e
 
 echo "Running: sam deploy --no-execute-changeset"
 
-sam_deploy_output=$(
-  sam deploy \
-    --no-execute-changeset \
-    --stack-name "$STACK_NAME" \
-    --region "$AWS_REGION" \
-    --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
-    --parameter-overrides \
-        BaseDomain=$DOMAIN_NAME \
-        SubDomain=$SUB_DOMAIN \
-        CognitoCustomDomainName=$COGNITO_CUSTOM_DOMAIN_NAME \
-        CreateHostedZone=$create_hosted_zone \
-        HostedZoneId=$hosted_zone_id \
-        AcmCertificateArn=$existing_cert_arn \
-        GoogleClientId=$GOOGLE_CLIENT_ID \
-        GoogleClientSecret=$GOOGLE_CLIENT_SECRET \
-    2>&1
-)
+sam deploy \
+  --no-execute-changeset \
+  --stack-name "$STACK_NAME" \
+  --region "$AWS_REGION" \
+  --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
+  --parameter-overrides \
+      BaseDomain=$DOMAIN_NAME \
+      SubDomain=$SUB_DOMAIN \
+      CognitoCustomDomainName=$COGNITO_CUSTOM_DOMAIN_NAME \
+      CreateHostedZone=$create_hosted_zone \
+      HostedZoneId=$hosted_zone_id \
+      AcmCertificateArn=$existing_cert_arn \
+      GoogleClientId=$GOOGLE_CLIENT_ID \
+      GoogleClientSecret=$GOOGLE_CLIENT_SECRET \
+  2>&1
 
-sam_deploy_exit_code=$?
-echo "$sam_deploy_output"
 set -e
-
-if [ $sam_deploy_exit_code -ne 0 ]; then
-  echo "SAM Plan Deploy failed with exit code: $sam_deploy_exit_code"
-  # Check if the failure was due to no changes detected
-  if echo "$sam_deploy_output" | grep -q "No changes to deploy"; then
-    echo "No infrastructure changes detected."
-  else
-    echo "An actual error occurred during SAM plan deployment. Stopping."
-    echo "Error details:"
-    echo "$sam_deploy_output"
-    exit 1
-  fi
-else
-  echo "Backend and Infra plan deployment (SAM) successful."
-fi

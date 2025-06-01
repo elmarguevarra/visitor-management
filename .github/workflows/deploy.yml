@@ -49,7 +49,7 @@ jobs:
         id: plan
         run: |
           output=$(./plan_deploy_backend_and_infra.sh)
-          if echo "$output" | grep -q "No infrastructure changes detected"; then
+          if echo "$output" | grep -q "No changes to deploy"; then
             echo "has-changes=false" >> $GITHUB_OUTPUT
           else
             echo "has-changes=true" >> $GITHUB_OUTPUT
