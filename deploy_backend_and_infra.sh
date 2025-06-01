@@ -1,24 +1,10 @@
-#!/bin/bash
-# This script builds and deploys the backend using AWS SAM,
-# and then deploys the frontend.
-#
-# It assumes you have:
-# - AWS CLI configured with appropriate credentials.
-# - SAM CLI installed.
-# - A deploy_frontend.sh script in the same directory.
-# - STACK_NAME and AWS_REGION environment variables set.
+set -e 
 
-set -e  # Exit immediately if a command exits with a non-zero status.
-# set -x # Uncomment this line to enable verbose output (for debugging).
-
-## ----- Function Definitions -----
-# Function to get an output value from a CloudFormation stack
 get_stack_output() {
   local output_key="$1"
   aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query "Stacks[0].Outputs[?OutputKey=='$output_key'].OutputValue" --output text
 }
 
-## ----- Backend Deployment (SAM) -----
 export STACK_NAME="visitor-management"
 export DOMAIN_NAME="alphinecodetech.click"
 export SUB_DOMAIN=vms.$DOMAIN_NAME
@@ -26,11 +12,12 @@ export APP_FRONTEND_BASE_URL=https://$SUB_DOMAIN
 export COGNITO_CUSTOM_DOMAIN_NAME=login.vms.$DOMAIN_NAME
 
 echo "Building and deploying the SAM application (backend)..."
+
+## === Backend Build (SAM) ===
 echo "Running: sam build"
 sam build
-echo "Running: sam deploy --stack-name \"$STACK_NAME\""
 
-echo "AWS_REGION is: $AWS_REGION"
+## === Infra Deployment (SAM) ===
 
 # --- Hosted Zone ---
 domain_name_r53="${DOMAIN_NAME}."
@@ -69,6 +56,9 @@ fi
 
 # --- Deploy Main Application Stack ---
 set +e
+
+echo "Running: sam deploy"
+
 sam_deploy_output=$(
   sam deploy \
     --stack-name "$STACK_NAME" \
@@ -102,7 +92,7 @@ if [ $sam_deploy_exit_code -ne 0 ]; then
     exit 1
   fi
 else
-  echo "Backend deployment (SAM) successful. Proceeding with frontend deployment..."
+  echo "Backend and Infra deployment (SAM) successful. Proceeding Cognito User creation..."
 fi
 
 # --- Cognito User Creation---
@@ -133,14 +123,3 @@ else
     --username admin@$DOMAIN_NAME \
     --group-name admin
 fi
-
-
-## ----- Frontend Deployment -----
-echo "Deploying the frontend..."
-if [ -f "./deploy_frontend.sh" ]; then
-  ./deploy_frontend.sh
-else
-  echo "Error: deploy_frontend.sh not found. Skipping frontend deployment."
-fi
-
-echo "Deployment complete."
