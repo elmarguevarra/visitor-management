@@ -404,7 +404,7 @@ Manually empty the s3 bucket
 
 ## TODO
 
-Update Readme to add about Google login and the configuration in Google Cloud Console
+Update Readme to add about Google login and the configuration in Google Cloud Console.
 
 ## Resources
 
