@@ -43,7 +43,7 @@ jobs:
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
       - name: Deploy Backend and Infra
-        run: ./deploy_backend_and_infra.sh
+        run: ./plan_deploy_backend_and_infra.sh
 
   deploy-backend-and-infra:
     runs-on: ubuntu-latest
