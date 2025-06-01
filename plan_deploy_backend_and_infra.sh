@@ -53,7 +53,7 @@ set +e
 
 echo "Running: sam deploy --no-execute-changeset"
 
-sam deploy \
+sam_output=$(sam deploy \
   --no-execute-changeset \
   --stack-name "$STACK_NAME" \
   --region "$AWS_REGION" \
@@ -68,5 +68,14 @@ sam deploy \
       GoogleClientId=$GOOGLE_CLIENT_ID \
       GoogleClientSecret=$GOOGLE_CLIENT_SECRET \
   2>&1
+)
+
+echo "$sam_output"
+
+if echo "$sam_output" | grep -q "No changes to deploy"; then
+  echo "false"
+else
+  echo "true"
+fi
 
 set -e
