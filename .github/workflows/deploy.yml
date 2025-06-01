@@ -27,35 +27,10 @@ env:
   COGNITO_ADMIN_INIT_PASSWORD: ${{ secrets.COGNITO_ADMIN_INIT_PASSWORD }}
 
 jobs:
-  plan-deploy-backend-and-infra:
-    runs-on: ubuntu-latest
-    outputs:
-      has-changes: ${{ steps.plan.outputs.has-changes }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
-          cache: "npm"
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-      - name: Plan Deploy Backend and Infra
-        id: plan
-        # run: |
-        #   has_changes=$(./plan_deploy_backend_and_infra.sh | tail -n 1)
-        #   echo "has-changes=$has_changes" >> $GITHUB_OUTPUT
-        run: ./plan_deploy_backend_and_infra.sh
-
-  # deploy-backend-and-infra:
+  # plan-deploy-backend-and-infra:
   #   runs-on: ubuntu-latest
-  #   needs: plan-deploy-backend-and-infra
-  #   if: needs.plan-deploy-backend-and-infra.outputs.has-changes == 'true'
+  #   outputs:
+  #     has-changes: ${{ steps.plan.outputs.has-changes }}
   #   steps:
   #     - name: Checkout code
   #       uses: actions/checkout@v3
@@ -70,26 +45,51 @@ jobs:
   #         aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
   #         aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
   #         aws-region: ${{ env.AWS_REGION }}
-  #     - name: Deploy Backend and Infra
-  #       run: ./deploy_backend_and_infra.sh
+  #     - name: Plan Deploy Backend and Infra
+  #       id: plan
+  #       # run: |
+  #       #   has_changes=$(./plan_deploy_backend_and_infra.sh | tail -n 1)
+  #       #   echo "has-changes=$has_changes" >> $GITHUB_OUTPUT
+  #       run: ./plan_deploy_backend_and_infra.sh
 
-  # deploy-frontend:
-  #   runs-on: ubuntu-latest
-  #   if: ${{ github.event.head_commit.message != 'skip frontend' }}
-  #   needs: deploy-backend-and-infra
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
-  #     - name: Set up Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: "20"
-  #         cache: "npm"
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: ${{ env.AWS_REGION }}
-  #     - name: Run deploy script
-  #       run: ./deploy_frontend.sh
+  deploy-backend-and-infra:
+    runs-on: ubuntu-latest
+    # needs: plan-deploy-backend-and-infra
+    # if: needs.plan-deploy-backend-and-infra.outputs.has-changes == 'true'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+          cache: "npm"
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Deploy Backend and Infra
+        run: ./scripts/deploy_backend_and_infra.sh
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.head_commit.message != 'skip frontend' }}
+    needs: deploy-backend-and-infra
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+          cache: "npm"
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Run deploy script
+        run: ./scripts/deploy_frontend.sh
