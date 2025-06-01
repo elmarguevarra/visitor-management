@@ -5,13 +5,13 @@ get_stack_output() {
   aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query "Stacks[0].Outputs[?OutputKey=='$output_key'].OutputValue" --output text
 }
 
-echo "Building and deploying the SAM application (backend)..."
+echo "Plan deploy SAM application (backend)..."
 
 ## === Backend Build (SAM) ===
 echo "Running: sam build"
 sam build
 
-## === Infra Deployment (SAM) ===
+## === Infra Plan Deployment (SAM) ===
 
 # --- Hosted Zone ---
 domain_name_r53="${DOMAIN_NAME}."
@@ -48,13 +48,14 @@ else
   echo "Public Certificate exists: $existing_cert_arn"
 fi
 
-# --- Deploy Main Application Stack ---
+# --- Plan Deploy Main Application Stack ---
 set +e
 
-echo "Running: sam deploy"
+echo "Running: sam deploy --no-execute-changeset"
 
 sam_deploy_output=$(
   sam deploy \
+    --no-execute-changeset \
     --stack-name "$STACK_NAME" \
     --region "$AWS_REGION" \
     --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
@@ -75,45 +76,16 @@ echo "$sam_deploy_output"
 set -e
 
 if [ $sam_deploy_exit_code -ne 0 ]; then
-  echo "SAM Deploy failed with exit code: $sam_deploy_exit_code"
+  echo "SAM Plan Deploy failed with exit code: $sam_deploy_exit_code"
   # Check if the failure was due to no changes detected
   if echo "$sam_deploy_output" | grep -q "No changes to deploy"; then
     echo "No infrastructure changes detected."
   else
-    echo "An actual error occurred during SAM deployment. Stopping."
+    echo "An actual error occurred during SAM plan deployment. Stopping."
     echo "Error details:"
     echo "$sam_deploy_output"
     exit 1
   fi
 else
-  echo "Backend and Infra deployment (SAM) successful. Proceeding Cognito User creation..."
-fi
-
-# --- Cognito User Creation---
-user_pool_id=$(get_stack_output "UserPoolId")
-echo "User Pool Id: $user_pool_id"
-
-echo "Checking if admin user already exists..."
-if aws cognito-idp admin-get-user \
-  --user-pool-id "$user_pool_id" \
-  --username admin@$DOMAIN_NAME 2>/dev/null; then
-  echo "Admin user already exists. Skipping creation."
-else
-  echo "Creating Admin User"
-  aws cognito-idp admin-create-user \
-      --user-pool-id "$user_pool_id" \
-      --username admin@$DOMAIN_NAME \
-      --user-attributes \
-        Name=email,Value=admin@$DOMAIN_NAME \
-        Name=email_verified,Value=true \
-        Name=given_name,Value=Admin \
-        Name=family_name,Value=User \
-      --temporary-password $COGNITO_ADMIN_INIT_PASSWORD \
-      --message-action SUPPRESS
-
-  echo "Adding Admin User to AdminUserGroup"
-  aws cognito-idp admin-add-user-to-group \
-    --user-pool-id "$user_pool_id" \
-    --username admin@$DOMAIN_NAME \
-    --group-name admin
+  echo "Backend and Infra plan deployment (SAM) successful."
 fi
