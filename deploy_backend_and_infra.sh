@@ -55,6 +55,7 @@ echo "Running: sam deploy"
 
 sam_deploy_output=$(
   sam deploy \
+    --no-execute-changeset \
     --stack-name "$STACK_NAME" \
     --region "$AWS_REGION" \
     --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
@@ -78,7 +79,7 @@ if [ $sam_deploy_exit_code -ne 0 ]; then
   echo "SAM Deploy failed with exit code: $sam_deploy_exit_code"
   # Check if the failure was due to no changes detected
   if echo "$sam_deploy_output" | grep -q "No changes to deploy"; then
-    echo "No infrastructure changes detected. Proceeding with frontend deployment."
+    echo "No infrastructure changes detected."
   else
     echo "An actual error occurred during SAM deployment. Stopping."
     echo "Error details:"
