@@ -15,7 +15,7 @@ on:
 jobs:
   deploy-backend-and-infra:
     runs-on: ubuntu-latest
-    if: ${{ github.event.head_commit.message != 'skip backend' }}
+    # if: ${{ github.event.head_commit.message != 'skip backend' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -43,7 +43,8 @@ jobs:
 
   deploy-frontend:
     runs-on: ubuntu-latest
-    if: ${{ github.event.head_commit.message != 'skip frontend' }}
+    # if: ${{ github.event.head_commit.message != 'skip frontend' }}
+    needs: deploy-backend-and-infra
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
