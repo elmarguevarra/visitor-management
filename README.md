@@ -88,6 +88,20 @@ For security, it is recommended to restrict the Allowed Origin value to restrict
 
 - Configuring CORS for an HTTP API - [Configuring CORS for an HTTP API](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html).
 
+  - e.g.
+
+  ```javascript
+  const response = {
+    statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Origin": "http://vms.alphinecodetech.click",
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+    },
+    body: JSON.stringify(item),
+  };
+  ```
+
 ## Use the AWS SAM CLI to build and test locally
 
 Build your application by using the `sam build` command.
@@ -319,20 +333,78 @@ visitor-management$ npm install
 visitor-management$ npm run test
 ```
 
+```bash
+sam delete --stack-name visitor-management
+```
+
+## Deployment Pre-requisites
+
+### Secrets
+
+Configure the Secrets In Repository Actions
+
+<img src="actions-secrets.png" alt="Github Actions Secret" width="50%">
+
+## Operational Configuration
+
+This system uses AWS console as user management system. An AWS console user called `workforce identity` under the root user should be created to manage users e.g. group assignment.
+
+### Create Workforce Identities
+
+Users can be organized into groups, and permission sets are assigned to these groups (or directly to users) to grant them access to specific AWS accounts within your AWS Organization and to applications.
+
+Make sure you are in the right region
+
+1. In AWS console go to IAM/Policies
+2. Creae a policy named `CognitoUserPoolUserAndGroupManagerPolicy` with the following permissions
+   ```json
+   {
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Sid": "VisualEditor0",
+         "Effect": "Allow",
+         "Action": [
+           "cognito-idp:AdminDeleteUser",
+           "cognito-idp:ListUsersInGroup",
+           "cognito-idp:DescribeUserPool",
+           "cognito-idp:ListGroups",
+           "cognito-idp:AdminDisableUser",
+           "cognito-idp:AdminRemoveUserFromGroup",
+           "cognito-idp:AdminAddUserToGroup",
+           "cognito-idp:AdminListGroupsForUser",
+           "cognito-idp:AdminGetUser",
+           "cognito-idp:AdminResetUserPassword",
+           "cognito-idp:ListUserImportJobs",
+           "cognito-idp:ListUsers"
+         ],
+         "Resource": "arn:aws:cognito-idp:ap-southeast-1:121216464768:userpool/ap-southeast-1_Riz1Rkjzd"
+       },
+       {
+         "Sid": "VisualEditor1",
+         "Effect": "Allow",
+         "Action": "cognito-idp:ListUserPools",
+         "Resource": "*"
+       }
+     ]
+   }
+   ```
+3. In AWS console go to IAM Identity Center/Users then Add user named `cognito-user-admin`
+4. On the left side pane go to Permission sets then attach the custom policy `CognitoUserPoolUserAndGroupManagerPolicy`
+5. On the left side pane go to AWS accounts attach the permission set to `cognito-user-admin`
+6. On the left side pane go to Settings then get the `AWS access portal URL` (e.g.`https://d-9667b2f6d3.awsapps.com/start`). This is where the admin of system can login to manage other system users
+
+<img src="aws-access-portal.png" alt="AWS Access Portal" width="50%">
+
 ## Cleanup
 
 To delete the sample application that you created, use the AWS CLI. Assuming you used your project name for the stack name, you can run the following:
 
 Manually empty the s3 bucket
 
-```bash
-sam delete --stack-name visitor-management
-```
+## TODO
 
-## Notes:
-
-Configure the Secrets In Repository Actions
-![alt text](actions-secrets.png)
+Update Readme to add about Google login and the configuration in Google Cloud Console
 
 ## Resources
 
