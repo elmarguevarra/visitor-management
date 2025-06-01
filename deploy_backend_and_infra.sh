@@ -5,12 +5,6 @@ get_stack_output() {
   aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query "Stacks[0].Outputs[?OutputKey=='$output_key'].OutputValue" --output text
 }
 
-export STACK_NAME="visitor-management"
-export DOMAIN_NAME="alphinecodetech.click"
-export SUB_DOMAIN=vms.$DOMAIN_NAME
-export APP_FRONTEND_BASE_URL=https://$SUB_DOMAIN
-export COGNITO_CUSTOM_DOMAIN_NAME=login.vms.$DOMAIN_NAME
-
 echo "Building and deploying the SAM application (backend)..."
 
 ## === Backend Build (SAM) ===
