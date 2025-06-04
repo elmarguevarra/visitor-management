@@ -36,7 +36,9 @@ export const useAuthenticationStore = defineStore('authentication', {
         this.userGivenName = profile?.given_name
         this.userFamilyName = profile?.family_name
         this.userPhoneNumber = profile?.phone_number
-        this.userGroup = profile?.['cognito:groups']?.[0]
+
+        const groups = profile?.['cognito:groups'] || []
+        this.userGroup = groups.find((g) => !g.endsWith('_Google'))
       } catch (err) {
         this.isLoggedIn = false
         console.error('Auth check failed:', err)
