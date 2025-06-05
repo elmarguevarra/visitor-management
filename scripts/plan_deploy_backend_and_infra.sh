@@ -73,9 +73,9 @@ sam_output=$(sam deploy \
 echo "$sam_output"
 
 if echo "$sam_output" | grep -q "No changes to deploy"; then
-  echo "false"
+  echo "No changes to deploy"
+  echo "has-changes=false" >> "$GITHUB_OUTPUT"
 else
-  echo "true"
+  echo "Changes detected"
+  echo "has-changes=true" >> "$GITHUB_OUTPUT"
 fi
-
-set -e
