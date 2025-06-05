@@ -57,6 +57,7 @@ sam_output=$(sam deploy \
   --no-execute-changeset \
   --stack-name "$STACK_NAME" \
   --region "$AWS_REGION" \
+  --s3-prefix visitor-management \
   --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \
   --parameter-overrides \
       BaseDomain=$DOMAIN_NAME \
