@@ -20,9 +20,6 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 const tableName = process.env.INVITE_LINKS_TABLE;
 const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
 
-/**
- * A simple example includes an HTTP GET method to get one item by id from a DynamoDB table.
- */
 export const getInviteByTokenHandler = async (event) => {
   if (event.httpMethod !== "GET") {
     throw new Error(
