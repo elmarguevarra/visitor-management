@@ -47,7 +47,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
       - name: Plan Deploy Backend and Infra
         id: plan
-        run: ./plan_deploy_backend_and_infra.sh
+        run: ./scripts/plan_deploy_backend_and_infra.sh
 
   deploy-backend-and-infra:
     runs-on: ubuntu-latest
