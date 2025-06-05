@@ -8,9 +8,7 @@ on:
     paths:
       - "backend/**"
       - "frontend/**"
-      - "plan_deploy_backend_and_infra.sh"
-      - "deploy_backend_and_infra.sh"
-      - "deploy_frontend.sh"
+      - "scripts/**"
       - ".github/workflows/deploy.yml"
 
 env:
