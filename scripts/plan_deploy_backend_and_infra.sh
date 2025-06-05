@@ -9,7 +9,7 @@ echo "Plan deploy SAM application (backend)..."
 
 ## === Backend Build (SAM) ===
 echo "Running: sam build"
-sam build
+sam build --cached
 
 ## === Infra Plan Deployment (SAM) ===
 
