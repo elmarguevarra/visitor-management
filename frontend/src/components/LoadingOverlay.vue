@@ -6,12 +6,7 @@
   </div>
 </template>
 
-<script setup>
-import { useUiStore } from '@/stores/ui' // Adjust the path to your Pinia store
-
-const uiStore = useUiStore()
-const isLoading = uiStore.isLoading // Directly use the reactive property from the store
-</script>
+<script setup></script>
 
 <style scoped>
 .loading-overlay {
