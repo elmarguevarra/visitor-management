@@ -4,7 +4,14 @@ import axios from 'axios'
 const API_BASE = process.env.VUE_APP_API_ENDPOINT || ''
 
 export async function postVisitor(data: any): Promise<any> {
-  const response = await axios.post(`${API_BASE}visitor`, data)
+  const authenticationStore = useAuthenticationStore()
+  const id_token = authenticationStore.user?.id_token
+
+  const response = await axios.post(`${API_BASE}visitor`, data, {
+    headers: {
+      Authorization: `Bearer ${id_token}`,
+    },
+  })
   return response.data
 }
 
@@ -21,7 +28,14 @@ export async function postInvite(data: any): Promise<any> {
 }
 
 export async function postVisitRequest(data: any): Promise<any> {
-  const response = await axios.post(`${API_BASE}visit-request`, data)
+  const authenticationStore = useAuthenticationStore()
+  const id_token = authenticationStore.user?.id_token
+
+  const response = await axios.post(`${API_BASE}visit-request`, data, {
+    headers: {
+      Authorization: `Bearer ${id_token}`,
+    },
+  })
   return response.data
 }
 
