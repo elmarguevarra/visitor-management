@@ -9,7 +9,14 @@ export async function postVisitor(data: any): Promise<any> {
 }
 
 export async function postInvite(data: any): Promise<any> {
-  const response = await axios.post(`${API_BASE}invite`, data)
+  const authenticationStore = useAuthenticationStore()
+  const id_token = authenticationStore.user?.id_token
+
+  const response = await axios.post(`${API_BASE}invite`, data, {
+    headers: {
+      Authorization: `Bearer ${id_token}`,
+    },
+  })
   return response.data
 }
 
