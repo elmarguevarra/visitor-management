@@ -43,20 +43,20 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
       - name: Set up Node.js
-        # if: steps.backend_check.outputs.changed == 'true'
+        if: steps.backend_check.outputs.changed == 'true'
         uses: actions/setup-node@v3
         with:
           node-version: "20"
           cache: "npm"
       - name: Configure AWS credentials
-        # if: steps.backend_check.outputs.changed == 'true'
+        if: steps.backend_check.outputs.changed == 'true'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
       - name: Deploy Backend and Infra
-        # if: steps.backend_check.outputs.changed == 'true'
+        if: steps.backend_check.outputs.changed == 'true'
         run: ./scripts/deploy_backend_and_infra.sh
 
   deploy-frontend:

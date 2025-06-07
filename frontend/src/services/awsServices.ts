@@ -10,7 +10,7 @@ export async function evaluatePermissions(
   actions: string[] | undefined,
 ): Promise<any> {
   const authenticationStore = useAuthenticationStore()
-  const token = authenticationStore.user?.access_token
+  const id_token = authenticationStore.user?.id_token
 
   const params = new URLSearchParams()
   params.append('principalId', userGroup ?? defaultUserGroup)
@@ -26,7 +26,7 @@ export async function evaluatePermissions(
 
   const response = await axios.get(url, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${id_token}`,
     },
   })
 
