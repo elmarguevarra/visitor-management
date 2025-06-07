@@ -38,8 +38,16 @@ export async function getVisitorsByResidentId(
 export async function getVisitRequestsByResidentId(
   residentId: string,
 ): Promise<any> {
+  const authenticationStore = useAuthenticationStore()
+  const id_token = authenticationStore.user?.id_token
+
   const response = await axios.get(
     `${API_BASE}visit-requests?residentId=${residentId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${id_token}`,
+      },
+    },
   )
   return response.data
 }
@@ -47,18 +55,39 @@ export async function getVisitRequestsByResidentId(
 export async function getVisitorByRegistrationId(
   registrationId: string,
 ): Promise<any> {
-  const response = await axios.get(`${API_BASE}visitor/${registrationId}`)
+  const authenticationStore = useAuthenticationStore()
+  const id_token = authenticationStore.user?.id_token
+
+  const response = await axios.get(`${API_BASE}visitor/${registrationId}`, {
+    headers: {
+      Authorization: `Bearer ${id_token}`,
+    },
+  })
   return response.data
 }
 
 export async function getInviteByToken(inviteToken: string): Promise<any> {
-  const response = await axios.get(`${API_BASE}invite/${inviteToken}`)
+  const authenticationStore = useAuthenticationStore()
+  const id_token = authenticationStore.user?.id_token
+
+  const response = await axios.get(`${API_BASE}invite/${inviteToken}`, {
+    headers: {
+      Authorization: `Bearer ${id_token}`,
+    },
+  })
   return response.data
 }
 
 export async function getVisitRequestByToken(
   inviteToken: string,
 ): Promise<any> {
-  const response = await axios.get(`${API_BASE}visit-request/${inviteToken}`)
+  const authenticationStore = useAuthenticationStore()
+  const id_token = authenticationStore.user?.id_token
+
+  const response = await axios.get(`${API_BASE}visit-request/${inviteToken}`, {
+    headers: {
+      Authorization: `Bearer ${id_token}`,
+    },
+  })
   return response.data
 }
