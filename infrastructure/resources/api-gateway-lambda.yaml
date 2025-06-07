@@ -331,6 +331,8 @@ Resources:
             Path: /visit-request
             Method: POST
             RestApiId: !Ref ApiGatewayApi
+            Auth:
+              Authorizer: NONE
 
 Outputs:
   ApiGatewayApi:
