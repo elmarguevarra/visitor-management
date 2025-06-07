@@ -69,3 +69,7 @@ Outputs:
     Value: !Ref CognitoUserPool
     Export:
       Name: CognitoUserPool
+  CognitoUserPoolArn:
+    Value: !GetAtt CognitoUserPool.Arn
+    Export:
+      Name: CognitoUserPoolArn
