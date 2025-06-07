@@ -37,7 +37,7 @@ jobs:
       - name: Check for backend changes
         id: backend_check
         run: |
-          if git diff --name-only HEAD^ HEAD | grep -E '^(backend/|scripts/deploy_backend_and_infra.sh)'; then
+          if git diff --name-only HEAD^ HEAD | grep -E '^(backend/|scripts/deploy_backend_and_infra.sh|template.yaml|infrastructure/)'; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
             echo "changed=false" >> $GITHUB_OUTPUT
