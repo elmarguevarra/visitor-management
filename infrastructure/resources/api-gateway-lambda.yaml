@@ -196,6 +196,9 @@ Resources:
             Path: /invite/{inviteToken}
             Method: GET
             RestApiId: !Ref ApiGatewayApi
+          Auth:
+            Authorizer: NONE
+
 
   # This is a Lambda function config associated with the source code: get-visit-request-by-token.mjs
   getVisitRequestByTokenFunction:
