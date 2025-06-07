@@ -19,6 +19,7 @@ import { useAuthorizationStore } from './stores/authorizationStore'
 import RestrictedView from './views/RestrictedView.vue'
 import { Action, ACTIONS } from './constants/actions'
 import SearchVisitorView from './views/SearchVisitorView.vue'
+import LoadingOverlay from './components/LoadingOverlay.vue'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -103,7 +104,10 @@ const routes = [
     path: '/signin-callback',
     name: 'SignInCallback',
     component: {
-      template: '<div>Processing login...</div>',
+      components: {
+        LoadingOverlay,
+      },
+      template: `<LoadingOverlay />`,
       async created() {
         const router = useRouter()
         try {
