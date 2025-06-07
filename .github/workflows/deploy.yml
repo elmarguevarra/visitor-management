@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - "*[deploy]*"
     paths:
       - "template.yaml"
       - "infrastructure/**"
@@ -43,20 +44,20 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
       - name: Set up Node.js
-        if: steps.backend_check.outputs.changed == 'true'
+        if: steps.backend_check.outputs.changed == 'true' || contains(github.event.head_commit.message, 'deploy backend')
         uses: actions/setup-node@v3
         with:
           node-version: "20"
           cache: "npm"
       - name: Configure AWS credentials
-        if: steps.backend_check.outputs.changed == 'true'
+        if: steps.backend_check.outputs.changed == 'true' || contains(github.event.head_commit.message, 'deploy backend')
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
       - name: Deploy Backend and Infra
-        if: steps.backend_check.outputs.changed == 'true'
+        if: steps.backend_check.outputs.changed == 'true' || contains(github.event.head_commit.message, 'deploy backend')
         run: ./scripts/deploy_backend_and_infra.sh
 
   deploy-frontend:
@@ -76,18 +77,18 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
       - name: Set up Node.js
-        if: steps.frontend_check.outputs.changed == 'true'
+        if: steps.frontend_check.outputs.changed == 'true' || contains(github.event.head_commit.message, 'deploy frontend')
         uses: actions/setup-node@v3
         with:
           node-version: "20"
           cache: "npm"
       - name: Configure AWS credentials
-        if: steps.frontend_check.outputs.changed == 'true'
+        if: steps.frontend_check.outputs.changed == 'true' || contains(github.event.head_commit.message, 'deploy frontend')
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
       - name: Run deploy script
-        if: steps.frontend_check.outputs.changed == 'true'
+        if: steps.frontend_check.outputs.changed == 'true' || contains(github.event.head_commit.message, 'deploy frontend')
         run: ./scripts/deploy_frontend.sh
