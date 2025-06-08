@@ -19,6 +19,7 @@ import RestrictedView from './views/RestrictedView.vue'
 import { Action, ACTIONS } from './constants/actions'
 import SearchVisitorView from './views/SearchVisitorView.vue'
 import LoadingOverlay from './components/LoadingOverlay.vue'
+import { useUiStore } from './stores/uiStore'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -170,11 +171,13 @@ app.use(pinia)
 
 const authenticationStore = useAuthenticationStore()
 const authorizationStore = useAuthorizationStore()
+const uiStore = useUiStore()
 
 app.mount('#app')
 
 if (process.env.NODE_ENV !== 'development') {
   router.beforeEach(async (to, from, next) => {
+    uiStore.isLoading = true
     if (!to.meta.requiresAuthentication) {
       return next()
     }
@@ -195,5 +198,8 @@ if (process.env.NODE_ENV !== 'development') {
         next()
       }
     }
+  })
+  router.afterEach(() => {
+    uiStore.isLoading = false
   })
 }
