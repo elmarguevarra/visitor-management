@@ -162,6 +162,8 @@ if (process.env.NODE_ENV !== 'development') {
     }
   })
   router.afterEach(() => {
-    uiStore.isLoading = false
+    setTimeout(() => {
+      uiStore.isLoading = false
+    }, 300)
   })
 }
