@@ -1,6 +1,9 @@
 <template>
   <div class="loading-overlay">
-    <div class="spinner-grow text-primary-subtle spinner-grow-sm" role="status">
+    <div
+      class="spinner-grow text-primary opacity-75 spinner-grow-sm"
+      role="status"
+    >
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
