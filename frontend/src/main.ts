@@ -164,6 +164,6 @@ if (process.env.NODE_ENV !== 'development') {
   router.afterEach(() => {
     setTimeout(() => {
       uiStore.isLoading = false
-    }, 300)
+    }, 300) //For percieved performance
   })
 }
