@@ -1,7 +1,7 @@
 <template>
   <div class="loading-overlay">
-    <div class="spinner-grow text-primary" role="status">
-      <span class="sr-only">Loading...</span>
+    <div class="spinner-grow text-primary-subtle spinner-grow-sm" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
   </div>
 </template>
