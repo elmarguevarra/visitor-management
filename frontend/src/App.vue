@@ -206,6 +206,7 @@ export default {
       ACTIONS,
       signIn: authenticationStore.signIn,
       signOut: authenticationStore.signOut,
+      LoadingOverlay,
       uiStore,
     }
   },
