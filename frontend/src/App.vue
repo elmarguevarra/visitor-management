@@ -187,6 +187,7 @@ import { useUiStore } from './stores/uiStore'
 
 export default {
   name: 'App',
+  components: { LoadingOverlay },
   setup() {
     const authenticationStore = useAuthenticationStore()
     const authorizationStore = useAuthorizationStore()
