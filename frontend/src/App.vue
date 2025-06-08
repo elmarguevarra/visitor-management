@@ -162,9 +162,11 @@
     </div>
 
     <main class="flex-grow-1 py-1">
-      <div class="container">
+      <div
+        class="container"
+        :class="{ 'opacity-25 pointer-events-none': uiStore.isLoading }"
+      >
         <router-view />
-        <LoadingOverlay v-if="uiStore.isLoading" />
       </div>
     </main>
 
@@ -186,7 +188,6 @@ import { useUiStore } from './stores/uiStore'
 
 export default {
   name: 'App',
-  components: { LoadingOverlay },
   setup() {
     const authenticationStore = useAuthenticationStore()
     const authorizationStore = useAuthorizationStore()
@@ -203,7 +204,6 @@ export default {
       ACTIONS,
       signIn: authenticationStore.signIn,
       signOut: authenticationStore.signOut,
-      LoadingOverlay,
       uiStore,
     }
   },

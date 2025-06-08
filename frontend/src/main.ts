@@ -20,6 +20,7 @@ import { Action, ACTIONS } from './constants/actions'
 import SearchVisitorView from './views/SearchVisitorView.vue'
 import LoadingOverlay from './components/LoadingOverlay.vue'
 import { useUiStore } from './stores/uiStore'
+import SignOutCallback from './components/SignOutCallback.vue'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -135,21 +136,7 @@ const routes = [
   {
     path: '/signout-callback',
     name: 'SignOutCallback',
-    component: {
-      components: {
-        LoadingOverlay,
-      },
-      template: `<LoadingOverlay />`,
-      async created() {
-        try {
-          await userManager.signoutRedirectCallback()
-          router.push('/')
-        } catch (error) {
-          console.error('Error handling sign-out callback:', error)
-          router.push('/')
-        }
-      },
-    },
+    component: SignOutCallback,
     meta: { requiresAuthentication: false },
   },
   {
