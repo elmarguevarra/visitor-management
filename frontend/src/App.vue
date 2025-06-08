@@ -162,10 +162,7 @@
     </div>
 
     <main class="flex-grow-1 py-1">
-      <div
-        class="container"
-        :class="{ 'opacity-25 pointer-events-none': uiStore.isLoading }"
-      >
+      <div v-if="!uiStore.isLoading" class="container">
         <router-view />
       </div>
 
