@@ -162,9 +162,14 @@
     </div>
 
     <main class="flex-grow-1 py-1">
-      <div class="container">
-        <router-view></router-view>
+      <div
+        class="container"
+        :class="{ 'opacity-25 pointer-events-none': uiStore.isLoading }"
+      >
+        <router-view />
       </div>
+
+      <LoadingOverlay v-if="uiStore.isLoading" />
     </main>
 
     <footer class="bg-light py-3 mt-4 text-center small shadow-sm text-muted">
@@ -180,12 +185,15 @@ import { onMounted } from 'vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
 import { useAuthorizationStore } from './stores/authorizationStore'
 import { ACTIONS } from './constants/actions'
+import LoadingOverlay from './components/LoadingOverlay.vue'
+import { useUiStore } from './stores/uiStore'
 
 export default {
   name: 'App',
   setup() {
     const authenticationStore = useAuthenticationStore()
     const authorizationStore = useAuthorizationStore()
+    const uiStore = useUiStore()
 
     onMounted(async () => {
       await authenticationStore.loadUser()
@@ -198,6 +206,7 @@ export default {
       ACTIONS,
       signIn: authenticationStore.signIn,
       signOut: authenticationStore.signOut,
+      uiStore,
     }
   },
 }
