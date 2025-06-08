@@ -162,11 +162,10 @@
     </div>
 
     <main class="flex-grow-1 py-1">
-      <div v-if="!uiStore.isLoading" class="container">
+      <div class="container">
         <router-view />
+        <LoadingOverlay v-if="uiStore.isLoading" />
       </div>
-
-      <LoadingOverlay v-if="uiStore.isLoading" />
     </main>
 
     <footer class="bg-light py-3 mt-4 text-center small shadow-sm text-muted">
