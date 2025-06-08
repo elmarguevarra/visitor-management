@@ -161,9 +161,17 @@
       </div>
     </div>
 
-    <main class="flex-grow-1 py-1">
+    <main
+      class="flex-grow-1 py-1"
+      :class="{ 'pointer-events-none': uiStore.isLoading }"
+    >
       <div class="container">
-        <router-view></router-view>
+        <div
+          class="router-view-fade"
+          :class="{ 'opacity-25': uiStore.isLoading }"
+        >
+          <router-view />
+        </div>
       </div>
     </main>
 
@@ -180,12 +188,14 @@ import { onMounted } from 'vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
 import { useAuthorizationStore } from './stores/authorizationStore'
 import { ACTIONS } from './constants/actions'
+import { useUiStore } from './stores/uiStore'
 
 export default {
   name: 'App',
   setup() {
     const authenticationStore = useAuthenticationStore()
     const authorizationStore = useAuthorizationStore()
+    const uiStore = useUiStore()
 
     onMounted(async () => {
       await authenticationStore.loadUser()
@@ -198,6 +208,7 @@ export default {
       ACTIONS,
       signIn: authenticationStore.signIn,
       signOut: authenticationStore.signOut,
+      uiStore,
     }
   },
 }

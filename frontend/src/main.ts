@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter, createWebHistory, useRouter } from 'vue-router'
 import RegisterVisitorView from './views/RegisterVisitorView.vue'
-import GetVisitorView from './views/GetVisitorView.vue'
 import VerifyVisitorView from './views/VerifyVisitorView.vue'
 import ListVisitorsView from './views/ListVisitorsView.vue'
 import InviteVisitorView from './views/InviteVisitorView.vue'
@@ -19,6 +18,10 @@ import { useAuthorizationStore } from './stores/authorizationStore'
 import RestrictedView from './views/RestrictedView.vue'
 import { Action, ACTIONS } from './constants/actions'
 import SearchVisitorView from './views/SearchVisitorView.vue'
+import LoadingOverlay from './components/LoadingOverlay.vue'
+import { useUiStore } from './stores/uiStore'
+import SignOutCallback from './components/SignOutCallback.vue'
+import SignInCallback from './components/SignInCallback.vue'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -102,47 +105,13 @@ const routes = [
   {
     path: '/signin-callback',
     name: 'SignInCallback',
-    component: {
-      template: '<div>Processing login...</div>',
-      async created() {
-        const router = useRouter()
-        try {
-          await userManager.signinRedirectCallback().then(async (user) => {
-            if (user) {
-              await authenticationStore.loadUser(user)
-              await authorizationStore.loadUserPermissions()
-            }
-          })
-          const redirectPath =
-            sessionStorage.getItem('postLoginRedirectPath') ||
-            (authorizationStore.hasPermissionOnAction(ACTIONS.BROWSE_VISITORS)
-              ? '/visitors'
-              : '/profile')
-          sessionStorage.removeItem('postLoginRedirectPath')
-          router.push(redirectPath)
-        } catch (error) {
-          console.error('Error handling sign-in callback:', error)
-          router.push('/login-error')
-        }
-      },
-    },
+    component: SignInCallback,
     meta: { requiresAuthentication: false },
   },
   {
     path: '/signout-callback',
     name: 'SignOutCallback',
-    component: {
-      template: '<div>Processing logout...</div>',
-      async created() {
-        try {
-          await userManager.signoutRedirectCallback()
-          router.push('/')
-        } catch (error) {
-          console.error('Error handling sign-out callback:', error)
-          router.push('/')
-        }
-      },
-    },
+    component: SignOutCallback,
     meta: { requiresAuthentication: false },
   },
   {
@@ -164,11 +133,13 @@ app.use(pinia)
 
 const authenticationStore = useAuthenticationStore()
 const authorizationStore = useAuthorizationStore()
+const uiStore = useUiStore()
 
 app.mount('#app')
 
 if (process.env.NODE_ENV !== 'development') {
   router.beforeEach(async (to, from, next) => {
+    uiStore.isLoading = true
     if (!to.meta.requiresAuthentication) {
       return next()
     }
@@ -189,5 +160,8 @@ if (process.env.NODE_ENV !== 'development') {
         next()
       }
     }
+  })
+  router.afterEach(() => {
+    uiStore.isLoading = false
   })
 }
