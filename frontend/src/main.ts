@@ -135,7 +135,10 @@ const routes = [
     path: '/signout-callback',
     name: 'SignOutCallback',
     component: {
-      template: '<div>Processing logout...</div>',
+      components: {
+        LoadingOverlay,
+      },
+      template: `<LoadingOverlay />`,
       async created() {
         try {
           await userManager.signoutRedirectCallback()

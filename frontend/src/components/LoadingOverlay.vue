@@ -29,7 +29,7 @@
 
 /* Add any additional spinner styling if needed, or rely on Bootstrap's spinner styles */
 .spinner-border {
-  width: 3rem; /* Example size */
-  height: 3rem; /* Example size */
+  width: 2rem;
+  height: 2rem;
 }
 </style>
