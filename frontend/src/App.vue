@@ -161,12 +161,17 @@
       </div>
     </div>
 
-    <main class="flex-grow-1 py-1">
-      <div
-        class="container"
-        :class="{ 'opacity-25 pointer-events-none': uiStore.isLoading }"
-      >
-        <router-view />
+    <main
+      class="flex-grow-1 py-1"
+      :class="{ 'pointer-events-none': uiStore.isLoading }"
+    >
+      <div class="container">
+        <div
+          class="router-view-fade"
+          :class="{ 'opacity-25': uiStore.isLoading }"
+        >
+          <router-view />
+        </div>
       </div>
     </main>
 

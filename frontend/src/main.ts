@@ -21,6 +21,7 @@ import SearchVisitorView from './views/SearchVisitorView.vue'
 import LoadingOverlay from './components/LoadingOverlay.vue'
 import { useUiStore } from './stores/uiStore'
 import SignOutCallback from './components/SignOutCallback.vue'
+import SignInCallback from './components/SignInCallback.vue'
 
 if (process.env.NODE_ENV === 'development') {
   require('./mocks/msw')
@@ -104,33 +105,7 @@ const routes = [
   {
     path: '/signin-callback',
     name: 'SignInCallback',
-    component: {
-      components: {
-        LoadingOverlay,
-      },
-      template: `<LoadingOverlay />`,
-      async created() {
-        const router = useRouter()
-        try {
-          await userManager.signinRedirectCallback().then(async (user) => {
-            if (user) {
-              await authenticationStore.loadUser(user)
-              await authorizationStore.loadUserPermissions()
-            }
-          })
-          const redirectPath =
-            sessionStorage.getItem('postLoginRedirectPath') ||
-            (authorizationStore.hasPermissionOnAction(ACTIONS.BROWSE_VISITORS)
-              ? '/visitors'
-              : '/profile')
-          sessionStorage.removeItem('postLoginRedirectPath')
-          router.push(redirectPath)
-        } catch (error) {
-          console.error('Error handling sign-in callback:', error)
-          router.push('/login-error')
-        }
-      },
-    },
+    component: SignInCallback,
     meta: { requiresAuthentication: false },
   },
   {
