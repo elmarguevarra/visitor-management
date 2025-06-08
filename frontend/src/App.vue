@@ -183,7 +183,6 @@ import { onMounted } from 'vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
 import { useAuthorizationStore } from './stores/authorizationStore'
 import { ACTIONS } from './constants/actions'
-import LoadingOverlay from './components/LoadingOverlay.vue'
 import { useUiStore } from './stores/uiStore'
 
 export default {
