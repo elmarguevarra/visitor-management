@@ -70,6 +70,7 @@
                   to="/profile"
                   class="nav-link py-1"
                   active-class="active"
+                  @click="closeNavbar"
                   >Profile</router-link
                 >
               </li>
@@ -81,6 +82,7 @@
                   to="/visitors"
                   class="nav-link py-1"
                   active-class="active"
+                  @click="closeNavbar"
                   >Browse</router-link
                 >
               </li>
@@ -92,6 +94,7 @@
                   to="/register-visitor"
                   class="nav-link py-1"
                   active-class="active"
+                  @click="closeNavbar"
                   >Register</router-link
                 >
               </li>
@@ -100,6 +103,7 @@
                   to="/search-visitor"
                   class="nav-link py-1"
                   active-class="active"
+                  @click="closeNavbar"
                   >Search</router-link
                 >
               </li>
@@ -108,6 +112,7 @@
                   to="/invite-visitor"
                   class="nav-link py-1"
                   active-class="active"
+                  @click="closeNavbar"
                   >Invite</router-link
                 >
               </li>
@@ -189,6 +194,7 @@ import { useAuthenticationStore } from './stores/authenticationStore'
 import { useAuthorizationStore } from './stores/authorizationStore'
 import { ACTIONS } from './constants/actions'
 import { useUiStore } from './stores/uiStore'
+import { Collapse } from 'bootstrap'
 
 export default {
   name: 'App',
@@ -201,6 +207,16 @@ export default {
       await authenticationStore.loadUser()
     })
 
+    const closeNavbar = () => {
+      const navbarCollapse = document.getElementById('navbarNav')
+      if (navbarCollapse) {
+        const bsCollapse =
+          Collapse.getInstance(navbarCollapse) ||
+          new Collapse(navbarCollapse, { toggle: false })
+        bsCollapse.hide()
+      }
+    }
+
     return {
       authenticationStore,
       authorizationStore,
@@ -209,6 +225,7 @@ export default {
       signIn: authenticationStore.signIn,
       signOut: authenticationStore.signOut,
       uiStore,
+      closeNavbar,
     }
   },
 }
@@ -259,9 +276,7 @@ header {
     z-index: 10;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     opacity: 0;
-    transition:
-      opacity 0.3s ease-in-out,
-      height 0.3s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
     overflow: hidden;
   }
 
