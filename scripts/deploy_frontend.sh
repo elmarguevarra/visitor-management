@@ -38,7 +38,7 @@ echo "--- Frontend Build and Configuration ---"
 # Move to frontend and install dependencies
 cd frontend/ || exit 1
 echo "Installing frontend dependencies (npm install)..."
-npm ci
+npm install
 
 # Create .env file if it doesn't exist
 if [ ! -f ".env" ]; then
