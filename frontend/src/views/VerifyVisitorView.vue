@@ -16,7 +16,7 @@
 
     <div v-if="isFetchDataLoading" class="alert alert-info mt-3">
       <span
-        class="spinner-border spinner-border-sm me-2"
+        class="spinner-grow spinner-grow-sm me-2"
         role="status"
         aria-hidden="true"
       ></span>
@@ -54,7 +54,7 @@
       >
         <span
           v-if="isSetArrivedDataLoading"
-          class="spinner-border spinner-border-sm me-2"
+          class="spinner-grow spinner-grow-sm me-2"
           role="status"
           aria-hidden="true"
         ></span>
@@ -85,7 +85,7 @@
       >
         <span
           v-if="isSetDepartedDataLoading"
-          class="spinner-border spinner-border-sm me-2"
+          class="spinner-grow spinner-grow-sm me-2"
           role="status"
           aria-hidden="true"
         ></span>

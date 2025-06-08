@@ -31,7 +31,7 @@
           <button type="submit" class="btn btn-primary" :disabled="isLoading">
             <span
               v-if="isLoading"
-              class="spinner-border spinner-border-sm me-2"
+              class="spinner-grow spinner-grow-sm me-2"
               role="status"
               aria-hidden="true"
             ></span>

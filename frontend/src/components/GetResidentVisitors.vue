@@ -46,7 +46,7 @@
           >
             <span
               v-if="requestLoadingStates[visitRequest.inviteToken]?.approve"
-              class="spinner-border spinner-border-sm me-2"
+              class="spinner-grow spinner-grow-sm me-2"
               role="status"
               aria-hidden="true"
             >
@@ -63,7 +63,7 @@
           >
             <span
               v-if="requestLoadingStates[visitRequest.inviteToken]?.decline"
-              class="spinner-border spinner-border-sm me-2"
+              class="spinner-grow spinner-grow-sm me-2"
               role="status"
               aria-hidden="true"
             >
