@@ -1,5 +1,7 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
+import middy from "@middy/core";
+import { verifiedpermissionsMiddleware } from "../middleware/verifiedPermissionsMiddleware.mjs";
 
 // DynamoDB Endpoint
 const ENDPOINT_OVERRIDE = process.env.ENDPOINT_OVERRIDE;
@@ -20,7 +22,7 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 const tableName = process.env.INVITE_LINKS_TABLE;
 const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
 
-export const getInviteByTokenHandler = async (event) => {
+const handler = async (event) => {
   if (event.httpMethod !== "GET") {
     throw new Error(
       `getMethod only accepts GET method, you tried: ${event.httpMethod}`
@@ -94,3 +96,7 @@ export const getInviteByTokenHandler = async (event) => {
   );
   return response;
 };
+
+export const getInviteByTokenHandler = middy(handler).use(
+  verifiedpermissionsMiddleware()
+);
