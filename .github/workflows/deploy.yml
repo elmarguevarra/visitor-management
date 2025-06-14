@@ -24,7 +24,7 @@ env:
   SUB_DOMAIN: vms.alphinecodetech.click
   APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
   COGNITO_CUSTOM_DOMAIN_NAME: login.vms.alphinecodetech.click
-  COGNITO_ADMIN_INIT_PASSWORD: ${{ secrets.COGNITO_ADMIN_INIT_PASSWORD }}
+  COGNITO_USERS_INIT_PASSWORD: ${{ secrets.COGNITO_USERS_INIT_PASSWORD }}
 
 jobs:
   deploy-backend-and-infra:

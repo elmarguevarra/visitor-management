@@ -94,7 +94,7 @@ fi
 user_pool_id=$(get_stack_output "UserPoolId")
 echo "User Pool Id: $user_pool_id"
 
-echo "Checking if admin user already exists..."
+echo "Checking if Admin user already exists..."
 if aws cognito-idp admin-get-user \
   --user-pool-id "$user_pool_id" \
   --username admin@$DOMAIN_NAME 2>/dev/null; then
@@ -109,12 +109,62 @@ else
         Name=email_verified,Value=true \
         Name=given_name,Value=Admin \
         Name=family_name,Value=User \
-      --temporary-password $COGNITO_ADMIN_INIT_PASSWORD \
+      --temporary-password $COGNITO_USERS_INIT_PASSWORD \
       --message-action SUPPRESS
 
-  echo "Adding Admin User to AdminUserGroup"
+  echo "Adding Admin User to Admin User Group"
   aws cognito-idp admin-add-user-to-group \
     --user-pool-id "$user_pool_id" \
     --username admin@$DOMAIN_NAME \
     --group-name admin
+fi
+
+echo "Checking if Guard user already exists..."
+if aws cognito-idp admin-get-user \
+  --user-pool-id "$user_pool_id" \
+  --username guard@$DOMAIN_NAME 2>/dev/null; then
+  echo "Guard user already exists. Skipping creation."
+else
+  echo "Creating Guard User"
+  aws cognito-idp admin-create-user \
+      --user-pool-id "$user_pool_id" \
+      --username guard@$DOMAIN_NAME \
+      --user-attributes \
+        Name=email,Value=guard@$DOMAIN_NAME \
+        Name=email_verified,Value=true \
+        Name=given_name,Value=Guard \
+        Name=family_name,Value=User \
+      --temporary-password $COGNITO_USERS_INIT_PASSWORD \
+      --message-action SUPPRESS
+
+  echo "Adding Guard User to Guard User Group"
+  aws cognito-idp admin-add-user-to-group \
+    --user-pool-id "$user_pool_id" \
+    --username guard@$DOMAIN_NAME \
+    --group-name guard
+fi
+
+echo "Checking if Resident user already exists..."
+if aws cognito-idp admin-get-user \
+  --user-pool-id "$user_pool_id" \
+  --username resident@$DOMAIN_NAME 2>/dev/null; then
+  echo "Resident user already exists. Skipping creation."
+else
+  echo "Creating Resident User"
+  aws cognito-idp admin-create-user \
+      --user-pool-id "$user_pool_id" \
+      --username resident@$DOMAIN_NAME \
+      --user-attributes \
+        Name=email,Value=resident@$DOMAIN_NAME \
+        Name=email_verified,Value=true \
+        Name=given_name,Value=Resident \
+        Name=family_name,Value=User \
+      --temporary-password $COGNITO_USERS_INIT_PASSWORD \
+      --message-action SUPPRESS
+
+  echo "Adding Resident User to Resident User Group"
+  aws cognito-idp admin-add-user-to-group \
+    --user-pool-id "$user_pool_id" \
+    --username resident@$DOMAIN_NAME \
+    --group-name resident
 fi
