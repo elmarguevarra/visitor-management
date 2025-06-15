@@ -16,6 +16,7 @@ if (ENDPOINT_OVERRIDE) {
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
 const tableName = process.env.VISITORS_TABLE;
+const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
 
 export const getVisitorsHandler = async (event) => {
   if (event.httpMethod !== "GET") {

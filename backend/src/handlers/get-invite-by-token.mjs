@@ -50,6 +50,11 @@ export const getInviteByTokenHandler = async (event) => {
     // Return 500 error if there's an issue with DynamoDB
     return {
       statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": frontEndBaseUrl,
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+      },
       body: JSON.stringify({
         error: "An error occurred while retrieving the invite.",
       }),
@@ -61,6 +66,11 @@ export const getInviteByTokenHandler = async (event) => {
     console.warn(`No invite found for token: ${inviteToken}`);
     return {
       statusCode: 404,
+      headers: {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": frontEndBaseUrl,
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+      },
       body: JSON.stringify({
         error: "Invite not found or has already expired.",
       }),
@@ -70,6 +80,11 @@ export const getInviteByTokenHandler = async (event) => {
   // Return the found item
   const response = {
     statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Origin": frontEndBaseUrl,
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+    },
     body: JSON.stringify(item),
   };
 

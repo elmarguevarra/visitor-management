@@ -61,11 +61,9 @@ export const getPermissionsHandler = async (event) => {
   const response = {
     statusCode: 200,
     headers: {
-      "Access-Control-Allow-Headers":
-        "Content-Type,Authorization,X-Required-Permission",
+      "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Allow-Origin": frontEndBaseUrl,
       "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
-      "Access-Control-Expose-Headers": "X-Required-Permission",
     },
     body: JSON.stringify(batchIsAuthorizedOutput),
   };
