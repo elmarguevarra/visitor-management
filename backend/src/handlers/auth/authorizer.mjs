@@ -7,6 +7,7 @@ import { verifyToken } from "./jwtVerifier.mjs";
 
 const client = new VerifiedPermissionsClient();
 const policyStoreId = process.env.POLICY_STORE_ID;
+const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
 
 export const verifiedPermissionsAuthorizerHandler = async (event) => {
   try {
@@ -14,6 +15,13 @@ export const verifiedPermissionsAuthorizerHandler = async (event) => {
     if (!token) {
       return {
         isAuthorized: false,
+        context: {
+          "Access-Control-Allow-Headers":
+            "Content-Type,Authorization,X-Required-Permission",
+          "Access-Control-Allow-Origin": frontEndBaseUrl,
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+          "Access-Control-Expose-Headers": "X-Required-Permission",
+        },
       };
     }
 
@@ -44,16 +52,37 @@ export const verifiedPermissionsAuthorizerHandler = async (event) => {
     if (authResult.decision !== "ALLOW") {
       return {
         isAuthorized: false,
+        context: {
+          "Access-Control-Allow-Headers":
+            "Content-Type,Authorization,X-Required-Permission",
+          "Access-Control-Allow-Origin": frontEndBaseUrl,
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+          "Access-Control-Expose-Headers": "X-Required-Permission",
+        },
       };
     }
 
     return {
       isAuthorized: true,
+      context: {
+        "Access-Control-Allow-Headers":
+          "Content-Type,Authorization,X-Required-Permission",
+        "Access-Control-Allow-Origin": frontEndBaseUrl,
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+        "Access-Control-Expose-Headers": "X-Required-Permission",
+      },
     };
   } catch (error) {
     console.error("Authorization error:", error);
     return {
       isAuthorized: false,
+      context: {
+        "Access-Control-Allow-Headers":
+          "Content-Type,Authorization,X-Required-Permission",
+        "Access-Control-Allow-Origin": frontEndBaseUrl,
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+        "Access-Control-Expose-Headers": "X-Required-Permission",
+      },
     };
   }
 };
