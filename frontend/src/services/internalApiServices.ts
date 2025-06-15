@@ -65,13 +65,13 @@ export async function getVisitRequestsByResidentId(
   residentId: string,
 ): Promise<any> {
   const authenticationStore = useAuthenticationStore()
-  const id_token = authenticationStore.user?.id_token
+  const token = authenticationStore.user?.access_token
 
   const response = await axios.get(
     `${API_BASE}visit-requests?residentId=${residentId}`,
     {
       headers: {
-        Authorization: `Bearer ${id_token}`,
+        Authorization: `Bearer ${token}`,
         'X-Required-Permission': ACTIONS.API.GET_VISIT_REQUESTS,
       },
     },
