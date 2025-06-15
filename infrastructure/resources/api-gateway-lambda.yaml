@@ -14,7 +14,7 @@ Resources:
       TracingEnabled: true
       Cors:
         AllowMethods: "'OPTIONS,POST,GET'"
-        AllowHeaders: "'Content-Type,Authorization'"
+        AllowHeaders: "'Content-Type,Authorization,X-Required-Permission'"
         AllowOrigin: !Sub "'https://${SubDomain}'"
         AllowCredentials: true
       Auth:
