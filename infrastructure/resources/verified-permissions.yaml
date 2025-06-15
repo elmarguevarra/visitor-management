@@ -388,12 +388,12 @@ Resources:
                     VisitorManagement::Action::"verifyVisitor",
                     VisitorManagement::Action::"showAdminBadge",
                     VisitorManagement::Action::"getVisitorsByResidentId",
-                    VisitorManagement::Action::"getVisitRequestsByResidentId"
-                    VisitorManagement::Action::"getVisitorByRegistrationId"
-                    VisitorManagement::Action::"getInviteByToken"
-                    VisitorManagement::Action::"getVisitRequestByToken"
-                    VisitorManagement::Action::"postVisitor"
-                    VisitorManagement::Action::"postInvite"
+                    VisitorManagement::Action::"getVisitRequestsByResidentId",
+                    VisitorManagement::Action::"getVisitorByRegistrationId",
+                    VisitorManagement::Action::"getInviteByToken",
+                    VisitorManagement::Action::"getVisitRequestByToken",
+                    VisitorManagement::Action::"postVisitor",
+                    VisitorManagement::Action::"postInvite",
                     VisitorManagement::Action::"postVisitRequest"],
                 resource == VisitorManagement::Resource::"visitorResource"
             );
