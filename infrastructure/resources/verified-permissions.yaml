@@ -430,7 +430,15 @@ Resources:
                 action in
                     [VisitorManagement::Action::"browseVisitors",
                     VisitorManagement::Action::"inviteVisitor",
-                    VisitorManagement::Action::"registerVisitor"],
+                    VisitorManagement::Action::"registerVisitor",
+                    VisitorManagement::Action::"getPermissions",
+                    VisitorManagement::Action::"getVisitorsByResidentId",
+                    VisitorManagement::Action::"getVisitRequestsByResidentId",
+                    VisitorManagement::Action::"getInviteByToken",
+                    VisitorManagement::Action::"getVisitRequestByToken",
+                    VisitorManagement::Action::"postVisitor",
+                    VisitorManagement::Action::"postInvite",
+                    VisitorManagement::Action::"postVisitRequest"],
                 resource == VisitorManagement::Resource::"visitorResource"
             );
   AllowGuardGroupAccessPolicy:
@@ -442,9 +450,14 @@ Resources:
           Statement: !Sub |
             permit (
                 principal in VisitorManagement::UserGroup::"${GuardGroupName}",
-                action in [VisitorManagement::Action::"verifyVisitor",
-                           VisitorManagement::Action::"searchVisitor",
-                           VisitorManagement::Action::"showGuardBadge"],
+                action in 
+                    [VisitorManagement::Action::"verifyVisitor",
+                    VisitorManagement::Action::"searchVisitor",
+                    VisitorManagement::Action::"showGuardBadge",
+                    VisitorManagement::Action::"getPermissions",
+                    VisitorManagement::Action::"getVisitorsByResidentId",
+                    VisitorManagement::Action::"getInviteByToken",
+                    VisitorManagement::Action::"getVisitRequestByToken"],
                 resource == VisitorManagement::Resource::"visitorResource"
             );
 

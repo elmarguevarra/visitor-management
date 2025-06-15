@@ -14,7 +14,7 @@ Resources:
       TracingEnabled: true
       Cors:
         AllowMethods: "'OPTIONS,POST,GET'"
-        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Required-Permission'"        
+        AllowHeaders: "'Content-Type,Authorization,X-Required-Permission'"        
         AllowOrigin: !Sub "'https://${SubDomain}'"
         AllowCredentials: true
       Auth:
@@ -53,15 +53,6 @@ Resources:
           POLICY_STORE_ID: !ImportValue VisitorManagementPolicyStore
           COGNITO_USER_POOL_ID: !ImportValue CognitoUserPool
           COGNITO_CLIENT_ID: !ImportValue CognitoUserPoolClient
-          APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
-          
-  # lambdaAuthorizerPermission:
-  #   Type: AWS::Lambda::Permission
-  #   Properties:
-  #     Action: lambda:InvokeFunction
-  #     FunctionName: !GetAtt lambdaAuthorizerFunction.Arn
-  #     Principal: apigateway.amazonaws.com
-  #     SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGatewayApi}/*"
 
   getVisitorsFunction:
     Type: AWS::Serverless::Function
