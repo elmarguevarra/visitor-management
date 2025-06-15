@@ -37,7 +37,7 @@ export async function postVisitRequest(data: any): Promise<any> {
   const response = await axios.post(`${API_BASE}visit-request`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
-      'X-Required-Permission': ACTIONS.API.POST_INVITE,
+      'X-Required-Permission': ACTIONS.API.POST_VISIT_REQUEST,
     },
   })
   return response.data
