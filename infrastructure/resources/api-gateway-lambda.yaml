@@ -31,24 +31,6 @@ Resources:
                 - Authorization
               ReauthorizeEvery: 3600
 
-  GatewayResponse4XX:
-    Type: AWS::ApiGateway::GatewayResponse
-    Properties:
-      RestApiId: !Ref ApiGatewayApi
-      ResponseType: DEFAULT_4XX
-      ResponseParameters:
-        gatewayresponse.header.Access-Control-Allow-Origin: "'https://vms.alphinecodetech.click'"
-        gatewayresponse.header.Access-Control-Allow-Credentials: "'true'"
-
-  GatewayResponse5XX:
-    Type: AWS::ApiGateway::GatewayResponse
-    Properties:
-      RestApiId: !Ref ApiGatewayApi
-      ResponseType: DEFAULT_5XX
-      ResponseParameters:
-        gatewayresponse.header.Access-Control-Allow-Origin: "'https://vms.alphinecodetech.click'"
-        gatewayresponse.header.Access-Control-Allow-Credentials: "'true'"
-
   lambdaAuthorizerFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -73,13 +55,13 @@ Resources:
           COGNITO_CLIENT_ID: !ImportValue CognitoUserPoolClient
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           
-  lambdaAuthorizerPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !GetAtt lambdaAuthorizerFunction.Arn
-      Principal: apigateway.amazonaws.com
-      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGatewayApi}/*"
+  # lambdaAuthorizerPermission:
+  #   Type: AWS::Lambda::Permission
+  #   Properties:
+  #     Action: lambda:InvokeFunction
+  #     FunctionName: !GetAtt lambdaAuthorizerFunction.Arn
+  #     Principal: apigateway.amazonaws.com
+  #     SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGatewayApi}/*"
 
   getVisitorsFunction:
     Type: AWS::Serverless::Function

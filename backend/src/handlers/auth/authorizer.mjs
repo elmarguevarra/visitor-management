@@ -10,6 +10,7 @@ const policyStoreId = process.env.POLICY_STORE_ID;
 
 export const verifiedPermissionsAuthorizerHandler = async (event) => {
   try {
+    console.log("event: ", event);
     const token = event.headers.authorization || event.headers.Authorization;
     if (!token) throw new Error("Missing token");
 
@@ -18,6 +19,8 @@ export const verifiedPermissionsAuthorizerHandler = async (event) => {
       (g) => !g.endsWith("_Google")
     );
     const actionId = event.headers["X-Required-Permission"];
+    console.log("actionId: ", actionId);
+
     const methodArn = event.methodArn;
 
     const command = new IsAuthorizedCommand({
