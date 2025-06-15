@@ -16,8 +16,8 @@ if (ENDPOINT_OVERRIDE) {
 
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
-// Get the DynamoDB table name from environment variables
 const tableName = process.env.INVITE_LINKS_TABLE;
+const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
 
 export const getInviteByTokenHandler = async (event) => {
   if (event.httpMethod !== "GET") {
