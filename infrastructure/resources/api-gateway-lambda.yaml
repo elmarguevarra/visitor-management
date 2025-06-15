@@ -13,9 +13,9 @@ Resources:
       StageName: Prod
       TracingEnabled: true
       Cors:
-        AllowMethods: "OPTIONS,POST,GET"
-        AllowHeaders: "Content-Type,Authorization,X-Required-Permission"
-        AllowOrigin: !Sub "https://${SubDomain}"
+        AllowMethods: "'OPTIONS,POST,GET'"
+        AllowHeaders: "'Content-Type,Authorization,X-Required-Permission'"        
+        AllowOrigin: !Sub "'https://${SubDomain}'"
         AllowCredentials: true
       Auth:
         DefaultAuthorizer: CognitoAuthorizer
@@ -72,6 +72,7 @@ Resources:
             TableName: !ImportValue VisitorsTable
       Environment:
         Variables:
+          APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           VISITORS_TABLE: !ImportValue VisitorsTable
           ENDPOINT_OVERRIDE: ""
       Events:
