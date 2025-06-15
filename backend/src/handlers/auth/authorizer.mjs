@@ -21,7 +21,10 @@ export const verifiedPermissionsAuthorizerHandler = async (event) => {
     );
     console.log("principalId: ", principalId);
 
-    const actionId = event.headers["X-Required-Permission"];
+    const actionId =
+      event.headers["x-required-permission"] ||
+      event.headers["X-Required-Permission"];
+
     console.log("actionId: ", actionId);
     const methodArn = event.methodArn;
 
