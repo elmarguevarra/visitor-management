@@ -13,9 +13,9 @@ Resources:
       StageName: Prod
       TracingEnabled: true
       Cors:
-        AllowMethods: "'OPTIONS,POST,GET'"
-        AllowHeaders: "'Content-Type,Authorization,X-Required-Permission'"        
-        AllowOrigin: !Sub "'https://${SubDomain}'"
+        AllowMethods: "OPTIONS,POST,GET"
+        AllowHeaders: "Content-Type,Authorization,X-Required-Permission"
+        AllowOrigin: !Sub "https://${SubDomain}"
         AllowCredentials: true
       Auth:
         DefaultAuthorizer: CognitoAuthorizer
@@ -272,14 +272,12 @@ Resources:
         A simple example includes a HTTP post method to add one item to a
         DynamoDB table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
             TableName: !ImportValue VisitorsTable
       Environment:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           VISITORS_TABLE: !ImportValue VisitorsTable
-          # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
       Events:
