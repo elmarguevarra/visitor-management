@@ -17,14 +17,8 @@ Resources:
         AllowHeaders: "'Content-Type,Authorization,X-Required-Permission'"
         AllowOrigin: !Sub "'https://${SubDomain}'"
         AllowCredentials: true
-      # Auth:
-      #   DefaultAuthorizer: CognitoAuthorizer
-      #   AddDefaultAuthorizerToCorsPreflight: false
-      #   Authorizers:
-      #     CognitoAuthorizer:
-      #       UserPoolArn: !ImportValue CognitoUserPoolArn
       Auth:
-        DefaultAuthorizer: LambdaAuthorizer
+        DefaultAuthorizer: CognitoAuthorizer
         AddDefaultAuthorizerToCorsPreflight: false
         Authorizers:
           CognitoAuthorizer:
@@ -38,7 +32,7 @@ Resources:
                 - X-Required-Permission
               ReauthorizeEvery: 3600
 
-    # Lambda Authorizer Function
+  # Lambda Authorizer Function
   verifiedPermissionsAuthorizerFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -62,7 +56,6 @@ Resources:
           COGNITO_USER_POOL_ID: !ImportValue CognitoUserPool
           COGNITO_CLIENT_ID: !ImportValue CognitoUserPoolClient
 
-  # This is a Lambda function config associated with the source code: get-by-id.js
   getVisitorsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -129,10 +122,7 @@ Resources:
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
-            Auth:
-              Authorizer: CognitoAuthorizer
 
-  # This is a Lambda function config associated with the source code: get-visit-requests
   getVisitRequestsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -168,10 +158,6 @@ Resources:
               - method.request.querystring.residentId:
                   Required: false
 
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-
-  # This is a Lambda function config associated with the source code: get-by-id.js
   getVisitorByIdFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -206,7 +192,6 @@ Resources:
             Auth:
               Authorizer: NONE
 
-  # This is a Lambda function config associated with the source code: get-invite-by-token.mjs
   getInviteByTokenFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -241,8 +226,6 @@ Resources:
             Auth:
               Authorizer: NONE
 
-
-  # This is a Lambda function config associated with the source code: get-visit-request-by-token.mjs
   getVisitRequestByTokenFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -277,10 +260,6 @@ Resources:
             Auth:
               Authorizer: NONE
 
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-
-  # This is a Lambda function config associated with the source code: put-item.js
   putVisitorFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -312,6 +291,8 @@ Resources:
             Path: /visitor
             Method: POST
             RestApiId: !Ref ApiGatewayApi
+            Auth:
+              Authorizer: LambdaAuthorizer
 
   putInviteLinkFunction:
     Type: AWS::Serverless::Function
@@ -344,6 +325,8 @@ Resources:
             Path: /invite
             Method: POST
             RestApiId: !Ref ApiGatewayApi
+            Auth:
+              Authorizer: LambdaAuthorizer
 
   putVisitRequestFunction:
     Type: AWS::Serverless::Function
