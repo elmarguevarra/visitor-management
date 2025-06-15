@@ -49,6 +49,8 @@ Resources:
 Outputs:
   CognitoUserPoolClient:
     Value: !Ref CognitoUserPoolClient
+    Export:
+      Name: CognitoUserPoolClient
   CognitoCustomDomainCloudFrontDistribution:
     Value: !GetAtt CognitoCustomDomain.CloudFrontDistribution
     Export:
