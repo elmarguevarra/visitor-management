@@ -194,6 +194,26 @@ Resources:
                                 "resourceTypes": []
                             }
                         },
+                        "getPermissions": {
+                            "memberOf": [
+                                {
+                                    "id": "API",
+                                    "type": "VisitorManagement::Action"
+                                }
+                            ],
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "UserGroup"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
+                            }
+                        },
                         "getVisitorsByResidentId": {
                             "memberOf": [
                                 {
@@ -387,6 +407,7 @@ Resources:
                     VisitorManagement::Action::"searchVisitor",
                     VisitorManagement::Action::"verifyVisitor",
                     VisitorManagement::Action::"showAdminBadge",
+                    VisitorManagement::Action::"getPermissions",
                     VisitorManagement::Action::"getVisitorsByResidentId",
                     VisitorManagement::Action::"getVisitRequestsByResidentId",
                     VisitorManagement::Action::"getVisitorByRegistrationId",

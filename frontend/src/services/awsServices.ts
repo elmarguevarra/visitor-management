@@ -1,3 +1,4 @@
+import { ACTIONS } from '@/constants/actions'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import axios from 'axios'
 
@@ -27,6 +28,7 @@ export async function evaluatePermissions(
   const response = await axios.get(url, {
     headers: {
       Authorization: `Bearer ${id_token}`,
+      'X-Required-Permission': ACTIONS.API.GET_PERMISSIONS,
     },
   })
 

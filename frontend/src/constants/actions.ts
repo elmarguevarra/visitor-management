@@ -10,6 +10,7 @@ export const ACTIONS = {
     SHOW_GUARD_BADGE: 'showGuardBadge',
   },
   API: {
+    GET_PERMISSIONS: 'getPermissions',
     GET_VISITORS: 'getVisitorsByResidentId',
     GET_VISIT_REQUESTS: 'getVisitRequestsByResidentId',
     GET_VISITOR: 'getVisitorByRegistrationId',
