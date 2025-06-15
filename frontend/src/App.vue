@@ -16,7 +16,7 @@
               />
               <span style="font-size: 1rem">AlphineCodeTech</span>
               <span
-                v-if="hasPermission(ACTIONS.SHOW_ADMIN_BADGE)"
+                v-if="hasPermission(ACTIONS.UI.SHOW_ADMIN_BADGE)"
                 class="ms-1 badge text-secondary"
                 style="
                   font-size: 0.3rem;
@@ -27,7 +27,7 @@
                 >Admin</span
               >
               <span
-                v-if="hasPermission(ACTIONS.SHOW_GUARD_BADGE)"
+                v-if="hasPermission(ACTIONS.UI.SHOW_GUARD_BADGE)"
                 class="ms-1 badge text-secondary"
                 style="
                   font-size: 0.3rem;
@@ -75,7 +75,7 @@
                 >
               </li>
               <li
-                v-if="hasPermission(ACTIONS.BROWSE_VISITORS)"
+                v-if="hasPermission(ACTIONS.UI.BROWSE_VISITORS)"
                 class="nav-item"
               >
                 <router-link
@@ -87,7 +87,7 @@
                 >
               </li>
               <li
-                v-if="hasPermission(ACTIONS.REGISTER_VISITOR)"
+                v-if="hasPermission(ACTIONS.UI.REGISTER_VISITOR)"
                 class="nav-item"
               >
                 <router-link
@@ -98,7 +98,10 @@
                   >Register</router-link
                 >
               </li>
-              <li v-if="hasPermission(ACTIONS.SEARCH_VISITOR)" class="nav-item">
+              <li
+                v-if="hasPermission(ACTIONS.UI.SEARCH_VISITOR)"
+                class="nav-item"
+              >
                 <router-link
                   to="/search-visitor"
                   class="nav-link py-1"
@@ -107,7 +110,10 @@
                   >Search</router-link
                 >
               </li>
-              <li v-if="hasPermission(ACTIONS.INVITE_VISITOR)" class="nav-item">
+              <li
+                v-if="hasPermission(ACTIONS.UI.INVITE_VISITOR)"
+                class="nav-item"
+              >
                 <router-link
                   to="/invite-visitor"
                   class="nav-link py-1"
