@@ -90,6 +90,8 @@ Resources:
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
+            Auth:
+              Authorizer: LambdaAuthorizer
 
   getPermissionsFunction:
     Type: AWS::Serverless::Function
@@ -157,6 +159,8 @@ Resources:
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
+            Auth:
+              Authorizer: LambdaAuthorizer
 
   getVisitorByIdFunction:
     Type: AWS::Serverless::Function
