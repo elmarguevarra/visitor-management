@@ -276,8 +276,8 @@ Resources:
             Path: /visitor
             Method: POST
             RestApiId: !Ref ApiGatewayApi
-            Auth:
-              Authorizer: LambdaAuthorizer
+            # Auth:
+            #   Authorizer: LambdaAuthorizer
 
   putInviteLinkFunction:
     Type: AWS::Serverless::Function
@@ -307,8 +307,8 @@ Resources:
             Path: /invite
             Method: POST
             RestApiId: !Ref ApiGatewayApi
-            Auth:
-              Authorizer: LambdaAuthorizer
+            # Auth:
+            #   Authorizer: LambdaAuthorizer
 
   putVisitRequestFunction:
     Type: AWS::Serverless::Function
