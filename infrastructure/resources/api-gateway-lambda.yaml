@@ -32,23 +32,23 @@ Resources:
                 - X-Required-Permission
               ReauthorizeEvery: 3600
 
-  # GatewayResponse4XX:
-  #   Type: AWS::ApiGateway::GatewayResponse
-  #   Properties:
-  #     RestApiId: !Ref ApiGatewayApi
-  #     ResponseType: DEFAULT_4XX
-  #     ResponseParameters:
-  #       gatewayresponse.header.Access-Control-Allow-Origin: "'https://vms.alphinecodetech.click'"
-  #       gatewayresponse.header.Access-Control-Allow-Credentials: "'true'"
+  GatewayResponse4XX:
+    Type: AWS::ApiGateway::GatewayResponse
+    Properties:
+      RestApiId: !Ref ApiGatewayApi
+      ResponseType: DEFAULT_4XX
+      ResponseParameters:
+        gatewayresponse.header.Access-Control-Allow-Origin: "'https://vms.alphinecodetech.click'"
+        gatewayresponse.header.Access-Control-Allow-Credentials: "'true'"
 
-  # GatewayResponse5XX:
-  #   Type: AWS::ApiGateway::GatewayResponse
-  #   Properties:
-  #     RestApiId: !Ref ApiGatewayApi
-  #     ResponseType: DEFAULT_5XX
-  #     ResponseParameters:
-  #       gatewayresponse.header.Access-Control-Allow-Origin: "'https://vms.alphinecodetech.click'"
-  #       gatewayresponse.header.Access-Control-Allow-Credentials: "'true'"
+  GatewayResponse5XX:
+    Type: AWS::ApiGateway::GatewayResponse
+    Properties:
+      RestApiId: !Ref ApiGatewayApi
+      ResponseType: DEFAULT_5XX
+      ResponseParameters:
+        gatewayresponse.header.Access-Control-Allow-Origin: "'https://vms.alphinecodetech.click'"
+        gatewayresponse.header.Access-Control-Allow-Credentials: "'true'"
 
   # Lambda Authorizer Function
   verifiedPermissionsAuthorizerFunction:
