@@ -73,10 +73,7 @@ Resources:
             TableName: !ImportValue VisitorsTable
       Environment:
         Variables:
-          APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
-          # Make table name accessible as environment variable from function code during execution
           VISITORS_TABLE: !ImportValue VisitorsTable
-          # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
         Api:
