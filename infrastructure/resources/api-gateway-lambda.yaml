@@ -14,7 +14,7 @@ Resources:
       TracingEnabled: true
       Cors:
         AllowMethods: "'OPTIONS,POST,GET'"
-        AllowHeaders: "'Content-Type,Authorization,X-Required-Permission'"        
+        AllowHeaders: "'Content-Type,Authorization,X-Required-Permission'"
         AllowOrigin: !Sub "'https://${SubDomain}'"
         AllowCredentials: true
       Auth:
@@ -29,6 +29,7 @@ Resources:
             Identity:
               Headers:
                 - Authorization
+                - X-Required-Permission
               ReauthorizeEvery: 3600
 
   lambdaAuthorizerFunction:
@@ -134,15 +135,12 @@ Resources:
         A simple example includes a HTTP get method to get all items by id
         from a DynamoDB table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
             TableName: !ImportValue VisitRequestsTable
       Environment:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
-          # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
-          # Make table name accessible as environment variable from function code during execution
           VISIT_REQUESTS_TABLE: !ImportValue VisitRequestsTable
       Events:
         Api:
@@ -171,15 +169,12 @@ Resources:
         A simple example includes a HTTP get method to get one item by id
         from a DynamoDB table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
             TableName: !ImportValue VisitorsTable
       Environment:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
-          # Make table name accessible as environment variable from function code during execution
           VISITORS_TABLE: !ImportValue VisitorsTable
-          # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
         Api:
@@ -205,15 +200,12 @@ Resources:
         A simple example includes a HTTP get method to get one item by id
         from a DynamoDB table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
             TableName: !ImportValue InviteLinksTable
       Environment:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
-          # Make table name accessible as environment variable from function code during execution
           INVITE_LINKS_TABLE: !ImportValue InviteLinksTable
-          # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
         Api:
@@ -239,15 +231,12 @@ Resources:
         A simple example includes a HTTP get method to get one item by id
         from a DynamoDB table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
             TableName: !ImportValue VisitRequestsTable
       Environment:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
-          # Make table name accessible as environment variable from function code during execution
           VISIT_REQUESTS_TABLE: !ImportValue VisitRequestsTable
-          # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
       Events:
         Api:
@@ -280,7 +269,6 @@ Resources:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           VISITORS_TABLE: !ImportValue VisitorsTable
           ENDPOINT_OVERRIDE: ""
-          APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
       Events:
         Api:
           Type: Api
@@ -305,15 +293,12 @@ Resources:
         A simple example includes a HTTP post method to add one item to a
         DynamoDB table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the InviteLinksTable
         - DynamoDBCrudPolicy:
             TableName: !ImportValue InviteLinksTable
       Environment:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
-          # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
-          APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           INVITE_LINKS_TABLE: !ImportValue InviteLinksTable
       Events:
         Api:
@@ -339,13 +324,11 @@ Resources:
         A simple example includes a HTTP post method to add one item to a
         DynamoDB table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the VisitRequestsTable
         - DynamoDBCrudPolicy:
             TableName: !ImportValue VisitRequestsTable
       Environment:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
-          # Make DynamoDB endpoint accessible as environment variable from function code during execution
           ENDPOINT_OVERRIDE: ""
           VISIT_REQUESTS_TABLE: !ImportValue VisitRequestsTable
       Events:
