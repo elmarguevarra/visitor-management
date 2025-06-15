@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { createRouter, createWebHistory, useRouter } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import RegisterVisitorView from './views/RegisterVisitorView.vue'
 import VerifyVisitorView from './views/VerifyVisitorView.vue'
 import ListVisitorsView from './views/ListVisitorsView.vue'
@@ -10,7 +10,6 @@ import { createPinia } from 'pinia'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import { userManager } from './auth/authConfig'
 import LandingView from './views/LandingView.vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
 import ProfileView from './views/ProfileView.vue'
@@ -18,7 +17,6 @@ import { useAuthorizationStore } from './stores/authorizationStore'
 import RestrictedView from './views/RestrictedView.vue'
 import { Action, ACTIONS } from './constants/actions'
 import SearchVisitorView from './views/SearchVisitorView.vue'
-import LoadingOverlay from './components/LoadingOverlay.vue'
 import { useUiStore } from './stores/uiStore'
 import SignOutCallback from './components/SignOutCallback.vue'
 import SignInCallback from './components/SignInCallback.vue'
@@ -43,7 +41,7 @@ const routes = [
     component: ListVisitorsView,
     meta: {
       requiresAuthentication: true,
-      requiresPermissionOnAction: ACTIONS.BROWSE_VISITORS,
+      requiresPermissionOnAction: ACTIONS.UI.BROWSE_VISITORS,
     },
   },
   {
@@ -52,7 +50,7 @@ const routes = [
     component: RegisterVisitorView,
     meta: {
       requiresAuthentication: true,
-      requiresPermissionOnAction: ACTIONS.REGISTER_VISITOR,
+      requiresPermissionOnAction: ACTIONS.UI.REGISTER_VISITOR,
     },
   },
   {
@@ -61,7 +59,7 @@ const routes = [
     component: SearchVisitorView,
     meta: {
       requiresAuthentication: true,
-      requiresPermissionOnAction: ACTIONS.SEARCH_VISITOR,
+      requiresPermissionOnAction: ACTIONS.UI.SEARCH_VISITOR,
     },
   },
   {
@@ -70,7 +68,7 @@ const routes = [
     component: InviteVisitorView,
     meta: {
       requiresAuthentication: true,
-      requiresPermissionOnAction: ACTIONS.INVITE_VISITOR,
+      requiresPermissionOnAction: ACTIONS.UI.INVITE_VISITOR,
     },
   },
   {
@@ -93,7 +91,7 @@ const routes = [
     props: true,
     meta: {
       requiresAuthentication: true,
-      requiresPermissionOnAction: ACTIONS.VERIFY_VISITOR,
+      requiresPermissionOnAction: ACTIONS.UI.VERIFY_VISITOR,
     },
   },
   {

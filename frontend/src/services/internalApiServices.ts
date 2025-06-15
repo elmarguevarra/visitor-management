@@ -1,3 +1,4 @@
+import { ACTIONS } from '@/constants/actions'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import axios from 'axios'
 
@@ -10,6 +11,7 @@ export async function postVisitor(data: any): Promise<any> {
   const response = await axios.post(`${API_BASE}visitor`, data, {
     headers: {
       Authorization: `Bearer ${id_token}`,
+      'X-Required-Permission': ACTIONS.API.POST_VISITOR,
     },
   })
   return response.data
@@ -22,6 +24,7 @@ export async function postInvite(data: any): Promise<any> {
   const response = await axios.post(`${API_BASE}invite`, data, {
     headers: {
       Authorization: `Bearer ${id_token}`,
+      'X-Required-Permission': ACTIONS.API.POST_INVITE,
     },
   })
   return response.data
@@ -34,6 +37,7 @@ export async function postVisitRequest(data: any): Promise<any> {
   const response = await axios.post(`${API_BASE}visit-request`, data, {
     headers: {
       Authorization: `Bearer ${id_token}`,
+      'X-Required-Permission': ACTIONS.API.POST_INVITE,
     },
   })
   return response.data
@@ -50,6 +54,7 @@ export async function getVisitorsByResidentId(
     {
       headers: {
         Authorization: `Bearer ${id_token}`,
+        'X-Required-Permission': ACTIONS.API.GET_VISITORS,
       },
     },
   )
@@ -67,6 +72,7 @@ export async function getVisitRequestsByResidentId(
     {
       headers: {
         Authorization: `Bearer ${id_token}`,
+        'X-Required-Permission': ACTIONS.API.GET_VISIT_REQUESTS,
       },
     },
   )
@@ -82,6 +88,7 @@ export async function getVisitorByRegistrationId(
   const response = await axios.get(`${API_BASE}visitor/${registrationId}`, {
     headers: {
       Authorization: `Bearer ${id_token}`,
+      'X-Required-Permission': ACTIONS.API.GET_VISITOR,
     },
   })
   return response.data
@@ -94,6 +101,7 @@ export async function getInviteByToken(inviteToken: string): Promise<any> {
   const response = await axios.get(`${API_BASE}invite/${inviteToken}`, {
     headers: {
       Authorization: `Bearer ${id_token}`,
+      'X-Required-Permission': ACTIONS.API.GET_INVITE,
     },
   })
   return response.data
@@ -108,6 +116,7 @@ export async function getVisitRequestByToken(
   const response = await axios.get(`${API_BASE}visit-request/${inviteToken}`, {
     headers: {
       Authorization: `Bearer ${id_token}`,
+      'X-Required-Permission': ACTIONS.API.GET_VISIT_REQUEST,
     },
   })
   return response.data

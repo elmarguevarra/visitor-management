@@ -22,7 +22,8 @@ export const verifiedPermissionsAuthorizerHandler = async (event) => {
       (g) => !g.endsWith("_Google")
     );
 
-    const actionId = "";
+    const actionId = event.headers["X-Required-Permission"];
+
     const command = new IsAuthorizedCommand({
       policyStoreId: policyStoreId,
       principal: {

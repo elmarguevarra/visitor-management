@@ -18,7 +18,7 @@ Resources:
         AllowOrigin: !Sub "'https://${SubDomain}'"
         AllowCredentials: true
       Auth:
-        DefaultAuthorizer: CognitoAuthorizer
+        DefaultAuthorizer: LambdaAuthorizer
         AddDefaultAuthorizerToCorsPreflight: false
         Authorizers:
           LambdaAuthorizer:
@@ -28,7 +28,7 @@ Resources:
               Headers:
                 - Authorization
               ReauthorizeEvery: 3600
-              
+
     # Lambda Authorizer Function
   VerifiedPermissionsAuthorizerFunction:
     Type: AWS::Serverless::Function

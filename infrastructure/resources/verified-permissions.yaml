@@ -16,134 +16,358 @@ Resources:
       Schema:
         CedarJson: |
           {
-            "VisitorManagement": {
-                "entityTypes": {
-                    "User": {
-                        "memberOfTypes": [
-                            "UserGroup"
-                        ],
-                        "shape": {
-                            "type": "Record",
-                            "attributes": {}
+                "VisitorManagement": {
+                    "entityTypes": {
+                        "User": {
+                            "memberOfTypes": [
+                                "UserGroup"
+                            ],
+                            "shape": {
+                                "type": "Record",
+                                "attributes": {}
+                            }
+                        },
+                        "Resource": {
+                            "memberOfTypes": [],
+                            "shape": {
+                                "type": "Record",
+                                "attributes": {}
+                            }
+                        },
+                        "UserGroup": {
+                            "memberOfTypes": [],
+                            "shape": {
+                                "type": "Record",
+                                "attributes": {}
+                            }
                         }
                     },
-                    "Resource": {
-                        "memberOfTypes": [],
-                        "shape": {
-                            "type": "Record",
-                            "attributes": {}
-                        }
-                    },
-                    "UserGroup": {
-                        "memberOfTypes": [],
-                        "shape": {
-                            "type": "Record",
-                            "attributes": {}
-                        }
-                    }
-                },
-                "actions": {
-                    "showAdminBadge": {
-                        "appliesTo": {
-                            "context": {
-                                "type": "Record",
-                                "attributes": {}
+                    "actions": {
+                        "showAdminBadge": {
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "User"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
                             },
-                            "principalTypes": [
-                                "User"
-                            ],
-                            "resourceTypes": [
-                                "Resource"
+                            "memberOf": [
+                                {
+                                    "id": "UI",
+                                    "type": "VisitorManagement::Action"
+                                }
                             ]
-                        }
-                    },
-                    "showGuardBadge": {
-                        "appliesTo": {
-                            "context": {
-                                "type": "Record",
-                                "attributes": {}
+                        },
+                        "showGuardBadge": {
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "User"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
                             },
-                            "principalTypes": [
-                                "User"
-                            ],
-                            "resourceTypes": [
-                                "Resource"
+                            "memberOf": [
+                                {
+                                    "id": "UI",
+                                    "type": "VisitorManagement::Action"
+                                }
                             ]
-                        }
-                    },
-                    "searchVisitor": {
-                        "appliesTo": {
-                            "context": {
-                                "type": "Record",
-                                "attributes": {}
+                        },
+                        "searchVisitor": {
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "User"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
                             },
-                            "principalTypes": [
-                                "User"
-                            ],
-                            "resourceTypes": [
-                                "Resource"
+                            "memberOf": [
+                                {
+                                    "id": "UI",
+                                    "type": "VisitorManagement::Action"
+                                }
                             ]
-                        }
-                    },
-                    "registerVisitor": {
-                        "appliesTo": {
-                            "context": {
-                                "type": "Record",
-                                "attributes": {}
+                        },
+                        "registerVisitor": {
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "User"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
                             },
-                            "principalTypes": [
-                                "User"
-                            ],
-                            "resourceTypes": [
-                                "Resource"
+                            "memberOf": [
+                                {
+                                    "id": "UI",
+                                    "type": "VisitorManagement::Action"
+                                }
                             ]
-                        }
-                    },                    
-                    "inviteVisitor": {
-                        "appliesTo": {
-                            "context": {
-                                "type": "Record",
-                                "attributes": {}
+                        },
+                        "inviteVisitor": {
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "User"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
                             },
-                            "principalTypes": [
-                                "User"
-                            ],
-                            "resourceTypes": [
-                                "Resource"
+                            "memberOf": [
+                                {
+                                    "id": "UI",
+                                    "type": "VisitorManagement::Action"
+                                }
                             ]
-                        }
-                    },                    
-                    "verifyVisitor": {
-                        "appliesTo": {
-                            "context": {
-                                "type": "Record",
-                                "attributes": {}
+                        },
+                        "verifyVisitor": {
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "User"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
                             },
-                            "principalTypes": [
-                                "User"
-                            ],
-                            "resourceTypes": [
-                                "Resource"
+                            "memberOf": [
+                                {
+                                    "id": "UI",
+                                    "type": "VisitorManagement::Action"
+                                }
                             ]
-                        }
-                    },                    
-                    "browseVisitors": {
-                        "appliesTo": {
-                            "context": {
-                                "type": "Record",
-                                "attributes": {}
+                        },
+                        "browseVisitors": {
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "User"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
                             },
-                            "principalTypes": [
-                                "User"
-                            ],
-                            "resourceTypes": [
-                                "Resource"
+                            "memberOf": [
+                                {
+                                    "id": "UI",
+                                    "type": "VisitorManagement::Action"
+                                }
                             ]
+                        },
+                        "UI": {
+                            "memberOf": [],
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [],
+                                "resourceTypes": []
+                            }
+                        },
+                        "getVisitorsByResidentId": {
+                            "memberOf": [
+                                {
+                                    "id": "API",
+                                    "type": "VisitorManagement::Action"
+                                }
+                            ],
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "UserGroup"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
+                            }
+                        },
+                        "getVisitRequestsByResidentId": {
+                            "memberOf": [
+                                {
+                                    "id": "API",
+                                    "type": "VisitorManagement::Action"
+                                }
+                            ],
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "UserGroup"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
+                            }
+                        },
+                        "getVisitorByRegistrationId": {
+                            "memberOf": [
+                                {
+                                    "id": "API",
+                                    "type": "VisitorManagement::Action"
+                                }
+                            ],
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "UserGroup"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
+                            }
+                        },
+                        "getInviteByToken": {
+                            "memberOf": [
+                                {
+                                    "id": "API",
+                                    "type": "VisitorManagement::Action"
+                                }
+                            ],
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "UserGroup"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
+                            }
+                        },
+                        "getVisitRequestByToken": {
+                            "memberOf": [
+                                {
+                                    "id": "API",
+                                    "type": "VisitorManagement::Action"
+                                }
+                            ],
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "UserGroup"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
+                            }
+                        },
+                        "postVisitor": {
+                            "memberOf": [
+                                {
+                                    "id": "API",
+                                    "type": "VisitorManagement::Action"
+                                }
+                            ],
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "UserGroup"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
+                            }
+                        },
+                        "postInvite": {
+                            "memberOf": [
+                                {
+                                    "id": "API",
+                                    "type": "VisitorManagement::Action"
+                                }
+                            ],
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "UserGroup"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
+                            }
+                        },
+                        "postVisitRequest": {
+                            "memberOf": [
+                                {
+                                    "id": "API",
+                                    "type": "VisitorManagement::Action"
+                                }
+                            ],
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [
+                                    "UserGroup"
+                                ],
+                                "resourceTypes": [
+                                    "Resource"
+                                ]
+                            }
+                        },
+                        "API": {
+                            "memberOf": [],
+                            "appliesTo": {
+                                "context": {
+                                    "type": "Record",
+                                    "attributes": {}
+                                },
+                                "principalTypes": [],
+                                "resourceTypes": []
+                            }
                         }
                     }
                 }
             }
-          }
       ValidationSettings:
         Mode: STRICT
 
@@ -162,7 +386,15 @@ Resources:
                     VisitorManagement::Action::"registerVisitor",
                     VisitorManagement::Action::"searchVisitor",
                     VisitorManagement::Action::"verifyVisitor",
-                    VisitorManagement::Action::"showAdminBadge"],
+                    VisitorManagement::Action::"showAdminBadge",
+                    VisitorManagement::Action::"getVisitorsByResidentId",
+                    VisitorManagement::Action::"getVisitRequestsByResidentId"
+                    VisitorManagement::Action::"getVisitorByRegistrationId"
+                    VisitorManagement::Action::"getInviteByToken"
+                    VisitorManagement::Action::"getVisitRequestByToken"
+                    VisitorManagement::Action::"postVisitor"
+                    VisitorManagement::Action::"postInvite"
+                    VisitorManagement::Action::"postVisitRequest"],
                 resource == VisitorManagement::Resource::"visitorResource"
             );
   AllowResidentGroupAccessPolicy:
