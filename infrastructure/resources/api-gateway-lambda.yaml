@@ -127,6 +127,12 @@ Resources:
             RequestParameters:
               - method.request.querystring.residentId:
                   Required: false
+            Auth:
+              DefaultAuthorizer: CognitoAuthorizer
+              AddDefaultAuthorizerToCorsPreflight: false
+              Authorizers:
+                CognitoAuthorizer:
+                  UserPoolArn: !ImportValue CognitoUserPoolArn
 
   # This is a Lambda function config associated with the source code: get-visit-requests
   getVisitRequestsFunction:
