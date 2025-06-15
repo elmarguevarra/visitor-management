@@ -11,7 +11,7 @@ export async function evaluatePermissions(
   actions: string[] | undefined,
 ): Promise<any> {
   const authenticationStore = useAuthenticationStore()
-  const token = authenticationStore.user?.access_token
+  const token = authenticationStore.user?.id_token // Use id token for CognitoAuthorizer
 
   const params = new URLSearchParams()
   params.append('principalId', userGroup ?? defaultUserGroup)
