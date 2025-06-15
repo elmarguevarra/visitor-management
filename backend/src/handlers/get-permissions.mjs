@@ -2,6 +2,7 @@ import {
   VerifiedPermissionsClient,
   BatchIsAuthorizedCommand,
 } from "@aws-sdk/client-verifiedpermissions";
+import { ENTITY_TYPES, RESOURCES } from "../constants/authorizer.mjs";
 
 const verifiedPermissionsClient = new VerifiedPermissionsClient();
 const policyStoreId = process.env.POLICY_STORE_ID;
@@ -32,15 +33,15 @@ export const getPermissionsHandler = async (event) => {
     requests: actions.map((action) => ({
       principal: {
         entityId: principalId,
-        entityType: "VisitorManagement::UserGroup",
+        entityType: ENTITY_TYPES.USER_GROUP,
       },
       resource: {
-        entityId: "visitorResource",
-        entityType: "VisitorManagement::Resource",
+        entityId: RESOURCES.VISITOR,
+        entityType: ENTITY_TYPES.RESOURCE,
       },
       action: {
         actionId: action,
-        actionType: "VisitorManagement::Action",
+        actionType: ENTITY_TYPES.ACTION,
       },
     })),
   };

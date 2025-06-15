@@ -21,8 +21,37 @@ Resources:
         DefaultAuthorizer: CognitoAuthorizer
         AddDefaultAuthorizerToCorsPreflight: false
         Authorizers:
-          CognitoAuthorizer:
-            UserPoolArn: !ImportValue CognitoUserPoolArn
+          LambdaAuthorizer:
+            FunctionArn: !GetAtt VerifiedPermissionsAuthorizerFunction.Arn
+            FunctionPayloadType: REQUEST
+            Identity:
+              Headers:
+                - Authorization
+              ReauthorizeEvery: 3600
+              
+    # Lambda Authorizer Function
+  VerifiedPermissionsAuthorizerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../../backend/
+      Handler: src/handlers/auth/authorizer.verifiedPermissionsAuthorizerHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64
+      MemorySize: 512
+      Timeout: 15
+      Description: Lambda authorizer using Amazon Verified Permissions
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - verifiedpermissions:IsAuthorized
+              Resource: "*"
+      Environment:
+        Variables:
+          POLICY_STORE_ID: !ImportValue VisitorManagementPolicyStore
+          COGNITO_USER_POOL_ID: !ImportValue CognitoUserPool
+          COGNITO_CLIENT_ID: !ImportValue CognitoUserPoolClient
 
   # This is a Lambda function config associated with the source code: get-by-id.js
   getVisitorsFunction:
