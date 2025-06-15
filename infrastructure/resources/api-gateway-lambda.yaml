@@ -14,8 +14,7 @@ Resources:
       TracingEnabled: true
       Cors:
         AllowMethods: "'OPTIONS,POST,GET'"
-        AllowHeaders: "'Content-Type,Authorization,X-Required-Permission'"
-        AllowOrigin: !Sub "'https://${SubDomain}'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Required-Permission'"        AllowOrigin: !Sub "'https://${SubDomain}'"
         AllowCredentials: true
       Auth:
         DefaultAuthorizer: CognitoAuthorizer
