@@ -1,17 +1,13 @@
-// Create clients and set shared const values outside of the handler.
-
-// Create a DocumentClient that represents the query to add an item
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 
-//DynamoDB Endpoint
 const ENDPOINT_OVERRIDE = process.env.ENDPOINT_OVERRIDE;
 let ddbClient = undefined;
 
 if (ENDPOINT_OVERRIDE) {
   ddbClient = new DynamoDBClient({ endpoint: ENDPOINT_OVERRIDE });
 } else {
-  ddbClient = new DynamoDBClient({}); // Use default values for DynamoDB endpoint
+  ddbClient = new DynamoDBClient({});
   console.warn(
     "No value for ENDPOINT_OVERRIDE provided for DynamoDB, using default"
   );
@@ -20,6 +16,7 @@ if (ENDPOINT_OVERRIDE) {
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
 const tableName = process.env.VISITORS_TABLE;
+const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
 
 export const getVisitorsHandler = async (event) => {
   if (event.httpMethod !== "GET") {
@@ -27,6 +24,7 @@ export const getVisitorsHandler = async (event) => {
       `getUserItems only accept GET method, you tried: ${event.httpMethod}`
     );
   }
+  // All log statements are written to CloudWatch
   console.info("received:", event);
 
   const residentId = event.queryStringParameters
@@ -60,6 +58,13 @@ export const getVisitorsHandler = async (event) => {
 
   const response = {
     statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Headers":
+        "Content-Type,Authorization,X-Required-Permission",
+      "Access-Control-Allow-Origin": frontEndBaseUrl,
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+      "Access-Control-Expose-Headers": "X-Required-Permission",
+    },
     body: JSON.stringify(items),
   };
 

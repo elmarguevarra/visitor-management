@@ -73,6 +73,7 @@ Resources:
             TableName: !ImportValue VisitorsTable
       Environment:
         Variables:
+          APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           VISITORS_TABLE: !ImportValue VisitorsTable
           ENDPOINT_OVERRIDE: ""
       Events:
