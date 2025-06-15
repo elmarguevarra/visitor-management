@@ -68,12 +68,10 @@ Resources:
         A simple example includes a HTTP get method to get all items by id
         from a DynamoDB table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the VisitorsTable
         - DynamoDBCrudPolicy:
             TableName: !ImportValue VisitorsTable
       Environment:
         Variables:
-          APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           VISITORS_TABLE: !ImportValue VisitorsTable
           ENDPOINT_OVERRIDE: ""
       Events:

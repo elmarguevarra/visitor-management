@@ -47,7 +47,7 @@ export async function getVisitorsByResidentId(
   residentId: string,
 ): Promise<any> {
   const authenticationStore = useAuthenticationStore()
-  const token = authenticationStore.user?.access_token
+  const token = authenticationStore.user?.access_token // User access token for custom lambda authorizer
 
   const response = await axios.get(
     `${API_BASE}visitors?residentId=${residentId}`,
