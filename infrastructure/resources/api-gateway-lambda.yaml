@@ -27,8 +27,10 @@ Resources:
         DefaultAuthorizer: LambdaAuthorizer
         AddDefaultAuthorizerToCorsPreflight: false
         Authorizers:
+          CognitoAuthorizer:
+            UserPoolArn: !ImportValue CognitoUserPoolArn
           LambdaAuthorizer:
-            FunctionArn: !GetAtt VerifiedPermissionsAuthorizerFunction.Arn
+            FunctionArn: !GetAtt verifiedPermissionsAuthorizerFunction.Arn
             FunctionPayloadType: REQUEST
             Identity:
               Headers:
@@ -37,7 +39,7 @@ Resources:
               ReauthorizeEvery: 3600
 
     # Lambda Authorizer Function
-  VerifiedPermissionsAuthorizerFunction:
+  verifiedPermissionsAuthorizerFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../../backend/
@@ -128,7 +130,7 @@ Resources:
               - method.request.querystring.residentId:
                   Required: false
             Auth:
-              Authorizer: NONE
+              Authorizer: CognitoAuthorizer
 
   # This is a Lambda function config associated with the source code: get-visit-requests
   getVisitRequestsFunction:
