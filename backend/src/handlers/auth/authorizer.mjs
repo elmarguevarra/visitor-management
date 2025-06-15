@@ -20,44 +20,49 @@ const CORS_HEADERS = {
 
 export const verifiedPermissionsAuthorizerHandler = async (event) => {
   try {
-    // const token = event.headers.authorization || event.headers.Authorization;
-    // if (!token) {
-    //   return {
-    //     isAuthorized: false,
-    //     context: CORS_HEADERS,
-    //   };
-    // }
+    const token = event.headers.authorization || event.headers.Authorization;
+    console.log("token: ", token);
+    if (!token) {
+      return {
+        isAuthorized: false,
+        context: CORS_HEADERS,
+      };
+    }
 
-    // const decoded = await verifyToken(token);
-    // const principalId = decoded["cognito:groups"].find(
-    //   (g) => !g.endsWith("_Google")
-    // );
+    const decoded = await verifyToken(token);
+    const principalId = decoded["cognito:groups"].find(
+      (g) => !g.endsWith("_Google")
+    );
+    console.log("principalId: ", principalId);
 
-    // const actionId = event.headers["X-Required-Permission"];
+    const actionId = event.headers["X-Required-Permission"];
+    console.log("actionId: ", actionId);
 
-    // const command = new IsAuthorizedCommand({
-    //   policyStoreId: policyStoreId,
-    //   principal: {
-    //     entityId: principalId,
-    //     entityType: ENTITY_TYPES.USER_GROUP,
-    //   },
-    //   resource: {
-    //     entityId: RESOURCES.VISITOR,
-    //     entityType: ENTITY_TYPES.RESOURCE,
-    //   },
-    //   action: {
-    //     actionId: actionId,
-    //     actionType: ENTITY_TYPES.ACTION,
-    //   },
-    // });
+    const command = new IsAuthorizedCommand({
+      policyStoreId: policyStoreId,
+      principal: {
+        entityId: principalId,
+        entityType: ENTITY_TYPES.USER_GROUP,
+      },
+      resource: {
+        entityId: RESOURCES.VISITOR,
+        entityType: ENTITY_TYPES.RESOURCE,
+      },
+      action: {
+        actionId: actionId,
+        actionType: ENTITY_TYPES.ACTION,
+      },
+    });
+    console.log("command: ", command);
 
-    // const authResult = await client.send(command);
-    // if (authResult.decision !== "ALLOW") {
-    //   return {
-    //     isAuthorized: false,
-    //     context: CORS_HEADERS,
-    //   };
-    // }
+    const authResult = await client.send(command);
+    if (authResult.decision !== "ALLOW") {
+      return {
+        isAuthorized: false,
+        context: CORS_HEADERS,
+      };
+    }
+    console.log("authResult: ", authResult);
 
     return {
       isAuthorized: true,

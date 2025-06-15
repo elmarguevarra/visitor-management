@@ -27,7 +27,6 @@ export const useAuthenticationStore = defineStore('authentication', {
         if (!user) {
           user = await userManager.getUser()
         }
-        console.log('authenticationStore.user: ', user)
         this.isLoggedIn = !!user && !user.expired
         this.user = user
 
