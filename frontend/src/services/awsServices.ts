@@ -28,7 +28,7 @@ export async function evaluatePermissions(
   const response = await axios.get(url, {
     headers: {
       Authorization: `Bearer ${id_token}`,
-      // 'X-Required-Permission': ACTIONS.API.GET_PERMISSIONS,
+      'X-Required-Permission': ACTIONS.API.GET_PERMISSIONS,
     },
   })
 
