@@ -43,6 +43,8 @@ export const verifiedPermissionsAuthorizerHandler = async (event) => {
     const authResult = await client.send(command);
     const isAllowed = authResult.decision === "ALLOW";
 
+    console.log("authResult: ", JSON.stringify(authResult));
+
     return {
       principalId,
       policyDocument: {

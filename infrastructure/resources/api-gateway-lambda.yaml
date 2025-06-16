@@ -309,8 +309,7 @@ Resources:
             Method: POST
             RestApiId: !Ref ApiGatewayApi
             Auth:
-              # Authorizer: LambdaAuthorizer
-              Authorizer: NONE
+              Authorizer: LambdaAuthorizer
 
   putVisitRequestFunction:
     Type: AWS::Serverless::Function
