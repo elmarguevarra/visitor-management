@@ -8,8 +8,15 @@ import { verifyToken } from "./jwtVerifier.mjs";
 const client = new VerifiedPermissionsClient();
 const policyStoreId = process.env.POLICY_STORE_ID;
 
+const cache = new Map();
+
 export const verifiedPermissionsAuthorizerHandler = async (event) => {
   try {
+    const cacheKey = JSON.stringify(event);
+    if (cache.has(cacheKey)) {
+      return cache.get(cacheKey);
+    }
+
     const token = event.headers.authorization || event.headers.Authorization;
     if (!token) throw new Error("Missing token");
 
@@ -45,7 +52,7 @@ export const verifiedPermissionsAuthorizerHandler = async (event) => {
 
     console.log("authResult: ", JSON.stringify(authResult));
 
-    return {
+    const response = {
       principalId,
       policyDocument: {
         Version: "2012-10-17",
@@ -62,6 +69,8 @@ export const verifiedPermissionsAuthorizerHandler = async (event) => {
         group: principalId,
       },
     };
+    cache.set(cacheKey, response);
+    return response;
   } catch (error) {
     console.error("Authorization error:", error);
 
