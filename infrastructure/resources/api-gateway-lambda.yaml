@@ -277,8 +277,7 @@ Resources:
             Method: POST
             RestApiId: !Ref ApiGatewayApi
             Auth:
-              # Authorizer: LambdaAuthorizer
-              Authorizer: NONE
+              Authorizer: LambdaAuthorizer
 
   putInviteLinkFunction:
     Type: AWS::Serverless::Function
