@@ -1,11 +1,204 @@
-# visitor-management
+# Visitor Management System
 
-This project contains source code and supporting files for a serverless application that you can deploy with the AWS Serverless Application Model (AWS SAM) command line interface (CLI). It includes the following files and folders:
+A serverless visitor management application built with AWS SAM and Vue.js.
 
-- `src` - Code for the application's Lambda function.
-- `events` - Invocation events that you can use to invoke the function.
-- `__tests__` - Unit tests for the application code.
-- `template.yaml` - A template that defines the application's AWS resources.
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js 20+**
+- **AWS SAM CLI**
+- **Docker** (for local DynamoDB)
+
+### Development Setup
+
+```bash
+# 1. Frontend with Mock APIs (Recommended for UI development)
+cd frontend
+npm install
+npm run serve  # http://localhost:8080
+
+# 2. Backend API (Optional)
+sam build
+sam local start-api --env-vars env.json  # http://localhost:3000
+```
+
+## 📁 Project Structure
+
+```
+visitor-management/
+├── template.yaml              # SAM infrastructure template
+├── env.json                   # Backend environment variables
+├── backend/src/               # Lambda functions
+├── frontend/                  # Vue.js application
+│   ├── .env.local            # Frontend environment variables
+│   └── src/mocks/            # MSW API mocks for development
+├── events/                    # SAM test events
+└── infrastructure/            # CloudFormation stacks
+```
+
+## 🏗️ Architecture
+
+**Backend**: AWS Lambda + API Gateway + DynamoDB + Cognito + Verified Permissions  
+**Frontend**: Vue 3 + TypeScript + Pinia + OIDC + MSW + Bootstrap
+
+## 🔧 Environment Variables
+
+### Backend (`env.json` in root)
+
+For SAM local development, configures Lambda environment variables.
+
+### Frontend (`frontend/.env.local`)
+
+```bash
+# Cognito Configuration
+VUE_APP_COGNITO_USER_POOL_CLIENT_ID=your-client-id
+VUE_APP_COGNITO_USER_POOL_DOMAIN_URL=https://your-domain.auth.region.amazoncognito.com
+VUE_APP_COGNITO_AUTHORITY_URL=https://cognito-idp.region.amazonaws.com/your-user-pool-id
+VUE_APP_FRONTEND_BASE_URL=http://localhost:8080
+```
+
+**Note:** Frontend variables must start with `VUE_APP_` prefix.
+
+## 🧪 Development with MSW (Mock Service Worker)
+
+The frontend includes MSW for API mocking during development, allowing you to work without a running backend.
+
+### MSW Configuration
+
+MSW is automatically enabled in development mode (`NODE_ENV === 'development'`) and provides mocks for:
+
+- ✅ `GET /permissions` - User permissions
+- ✅ `GET /visitors` - Visitor list
+- ✅ `GET /visit-requests` - Visit requests
+- ✅ `GET /visitor/:id` - Visitor details
+- ✅ `GET /invite/:token` - Invite details
+- ✅ `GET /visit-request/:token` - Visit request details
+- ✅ `POST /visitor` - Create visitor
+- ✅ `POST /invite` - Create invite link
+- ✅ `POST /visit-request` - Create visit request
+
+### MSW Handler Structure
+
+```typescript
+// Example: frontend/src/mocks/handlers/getVisitors.ts
+export const getVisitorsHandler = (): RestHandler[] => [
+  rest.get("/visitors", async (req, res, ctx) => {
+    const residentId = req.url.searchParams.get("residentId");
+    console.log(`[MSW] GET /visitors - residentId: ${residentId}`);
+    return res(ctx.status(200), ctx.json(mockData));
+  }),
+];
+```
+
+### Mock Authentication in Development
+
+The authentication store provides mock user data when `NODE_ENV === 'development'`:
+
+```typescript
+// Change userGroup to test different permissions
+this.userGroup = "admin"; // Options: 'admin', 'guard', 'resident'
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+#### 1. MSW 404 Errors
+
+**Problem**: MSW handlers returning 404 for API calls
+
+**Solution**: Ensure handlers have fallback patterns:
+
+```typescript
+// ❌ Wrong - only handles full URL
+rest.get(`${API_ENDPOINT}visitors`, ...)
+
+// ✅ Correct - handles both full URL and relative paths
+rest.get(`${API_ENDPOINT}visitors`, ...),
+rest.get('/visitors', ...) // Fallback for when API_ENDPOINT is empty
+```
+
+#### 2. Environment Variables Not Loading
+
+**Problem**: `VUE_APP_*` variables are undefined
+
+**Solutions**:
+
+- Ensure variables start with `VUE_APP_` prefix
+- Restart development server after changing `.env.local`
+- Check file is named exactly `.env.local` (not `.env.local.txt`)
+
+#### 3. CORS Issues
+
+**Problem**: API calls blocked by CORS policy
+
+**Solutions**:
+
+- Ensure `APP_FRONTEND_BASE_URL` in `env.json` matches frontend URL
+- Check CORS headers in Lambda function responses
+- Use MSW mocks for development (CORS-free)
+
+#### 4. Authentication Failures
+
+**Problem**: Cognito authentication not working
+
+**Solutions**:
+
+- Verify Cognito configuration in `.env.local`
+- Check redirect URIs in Cognito User Pool settings
+- Use mock authentication for development
+
+### Debug Commands
+
+```bash
+# Check environment variables
+echo $VUE_APP_API_ENDPOINT
+
+# View SAM logs
+sam logs --stack-name visitor-management --tail
+
+# Test individual Lambda function
+sam local invoke getVisitorsFunction --event events/event-get-visitors.json
+
+# Check DynamoDB local tables
+aws dynamodb list-tables --endpoint-url http://localhost:8000
+
+# View browser console for MSW logs
+# Look for "[MSW] Loaded with handlers 🎉" message
+```
+
+## 📝 Development Workflow
+
+### Frontend-Only Development
+
+1. **Use MSW mocks** (default in development)
+2. **Mock different user types** by changing `userGroup` in auth store
+3. **Test UI components** without backend dependencies
+
+### Full-Stack Development
+
+1. **Start DynamoDB Local**: `docker run --rm -p 8000:8000 amazon/dynamodb-local`
+2. **Create tables**: Use provided AWS CLI commands
+3. **Start SAM API**: `sam local start-api --env-vars env.json`
+4. **Update frontend env**: Set `VUE_APP_API_ENDPOINT=http://127.0.0.1:3000/`
+5. **Disable MSW**: Comment out MSW initialization in `main.ts`
+
+### Testing
+
+```bash
+# Frontend tests
+cd frontend
+npm run test
+
+# Backend tests
+cd backend
+npm test
+
+# E2E testing with SAM local
+sam local start-api --env-vars env.json
+# Then run frontend tests against local API
+```
 
 The application uses several AWS resources, including Lambda functions, an API Gateway API, an S3 Bucket with a CloudFront Distribution and Amazon DynamoDB tables. These resources are defined in the `template.yaml` file in this project. You can update the template to add AWS resources through the same deployment process that updates your application code.
 
