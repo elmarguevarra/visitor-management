@@ -1,10 +1,7 @@
 import { RestHandler, rest } from 'msw'
 
-const API_ENDPOINT = process.env.VUE_APP_API_ENDPOINT
-console.log('API_ENDPOINT', API_ENDPOINT)
-
 export const putInviteLinkHandler = (): RestHandler[] => [
-  rest.post(`${API_ENDPOINT}invite`, async (req, res, ctx) => {
+  rest.post('/invite', async (req, res, ctx) => {
     await new Promise((resolve) => setTimeout(resolve, 1500))
     return res(
       ctx.status(200),

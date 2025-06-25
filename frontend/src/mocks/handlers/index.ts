@@ -6,6 +6,7 @@ import { putVisitRequestHandler } from './putVisitRequest'
 import { putInviteLinkHandler } from './putInviteLink'
 import { getInviteByTokenHandler } from './getInviteByToken'
 import { getVisitRequestByTokenHandler } from './getVisitRequestByToken'
+import { getPermissionsHandler } from './getPermissions'
 
 export function getHandlers() {
   return [
@@ -17,5 +18,6 @@ export function getHandlers() {
     ...putInviteLinkHandler(),
     ...getInviteByTokenHandler(),
     ...getVisitRequestByTokenHandler(),
+    ...getPermissionsHandler(),
   ]
 }
