@@ -24,8 +24,10 @@ Resources:
         - profile
       CallbackURLs:
         - !Sub "https://${SubDomain}/signin-callback"
+        - http://localhost:8080/signin-callback
       LogoutURLs:
         - !Sub "https://${SubDomain}/signout-callback"
+        - http://localhost:8080/signout-callback
       GenerateSecret: false
       SupportedIdentityProviders:
         - COGNITO
