@@ -56,6 +56,7 @@ VUE_APP_COGNITO_USER_POOL_CLIENT_ID=your-client-id
 VUE_APP_COGNITO_USER_POOL_DOMAIN_URL=https://your-domain.auth.region.amazoncognito.com
 VUE_APP_COGNITO_AUTHORITY_URL=https://cognito-idp.region.amazonaws.com/your-user-pool-id
 VUE_APP_FRONTEND_BASE_URL=http://localhost:8080
+VUE_APP_API_ENDPOINT=http://127.0.0.1:3000/
 ```
 
 **Note:** Frontend variables must start with `VUE_APP_` prefix.
@@ -90,64 +91,6 @@ export const getVisitorsHandler = (): RestHandler[] => [
   }),
 ];
 ```
-
-### Mock Authentication in Development
-
-The authentication store provides mock user data when `NODE_ENV === 'development'`:
-
-```typescript
-// Change userGroup to test different permissions
-this.userGroup = "admin"; // Options: 'admin', 'guard', 'resident'
-```
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-#### 1. MSW 404 Errors
-
-**Problem**: MSW handlers returning 404 for API calls
-
-**Solution**: Ensure handlers have fallback patterns:
-
-```typescript
-// ❌ Wrong - only handles full URL
-rest.get(`${API_ENDPOINT}visitors`, ...)
-
-// ✅ Correct - handles both full URL and relative paths
-rest.get(`${API_ENDPOINT}visitors`, ...),
-rest.get('/visitors', ...) // Fallback for when API_ENDPOINT is empty
-```
-
-#### 2. Environment Variables Not Loading
-
-**Problem**: `VUE_APP_*` variables are undefined
-
-**Solutions**:
-
-- Ensure variables start with `VUE_APP_` prefix
-- Restart development server after changing `.env.local`
-- Check file is named exactly `.env.local` (not `.env.local.txt`)
-
-#### 3. CORS Issues
-
-**Problem**: API calls blocked by CORS policy
-
-**Solutions**:
-
-- Ensure `APP_FRONTEND_BASE_URL` in `env.json` matches frontend URL
-- Check CORS headers in Lambda function responses
-- Use MSW mocks for development (CORS-free)
-
-#### 4. Authentication Failures
-
-**Problem**: Cognito authentication not working
-
-**Solutions**:
-
-- Verify Cognito configuration in `.env.local`
-- Check redirect URIs in Cognito User Pool settings
-- Use mock authentication for development
 
 ### Debug Commands
 
@@ -212,7 +155,7 @@ This template adds the following components to the standard serverless backend w
 
 How does it work? When the full stack is deployed, the end result is a single page web application hosted on S3/CloudFront that allows users to interact with the serverless API that is created by this project.
 
-If you prefer to use an integrated development environment (IDE) to build and test your application, you can use the AWS Toolkit.  
+If you prefer to use an integrated development environment (IDE) to build and test your application, you can use the AWS Toolkit.
 The AWS Toolkit is an open-source plugin for popular IDEs that uses the AWS SAM CLI to build and deploy serverless applications on AWS. The AWS Toolkit also adds step-through debugging for Lambda function code.
 
 To get started, see the following:
@@ -604,3 +547,7 @@ Update Readme to add about Google login and the configuration in Google Cloud Co
 For an introduction to the AWS SAM specification, the AWS SAM CLI, and serverless application concepts, see the [AWS SAM Developer Guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html).
 
 Next, you can use the AWS Serverless Application Repository to deploy ready-to-use apps that go beyond Hello World samples and learn how authors developed their applications. For more information, see the [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/) and the [AWS Serverless Application Repository Developer Guide](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/what-is-serverlessrepo.html).
+
+```
+
+```
