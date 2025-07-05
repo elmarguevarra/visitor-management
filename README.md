@@ -275,7 +275,7 @@ visitor-management$ sam local invoke getInviteByTokenFunction --event events/eve
 visitor-management$ sam local invoke getVisitRequestByTokenFunction --event events/event-get-visit-request-by-token.json
 visitor-management$ sam local invoke putInviteLinkFunction --event events/event-post-invite-link.json
 visitor-management$ sam local invoke putVisitRequestFunction --event events/event-post-visit-request.json
-
+visitor-management$ sam local invoke sendEmailFunction
 ```
 
 The AWS SAM CLI can also emulate your application's API. Use the `sam local start-api` command to run the API locally on port 3000. Don't forget to run sam build before this.
