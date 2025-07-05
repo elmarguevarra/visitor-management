@@ -34,7 +34,7 @@ Resources:
         - "10 mx01.mail.icloud.com."
         - "10 mx02.mail.icloud.com."
 
-  AppleDomainVerificationTXT:
+  AppleTXTRecord:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZoneId
@@ -43,15 +43,6 @@ Resources:
       TTL: 3600
       ResourceRecords:
         - '"apple-domain=cKE82eVkOPadRswu"'
-
-  AppleSPFTXT:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      HostedZoneId: !Ref HostedZoneId
-      Name: !Ref BaseDomain
-      Type: TXT
-      TTL: 3600
-      ResourceRecords:
         - '"v=spf1 include:icloud.com ~all"'
 
   AppleDKIMCNAME:
