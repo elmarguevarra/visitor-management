@@ -3,14 +3,17 @@ const ses = new SESClient();
 
 export const sendEmailHandler = async (event) => {
   const params = {
-    Source: "elmar.guevarra@icloud.com",
+    Source: "vms.info@alphinecodetech.click", //TODO: Get from SAM Template
     Destination: {
-      ToAddresses: ["elmarguevarra31@gmail.com"],
+      ToAddresses: [
+        "ballesterosivymae@icloud.com",
+        "elmar.guevarra@icloud.com",
+      ],
     },
     Template: "VisitorArrivalNotification",
     TemplateData: JSON.stringify({
-      name: "John Doe",
-      visitor_name: "Jane Smith",
+      name: "Ivy Ballesteros",
+      visitor_name: "Maling Swarovski",
     }),
   };
 
