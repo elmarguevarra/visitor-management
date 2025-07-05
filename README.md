@@ -13,12 +13,15 @@ A serverless visitor management application built with AWS SAM and Vue.js.
 ### Development Setup
 
 ```bash
-# 1. Frontend with Mock APIs (Recommended for UI development)
+# 1. Frontend (default: real backend)
 cd frontend
 npm install
 npm run serve  # http://localhost:8080
 
-# 2. Backend API (Optional)
+# 1a. Frontend with MSW Mock APIs
+npm run serve:msw  # http://localhost:8080 (uses MSW mocks)
+
+# 2. Backend API
 sam build
 sam local start-api --env-vars env.json  # http://localhost:3000
 ```
@@ -31,8 +34,8 @@ visitor-management/
 ├── env.json                   # Backend environment variables
 ├── backend/src/               # Lambda functions
 ├── frontend/                  # Vue.js application
-│   ├── .env.local            # Frontend environment variables
-│   └── src/mocks/            # MSW API mocks for development
+│   ├── .env.local             # Frontend environment variables
+│   └── src/mocks/             # MSW API mocks for development
 ├── events/                    # SAM test events
 └── infrastructure/            # CloudFormation stacks
 ```
@@ -51,7 +54,6 @@ For SAM local development, configures Lambda environment variables.
 ### Frontend (`frontend/.env.local`)
 
 ```bash
-# Cognito Configuration
 VUE_APP_COGNITO_USER_POOL_CLIENT_ID=your-client-id
 VUE_APP_COGNITO_USER_POOL_DOMAIN_URL=https://your-domain.auth.region.amazoncognito.com
 VUE_APP_COGNITO_AUTHORITY_URL=https://cognito-idp.region.amazonaws.com/your-user-pool-id
@@ -115,7 +117,7 @@ aws dynamodb list-tables --endpoint-url http://localhost:8000
 
 ### Frontend-Only Development
 
-1. **Use MSW mocks** (default in development)
+1. **Use MSW mocks** (npm run serve:msw)
 2. **Mock different user types** by changing `userGroup` in auth store
 3. **Test UI components** without backend dependencies
 
@@ -547,7 +549,3 @@ Update Readme to add about Google login and the configuration in Google Cloud Co
 For an introduction to the AWS SAM specification, the AWS SAM CLI, and serverless application concepts, see the [AWS SAM Developer Guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html).
 
 Next, you can use the AWS Serverless Application Repository to deploy ready-to-use apps that go beyond Hello World samples and learn how authors developed their applications. For more information, see the [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/) and the [AWS Serverless Application Repository Developer Guide](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/what-is-serverlessrepo.html).
-
-```
-
-```

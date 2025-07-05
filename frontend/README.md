@@ -5,9 +5,14 @@
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads for development (real backend)
 ```
 npm run serve
+```
+
+### Compiles and hot-reloads for development with MSW mock API
+```
+npm run serve:msw
 ```
 
 ### Compiles and minifies for production
