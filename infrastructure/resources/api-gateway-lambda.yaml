@@ -65,8 +65,7 @@ Resources:
         - arm64 # Cheaper and often better performance for Lambda
       MemorySize: 512 # Better baseline for Node.js
       Timeout: 15 # More reasonable default
-      Description:
-        A simple example includes a HTTP get method to get all items by id
+      Description: HTTP get method to get all items by id
         from a DynamoDB table.
       Policies:
         - DynamoDBCrudPolicy:
@@ -131,8 +130,7 @@ Resources:
         - arm64 # Cheaper and often better performance for Lambda
       MemorySize: 512 # Better baseline for Node.js
       Timeout: 15 # More reasonable default
-      Description:
-        A simple example includes a HTTP get method to get all items by id
+      Description: HTTP get method to get all items by id
         from a DynamoDB table.
       Policies:
         - DynamoDBCrudPolicy:
@@ -165,8 +163,7 @@ Resources:
         - arm64 # Cheaper and often better performance for Lambda
       MemorySize: 512 # Better baseline for Node.js
       Timeout: 15 # More reasonable default
-      Description:
-        A simple example includes a HTTP get method to get one item by id
+      Description: HTTP get method to get one item by id
         from a DynamoDB table.
       Policies:
         - DynamoDBCrudPolicy:
@@ -196,8 +193,7 @@ Resources:
         - arm64 # Cheaper and often better performance for Lambda
       MemorySize: 512 # Better baseline for Node.js
       Timeout: 15 # More reasonable default
-      Description:
-        A simple example includes a HTTP get method to get one item by id
+      Description: HTTP get method to get one item by id
         from a DynamoDB table.
       Policies:
         - DynamoDBCrudPolicy:
@@ -227,8 +223,7 @@ Resources:
         - arm64 # Cheaper and often better performance for Lambda
       MemorySize: 512 # Better baseline for Node.js
       Timeout: 15 # More reasonable default
-      Description:
-        A simple example includes a HTTP get method to get one item by id
+      Description: HTTP get method to get one item by id
         from a DynamoDB table.
       Policies:
         - DynamoDBCrudPolicy:
@@ -258,8 +253,7 @@ Resources:
         - arm64 # Cheaper and often better performance for Lambda
       MemorySize: 512 # Better baseline for Node.js
       Timeout: 15 # More reasonable default
-      Description:
-        A simple example includes a HTTP post method to add one item to a
+      Description: HTTP post method to add one item to a
         DynamoDB table.
       Policies:
         - DynamoDBCrudPolicy:
@@ -289,8 +283,7 @@ Resources:
         - arm64 # Cheaper and often better performance for Lambda
       MemorySize: 512 # Better baseline for Node.js
       Timeout: 15 # More reasonable default
-      Description:
-        A simple example includes a HTTP post method to add one item to a
+      Description: HTTP post method to add one item to a
         DynamoDB table.
       Policies:
         - DynamoDBCrudPolicy:
@@ -320,8 +313,7 @@ Resources:
         - arm64 # Cheaper and often better performance for Lambda
       MemorySize: 512 # Better baseline for Node.js
       Timeout: 15 # More reasonable default
-      Description:
-        A simple example includes a HTTP post method to add one item to a
+      Description: HTTP post method to add one item to a
         DynamoDB table.
       Policies:
         - DynamoDBCrudPolicy:
@@ -336,6 +328,35 @@ Resources:
           Type: Api
           Properties:
             Path: /visit-request
+            Method: POST
+            RestApiId: !Ref ApiGatewayApi
+            Auth:
+              Authorizer: NONE
+
+  sendEmailFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../../backend/
+      Handler: src/handlers/notif/send-email.sendEmailHandler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
+      Description: HTTP post method to send an email using
+        AWS SES.
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ses:SendEmail
+                - ses:SendRawEmail
+              Resource: "*"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /send-email
             Method: POST
             RestApiId: !Ref ApiGatewayApi
             Auth:

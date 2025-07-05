@@ -90,7 +90,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     DependsOn: S3BucketCloudFrontStack
     Properties:
-      TemplateURL: ./infrastructure/resources/record-set.yaml
+      TemplateURL: ./infrastructure/resources/record-sets.yaml
       Parameters:
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
         SubDomain: !Ref SubDomain
