@@ -25,7 +25,6 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZoneId
-      Name: "@"
       Type: MX
       TTL: 3600
       ResourceRecords:
@@ -36,7 +35,6 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZoneId
-      Name: "@"
       Type: TXT
       TTL: 3600
       ResourceRecords:
@@ -46,7 +44,6 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZoneId
-      Name: "@"
       Type: TXT
       TTL: 3600
       ResourceRecords:
