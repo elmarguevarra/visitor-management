@@ -8,6 +8,8 @@ Parameters:
     Type: String
   SubDomain:
     Type: String
+  BaseDomain:
+    Type: String
 
 Resources:
   CloudFrontTypeARecord:
@@ -25,6 +27,7 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZoneId
+      Name: !Ref BaseDomain
       Type: MX
       TTL: 3600
       ResourceRecords:
@@ -35,6 +38,7 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZoneId
+      Name: !Ref BaseDomain
       Type: TXT
       TTL: 3600
       ResourceRecords:
@@ -44,6 +48,7 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZoneId
+      Name: !Ref BaseDomain
       Type: TXT
       TTL: 3600
       ResourceRecords:

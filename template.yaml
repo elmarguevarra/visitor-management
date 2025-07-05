@@ -93,6 +93,7 @@ Resources:
       TemplateURL: ./infrastructure/resources/record-sets.yaml
       Parameters:
         GlobalCloudFrontHostedZoneId: !Ref GlobalCloudFrontHostedZoneId
+        BaseDomain: !Ref BaseDomain
         SubDomain: !Ref SubDomain
         HostedZoneId: !If
           - CreateHostedZoneCondition
