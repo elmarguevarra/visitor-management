@@ -58,7 +58,7 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZoneId
-      Name: sig1._domainkey
+      Name: !Sub sig1._domainkey.${BaseDomain}
       Type: CNAME
       TTL: 3600
       ResourceRecords:
