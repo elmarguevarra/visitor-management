@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: SES Configuration for Visitor Management
+
+Resources:
+  VisitorManagementSESIdentity:
+    Type: AWS::SES::EmailIdentity
+    Properties:
+      EmailIdentity: elmar.guevarra@icloud.com
+
+  VisitorManagementSESTemplate:
+    Type: AWS::SES::Template
+    Properties:
+      Template:
+        TemplateName: VisitorArrivalNotification
+        SubjectPart: "Your visitor has arrived!"
+        TextPart: "Hello {{name}},\n\nYour visitor {{visitor_name}} has arrived at the gate."
+        HtmlPart: "<h1>Hello {{name}},</h1><p>Your visitor <b>{{visitor_name}}</b> has arrived at the gate.</p>"
+
+Outputs:
+  VisitorManagementSESIdentityArn:
+    Description: ARN of the SES verified sender identity
+    Value: !GetAtt VisitorManagementSESIdentity.Arn
+  VisitorManagementSESTemplateName:
+    Description: Name of the SES template for visitor arrival
+    Value: VisitorArrivalNotification

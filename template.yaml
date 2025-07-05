@@ -141,6 +141,11 @@ Resources:
           - !GetAtt HostedZoneStack.Outputs.HostedZoneId
           - !Ref HostedZoneId
 
+  SESNotificationStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./infrastructure/resources/ses-notification.yaml
+
 Outputs:
   APIGatewayEndpoint:
     Description: API Gateway endpoint URL for Prod stage
