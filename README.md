@@ -10,6 +10,18 @@ A serverless visitor management application built with AWS SAM and Vue.js.
 - **AWS SAM CLI**
 - **Docker** (for local DynamoDB)
 
+### AWS Credentials Setup
+
+To run AWS SAM and Lambda functions locally, you must configure your AWS credentials.
+You can do this by running:
+
+```bash
+aws configure
+```
+
+This will prompt you for your AWS Access Key ID, Secret Access Key, region, and output format.
+Make sure the credentials you use have sufficient permissions for the resources you want to test locally.
+
 ### Development Setup
 
 ```bash
@@ -549,3 +561,35 @@ Update Readme to add about Google login and the configuration in Google Cloud Co
 For an introduction to the AWS SAM specification, the AWS SAM CLI, and serverless application concepts, see the [AWS SAM Developer Guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html).
 
 Next, you can use the AWS Serverless Application Repository to deploy ready-to-use apps that go beyond Hello World samples and learn how authors developed their applications. For more information, see the [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/) and the [AWS Serverless Application Repository Developer Guide](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/what-is-serverlessrepo.html).
+
+## 🚦 Deployment Guide
+
+All AWS resources for this project—including Lambda functions, API Gateway, DynamoDB tables, Cognito, SES identities, and templates—are automatically created and managed by the provided CloudFormation/SAM templates.
+
+However, the following steps require manual action on first deploy or when adding a new domain:
+
+### ⚠️ Note on Hosted Zone Creation
+
+Creating a new Route 53 hosted zone (for DNS management) incurs a recurring cost. Only create a hosted zone if you do not already have one for your domain. Double-check your AWS account to avoid unnecessary charges.
+
+### 1. Create Public Certificate for Website Domain
+
+- Manually create a public ACM certificate in the `us-east-1` region for your domain (e.g., `yourdomain.com`, `*.yourdomain.com`).
+- After creating the certificate, add the required DNS validation records to your domain's DNS/Route53.
+- Wait for the certificate to be validated before proceeding with deployment.
+- Update your deployment scripts or parameters with the ARN of the validated certificate.
+
+### 2. Move SES to Production
+
+#### SES Sandbox vs Production
+
+By default, AWS SES starts in sandbox mode. In sandbox mode, you can only send emails to verified addresses and have low sending limits. For real-world use, you must move SES to production mode.
+
+- Deploy all SES resources (identities, templates) using the provided CloudFormation/SAM templates.
+- Go to the AWS SES Console for your region.
+- In the left menu, select **Account dashboard**.
+- Under **SES Sending Limits**, click **Request production access**.
+- Fill out the form, describing your use case and how you prevent spam/abuse.
+- Submit the request and wait for AWS approval (may take a few days).
+
+Once approved, you can send emails to any address without verifying each recipient.

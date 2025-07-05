@@ -1,41 +1,7 @@
-# SAM starter Front End Application
+# Visitor Management Frontend
 
-## Project setup
-```
-npm install
-```
+This directory contains the frontend (Vue.js) application for the Visitor Management System.
 
-### Compiles and hot-reloads for development (real backend)
-```
-npm run serve
-```
+All setup, development, and deployment instructions are documented in the main [README.md](../README.md) at the root of this repository.
 
-### Compiles and hot-reloads for development with MSW mock API
-```
-npm run serve:msw
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Runs unit tests
-```
-npm run test
-```
-
-### Connect to Backend
-
-Make backend API endpoint accessible as an environment variable. For local, create a `.env` file, Here is an example: 
-```
-VUE_APP_API_ENDPOINT=http://127.0.0.1:3000/
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+For frontend-specific development tips or troubleshooting, see comments in the codebase or contact the project maintainers.
