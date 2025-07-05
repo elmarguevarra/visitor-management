@@ -579,7 +579,48 @@ Creating a new Route 53 hosted zone (for DNS management) incurs a recurring cost
 - Wait for the certificate to be validated before proceeding with deployment.
 - Update your deployment scripts or parameters with the ARN of the validated certificate.
 
-### 2. Move SES to Production
+### 2. Use a Custom Domain for Email Notifications (Apple iCloud+, Google Workspace, Fastmail, Zoho, Proton Mail, etc.)
+
+To send notification emails with a "from" address using your own domain (e.g., `you@yourdomain.com`), you can use a custom domain email provider. Popular options include:
+
+- **Apple iCloud+** (Custom Email Domain)
+- **Google Workspace (Gmail for Business)**
+- **Fastmail**
+- **Zoho Mail**
+- **Proton Mail**
+- **Namecheap Private Email**
+- **Mailbox.org**
+- **Migadu**
+- ...and others
+
+#### General Steps for Any Provider
+
+1. Set up your domain with your chosen provider (e.g., Apple ID > iCloud+ > Custom Email Domain, or Google Admin Console for Google Workspace).
+2. Your provider will give you DNS records (MX, TXT, CNAME for DKIM, etc.) to add to Route 53. For Apple iCloud+, these are already included in the provided record set template:
+   - MX records for mail delivery
+   - TXT records for domain verification and SPF
+   - CNAME records for DKIM
+3. After adding these records and verifying your domain with your provider, you can use your custom domain as the "from" address for SES notifications.
+
+### 2a. Add New Custom Domain Email Addresses (Apple iCloud+ and Similar Services)
+
+After completing the DNS and verification steps above, you can add new email addresses with your custom domain in your provider's dashboard (e.g., Apple iCloud+ > Custom Email Domain > Add Email Address). For example, you can add `info@alphinecodetech.click` or any other address under your domain.
+
+Once added and verified, you can use these addresses as the "from" address in SES notification emails.
+
+#### Supported Providers for Custom Domain Email (examples):
+
+- **Apple iCloud+** (Custom Email Domain)
+- **Google Workspace (Gmail)**
+- **Fastmail**
+- **Zoho Mail**
+- **Proton Mail**
+- **Microsoft 365/Outlook**
+- ...and other providers that support custom domain email addresses
+
+Just ensure the DNS records (MX, TXT, DKIM, etc.) required by your provider are present in Route 53, and the address is verified in both your provider and SES if needed.
+
+### 3. Move SES to Production
 
 #### SES Sandbox vs Production
 
@@ -588,8 +629,12 @@ By default, AWS SES starts in sandbox mode. In sandbox mode, you can only send e
 - Deploy all SES resources (identities, templates) using the provided CloudFormation/SAM templates.
 - Go to the AWS SES Console for your region.
 - In the left menu, select **Account dashboard**.
-- Under **SES Sending Limits**, click **Request production access**.
+- Publish the DNS record to Route53.
+- Complete all the tasks.
+- Click **Request production access**.
 - Fill out the form, describing your use case and how you prevent spam/abuse.
 - Submit the request and wait for AWS approval (may take a few days).
 
 Once approved, you can send emails to any address without verifying each recipient.
+
+---

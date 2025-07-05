@@ -6,7 +6,7 @@ Resources:
   VisitorManagementSESIdentity:
     Type: AWS::SES::EmailIdentity
     Properties:
-      EmailIdentity: elmar.guevarra@icloud.com
+      EmailIdentity: vms.info@alphinecodetech.click #TODO: Make this as global parameter
 
   VisitorManagementSESTemplate:
     Type: AWS::SES::Template

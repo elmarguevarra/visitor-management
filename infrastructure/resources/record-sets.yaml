@@ -23,6 +23,7 @@ Resources:
         DNSName: !ImportValue CloudFrontDistributionDomainName
         EvaluateTargetHealth: false # Important for CloudFront
 
+  # Apple iCloud+ Custom Domain DNS Records
   AppleMXRecord:
     Type: AWS::Route53::RecordSet
     Properties:
