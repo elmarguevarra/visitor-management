@@ -32,7 +32,7 @@ export const sendEmailHandler = async (event) => {
     },
     Template: template,
     TemplateData: JSON.stringify({
-      name: residentName,
+      resident_name: residentName,
       visitor_name: visitorName,
     }),
   };
