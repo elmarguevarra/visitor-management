@@ -20,7 +20,7 @@ Resources:
         TemplateName: VisitorArrivalNotification
         SubjectPart: "Your visitor {{visitor_name}} has arrived!"
         TextPart: "Hello {{resident_name}},\n\nYour visitor {{visitor_name}} has arrived at the gate at (arrival_time).\n\nPlease proceed to the reception area to meet them. If you have any questions, please contact security at (security_contact)."
-        HtmlPart: "<h1>Hello {{name}},</h1><p>Your visitor <b>{{visitor_name}}</b> has arrived at the gate at <b>(arrival_time)</b>.</p><p>Please proceed to the reception area to meet them. If you have any questions, please contact security at (security_contact).</p>"
+        HtmlPart: "<h1>Hello {{resident_name}},</h1><p>Your visitor <b>{{visitor_name}}</b> has arrived at the gate at <b>(arrival_time)</b>.</p><p>Please proceed to the reception area to meet them. If you have any questions, please contact security at (security_contact).</p>"
 
   VisitorDepartureSESTemplate:
     Type: AWS::SES::Template
