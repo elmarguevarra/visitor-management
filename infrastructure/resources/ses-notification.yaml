@@ -2,24 +2,40 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: SES Configuration for Visitor Management
 
+Parameters:
+  SysNotifEmailAddress:
+    Type: String
+    Description: Email address for SES notifications
+
 Resources:
   VisitorManagementSESIdentity:
     Type: AWS::SES::EmailIdentity
     Properties:
-      EmailIdentity: vms.info@alphinecodetech.click #TODO: Make this as global parameter
+      EmailIdentity: !Ref SysNotifEmailAddress
 
-  VisitorManagementSESTemplate:
+  VisitorArrivalSESTemplate:
     Type: AWS::SES::Template
     Properties:
       Template:
         TemplateName: VisitorArrivalNotification
-        SubjectPart: "Your visitor has arrived!"
-        TextPart: "Hello {{name}},\n\nYour visitor {{visitor_name}} has arrived at the gate."
-        HtmlPart: "<h1>Hello {{name}},</h1><p>Your visitor <b>{{visitor_name}}</b> has arrived at the gate.</p>"
-# Outputs:
-#   VisitorManagementSESIdentityArn:
-#     Description: ARN of the SES verified sender identity
-#     Value: !GetAtt VisitorManagementSESIdentity.Arn
-#   VisitorManagementSESTemplateName:
-#     Description: Name of the SES template for visitor arrival
-#     Value: VisitorArrivalNotification
+        SubjectPart: "Your visitor {{visitor_name}} has arrived!"
+        TextPart: "Hello {{name}},\n\nYour visitor {{visitor_name}} has arrived at the gate at {{arrival_time}}.\n\nPlease proceed to the reception area to meet them. If you have any questions, please contact security at {{security_contact}}."
+        HtmlPart: "<h1>Hello {{name}},</h1><p>Your visitor <b>{{visitor_name}}</b> has arrived at the gate at <b>{{arrival_time}}</b>.</p><p>Please proceed to the reception area to meet them. If you have any questions, please contact security at {{security_contact}}.</p>"
+
+  VisitorDepartureSESTemplate:
+    Type: AWS::SES::Template
+    Properties:
+      Template:
+        TemplateName: VisitorDepartureNotification
+        SubjectPart: "Your visitor {{visitor_name}} has departed."
+        TextPart: "Hello {{name}},\n\nThis is to confirm that your visitor {{visitor_name}} has successfully departed from the premises at {{departure_time}} on {{departure_date}}. \n\nThank you for using our visitor management system."
+        HtmlPart: "<h1>Hello {{name}},</h1><p>This is to confirm that your visitor <b>{{visitor_name}}</b> has successfully departed from the premises at <b>{{departure_time}}</b> on <b>{{departure_date}}</b>.</p><p>Thank you for using our visitor management system.</p>"
+
+  VisitorInviteSESTemplate:
+    Type: AWS::SES::Template
+    Properties:
+      Template:
+        TemplateName: VisitorInviteNotification
+        SubjectPart: "You're invited to visit {{host_name}}!"
+        TextPart: "Hello {{visitor_name}},\n\nYou've been invited by {{host_name}} to visit at {{visit_location}}.\n\nYour scheduled visit details:\nDate: {{visit_date}}\nTime: {{visit_time}}\n\nPlease present this invitation upon arrival. If you have any questions, contact {{host_name}} at {{host_contact}}.\n\nWe look forward to seeing you!"
+        HtmlPart: "<h1>Hello {{visitor_name}},</h1><p>You've been invited by <b>{{host_name}}</b> to visit at <b>{{visit_location}}</b>.</p><p>Your scheduled visit details:<br><b>Date:</b> {{visit_date}}<br><b>Time:</b> {{visit_time}}</p><p>Please present this invitation upon arrival. If you have any questions, feel free to contact {{host_name}} at {{host_contact}}.</p><p>We look forward to seeing you!</p>"

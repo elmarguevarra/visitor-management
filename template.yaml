@@ -6,8 +6,10 @@ Transform:
 Parameters:
   BaseDomain:
     Type: String
+    Description: The base domain name (e.g., alphinecodetech.click)
   SubDomain:
     Type: String
+    Description: The subdomain for the web frontend (e.g., vms.alphinecodetech.click)
   CognitoCustomDomainName:
     Type: String
     Description: Your custom domain name (e.g., auth.example.com)
@@ -40,10 +42,13 @@ Parameters:
     Description: Whether to create the hosted zone
   GoogleClientId:
     Type: String
-    # NoEcho: true
+    Description: Google Client ID for OIDC authentication
   GoogleClientSecret:
     Type: String
-    # NoEcho: true
+    Description: Google Client Secret for OIDC authentication
+  SysNotifEmailAddress:
+    Type: String
+    Description: Email address for SES notifications
 
 Conditions:
   CreateHostedZoneCondition: !Equals [!Ref CreateHostedZone, "true"]
@@ -67,6 +72,7 @@ Resources:
       TemplateURL: ./infrastructure/resources/api-gateway-lambda.yaml
       Parameters:
         SubDomain: !Ref SubDomain
+        SysNotifEmailAddress: !Ref SysNotifEmailAddress
 
   VerifiedPermissionsStack:
     Type: AWS::CloudFormation::Stack
@@ -146,6 +152,8 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: ./infrastructure/resources/ses-notification.yaml
+      Parameters:
+        SysNotifEmailAddress: !Ref SysNotifEmailAddress
 
 Outputs:
   APIGatewayEndpoint:

@@ -2,18 +2,38 @@ import { SESClient, SendTemplatedEmailCommand } from "@aws-sdk/client-ses";
 const ses = new SESClient();
 
 export const sendEmailHandler = async (event) => {
+  const sysNotifEmailAddress = process.env.SYS_NOTIF_EMAIL_ADDRESS;
+  if (!sysNotifEmailAddress) {
+    return {
+      statusCode: 500,
+      body: "System notification email address is not configured.",
+    };
+  }
+
+  const body = JSON.parse(event.body);
+
+  let toAddresses = body.ToAddresses;
+
+  if (!toAddresses || !Array.isArray(toAddresses) || toAddresses.length === 0) {
+    return {
+      statusCode: 400,
+      body: "Recipient email addresses are required.",
+    };
+  }
+
+  let template = body.Template;
+  let residentName = body.resident_name;
+  let visitorName = body.visitor_name;
+
   const params = {
-    Source: "vms.info@alphinecodetech.click", //TODO: Get from SAM Template
+    Source: sysNotifEmailAddress,
     Destination: {
-      ToAddresses: [
-        "ballesterosivymae@icloud.com",
-        "elmar.guevarra@icloud.com",
-      ],
+      ToAddresses: toAddresses,
     },
-    Template: "VisitorArrivalNotification",
+    Template: template,
     TemplateData: JSON.stringify({
-      name: "Ivy Ballesteros",
-      visitor_name: "Maling Swarovski",
+      name: residentName,
+      visitor_name: visitorName,
     }),
   };
 

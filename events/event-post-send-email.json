@@ -1,0 +1,4 @@
+{
+  "httpMethod": "POST",
+  "body": "{\"ToAddresses\": [\"ballesterosivymae@icloud.com\", \"elmarguevarra31@gmail.com\"], \"Template\": \"VisitorArrivalNotification\", \"resident_name\": \"Ivy\", \"visitor_name\": \"Maling\"}"
+}

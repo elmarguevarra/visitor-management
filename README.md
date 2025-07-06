@@ -267,15 +267,15 @@ Test a single function by invoking it directly with a test event. An event is a 
 Run functions locally and invoke them with the `sam local invoke` command.
 
 ```bash
-visitor-management$ sam local invoke putVisitorFunction --event events/event-post-visitor.json
-visitor-management$ sam local invoke getVisitorByIdFunction --event events/event-get-visitor-by-id.json
-visitor-management$ sam local invoke getVisitorsFunction --event events/event-get-visitors.json
-visitor-management$ sam local invoke getVisitRequestsFunction --event events/event-get-visit-requests.json
-visitor-management$ sam local invoke getInviteByTokenFunction --event events/event-get-invite-by-token
-visitor-management$ sam local invoke getVisitRequestByTokenFunction --event events/event-get-visit-request-by-token.json
-visitor-management$ sam local invoke putInviteLinkFunction --event events/event-post-invite-link.json
-visitor-management$ sam local invoke putVisitRequestFunction --event events/event-post-visit-request.json
-visitor-management$ sam local invoke sendEmailFunction
+visitor-management$ sam local invoke putVisitorFunction --env-vars env.json --event events/event-post-visitor.json
+visitor-management$ sam local invoke getVisitorByIdFunction --env-vars env.json --event events/event-get-visitor-by-id.json
+visitor-management$ sam local invoke getVisitorsFunction --env-vars env.json --event events/event-get-visitors.json
+visitor-management$ sam local invoke getVisitRequestsFunction --env-vars env.json --event events/event-get-visit-requests.json
+visitor-management$ sam local invoke getInviteByTokenFunction --env-vars env.json --event events/event-get-invite-by-token
+visitor-management$ sam local invoke getVisitRequestByTokenFunction --env-vars env.json --event events/event-get-visit-request-by-token.json
+visitor-management$ sam local invoke putInviteLinkFunction --env-vars env.json --event events/event-post-invite-link.json
+visitor-management$ sam local invoke putVisitRequestFunction --env-vars env.json --event events/event-post-visit-request.json
+visitor-management$ sam local invoke sendEmailFunction --env-vars env.json --event events/event-post-send-email.json
 ```
 
 The AWS SAM CLI can also emulate your application's API. Use the `sam local start-api` command to run the API locally on port 3000. Don't forget to run sam build before this.
