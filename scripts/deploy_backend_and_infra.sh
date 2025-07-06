@@ -68,6 +68,7 @@ sam_deploy_output=$(
         AcmCertificateArn=$existing_cert_arn \
         GoogleClientId=$GOOGLE_CLIENT_ID \
         GoogleClientSecret=$GOOGLE_CLIENT_SECRET \
+        SysNotifEmailAddress=$SYS_NOTIF_EMAIL_ADDRESS \
     2>&1
 )
 

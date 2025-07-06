@@ -25,6 +25,7 @@ env:
   APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
   COGNITO_CUSTOM_DOMAIN_NAME: login.vms.alphinecodetech.click
   COGNITO_USERS_INIT_PASSWORD: ${{ secrets.COGNITO_USERS_INIT_PASSWORD }}
+  SYS_NOTIF_EMAIL_ADDRESS: vms.alerts@alphinecodetech.click
 
 jobs:
   deploy-backend-and-infra:

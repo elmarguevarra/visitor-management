@@ -54,4 +54,4 @@ Resources:
       Type: CNAME
       TTL: 3600
       ResourceRecords:
-        - "sig1.dkim.alphinecodetech.click.at.icloudmailadmin.com."
+        - !Sub sig1.dkim.${BaseDomain}.at.icloudmailadmin.com.

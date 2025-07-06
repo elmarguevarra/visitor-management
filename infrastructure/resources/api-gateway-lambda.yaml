@@ -5,6 +5,10 @@ Description: Nested stack for Api Gateway and Lambda Functions
 Parameters:
   SubDomain:
     Type: String
+    Description: The subdomain for the web frontend (e.g., vms.alphinecodetech.click)
+  SysNotifEmailAddress:
+    Type: String
+    Description: Email address for SES notifications
 
 Resources:
   ApiGatewayApi:
@@ -352,6 +356,9 @@ Resources:
                 - ses:SendEmail
                 - ses:SendRawEmail
               Resource: "*"
+      Environment:
+        Variables:
+          SYS_NOTIF_EMAIL_ADDRESS: !Ref SysNotifEmailAddress
       Events:
         Api:
           Type: Api
