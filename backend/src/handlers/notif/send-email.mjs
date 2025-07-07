@@ -1,6 +1,8 @@
 import { SESClient, SendTemplatedEmailCommand } from "@aws-sdk/client-ses";
 const ses = new SESClient();
 
+const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
+
 export const sendEmailHandler = async (event) => {
   const sysNotifEmailAddress = process.env.SYS_NOTIF_EMAIL_ADDRESS;
   if (!sysNotifEmailAddress) {
@@ -18,6 +20,11 @@ export const sendEmailHandler = async (event) => {
   if (!toAddresses || !Array.isArray(toAddresses) || toAddresses.length === 0) {
     return {
       statusCode: 400,
+      headers: {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": frontEndBaseUrl,
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+      },
       body: "Recipient email addresses are required.",
     };
   }
