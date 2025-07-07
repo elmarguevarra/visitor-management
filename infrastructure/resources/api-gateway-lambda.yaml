@@ -359,6 +359,7 @@ Resources:
               Resource: "*"
       Environment:
         Variables:
+          APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           SYS_NOTIF_EMAIL_ADDRESS: !Ref SysNotifEmailAddress
       Events:
         Api:
