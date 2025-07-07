@@ -109,7 +109,7 @@ import { ref, computed, onMounted } from 'vue'
 import {
   getVisitorByRegistrationId,
   postVisitor,
-} from '@/services/internalApiServices'
+} from '@/services/handlerServices'
 import { formatDateAndTime } from '@/utils'
 
 export default {

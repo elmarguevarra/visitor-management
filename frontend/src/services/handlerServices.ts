@@ -4,6 +4,8 @@ import axios from 'axios'
 
 const API_BASE = process.env.VUE_APP_API_ENDPOINT || ''
 
+const defaultUserGroup = 'unassigned'
+
 export async function postVisitor(data: any): Promise<any> {
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
@@ -119,5 +121,34 @@ export async function getVisitRequestByToken(
       'X-Required-Permission': ACTIONS.API.GET_VISIT_REQUEST,
     },
   })
+  return response.data
+}
+
+export async function evaluatePermissions(
+  userGroup: string | undefined,
+  actions: string[] | undefined,
+): Promise<any> {
+  const authenticationStore = useAuthenticationStore()
+  const token = authenticationStore.user?.id_token // Use id token for CognitoAuthorizer
+
+  const params = new URLSearchParams()
+  params.append('principalId', userGroup ?? defaultUserGroup)
+
+  if (actions && actions.length > 0) {
+    params.append('actions', actions.join(','))
+  }
+
+  const queryString = params.toString()
+  const url = queryString
+    ? `${API_BASE}permissions?${queryString}`
+    : `${API_BASE}permissions`
+
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'X-Required-Permission': ACTIONS.API.GET_PERMISSIONS,
+    },
+  })
+
   return response.data
 }
