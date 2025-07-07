@@ -1,4 +1,4 @@
 {
   "httpMethod": "POST",
-  "body": "{\"ToAddresses\": [\"ballesterosivymae@icloud.com\", \"elmarguevarra31@gmail.com\"], \"Template\": \"VisitorArrivalNotification\", \"resident_name\": \"Ivy\", \"visitor_name\": \"Maling\"}"
+  "body": "{\"template\": \"VisitorArrivalNotification\", \"data\": {\"resident_name\": \"Elmar\", \"resident_email\": \"elmarguevarra31@gmail.com\", \"visitor_name\": \"Maling\", \"arrival_time\": \"July 7, 2025 8:00 PM\"}}"
 }
