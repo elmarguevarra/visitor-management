@@ -21,7 +21,7 @@ import { useUiStore } from './stores/uiStore'
 import SignOutCallback from './components/SignOutCallback.vue'
 import SignInCallback from './components/SignInCallback.vue'
 
-if (import.meta.env.VITE_USE_MSW === 'true') {
+if (process.env.VUE_APP_USE_MSW === 'true') {
   require('./mocks/msw')
 }
 

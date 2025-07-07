@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "serve:msw": "cross-env VITE_USE_MSW=true vue-cli-service serve",
+    "serve:msw": "cross-env VUE_APP_USE_MSW=true vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "vitest"
