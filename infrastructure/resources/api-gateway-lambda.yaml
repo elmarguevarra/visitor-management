@@ -355,6 +355,7 @@ Resources:
               Action:
                 - ses:SendEmail
                 - ses:SendRawEmail
+                - ses:SendTemplatedEmail
               Resource: "*"
       Environment:
         Variables:
