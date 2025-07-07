@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useAuthenticationStore } from './authenticationStore'
-import { evaluatePermissions as getPermissions } from '@/services/awsServices'
+import { evaluatePermissions as getPermissions } from '@/services/handlerServices'
 import { ALL_ACTIONS, Action } from '@/constants/actions'
 
 const ALLOW = 'ALLOW'
