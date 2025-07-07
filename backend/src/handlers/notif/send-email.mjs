@@ -30,7 +30,6 @@ export const sendEmailHandler = async (event) => {
   }
 
   let template = body.template;
-  let residentName = body.data.resident_name;
   let visitorName = body.data.visitor_name;
   let arrivalTime = body.data.arrival_time;
 
@@ -41,7 +40,6 @@ export const sendEmailHandler = async (event) => {
     },
     Template: template,
     TemplateData: JSON.stringify({
-      resident_name: residentName,
       visitor_name: visitorName,
       arrival_time: arrivalTime,
     }),
