@@ -13,7 +13,7 @@ export const sendEmailHandler = async (event) => {
   const body = JSON.parse(event.body);
   console.log("Received body:", body);
 
-  let toAddresses = body.data.resident_email;
+  let toAddresses = [body.data.resident_email];
 
   if (!toAddresses || !Array.isArray(toAddresses) || toAddresses.length === 0) {
     return {
