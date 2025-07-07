@@ -196,7 +196,7 @@ export default {
           template: 'VisitorArrivalNotification',
           data: {
             resident_name: visitor.value.residentName,
-            resident_email: visitor.value.id,
+            resident_email: visitor.value.residentId,
             visitor_name: visitor.value.visitorName,
             arrival_time: formatDateAndTime(
               new Date(visitor.value.arrivalTime),
