@@ -160,6 +160,7 @@ export async function sendNotification(data: any): Promise<any> {
   const response = await axios.post(`${API_BASE}send-email`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
+      'X-Required-Permission': ACTIONS.API.SEND_NOTIFICATION,
     },
   })
   return response.data
