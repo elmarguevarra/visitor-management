@@ -78,7 +78,7 @@ Resources:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           VISITORS_TABLE: !ImportValue VisitorsTable
-          ENDPOINT_OVERRIDE: ""
+          DB_ENDPOINT_OVERRIDE: ""
       Events:
         Api:
           Type: Api
@@ -142,7 +142,7 @@ Resources:
       Environment:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
-          ENDPOINT_OVERRIDE: ""
+          DB_ENDPOINT_OVERRIDE: ""
           VISIT_REQUESTS_TABLE: !ImportValue VisitRequestsTable
       Events:
         Api:
@@ -176,7 +176,7 @@ Resources:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           VISITORS_TABLE: !ImportValue VisitorsTable
-          ENDPOINT_OVERRIDE: ""
+          DB_ENDPOINT_OVERRIDE: ""
       Events:
         Api:
           Type: Api
@@ -206,7 +206,7 @@ Resources:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           INVITE_LINKS_TABLE: !ImportValue InviteLinksTable
-          ENDPOINT_OVERRIDE: ""
+          DB_ENDPOINT_OVERRIDE: ""
       Events:
         Api:
           Type: Api
@@ -236,7 +236,7 @@ Resources:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           VISIT_REQUESTS_TABLE: !ImportValue VisitRequestsTable
-          ENDPOINT_OVERRIDE: ""
+          DB_ENDPOINT_OVERRIDE: ""
       Events:
         Api:
           Type: Api
@@ -266,7 +266,7 @@ Resources:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           VISITORS_TABLE: !ImportValue VisitorsTable
-          ENDPOINT_OVERRIDE: ""
+          DB_ENDPOINT_OVERRIDE: ""
       Events:
         Api:
           Type: Api
@@ -295,7 +295,7 @@ Resources:
       Environment:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
-          ENDPOINT_OVERRIDE: ""
+          DB_ENDPOINT_OVERRIDE: ""
           INVITE_LINKS_TABLE: !ImportValue InviteLinksTable
       Events:
         Api:
@@ -325,7 +325,7 @@ Resources:
       Environment:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
-          ENDPOINT_OVERRIDE: ""
+          DB_ENDPOINT_OVERRIDE: ""
           VISIT_REQUESTS_TABLE: !ImportValue VisitRequestsTable
       Events:
         Api:

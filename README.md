@@ -358,11 +358,11 @@ docker inspect 329a73cbfc1fd07d04bb4cb2b069fa8d790fc76aa32d6476b9e57f93a1941eb7 
 ```
 {
     "getByIdFunction": {
-        "ENDPOINT_OVERRIDE": "http://172.17.0.2:8000",
+        "DB_ENDPOINT_OVERRIDE": "http://172.17.0.2:8000",
         "VISITOR_TABLE": "VisitorsTable"
     },
     "putItemFunction": {
-        "ENDPOINT_OVERRIDE": "http://172.17.0.2:8000",
+        "DB_ENDPOINT_OVERRIDE": "http://172.17.0.2:8000",
         "VISITOR_TABLE": "VisitorsTable"
     }
 }
