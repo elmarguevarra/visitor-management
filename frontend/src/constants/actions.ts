@@ -18,6 +18,7 @@ export const ACTIONS = {
     POST_VISITOR: 'postVisitor',
     POST_INVITE: 'postInvite',
     POST_VISIT_REQUEST: 'postVisitRequest',
+    SEND_NOTIFICATION: 'sendNotification',
   },
 } as const
 
