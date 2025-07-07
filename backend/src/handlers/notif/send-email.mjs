@@ -41,9 +41,25 @@ export const sendEmailHandler = async (event) => {
   };
 
   try {
-    await ses.send(new SendTemplatedEmailCommand(params));
-    return { statusCode: 200, body: "Email sent!" };
+    const result = await ses.send(new SendTemplatedEmailCommand(params));
+    return {
+      statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": frontEndBaseUrl,
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+      },
+      body: JSON.stringify(result),
+    };
   } catch (err) {
-    return { statusCode: 500, body: err.message };
+    return {
+      statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": frontEndBaseUrl,
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+      },
+      body: err.message,
+    };
   }
 };
