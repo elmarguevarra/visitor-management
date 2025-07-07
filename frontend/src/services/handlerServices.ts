@@ -152,3 +152,15 @@ export async function evaluatePermissions(
 
   return response.data
 }
+
+export async function sendNotification(data: any): Promise<any> {
+  const authenticationStore = useAuthenticationStore()
+  const token = authenticationStore.user?.access_token
+
+  const response = await axios.post(`${API_BASE}send-email`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response.data
+}
