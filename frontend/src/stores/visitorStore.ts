@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getVisitorsByResidentId } from '@/services/internalApiServices'
+import { getVisitorsByResidentId } from '@/services/handlerServices'
 
 export const useVisitorStore = defineStore('visitors', {
   state: () => ({

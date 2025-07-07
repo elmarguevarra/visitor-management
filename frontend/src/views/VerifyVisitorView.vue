@@ -109,7 +109,8 @@ import { ref, computed, onMounted } from 'vue'
 import {
   getVisitorByRegistrationId,
   postVisitor,
-} from '@/services/internalApiServices'
+  sendNotification,
+} from '@/services/handlerServices'
 import { formatDateAndTime } from '@/utils'
 
 export default {
@@ -191,6 +192,17 @@ export default {
         const response = await postVisitor(updateData)
         console.log('Update successful:', response.data)
         visitor.value = response
+        await sendNotification({
+          template: 'VisitorArrivalNotification',
+          data: {
+            resident_name: visitor.value.residentName,
+            resident_email: visitor.value.id,
+            visitor_name: visitor.value.visitorName,
+            arrival_time: formatDateAndTime(
+              new Date(visitor.value.arrivalTime),
+            ),
+          },
+        })
         errorMsg.value = ''
       } catch (error) {
         console.log(error)

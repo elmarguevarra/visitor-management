@@ -77,7 +77,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { postInvite } from '@/services/internalApiServices'
+import { postInvite } from '@/services/handlerServices'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { formatDateAndTime } from '@/utils'
 

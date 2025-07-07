@@ -11,8 +11,9 @@ export const sendEmailHandler = async (event) => {
   }
 
   const body = JSON.parse(event.body);
+  console.log("Received body:", body);
 
-  let toAddresses = body.ToAddresses;
+  let toAddresses = body.data.resident_email;
 
   if (!toAddresses || !Array.isArray(toAddresses) || toAddresses.length === 0) {
     return {
@@ -21,9 +22,10 @@ export const sendEmailHandler = async (event) => {
     };
   }
 
-  let template = body.Template;
-  let residentName = body.resident_name;
-  let visitorName = body.visitor_name;
+  let template = body.template;
+  let residentName = body.data.resident_name;
+  let visitorName = body.data.visitor_name;
+  let arrivalTime = body.data.arrival_time;
 
   const params = {
     Source: sysNotifEmailAddress,
@@ -34,6 +36,7 @@ export const sendEmailHandler = async (event) => {
     TemplateData: JSON.stringify({
       resident_name: residentName,
       visitor_name: visitorName,
+      arrival_time: arrivalTime,
     }),
   };
 

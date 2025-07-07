@@ -180,7 +180,7 @@ import {
   getInviteByToken,
   getVisitRequestByToken,
   getVisitorByRegistrationId,
-} from '@/services/internalApiServices'
+} from '@/services/handlerServices'
 import { useVisitRequestStore } from '@/stores/visitRequestStore'
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils'
 
