@@ -32,6 +32,7 @@ export const sendEmailHandler = async (event) => {
   let template = body.template;
   let visitorName = body.data.visitor_name;
   let arrivalTime = body.data.arrival_time;
+  let departureTime = body.data.departure_time;
 
   const params = {
     Source: sysNotifEmailAddress,
@@ -42,6 +43,7 @@ export const sendEmailHandler = async (event) => {
     TemplateData: JSON.stringify({
       visitor_name: visitorName,
       arrival_time: arrivalTime,
+      departure_time: departureTime,
     }),
   };
 
