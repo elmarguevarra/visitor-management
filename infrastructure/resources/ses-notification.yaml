@@ -28,8 +28,8 @@ Resources:
       Template:
         TemplateName: VisitorDepartureNotification
         SubjectPart: "Your visitor {{visitor_name}} has departed."
-        TextPart: "Hello,\n\nThis is to confirm that your visitor {{visitor_name}} has successfully departed from the premises at (departure_time) on (departure_date). \n\nThank you for using our visitor management system."
-        HtmlPart: "<h1>Hello,</h1><p>This is to confirm that your visitor <b>{{visitor_name}}</b> has successfully departed from the premises at <b>(departure_time)</b> on <b>(departure_date)</b>.</p><p>Thank you for using our visitor management system.</p>"
+        TextPart: "Hello,\n\nThis is to confirm that your visitor {{visitor_name}} has successfully departed from the premises at {{departure_time}}. \n\nThank you for using our visitor management system."
+        HtmlPart: "<h1>Hello,</h1><p>This is to confirm that your visitor <b>{{visitor_name}}</b> has successfully departed from the premises at <b>{{departure_time}}</b>.</p><p>Thank you for using our visitor management system.</p>"
 
   VisitorInviteSESTemplate:
     Type: AWS::SES::Template

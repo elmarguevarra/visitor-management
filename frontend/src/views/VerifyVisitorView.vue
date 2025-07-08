@@ -192,6 +192,7 @@ export default {
         const response = await postVisitor(updateData)
         console.log('Update successful:', response.data)
         visitor.value = response
+        errorMsg.value = ''
         await sendNotification({
           template: 'VisitorArrivalNotification',
           data: {
@@ -202,7 +203,6 @@ export default {
             ),
           },
         })
-        errorMsg.value = ''
       } catch (error) {
         console.log(error)
         errorMsg.value = 'Error updating check-in status'
@@ -224,6 +224,16 @@ export default {
         console.log('Update successful:', response.data)
         visitor.value = response
         errorMsg.value = ''
+        await sendNotification({
+          template: 'VisitorDepartureNotification',
+          data: {
+            resident_email: visitor.value.residentId,
+            visitor_name: visitor.value.visitorName,
+            departure_time: formatDateAndTime(
+              new Date(visitor.value.departureTime),
+            ),
+          },
+        })
       } catch (error) {
         console.log(error)
         errorMsg.value = 'Error updating check-in status'
