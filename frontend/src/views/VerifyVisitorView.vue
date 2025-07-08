@@ -112,6 +112,7 @@ import {
   sendNotification,
 } from '@/services/handlerServices'
 import { formatDateAndTime } from '@/utils'
+import { useAuthenticationStore } from '@/stores/authenticationStore'
 
 export default {
   name: 'VerifyVisitorView',
@@ -122,6 +123,8 @@ export default {
     },
   },
   setup(props) {
+    const authenticationStore = useAuthenticationStore()
+
     const visitor = ref({
       residentId: null,
       residentName: null,
@@ -196,6 +199,7 @@ export default {
         await sendNotification({
           template: 'VisitorArrivalNotification',
           data: {
+            resident_givenName: authenticationStore.userGivenName,
             resident_email: visitor.value.residentId,
             visitor_name: visitor.value.visitorName,
             arrival_time: formatDateAndTime(
@@ -227,6 +231,7 @@ export default {
         await sendNotification({
           template: 'VisitorDepartureNotification',
           data: {
+            resident_givenName: authenticationStore.userGivenName,
             resident_email: visitor.value.residentId,
             visitor_name: visitor.value.visitorName,
             departure_time: formatDateAndTime(

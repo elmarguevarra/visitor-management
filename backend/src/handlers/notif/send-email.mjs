@@ -15,7 +15,13 @@ export const sendEmailHandler = async (event) => {
   const body = JSON.parse(event.body);
   console.log("Received body:", body);
 
-  let toAddresses = [body.data.resident_email];
+  let residentEmail = body.data.resident_email;
+  let visitorEmail = body.data.visitor_email;
+
+  let toAddresses = [residentEmail];
+  if (visitorEmail) {
+    toAddresses = [visitorEmail];
+  }
 
   if (!toAddresses || !Array.isArray(toAddresses) || toAddresses.length === 0) {
     return {
@@ -30,6 +36,8 @@ export const sendEmailHandler = async (event) => {
   }
 
   let template = body.template;
+  let residentGivenName = body.data.resident_givenName;
+  let residentFamilyName = body.data.resident_familyName;
   let visitorName = body.data.visitor_name;
   let arrivalTime = body.data.arrival_time;
   let departureTime = body.data.departure_time;
@@ -42,6 +50,9 @@ export const sendEmailHandler = async (event) => {
     },
     Template: template,
     TemplateData: JSON.stringify({
+      resident_givenName: residentGivenName,
+      resident_fullName: `${residentGivenName} ${residentFamilyName}`,
+      resident_email: residentEmail,
       visitor_name: visitorName,
       arrival_time: arrivalTime,
       departure_time: departureTime,

@@ -19,8 +19,8 @@ Resources:
       Template:
         TemplateName: VisitorArrivalNotification
         SubjectPart: "Your visitor {{visitor_name}} has arrived!"
-        TextPart: "Hello,\n\nYour visitor {{visitor_name}} has arrived at the gate on {{arrival_time}}.\n\nPlease proceed to the reception area to meet them. \n\nThank you for using our visitor management system."
-        HtmlPart: "<h1>Hello,</h1><p>Your visitor <b>{{visitor_name}}</b> has arrived at the gate at <b>{{arrival_time}}</b>.</p><p>Please proceed to the reception area to meet them.</p><p>Thank you for using our visitor management system.</p>"
+        TextPart: "Hello {{resident_givenName}},\n\nYour visitor {{visitor_name}} has arrived at the gate on {{arrival_time}}.\n\nPlease proceed to the reception area to meet them. \n\nThank you for using our visitor management system."
+        HtmlPart: "<h1>Hello {{resident_givenName}},</h1><p>Your visitor <b>{{visitor_name}}</b> has arrived at the gate at <b>{{arrival_time}}</b>.</p><p>Please proceed to the reception area to meet them.</p><p>Thank you for using our visitor management system.</p>"
 
   VisitorDepartureSESTemplate:
     Type: AWS::SES::Template
@@ -28,8 +28,8 @@ Resources:
       Template:
         TemplateName: VisitorDepartureNotification
         SubjectPart: "Your visitor {{visitor_name}} has departed."
-        TextPart: "Hello,\n\nThis is to confirm that your visitor {{visitor_name}} has successfully departed from the premises on {{departure_time}}. \n\nThank you for using our visitor management system."
-        HtmlPart: "<h1>Hello,</h1><p>This is to confirm that your visitor <b>{{visitor_name}}</b> has successfully departed from the premises at <b>{{departure_time}}</b>.</p><p>Thank you for using our visitor management system.</p>"
+        TextPart: "Hello {{resident_givenName}},\n\nThis is to confirm that your visitor {{visitor_name}} has successfully departed from the premises on {{departure_time}}. \n\nThank you for using our visitor management system."
+        HtmlPart: "<h1>Hello {{resident_givenName}},</h1><p>This is to confirm that your visitor <b>{{visitor_name}}</b> has successfully departed from the premises at <b>{{departure_time}}</b>.</p><p>Thank you for using our visitor management system.</p>"
 
   VisitorInviteSESTemplate:
     Type: AWS::SES::Template
@@ -37,5 +37,5 @@ Resources:
       Template:
         TemplateName: VisitorInviteNotification
         SubjectPart: "You're invited to visit!"
-        TextPart: "Hello {{visitor_name}},\n\nYour scheduled visit details:\nDate: {{visit_date}} \n\nPlease present this invitation upon arrival.\n\nWe look forward to seeing you!"
-        HtmlPart: "<h1>Hello {{visitor_name}},</h1><p>Your scheduled visit details:<br><b>Date:</b> {{visit_date}}</p><p>Please present this invitation upon arrival.</p><p>We look forward to seeing you!</p>"
+        TextPart: "Hello {{visitor_name}},\n\nYou're invited by {{resident_fullName}}.\nYour scheduled visit is on {{visit_date}}.\n\nIf you have any questions, you can contact the resident at {{resident_email}}.\n\nPlease present this invitation upon arrival.\n\nWe look forward to seeing you!"
+        HtmlPart: '<h1>Hello {{visitor_name}},</h1><p>You''re invited by <b>{{resident_fullName}}</b>.</p><p>Your scheduled visit is on <b>{{visit_date}}</b>.</p><p>If you have any questions, you can contact the resident at <a href="mailto:{{resident_email}}">{{resident_email}}</a>.</p><p>Please present this invitation upon arrival.</p><p>We look forward to seeing you!</p>'
