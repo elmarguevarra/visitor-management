@@ -2,32 +2,22 @@
   <div>
     <form @submit.prevent="registerVisitor" class="row g-3">
       <div class="col-md-6">
-        <label for="residentName" class="form-label">Resident Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="residentName"
-          v-model="formData.residentName"
-          readonly
-        />
-      </div>
-      <div class="col-md-6">
-        <label for="residentContact" class="form-label">Resident Contact</label>
-        <input
-          type="text"
-          class="form-control"
-          id="residentContact"
-          v-model="formData.residentContact"
-          readonly
-        />
-      </div>
-      <div class="col-md-6">
         <label for="visitorName" class="form-label">Visitor Name</label>
         <input
           type="text"
           class="form-control"
           id="visitorName"
           v-model="formData.visitorName"
+          required
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="visitorEmail" class="form-label">Visitor Email</label>
+        <input
+          type="text"
+          class="form-control"
+          id="visitorEmail"
+          v-model="formData.visitorEmail"
           required
         />
       </div>
@@ -92,9 +82,10 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { postVisitor } from '@/services/handlerServices'
+import { postVisitor, sendNotification } from '@/services/handlerServices'
 import { getYearMonthDay, formatDate } from '@/utils'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
+import { send } from 'process'
 
 export default {
   name: 'CreateVisitor',
@@ -105,9 +96,8 @@ export default {
 
     const formData = reactive({
       residentId: authenticationStore.userEmail,
-      residentName: `${authenticationStore.userGivenName} ${authenticationStore.userFamilyName}`,
-      residentContact: authenticationStore.userPhoneNumber,
       visitorName: null,
+      visitorEmail: null,
       visitDate: today,
       purpose: null,
       arrivalTime: null,
@@ -126,9 +116,19 @@ export default {
         const result = await postVisitor(formData)
         visitor.value = result
         formData.visitorName = ''
+        formData.visitorEmail = ''
         formData.visitDate = today
         formData.purpose = ''
         errorMsg.value = ''
+
+        await sendNotification({
+          template: 'VisitorInviteNotification',
+          data: {
+            resident_email: visitor.value.residentId,
+            visitor_name: visitor.value.visitorName,
+            visit_date: formatDate(new Date(visitor.value.visitDate)),
+          },
+        })
       } catch (error) {
         console.error(error)
         errorMsg.value = 'Error posting data'

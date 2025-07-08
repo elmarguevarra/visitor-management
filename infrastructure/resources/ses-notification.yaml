@@ -19,8 +19,8 @@ Resources:
       Template:
         TemplateName: VisitorArrivalNotification
         SubjectPart: "Your visitor {{visitor_name}} has arrived!"
-        TextPart: "Hello,\n\nYour visitor {{visitor_name}} has arrived at the gate at {{arrival_time}}.\n\nPlease proceed to the reception area to meet them. If you have any questions, please contact security at (security_contact)."
-        HtmlPart: "<h1>Hello,</h1><p>Your visitor <b>{{visitor_name}}</b> has arrived at the gate at <b>{{arrival_time}}</b>.</p><p>Please proceed to the reception area to meet them. If you have any questions, please contact security at (security_contact).</p>"
+        TextPart: "Hello,\n\nYour visitor {{visitor_name}} has arrived at the gate on {{arrival_time}}.\n\nPlease proceed to the reception area to meet them. \n\nThank you for using our visitor management system."
+        HtmlPart: "<h1>Hello,</h1><p>Your visitor <b>{{visitor_name}}</b> has arrived at the gate at <b>{{arrival_time}}</b>.</p><p>Please proceed to the reception area to meet them.</p><p>Thank you for using our visitor management system.</p>"
 
   VisitorDepartureSESTemplate:
     Type: AWS::SES::Template
@@ -28,7 +28,7 @@ Resources:
       Template:
         TemplateName: VisitorDepartureNotification
         SubjectPart: "Your visitor {{visitor_name}} has departed."
-        TextPart: "Hello,\n\nThis is to confirm that your visitor {{visitor_name}} has successfully departed from the premises at {{departure_time}}. \n\nThank you for using our visitor management system."
+        TextPart: "Hello,\n\nThis is to confirm that your visitor {{visitor_name}} has successfully departed from the premises on {{departure_time}}. \n\nThank you for using our visitor management system."
         HtmlPart: "<h1>Hello,</h1><p>This is to confirm that your visitor <b>{{visitor_name}}</b> has successfully departed from the premises at <b>{{departure_time}}</b>.</p><p>Thank you for using our visitor management system.</p>"
 
   VisitorInviteSESTemplate:
@@ -37,5 +37,5 @@ Resources:
       Template:
         TemplateName: VisitorInviteNotification
         SubjectPart: "You're invited to visit!"
-        TextPart: "Hello {{visitor_name}},\n\nYou've been invited to visit at (visit_location).\n\nYour scheduled visit details:\nDate: (visit_date)\nTime: (visit_time)\n\nPlease present this invitation upon arrival. If you have any questions, contact the host at (host_contact).\n\nWe look forward to seeing you!"
-        HtmlPart: "<h1>Hello {{visitor_name}},</h1><p>You've been invited to visit at <b>(visit_location)</b>.</p><p>Your scheduled visit details:<br><b>Date:</b> (visit_date)<br><b>Time:</b> (visit_time)</p><p>Please present this invitation upon arrival. If you have any questions, feel free to contact the host at (host_contact).</p><p>We look forward to seeing you!</p>"
+        TextPart: "Hello {{visitor_name}},\n\nYour scheduled visit details:\nDate: {{visit_date}} \n\nPlease present this invitation upon arrival.\n\nWe look forward to seeing you!"
+        HtmlPart: "<h1>Hello {{visitor_name}},</h1><p>Your scheduled visit details:<br><b>Date:</b> {{visit_date}}</p><p>Please present this invitation upon arrival.</p><p>We look forward to seeing you!</p>"

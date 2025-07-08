@@ -42,6 +42,7 @@ export const putVisitorHandler = async (event) => {
   let registrationId = body.registrationId;
   let registrationTime = body.registrationTime;
   const visitorName = body.visitorName;
+  const visitorEmail = body.visitorEmail;
   const visitDate = body.visitDate;
   const residentId = body.residentId;
   const purpose = body.purpose;
@@ -77,6 +78,7 @@ export const putVisitorHandler = async (event) => {
       registrationId: registrationId,
       residentId: residentId,
       visitorName: visitorName,
+      visitorEmail: visitorEmail,
       visitDate: new Date(visitDate).toISOString(),
       registrationTime: registrationTime,
       purpose: purpose,
@@ -104,6 +106,7 @@ export const putVisitorHandler = async (event) => {
     registrationId: params.Item.registrationId,
     residentId: params.Item.residentId,
     visitorName: params.Item.visitorName,
+    visitorEmail: params.Item.visitorEmail,
     visitDate: params.Item.visitDate,
     registrationTime: params.Item.registrationTime,
     purpose: params.Item.purpose,
