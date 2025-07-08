@@ -85,7 +85,6 @@ import { ref, reactive } from 'vue'
 import { postVisitor, sendNotification } from '@/services/handlerServices'
 import { getYearMonthDay, formatDate } from '@/utils'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
-import { send } from 'process'
 
 export default {
   name: 'CreateVisitor',
@@ -127,6 +126,7 @@ export default {
             resident_email: visitor.value.residentId,
             visitor_name: visitor.value.visitorName,
             visit_date: formatDate(new Date(visitor.value.visitDate)),
+            visit_qrCodeDataURL: visitor.value.qrCodeDataURL,
           },
         })
       } catch (error) {
