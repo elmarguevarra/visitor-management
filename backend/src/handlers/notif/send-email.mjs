@@ -1,7 +1,6 @@
 import { SESClient, SendTemplatedEmailCommand } from "@aws-sdk/client-ses";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-import AWS from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
 
 const ses = new SESClient();
