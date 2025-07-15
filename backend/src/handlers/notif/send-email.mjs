@@ -42,6 +42,7 @@ export const sendEmailHandler = async (event) => {
   let arrivalTime = body.data.arrival_time;
   let departureTime = body.data.departure_time;
   let visitDate = body.data.visit_date;
+  let visitQrCodeDataURL = body.data.visit_qrCodeDataURL;
 
   const params = {
     Source: sysNotifEmailAddress,
@@ -57,6 +58,7 @@ export const sendEmailHandler = async (event) => {
       arrival_time: arrivalTime,
       departure_time: departureTime,
       visit_date: visitDate,
+      visit_qrCodeDataURL: visitQrCodeDataURL,
     }),
   };
 
