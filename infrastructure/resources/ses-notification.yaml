@@ -62,7 +62,7 @@ Resources:
             <p>Please present this invitation upon arrival:</p>
             <p style="text-align: center;">
               <img 
-                src="{{visit_qrCodeDataURL}}" 
+                src="{{visit_qrCodeImageURL}}" 
                 alt="QR Code for Visit" 
                 style="display: block; margin: 0 auto; border: 1px solid #ccc; max-width: 200px; height: auto;"
               >
