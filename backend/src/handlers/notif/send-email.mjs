@@ -1,7 +1,11 @@
 import { SESClient, SendTemplatedEmailCommand } from "@aws-sdk/client-ses";
-const ses = new SESClient();
+import AWS from "aws-sdk";
+import { v4 as uuidv4 } from "uuid";
 
+const ses = new SESClient();
 const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
+
+const s3 = new AWS.S3();
 
 export const sendEmailHandler = async (event) => {
   const sysNotifEmailAddress = process.env.SYS_NOTIF_EMAIL_ADDRESS;
@@ -44,6 +48,8 @@ export const sendEmailHandler = async (event) => {
   let visitDate = body.data.visit_date;
   let visitQrCodeDataURL = body.data.visit_qrCodeDataURL;
 
+  const qrCodeImageUrl = await generateUploadQRCode(visitQrCodeDataURL);
+
   const params = {
     Source: sysNotifEmailAddress,
     Destination: {
@@ -58,7 +64,7 @@ export const sendEmailHandler = async (event) => {
       arrival_time: arrivalTime,
       departure_time: departureTime,
       visit_date: visitDate,
-      visit_qrCodeDataURL: visitQrCodeDataURL,
+      visit_qrCodeImageURL: qrCodeImageUrl,
     }),
   };
 
@@ -84,4 +90,22 @@ export const sendEmailHandler = async (event) => {
       body: err.message,
     };
   }
+};
+
+export const generateUploadQRCode = async (visitQrCodeDataURL) => {
+  const base64 = dataUrl.replace(/^data:image\/png;base64,/, "");
+  const buffer = Buffer.from(base64, "base64");
+  const key = `qrcodes/${uuidv4()}.png`;
+
+  await s3
+    .putObject({
+      Bucket: "visit-qr-codes",
+      Key: key,
+      Body: buffer,
+      ContentType: "image/png",
+      ACL: "public-read",
+    })
+    .promise();
+
+  return `https://visit-qr-codes.s3.amazonaws.com/${key}`;
 };
