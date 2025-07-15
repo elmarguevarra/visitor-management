@@ -93,7 +93,7 @@ export const sendEmailHandler = async (event) => {
 };
 
 export const generateUploadQRCode = async (visitQrCodeDataURL) => {
-  const base64 = dataUrl.replace(/^data:image\/png;base64,/, "");
+  const base64 = visitQrCodeDataURL.replace(/^data:image\/png;base64,/, "");
   const buffer = Buffer.from(base64, "base64");
   const key = `qrcodes/${uuidv4()}.png`;
 
