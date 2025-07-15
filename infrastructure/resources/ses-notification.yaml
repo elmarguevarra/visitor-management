@@ -64,7 +64,7 @@ Resources:
               <img 
                 src="{{visit_qrCodeDataURL}}" 
                 alt="QR Code for Visit" 
-                style="display: {{qr_display}}; margin: 0 auto; border: 1px solid #ccc; max-width: 200px; height: auto;"
+                style="display: block; margin: 0 auto; border: 1px solid #ccc; max-width: 200px; height: auto;"
               >
             </p>
             <p>We look forward to seeing you!</p>
