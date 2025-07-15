@@ -97,15 +97,20 @@ export const generateUploadQRCode = async (visitQrCodeDataURL) => {
   const buffer = Buffer.from(base64, "base64");
   const key = `qrcodes/${uuidv4()}.png`;
 
-  await s3
-    .putObject({
-      Bucket: "visit-qr-codes",
-      Key: key,
-      Body: buffer,
-      ContentType: "image/png",
-      ACL: "public-read",
-    })
-    .promise();
+  try {
+    await s3
+      .putObject({
+        Bucket: "visit-qr-codes",
+        Key: key,
+        Body: buffer,
+        ContentType: "image/png",
+        ACL: "public-read",
+      })
+      .promise();
 
-  return `https://visit-qr-codes.s3.amazonaws.com/${key}`;
+    return `https://visit-qr-codes.s3.amazonaws.com/${key}`;
+  } catch (error) {
+    console.error("Error uploading QR code to S3:", error);
+    throw new Error("Failed to upload QR code image.");
+  }
 };
