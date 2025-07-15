@@ -1,5 +1,9 @@
 import { SESClient, SendTemplatedEmailCommand } from "@aws-sdk/client-ses";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import {
+  S3Client,
+  GetObjectCommand,
+  PutObjectCommand,
+} from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { v4 as uuidv4 } from "uuid";
 
@@ -110,11 +114,12 @@ export const generateUploadQRCode = async (visitQrCodeDataURL) => {
 
     console.log("QR Code uploaded successfully:", key);
 
-    // const getCommand = new GetObjectCommand({
-    //   Bucket: "visit-qr-codes",
-    //   Key: key,
-    // });
-    const getUrl = await getSignedUrl(s3Client, command, {
+    const getCommand = new GetObjectCommand({
+      Bucket: "visit-qr-codes",
+      Key: key,
+    });
+
+    const getUrl = await getSignedUrl(s3Client, getCommand, {
       expiresIn: 3600,
     });
 
