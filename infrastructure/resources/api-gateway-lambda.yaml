@@ -360,7 +360,6 @@ Resources:
             - Effect: Allow
               Action:
                 - s3:PutObject
-                - s3:PutObjectAcl # Required if you're setting `ACL: public-read`
                 - s3:GetObject # Optional: if you need to verify existence
               # Resource: !Sub arn:aws:s3:::visit-qr-codes/qrcodes/*
               Resource: "*"
