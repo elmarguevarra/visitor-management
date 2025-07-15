@@ -37,7 +37,16 @@ Resources:
       Template:
         TemplateName: VisitorInviteNotification
         SubjectPart: "You're invited to visit!"
-        TextPart: "Hello {{visitor_name}},\n\nYou're invited by {{resident_fullName}} to visit on {{visit_date}}.\n\nIf you have any questions, you can contact {{resident_givenName}} at {{resident_email}}.\n\nPlease present this invitation upon arrival.\n\nWe look forward to seeing you!"
+        TextPart: |
+          Hello {{visitor_name}},
+
+          You're invited by {{resident_fullName}} to visit on {{visit_date}}.
+
+          If you have any questions, you can contact {{resident_givenName}} at {{resident_email}}.
+
+          Please present this invitation upon arrival.
+
+          We look forward to seeing you!
         HtmlPart: |
           <!DOCTYPE html>
           <html>
@@ -51,13 +60,13 @@ Resources:
             <p>If you have any questions, you can contact {{resident_givenName}} at 
             <a href="mailto:{{resident_email}}">{{resident_email}}</a>.</p>
             <p>Please present this invitation upon arrival:</p>
-            {{#if visit_qrCodeDataURL}}
             <p style="text-align: center;">
-              <img src="{{visit_qrCodeDataURL}}" alt="QR Code for Visit" style="display: block; margin: 0 auto; border: 1px solid #ccc; max-width: 200px; height: auto;">
+              <img 
+                src="{{visit_qrCodeDataURL}}" 
+                alt="QR Code for Visit" 
+                style="display: {{qr_display}}; margin: 0 auto; border: 1px solid #ccc; max-width: 200px; height: auto;"
+              >
             </p>
-            {{else}}
-            <p>A QR code could not be included in this email. Please ensure you have your invitation details ready.</p>
-            {{/if}}
             <p>We look forward to seeing you!</p>
           </body>
           </html>
