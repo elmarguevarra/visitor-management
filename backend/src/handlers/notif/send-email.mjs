@@ -1,6 +1,6 @@
 import { SESClient, SendTemplatedEmailCommand } from "@aws-sdk/client-ses";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { v4 as uuidv4 } from "uuid";
 
 const ses = new SESClient();
@@ -104,12 +104,13 @@ export const generateUploadQRCode = async (visitQrCodeDataURL) => {
       Key: key,
       Body: buffer,
       ContentType: "image/png",
-      ACL: "public-read", // optional: use signed URL if private
     });
 
     await s3Client.send(command);
 
-    return `https://visit-qr-codes.s3.amazonaws.com/${key}`;
+    const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+    console.log("QR Code uploaded successfully:", url);
+    return url;
   } catch (error) {
     console.error("Error uploading QR code to S3:", error);
     throw new Error("Failed to upload QR code image.");
