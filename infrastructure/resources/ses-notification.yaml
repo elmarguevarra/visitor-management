@@ -50,13 +50,6 @@ Resources:
             <p>You're invited by <b>{{resident_fullName}}</b> to visit on <b>{{visit_date}}</b>.</p>
             <p>Your scheduled arrival time is <b>{{arrival_time}}</b> and departure time is <b>{{departure_time}}</b>.</p>
             <p>Please present the QR code below upon your arrival:</p>
-            {{#if visit_qrCodeDataURL}}
-            <p style="text-align: center;">
-              <img src="{{visit_qrCodeDataURL}}" alt="QR Code for Visit" style="display: block; margin: 0 auto; border: 1px solid #ccc; max-width: 200px; height: auto;">
-            </p>
-            {{else}}
-            <p>A QR code could not be included in this email. Please ensure you have your invitation details ready.</p>
-            {{/if}}
             <p>If you have any questions, you can contact {{resident_givenName}} at 
             <a href="mailto:{{resident_email}}">{{resident_email}}</a>.</p>
             <p>We look forward to seeing you!</p>
