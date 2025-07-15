@@ -108,9 +108,16 @@ export const generateUploadQRCode = async (visitQrCodeDataURL) => {
 
     await s3Client.send(command);
 
-    const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
-    console.log("QR Code uploaded successfully:", url);
-    return url;
+    const getCommand = new GetObjectCommand({
+      Bucket: "visit-qr-codes",
+      Key: key,
+    });
+    const getUrl = await getSignedUrl(s3Client, getCommand, {
+      expiresIn: 3600,
+    });
+
+    console.log("QR Code uploaded successfully:", getUrl);
+    return getUrl;
   } catch (error) {
     console.error("Error uploading QR code to S3:", error);
     throw new Error("Failed to upload QR code image.");
