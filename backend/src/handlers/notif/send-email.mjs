@@ -53,7 +53,10 @@ export const sendEmailHandler = async (event) => {
   let visitDate = body.data.visit_date;
   let visitQrCodeDataURL = body.data.visit_qrCodeDataURL;
 
-  const qrCodeImageUrl = await generateUploadQRCode(visitQrCodeDataURL);
+  const qrCodeImageUrl = await generateUploadQRCode(
+    visitQrCodeDataURL,
+    visitDate
+  );
 
   const params = {
     Source: sysNotifEmailAddress,
@@ -97,17 +100,21 @@ export const sendEmailHandler = async (event) => {
   }
 };
 
-export const generateUploadQRCode = async (visitQrCodeDataURL) => {
+export const generateUploadQRCode = async (visitQrCodeDataURL, visitDate) => {
   const base64 = visitQrCodeDataURL.replace(/^data:image\/png;base64,/, "");
   const buffer = Buffer.from(base64, "base64");
   const key = `qrcodes/${uuidv4()}.png`;
 
   try {
+    const expirationDate = new Date(visitDate);
+    expirationDate.setUTCDate(expirationDate.getUTCDate() + 1);
+
     const command = new PutObjectCommand({
       Bucket: "visit-qr-codes",
       Key: key,
       Body: buffer,
       ContentType: "image/png",
+      Expires: expirationDate,
     });
 
     await s3Client.send(command);
@@ -120,7 +127,7 @@ export const generateUploadQRCode = async (visitQrCodeDataURL) => {
     });
 
     const getUrl = await getSignedUrl(s3Client, getCommand, {
-      expiresIn: 3600,
+      expiresIn: 604800, // 7 days in seconds
     });
 
     return getUrl;
