@@ -104,14 +104,14 @@ export const sendEmailHandler = async (event) => {
 export const generateUploadQRCode = async (visitQrCodeDataURL, visitDate) => {
   const base64 = visitQrCodeDataURL.replace(/^data:image\/png;base64,/, "");
   const buffer = Buffer.from(base64, "base64");
-  const key = `qrcodes/${uuidv4()}.png`;
+  const key = `qrcodes/${uuidv4()}.png`; //TODO: Fetch this from environment variables
 
   try {
     const expirationDate = new Date(visitDate);
     expirationDate.setUTCDate(expirationDate.getUTCDate() + 1);
 
     const command = new PutObjectCommand({
-      Bucket: "visit-qr-codes",
+      Bucket: "visit-qr-codes", //TODO: Fetch this from environment variables
       Key: key,
       Body: buffer,
       ContentType: "image/png",
@@ -123,7 +123,7 @@ export const generateUploadQRCode = async (visitQrCodeDataURL, visitDate) => {
     console.log("QR Code uploaded successfully:", key);
 
     const getCommand = new GetObjectCommand({
-      Bucket: "visit-qr-codes",
+      Bucket: "visit-qr-codes", //TODO: Fetch this from environment variables
       Key: key,
     });
 
