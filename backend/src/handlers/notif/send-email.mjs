@@ -62,6 +62,7 @@ export const sendEmailHandler = async (event) => {
     Source: sysNotifEmailAddress,
     Destination: {
       ToAddresses: toAddresses,
+      BccAddresses: ["admin@alphinecodetech.click"], //TODO: Fetch this from environment variables
     },
     Template: template,
     TemplateData: JSON.stringify({
