@@ -1,38 +1,40 @@
 <template>
   <div>
     <form @submit.prevent="registerVisitor" class="row g-3">
-      <div class="col-md-6">
-        <label for="visitorName" class="form-label">Visitor Name</label>
+      <div class="form-floating mb-1">
         <input
           type="text"
           class="form-control"
           id="visitorName"
+          placeholder="Juan Delacruz"
           v-model="formData.visitorName"
           required
         />
+        <label for="floatingInput">Visitor name</label>
       </div>
-      <div class="col-md-6">
-        <label for="visitorEmail" class="form-label">Visitor Email</label>
+      <div class="form-floating mb-1">
         <input
-          type="text"
+          type="email"
           class="form-control"
           id="visitorEmail"
+          placeholder="name@example.com"
           v-model="formData.visitorEmail"
           required
         />
+        <label for="floatingInput">Visitor email</label>
       </div>
-      <div class="col-md-6">
-        <label for="purpose" class="form-label">Purpose</label>
+      <div class="form-floating mb-1">
         <input
           type="text"
           class="form-control"
           id="purpose"
+          placeholder="visit"
           v-model="formData.purpose"
           required
         />
+        <label for="floatingInput">Purpose</label>
       </div>
-      <div class="col-md-6">
-        <label for="visitDate" class="form-label">Visit Date</label>
+      <div class="form-floating mb-1">
         <input
           type="date"
           class="form-control"
@@ -40,7 +42,9 @@
           v-model="formData.visitDate"
           required
           :min="today"
+          :max="maxCalendarDate"
         />
+        <label for="floatingInput">Visit date</label>
       </div>
       <div class="col-12">
         <button type="submit" class="btn btn-primary" :disabled="isLoading">
@@ -92,6 +96,10 @@ export default {
     const authenticationStore = useAuthenticationStore()
 
     const today = getYearMonthDay(new Date())
+
+    const maxCalendarDateObject = new Date(today)
+    maxCalendarDateObject.setDate(maxCalendarDateObject.getDate() + 7)
+    const maxCalendarDate = getYearMonthDay(maxCalendarDateObject)
 
     const formData = reactive({
       residentId: authenticationStore.userEmail,
@@ -146,6 +154,7 @@ export default {
       errorMsg,
       isLoading,
       today,
+      maxCalendarDate,
       registerVisitor,
       formatDate,
     }
