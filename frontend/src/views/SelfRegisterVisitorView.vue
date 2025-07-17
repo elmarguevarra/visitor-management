@@ -11,36 +11,38 @@
         @submit.prevent="requestVisit"
         class="row g-3"
       >
-        <div class="col-md-6">
-          <label for="visitorName" class="form-label">Visitor Name</label>
+        <div class="form-floating mb-1">
           <input
             type="text"
             class="form-control"
             id="visitorName"
+            placeholder="Juan Delacruz"
             v-model="formData.visitorName"
             required
           />
+          <label for="floatingInput">Visitor name</label>
         </div>
-        <div class="col-md-6">
-          <label for="purpose" class="form-label">Purpose</label>
+        <div class="form-floating mb-1">
           <input
             type="text"
             class="form-control"
             id="purpose"
+            placeholder="visit"
             v-model="formData.purpose"
             required
           />
+          <label for="floatingInput">Purpose</label>
         </div>
-        <div class="col-md-6">
-          <label for="visitDate" class="form-label">Visit Date</label>
+        <div class="form-floating mb-1">
           <input
-            type="date"
+            type="text"
             class="form-control"
             id="visitDate"
+            placeholder="visit"
             v-model="formData.visitDate"
             required
-            :min="yearMonthDateToday"
           />
+          <label for="floatingInput">Visit date</label>
         </div>
         <div class="col-12">
           <button
