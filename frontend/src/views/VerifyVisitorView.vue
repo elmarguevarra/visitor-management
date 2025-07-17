@@ -2,15 +2,15 @@
   <div class="container mt-2">
     <h4 class="mb-3 text-muted" style="margin-left: -0.2rem">Visitor Access</h4>
     <form @submit.prevent="getItemsById" class="row g-3 mb-3">
-      <div class="col-md-6">
-        <label for="registrationId" class="form-label">Registration ID</label>
+      <div class="form-floating mb-1">
         <input
           type="text"
           class="form-control"
           id="registrationId"
+          placeholder="registrationId"
           v-model="formData.registrationId"
-          readonly
         />
+        <label for="floatingInput">Registration id</label>
       </div>
     </form>
 
