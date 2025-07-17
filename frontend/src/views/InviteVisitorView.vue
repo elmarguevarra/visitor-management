@@ -5,27 +5,27 @@
     </h4>
     <div>
       <form @submit.prevent="generateInviteLink" class="row g-3">
-        <div class="col-md-6">
-          <label for="residentName" class="form-label">Resident Name</label>
+        <div class="form-floating mb-1">
           <input
             type="text"
             class="form-control"
             id="residentName"
+            placeholder="Juan Delacruz"
             v-model="formData.residentName"
             readonly
           />
+          <label for="floatingInput">Resident name</label>
         </div>
-        <div class="col-md-6">
-          <label for="residentContact" class="form-label"
-            >Resident Contact</label
-          >
+        <div class="form-floating mb-1">
           <input
             type="text"
             class="form-control"
             id="residentContact"
+            placeholder="+6391234567890"
             v-model="formData.residentContact"
             readonly
           />
+          <label for="floatingInput">Resident contact</label>
         </div>
         <div class="col-12">
           <button type="submit" class="btn btn-primary" :disabled="isLoading">

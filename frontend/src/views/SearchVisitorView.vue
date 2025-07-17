@@ -4,15 +4,16 @@
       Search a Visitor
     </h4>
     <form @submit.prevent="getVisitor" class="row g-3 mb-4">
-      <div class="col-md-6">
-        <label for="registrationId" class="form-label">Registration ID</label>
+      <div class="form-floating mb-1">
         <input
           type="text"
           class="form-control"
           id="registrationId"
+          placeholder=" "
           v-model="formData.registrationId"
           required
         />
+        <label for="floatingInput">Registration id</label>
       </div>
       <div class="col-12">
         <button type="submit" class="btn btn-primary" :disabled="isLoading">

@@ -95,7 +95,7 @@ const getPermissionsByGroup = (userGroup: string) => {
 
 export function getPermissionsHandler() {
   return [
-    rest.get('/permissions', (req, res, ctx) => {
+    rest.get('permissions', (req, res, ctx) => {
       // Get principalId (user group) from query parameters
       const principalId =
         req.url.searchParams.get('principalId') || 'unassigned'
