@@ -10,7 +10,7 @@ export const getVisitRequestByTokenHandler = (): RestHandler[] => [
         inviteToken: 'token',
         registrationId: 'fsfsdsdfs',
         visitorName: 'visitorName',
-        visitDate: new Date(new Date().setDate(new Date().getDate() + 15)),
+        visitDate: new Date(new Date().setDate(new Date().getDate() + 1)),
         requestStatus: 'APPROVED',
       }),
     )

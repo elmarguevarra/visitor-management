@@ -35,11 +35,13 @@
         </div>
         <div class="form-floating mb-1">
           <input
-            type="text"
+            type="date"
             class="form-control"
             id="visitDate"
             placeholder="visit"
             v-model="formData.visitDate"
+            :min="yearMonthDateToday"
+            :max="maxCalendarDate"
             required
           />
           <label for="floatingInput">Visit date</label>
@@ -198,6 +200,10 @@ export default {
     const visitRequestStore = useVisitRequestStore()
     const yearMonthDateToday = getYearMonthDay(new Date())
 
+    const maxCalendarDateObject = new Date(yearMonthDateToday)
+    maxCalendarDateObject.setDate(maxCalendarDateObject.getDate() + 7)
+    const maxCalendarDate = getYearMonthDay(maxCalendarDateObject)
+
     const invitation = ref(null)
     const visitRequest = ref(null)
     const visitor = ref(null)
@@ -352,6 +358,7 @@ export default {
       formatDate,
       formatDateAndTime,
       yearMonthDateToday,
+      maxCalendarDate,
     }
   },
 }
