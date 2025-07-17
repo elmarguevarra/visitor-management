@@ -9,7 +9,9 @@ export const getInviteByTokenHandler = (): RestHandler[] => [
         residentId: '1234',
         inviteToken: 'token',
         inviteLink: 'http://localhost:8080/self-register-visitor/inviteToken',
-        inviteLinkExpiration: new Date(),
+        inviteLinkExpiration: new Date(
+          new Date().setDate(new Date().getDate() + 1),
+        ),
       }),
     )
   }),
