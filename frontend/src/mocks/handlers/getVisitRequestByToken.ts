@@ -1,3 +1,4 @@
+import { VISIT_REQUEST_STATUS } from '@/constants/status'
 import { RestHandler, rest } from 'msw'
 
 export const getVisitRequestByTokenHandler = (): RestHandler[] => [
@@ -11,7 +12,8 @@ export const getVisitRequestByTokenHandler = (): RestHandler[] => [
         registrationId: 'fsfsdsdfs',
         visitorName: 'visitorName',
         visitDate: new Date(new Date().setDate(new Date().getDate() + 1)),
-        requestStatus: 'APPROVED',
+        purpose: 'coaching',
+        requestStatus: VISIT_REQUEST_STATUS.PENDING,
       }),
     )
   }),

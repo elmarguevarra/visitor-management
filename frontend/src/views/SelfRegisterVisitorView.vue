@@ -19,6 +19,7 @@
             placeholder="Juan Delacruz"
             v-model="formData.visitorName"
             required
+            :readonly="visitRequest"
           />
           <label for="floatingInput">Visitor name</label>
         </div>
@@ -30,6 +31,7 @@
             placeholder="visit"
             v-model="formData.purpose"
             required
+            :readonly="visitRequest"
           />
           <label for="floatingInput">Purpose</label>
         </div>
@@ -43,6 +45,7 @@
             :min="yearMonthDateToday"
             :max="maxCalendarDate"
             required
+            :readonly="visitRequest"
           />
           <label for="floatingInput">Visit date</label>
         </div>
@@ -79,7 +82,7 @@
         v-if="
           !isGetVisitRequestByTokenLoading &&
           visitRequest &&
-          visitRequest.requestStatus === 'PENDING' &&
+          visitRequest.requestStatus === VISIT_REQUEST_STATUS.PENDING &&
           !isGetInviteByTokenLoading
         "
         class="alert alert-info mt-3"
@@ -95,7 +98,7 @@
         v-if="
           !isGetVisitRequestByTokenLoading &&
           visitRequest &&
-          visitRequest.requestStatus === 'DECLINED' &&
+          visitRequest.requestStatus === VISIT_REQUEST_STATUS.DECLINED &&
           !isGetInviteByTokenLoading
         "
         class="alert alert-danger mt-3 text-center"
@@ -106,7 +109,7 @@
         v-if="
           !isGetVisitRequestByTokenLoading &&
           visitRequest &&
-          visitRequest.requestStatus === 'APPROVED' &&
+          visitRequest.requestStatus === VISIT_REQUEST_STATUS.APPROVED &&
           !isGetInviteByTokenLoading
         "
         class="alert alert-success mt-3 text-center"
@@ -154,7 +157,8 @@
           !isGetInviteByTokenLoading &&
           !isGetVisitRequestByTokenLoading &&
           !isGetVisitorLoading &&
-          (!visitRequest || visitRequest.requestStatus !== 'DECLINED')
+          (!visitRequest ||
+            visitRequest.requestStatus !== VISIT_REQUEST_STATUS.DECLINED)
         "
         class="mt-2 mb-0 text-muted text-center small fst-italic"
       >
@@ -187,6 +191,7 @@ import {
 } from '@/services/handlerServices'
 import { useVisitRequestStore } from '@/stores/visitRequestStore'
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils'
+import { VISIT_REQUEST_STATUS } from '@/constants/status'
 
 export default {
   name: 'InviteVisitorView',
@@ -231,7 +236,7 @@ export default {
         visitorName: formData.value.visitorName,
         visitDate: formData.value.visitDate,
         purpose: formData.value.purpose,
-        requestStatus: 'PENDING',
+        requestStatus: VISIT_REQUEST_STATUS.PENDING,
       }
       try {
         const response = await postVisitRequest(requestVisitData)
@@ -280,7 +285,9 @@ export default {
             new Date(visitRequest.value.visitDate),
           )
           errorMsg.value = ''
-          if (visitRequest.value.requestStatus === 'APPROVED') {
+          if (
+            visitRequest.value.requestStatus === VISIT_REQUEST_STATUS.APPROVED
+          ) {
             await getVisitor(visitRequest.value.registrationId)
           }
         }
@@ -359,6 +366,7 @@ export default {
       formatDateAndTime,
       yearMonthDateToday,
       maxCalendarDate,
+      VISIT_REQUEST_STATUS,
     }
   },
 }
