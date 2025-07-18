@@ -7,6 +7,7 @@ import { putInviteLinkHandler } from './putInviteLink'
 import { getInviteByTokenHandler } from './getInviteByToken'
 import { getVisitRequestByTokenHandler } from './getVisitRequestByToken'
 import { getPermissionsHandler } from './getPermissions'
+import { sendEmailHandler } from './notif/sendEmail'
 
 export function getHandlers() {
   return [
@@ -19,5 +20,6 @@ export function getHandlers() {
     ...getInviteByTokenHandler(),
     ...getVisitRequestByTokenHandler(),
     ...getPermissionsHandler(),
+    ...sendEmailHandler(),
   ]
 }

@@ -11,36 +11,43 @@
         @submit.prevent="requestVisit"
         class="row g-3"
       >
-        <div class="col-md-6">
-          <label for="visitorName" class="form-label">Visitor Name</label>
+        <div class="form-floating mb-1">
           <input
             type="text"
             class="form-control"
             id="visitorName"
+            placeholder="Juan Delacruz"
             v-model="formData.visitorName"
             required
+            :readonly="visitRequest"
           />
+          <label for="floatingInput">Visitor name</label>
         </div>
-        <div class="col-md-6">
-          <label for="purpose" class="form-label">Purpose</label>
+        <div class="form-floating mb-1">
           <input
             type="text"
             class="form-control"
             id="purpose"
+            placeholder="visit"
             v-model="formData.purpose"
             required
+            :readonly="visitRequest"
           />
+          <label for="floatingInput">Purpose</label>
         </div>
-        <div class="col-md-6">
-          <label for="visitDate" class="form-label">Visit Date</label>
+        <div class="form-floating mb-1">
           <input
             type="date"
             class="form-control"
             id="visitDate"
+            placeholder="visit"
             v-model="formData.visitDate"
-            required
             :min="yearMonthDateToday"
+            :max="maxCalendarDate"
+            required
+            :readonly="visitRequest"
           />
+          <label for="floatingInput">Visit date</label>
         </div>
         <div class="col-12">
           <button
@@ -75,7 +82,7 @@
         v-if="
           !isGetVisitRequestByTokenLoading &&
           visitRequest &&
-          visitRequest.requestStatus === 'PENDING' &&
+          visitRequest.requestStatus === VISIT_REQUEST_STATUS.PENDING &&
           !isGetInviteByTokenLoading
         "
         class="alert alert-info mt-3"
@@ -91,7 +98,7 @@
         v-if="
           !isGetVisitRequestByTokenLoading &&
           visitRequest &&
-          visitRequest.requestStatus === 'DECLINED' &&
+          visitRequest.requestStatus === VISIT_REQUEST_STATUS.DECLINED &&
           !isGetInviteByTokenLoading
         "
         class="alert alert-danger mt-3 text-center"
@@ -102,7 +109,7 @@
         v-if="
           !isGetVisitRequestByTokenLoading &&
           visitRequest &&
-          visitRequest.requestStatus === 'APPROVED' &&
+          visitRequest.requestStatus === VISIT_REQUEST_STATUS.APPROVED &&
           !isGetInviteByTokenLoading
         "
         class="alert alert-success mt-3 text-center"
@@ -150,7 +157,8 @@
           !isGetInviteByTokenLoading &&
           !isGetVisitRequestByTokenLoading &&
           !isGetVisitorLoading &&
-          (!visitRequest || visitRequest.requestStatus !== 'DECLINED')
+          (!visitRequest ||
+            visitRequest.requestStatus !== VISIT_REQUEST_STATUS.DECLINED)
         "
         class="mt-2 mb-0 text-muted text-center small fst-italic"
       >
@@ -183,6 +191,7 @@ import {
 } from '@/services/handlerServices'
 import { useVisitRequestStore } from '@/stores/visitRequestStore'
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils'
+import { VISIT_REQUEST_STATUS } from '@/constants/status'
 
 export default {
   name: 'InviteVisitorView',
@@ -195,6 +204,10 @@ export default {
   setup(props) {
     const visitRequestStore = useVisitRequestStore()
     const yearMonthDateToday = getYearMonthDay(new Date())
+
+    const maxCalendarDateObject = new Date(yearMonthDateToday)
+    maxCalendarDateObject.setDate(maxCalendarDateObject.getDate() + 7)
+    const maxCalendarDate = getYearMonthDay(maxCalendarDateObject)
 
     const invitation = ref(null)
     const visitRequest = ref(null)
@@ -223,7 +236,7 @@ export default {
         visitorName: formData.value.visitorName,
         visitDate: formData.value.visitDate,
         purpose: formData.value.purpose,
-        requestStatus: 'PENDING',
+        requestStatus: VISIT_REQUEST_STATUS.PENDING,
       }
       try {
         const response = await postVisitRequest(requestVisitData)
@@ -272,7 +285,9 @@ export default {
             new Date(visitRequest.value.visitDate),
           )
           errorMsg.value = ''
-          if (visitRequest.value.requestStatus === 'APPROVED') {
+          if (
+            visitRequest.value.requestStatus === VISIT_REQUEST_STATUS.APPROVED
+          ) {
             await getVisitor(visitRequest.value.registrationId)
           }
         }
@@ -350,6 +365,8 @@ export default {
       formatDate,
       formatDateAndTime,
       yearMonthDateToday,
+      maxCalendarDate,
+      VISIT_REQUEST_STATUS,
     }
   },
 }

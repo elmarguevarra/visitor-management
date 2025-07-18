@@ -3,49 +3,53 @@
     <h4 class="mb-3 text-muted" style="margin-left: -0.2rem">Profile</h4>
     <div>
       <form class="row g-3">
-        <div class="col-md-6">
-          <label for="Id" class="form-label">Email</label>
+        <div class="form-floating mb-1">
           <input
-            type="text"
+            type="email"
             class="form-control"
             id="Id"
+            placeholder="name@example.com"
             v-model="formData.Id"
             readonly
           />
+          <label for="floatingInput">Email</label>
         </div>
-        <div class="col-md-6">
-          <label for="Name" class="form-label">Name</label>
+        <div class="form-floating mb-1">
           <input
             type="text"
             class="form-control"
             id="Name"
+            placeholder="Juan Delacruz"
             v-model="formData.Name"
             readonly
           />
+          <label for="floatingInput">Name</label>
         </div>
-        <div class="col-md-6">
-          <label for="Name" class="form-label">Contact</label>
+        <div class="form-floating mb-1">
           <input
             type="text"
             class="form-control"
             id="Contact"
+            placeholder="+69053635414"
             v-model="formData.Contact"
             readonly
           />
+          <label for="floatingInput">Contact</label>
         </div>
-        <div class="col-md-6">
-          <label for="Group" class="form-label">Group</label>
+        <div class="form-floating mb-1">
           <input
             type="text"
             class="form-control"
             id="Group"
+            placeholder="+69053635414"
             :value="
               !formData.Group || formData.Group.includes('Google')
-                ? 'Reviewing...'
+                ? '...'
                 : formData.Group
             "
             readonly
           />
+          <label for="floatingInput">Group</label>
         </div>
         <div
           v-if="!authenticationStore.userGroup"
