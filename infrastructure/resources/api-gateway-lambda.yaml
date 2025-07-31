@@ -90,7 +90,7 @@ Resources:
               - method.request.querystring.residentId:
                   Required: false
             Auth:
-              Authorizer: LambdaAuthorizer
+              Authorizer: NONE
 
   getPermissionsFunction:
     Type: AWS::Serverless::Function
