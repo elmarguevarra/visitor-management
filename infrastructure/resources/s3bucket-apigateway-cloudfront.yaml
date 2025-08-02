@@ -8,6 +8,8 @@ Parameters:
     Type: String
   SubDomain:
     Type: String
+  ApiGatewayDomain:
+    Type: String
 
 Resources:
   WebSiteBucket:
@@ -56,9 +58,8 @@ Resources:
             OriginAccessControlId: !GetAtt CloudFrontOriginAccessControl.Id
             S3OriginConfig:
               OriginAccessIdentity: ""
-          - DomainName: !ImportValue "${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com"
+          - DomainName: !Ref ApiGatewayDomain
             Id: apiGatewayOrigin
-            DomainName: !Ref ApiGatewayDomain
             OriginPath: "/Prod"
             CustomOriginConfig:
               OriginProtocolPolicy: https-only
@@ -137,7 +138,6 @@ Resources:
         SigningBehavior: always
         SigningProtocol: sigv4
 
-
   CachePolicy:
     Type: AWS::CloudFront::CachePolicy
     Properties:
@@ -155,7 +155,7 @@ Resources:
             CookieBehavior: none
           QueryStringsConfig:
             QueryStringBehavior: all
-    
+
   OriginRequestPolicy:
     Type: AWS::CloudFront::OriginRequestPolicy
     Properties:

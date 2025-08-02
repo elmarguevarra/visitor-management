@@ -86,11 +86,12 @@ Resources:
   S3BucketCloudFrontStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: ./infrastructure/resources/s3-bucket-cloudfront.yaml
+      TemplateURL: ./infrastructure/resources/s3bucket-apigateway-cloudfront.yaml.yaml
       Parameters:
         AcmCertificateArn: !Ref AcmCertificateArn
         BaseDomain: !Ref BaseDomain
         SubDomain: !Ref SubDomain
+        ApiGatewayDomain: !Sub "${ApiGatewayLambdaStack.Outputs.ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com"
 
   RecordSetStack:
     Type: AWS::CloudFormation::Stack
