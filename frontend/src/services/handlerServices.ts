@@ -2,15 +2,13 @@ import { ACTIONS } from '@/constants/actions'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import axios from 'axios'
 
-const API_BASE = process.env.VUE_APP_API_ENDPOINT || ''
-
 const defaultUserGroup = 'unassigned'
 
 export async function postVisitor(data: any): Promise<any> {
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
 
-  const response = await axios.post(`${API_BASE}visitor`, data, {
+  const response = await axios.post(`api/visitor`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
       'X-Required-Permission': ACTIONS.API.POST_VISITOR,
@@ -23,7 +21,7 @@ export async function postInvite(data: any): Promise<any> {
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
 
-  const response = await axios.post(`${API_BASE}invite`, data, {
+  const response = await axios.post(`api/invite`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
       'X-Required-Permission': ACTIONS.API.POST_INVITE,
@@ -36,7 +34,7 @@ export async function postVisitRequest(data: any): Promise<any> {
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
 
-  const response = await axios.post(`${API_BASE}visit-request`, data, {
+  const response = await axios.post(`api/visit-request`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
       'X-Required-Permission': ACTIONS.API.POST_VISIT_REQUEST,
@@ -51,15 +49,12 @@ export async function getVisitorsByResidentId(
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token // User access token for custom lambda authorizer
 
-  const response = await axios.get(
-    `${API_BASE}visitors?residentId=${residentId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'X-Required-Permission': ACTIONS.API.GET_VISITORS,
-      },
+  const response = await axios.get(`api/visitors?residentId=${residentId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'X-Required-Permission': ACTIONS.API.GET_VISITORS,
     },
-  )
+  })
   return response.data
 }
 
@@ -70,7 +65,7 @@ export async function getVisitRequestsByResidentId(
   const token = authenticationStore.user?.access_token
 
   const response = await axios.get(
-    `${API_BASE}visit-requests?residentId=${residentId}`,
+    `api/visit-requests?residentId=${residentId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -87,7 +82,7 @@ export async function getVisitorByRegistrationId(
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
 
-  const response = await axios.get(`${API_BASE}visitor/${registrationId}`, {
+  const response = await axios.get(`api/visitor/${registrationId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       'X-Required-Permission': ACTIONS.API.GET_VISITOR,
@@ -100,7 +95,7 @@ export async function getInviteByToken(inviteToken: string): Promise<any> {
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
 
-  const response = await axios.get(`${API_BASE}invite/${inviteToken}`, {
+  const response = await axios.get(`api/invite/${inviteToken}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       'X-Required-Permission': ACTIONS.API.GET_INVITE,
@@ -115,7 +110,7 @@ export async function getVisitRequestByToken(
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
 
-  const response = await axios.get(`${API_BASE}visit-request/${inviteToken}`, {
+  const response = await axios.get(`api/visit-request/${inviteToken}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       'X-Required-Permission': ACTIONS.API.GET_VISIT_REQUEST,
@@ -139,9 +134,7 @@ export async function evaluatePermissions(
   }
 
   const queryString = params.toString()
-  const url = queryString
-    ? `${API_BASE}permissions?${queryString}`
-    : `${API_BASE}permissions`
+  const url = queryString ? `api/permissions?${queryString}` : `api/permissions`
 
   const response = await axios.get(url, {
     headers: {
@@ -157,7 +150,7 @@ export async function sendNotification(data: any): Promise<any> {
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
 
-  const response = await axios.post(`${API_BASE}send-email`, data, {
+  const response = await axios.post(`api/send-email`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
       'X-Required-Permission': ACTIONS.API.SEND_NOTIFICATION, //TODO: Revisit this if still needed. System notifications may not require explicit permissions
