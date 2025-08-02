@@ -49,6 +49,14 @@ Parameters:
   SysNotifEmailAddress:
     Type: String
     Description: Email address for SES notifications
+  NoCachePolicy:
+    Type: String
+    Default: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+    Description: Global Cache Policy ID for CloudFront (NoCachePolicy)
+  AllViewerExceptHostHeader:
+    Type: String
+    Default: b689b0a8-53d0-40ab-baf2-68738e2966ac
+    Description: Global Origin Request Policy ID for CloudFront (AllViewerExceptHostHeader)
 
 Conditions:
   CreateHostedZoneCondition: !Equals [!Ref CreateHostedZone, "true"]
@@ -83,7 +91,7 @@ Resources:
         ResidentGroupName: !Ref ResidentGroupName
         GuardGroupName: !Ref GuardGroupName
 
-  S3BucketCloudFrontStack:
+  S3BucketApigatewayCloudFrontStack:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: ./infrastructure/resources/s3bucket-apigateway-cloudfront.yaml
@@ -92,10 +100,12 @@ Resources:
         BaseDomain: !Ref BaseDomain
         SubDomain: !Ref SubDomain
         ApiGatewayDomain: !Sub "${ApiGatewayLambdaStack.Outputs.ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com"
+        CachePolicyId: !Ref NoCachePolicy
+        OriginRequestPolicyId: !Ref AllViewerExceptHostHeader
 
   RecordSetStack:
     Type: AWS::CloudFormation::Stack
-    DependsOn: S3BucketCloudFrontStack
+    DependsOn: S3BucketApigatewayCloudFrontStack
     Properties:
       TemplateURL: ./infrastructure/resources/record-sets.yaml
       Parameters:
@@ -162,13 +172,13 @@ Outputs:
     Value: !Sub https://${ApiGatewayLambdaStack.Outputs.ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
   CloudFrontDistributionId:
     Description: CloudFront Distribution ID for hosting web front end
-    Value: !GetAtt S3BucketCloudFrontStack.Outputs.CloudFrontDistributionId
+    Value: !GetAtt S3BucketApigatewayCloudFrontStack.Outputs.CloudFrontDistributionId
   CloudFrontDistributionDomainName:
     Description: CloudFront Distribution Domain Name for accessing web front end
-    Value: !GetAtt S3BucketCloudFrontStack.Outputs.CloudFrontDistributionDomainName
+    Value: !GetAtt S3BucketApigatewayCloudFrontStack.Outputs.CloudFrontDistributionDomainName
   WebS3BucketName:
     Description: S3 Bucket for hosting web frontend
-    Value: !GetAtt S3BucketCloudFrontStack.Outputs.WebS3BucketName
+    Value: !GetAtt S3BucketApigatewayCloudFrontStack.Outputs.WebS3BucketName
   UserPoolId:
     Description: Cognito User Pool ID
     Value: !GetAtt CognitoUserPoolStack.Outputs.CognitoUserPool
