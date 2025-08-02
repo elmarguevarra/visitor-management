@@ -380,3 +380,5 @@ Resources:
 Outputs:
   ApiGatewayApi:
     Value: !Ref ApiGatewayApi
+    Export:
+      Name: ApiGatewayApi
