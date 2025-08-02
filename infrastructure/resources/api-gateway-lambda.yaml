@@ -301,7 +301,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /invite
+            Path: /api/invite
             Method: POST
             RestApiId: !Ref ApiGatewayApi
             Auth:
