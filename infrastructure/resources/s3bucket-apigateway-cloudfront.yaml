@@ -100,8 +100,7 @@ Resources:
               - PATCH
               - DELETE
             Compress: true
-            CachePolicyId: !Ref CachePolicy
-            OriginRequestPolicyId: !Ref OriginRequestPolicy
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # NoCachePolicy
         PriceClass: PriceClass_200
         Restrictions:
           GeoRestriction:
@@ -155,21 +154,6 @@ Resources:
             CookieBehavior: none
           QueryStringsConfig:
             QueryStringBehavior: all
-
-  OriginRequestPolicy:
-    Type: AWS::CloudFront::OriginRequestPolicy
-    Properties:
-      OriginRequestPolicyConfig:
-        Name: ApiGatewayOriginRequestPolicy
-        Comment: Forward all query strings and minimal headers
-        HeadersConfig:
-          HeaderBehavior: whitelist
-          Headers:
-            - Host
-        CookiesConfig:
-          CookieBehavior: none
-        QueryStringsConfig:
-          QueryStringBehavior: all
 
 Outputs:
   CloudFrontDistributionId:
