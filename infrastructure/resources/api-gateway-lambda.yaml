@@ -83,7 +83,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /visitors
+            Path: /api/visitors
             Method: GET
             RestApiId: !Ref ApiGatewayApi
             RequestParameters:
@@ -117,7 +117,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /permissions
+            Path: /api/permissions
             Method: GET
             RestApiId: !Ref ApiGatewayApi
             RequestParameters:
@@ -148,7 +148,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /visit-requests
+            Path: /api/visit-requests
             Method: GET
             RestApiId: !Ref ApiGatewayApi
             RequestParameters:
@@ -181,7 +181,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /visitor/{id}
+            Path: /api/visitor/{id}
             Method: GET
             RestApiId: !Ref ApiGatewayApi
             Auth:
@@ -211,7 +211,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /invite/{inviteToken}
+            Path: /api/invite/{inviteToken}
             Method: GET
             RestApiId: !Ref ApiGatewayApi
             Auth:
@@ -241,7 +241,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /visit-request/{inviteToken}
+            Path: /api/visit-request/{inviteToken}
             Method: GET
             RestApiId: !Ref ApiGatewayApi
             Auth:
@@ -271,7 +271,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /visitor
+            Path: /api/visitor
             Method: POST
             RestApiId: !Ref ApiGatewayApi
             Auth:
@@ -331,7 +331,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /visit-request
+            Path: /api/visit-request
             Method: POST
             RestApiId: !Ref ApiGatewayApi
             Auth:
@@ -371,7 +371,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /send-email
+            Path: /api/send-email
             Method: POST
             RestApiId: !Ref ApiGatewayApi
             Auth:
