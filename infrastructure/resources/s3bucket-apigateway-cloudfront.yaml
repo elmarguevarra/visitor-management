@@ -67,8 +67,6 @@ Resources:
             OriginPath: "/Prod"
             CustomOriginConfig:
               OriginProtocolPolicy: https-only
-              OriginSslProtocols:
-                - TLSv1.2
         Enabled: true
         DefaultRootObject: index.html
         HttpVersion: http2
