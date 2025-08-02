@@ -5,10 +5,10 @@ module.exports = defineConfig({
   transpileDependencies: true,
   configureWebpack: {
     resolve: {
-      extensions: ['.ts', '.js', '.vue', '.json']
+      extensions: ['.ts', '.js', '.vue', '.json'],
     },
     entry: {
-      app: './src/main.ts'
+      app: './src/main.ts',
     },
     module: {
       rules: [
@@ -18,11 +18,19 @@ module.exports = defineConfig({
           use: {
             loader: 'ts-loader',
             options: {
-              appendTsSuffixTo: [/\.vue$/] // Handle <script lang="ts"> in Vue SFCs
-            }
-          }
-        }
-      ]
-    }
-  }
+              appendTsSuffixTo: [/\.vue$/], // Handle <script lang="ts"> in Vue SFCs
+            },
+          },
+        },
+      ],
+    },
+  },
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    },
+  },
 })
