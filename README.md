@@ -57,6 +57,14 @@ visitor-management/
 **Backend**: AWS Lambda + API Gateway + DynamoDB + Cognito + Verified Permissions  
 **Frontend**: Vue 3 + TypeScript + Pinia + OIDC + MSW + Bootstrap
 
+### API Configuration
+
+The frontend application uses the base URL of the hosting environment by default. The backend API is served from the same domain but is prefixed with /api. For example:
+
+Frontend base URL: https://example.com
+
+Backend base URL: https://example.com/api
+
 ## 🔧 Environment Variables
 
 ### Backend (`env.json` in root)
@@ -70,7 +78,6 @@ VUE_APP_COGNITO_USER_POOL_CLIENT_ID=your-client-id
 VUE_APP_COGNITO_USER_POOL_DOMAIN_URL=https://your-domain.auth.region.amazoncognito.com
 VUE_APP_COGNITO_AUTHORITY_URL=https://cognito-idp.region.amazonaws.com/your-user-pool-id
 VUE_APP_FRONTEND_BASE_URL=http://localhost:8080
-VUE_APP_API_ENDPOINT=http://127.0.0.1:3000/
 ```
 
 **Note:** Frontend variables must start with `VUE_APP_` prefix.
@@ -109,9 +116,6 @@ export const getVisitorsHandler = (): RestHandler[] => [
 ### Debug Commands
 
 ```bash
-# Check environment variables
-echo $VUE_APP_API_ENDPOINT
-
 # View SAM logs
 sam logs --stack-name visitor-management --tail
 
@@ -138,7 +142,7 @@ aws dynamodb list-tables --endpoint-url http://localhost:8000
 1. **Start DynamoDB Local**: `docker run --rm -p 8000:8000 amazon/dynamodb-local`
 2. **Create tables**: Use provided AWS CLI commands
 3. **Start SAM API**: `sam local start-api --env-vars env.json`
-4. **Update frontend env**: Set `VUE_APP_API_ENDPOINT=http://127.0.0.1:3000/`
+4. **Update frontend dev server proxy**: Set `target: 'http://localhost:3000'` in vue.config.js
 5. **Disable MSW**: Comment out MSW initialization in `main.ts`
 
 ### Testing
@@ -398,10 +402,17 @@ aws dynamodb scan --table-name VisitorsTable --endpoint-url http://127.0.0.1:800
 cd frontend
 ```
 
-Make backend API endpoint accessible as an environment variable. For local, create a `.env` file, Here is an example:
+For local development the api url is proxied to use target in vue.config. Change URL as this as necessary
 
 ```
-VUE_APP_API_ENDPOINT=http://127.0.0.1:3000/
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    },
+  },
 ```
 
 9. run following command to compile and run (with hot-reloads) for development
