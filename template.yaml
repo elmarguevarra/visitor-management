@@ -86,7 +86,7 @@ Resources:
   S3BucketCloudFrontStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: ./infrastructure/resources/s3bucket-apigateway-cloudfront.yaml.yaml
+      TemplateURL: ./infrastructure/resources/s3bucket-apigateway-cloudfront.yaml
       Parameters:
         AcmCertificateArn: !Ref AcmCertificateArn
         BaseDomain: !Ref BaseDomain
