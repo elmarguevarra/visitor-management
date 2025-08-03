@@ -2,15 +2,7 @@
   <div class="container mt-2">
     <h4 class="mb-3 text-muted" style="margin-left: -0.2rem">Self-Register</h4>
     <div>
-      <form
-        v-if="
-          !errorMsg &&
-          !isGetInviteByTokenLoading &&
-          !isGetVisitRequestByTokenLoading
-        "
-        @submit.prevent="requestVisit"
-        class="row g-3"
-      >
+      <form @submit.prevent="requestVisit" class="row g-3">
         <div class="form-floating mb-1">
           <input
             type="text"
