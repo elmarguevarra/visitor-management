@@ -74,7 +74,7 @@ export const putInviteLinkItemHandler = async (event) => {
 
   try {
     const data = await ddbDocClient.send(new PutCommand(params));
-    console.log("Success - item added or updated", data);
+    console.debug("Success - item added or updated", data);
   } catch (err) {
     console.error("Error adding or updating item:", err.message);
     console.error("Error code:", err.code);

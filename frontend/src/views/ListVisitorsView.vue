@@ -268,7 +268,7 @@ export default {
 
         errorMsg.value = ''
       } catch (error) {
-        console.log(error)
+        console.debug(error)
         errorMsg.value = 'Error posting data'
         requestSubmittedState[visitRequest.inviteToken] = false
       } finally {
@@ -290,7 +290,7 @@ export default {
 
         errorMsg.value = ''
       } catch (error) {
-        console.log(error)
+        console.debug(error)
         errorMsg.value = 'Error posting data'
         requestSubmittedState[visitRequest.inviteToken] = false
       } finally {
@@ -306,7 +306,7 @@ export default {
         )
         visitorStore.setVisitors(response)
       } catch (error) {
-        console.log(error)
+        console.debug(error)
         errorMsg.value = 'Error retrieving data'
       } finally {
         isGetVisitorsLoading.value = false
@@ -323,7 +323,7 @@ export default {
         )
         visitRequestStore.setVisitRequests(pendingVisitRequests)
       } catch (error) {
-        console.log(error)
+        console.debug(error)
         errorMsg.value = 'Error retrieving data'
       }
     }

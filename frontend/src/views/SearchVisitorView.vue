@@ -100,7 +100,7 @@ export default {
     async fetchData(id) {
       try {
         const response = await getVisitorByRegistrationId(id)
-        console.log('response: ', response)
+        console.debug('response: ', response)
         this.visitor = response
         this.errorMsg = ''
       } catch (error) {

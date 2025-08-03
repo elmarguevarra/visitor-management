@@ -7,19 +7,19 @@ const USER_POOL_DOMAIN_URL =
 const AUTHORITY_URL = process.env.VUE_APP_COGNITO_AUTHORITY_URL || ''
 const FRONTEND_BASE_URL = process.env.VUE_APP_FRONTEND_BASE_URL || ''
 
-console.log(
+console.debug(
   'process.env.COGNITO_USER_POOL_CLIENT_ID: ',
   process.env.VUE_APP_COGNITO_USER_POOL_CLIENT_ID,
 )
-console.log(
+console.debug(
   'process.env.COGNITO_USER_POOL_DOMAIN_URL: ',
   process.env.VUE_APP_COGNITO_USER_POOL_DOMAIN_URL,
 )
-console.log(
+console.debug(
   'process.env.COGNITO_AUTHORITY_URL: ',
   process.env.VUE_APP_COGNITO_AUTHORITY_URL,
 )
-console.log(
+console.debug(
   'process.env.VUE_APP_FRONTEND_BASE_URL: ',
   process.env.VUE_APP_FRONTEND_BASE_URL,
 )

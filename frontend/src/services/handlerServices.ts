@@ -109,16 +109,34 @@ export async function getInviteByToken(inviteToken: string): Promise<any> {
 export async function getVisitRequestByToken(
   inviteToken: string,
 ): Promise<any> {
-  const authenticationStore = useAuthenticationStore()
-  const token = authenticationStore.user?.access_token
+  try {
+    const authenticationStore = useAuthenticationStore()
+    const token = authenticationStore.user?.access_token
 
-  const response = await axios.get(`/api/visit-request/${inviteToken}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'X-Required-Permission': ACTIONS.API.GET_VISIT_REQUEST,
-    },
-  })
-  return response.data
+    const response = await axios.get(`/api/visit-request/${inviteToken}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'X-Required-Permission': ACTIONS.API.GET_VISIT_REQUEST,
+      },
+    })
+
+    if (Object.keys(response.data).length === 0) {
+      console.log(
+        `Visit request with token '${inviteToken}' not found. API returned an empty object. Setting visitRequest to null.`,
+      )
+      return null
+    }
+
+    return response.data
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get visit request by token: ${error.message}`)
+    } else {
+      throw new Error(
+        `Failed to get visit request by token: An unknown error occurred.`,
+      )
+    }
+  }
 }
 
 export async function evaluatePermissions(

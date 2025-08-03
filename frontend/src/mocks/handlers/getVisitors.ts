@@ -1,7 +1,7 @@
 import { RestHandler, rest } from 'msw'
 
 export const getVisitorsHandler = (): RestHandler[] => [
-  rest.get('api/visitors?residentId', async (req, res, ctx) => {
+  rest.get('/api/visitors?residentId', async (req, res, ctx) => {
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setDate(today.getDate() + 1)

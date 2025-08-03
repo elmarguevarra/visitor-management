@@ -22,7 +22,7 @@ export const sendEmailHandler = async (event) => {
   }
 
   const body = JSON.parse(event.body);
-  console.log("Received body:", body);
+  console.debug("Received body:", body);
 
   let residentEmail = body.data.resident_email;
   let visitorEmail = body.data.visitor_email;
@@ -120,7 +120,7 @@ export const generateUploadQRCode = async (visitQrCodeDataURL, visitDate) => {
 
     await s3Client.send(command);
 
-    console.log("QR Code uploaded successfully:", key);
+    console.debug("QR Code uploaded successfully:", key);
 
     const getCommand = new GetObjectCommand({
       Bucket: "visit-qr-codes", //TODO: Fetch this from environment variables

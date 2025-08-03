@@ -232,13 +232,13 @@ export default {
       }
       try {
         const response = await postVisitRequest(requestVisitData)
-        console.log(response)
+        console.debug(response)
         visitRequest.value = response
         visitRequestStore.addVisitRequest(response)
         await extendInviteLinkExpiration(response)
         errorMsg.value = ''
       } catch (error) {
-        console.log(error)
+        console.debug(error)
         errorMsg.value = 'Error posting data'
       } finally {
         isRequestVisitLoading.value = false
@@ -249,7 +249,7 @@ export default {
       isGetInviteByTokenLoading.value = true
       try {
         const response = await getInviteByToken(props.inviteToken)
-        console.log(response.data)
+        console.debug('invite:', response.data)
         invitation.value = response
         if (invitation.value && invitation.value.residentId) {
           formData.value.residentId = invitation.value.residentId
@@ -257,7 +257,7 @@ export default {
         }
         errorMsg.value = ''
       } catch (error) {
-        console.log(error)
+        console.debug(error)
         errorMsg.value = 'Invite not found or has already expired.'
       } finally {
         isGetInviteByTokenLoading.value = false
@@ -268,7 +268,7 @@ export default {
       isGetVisitRequestByTokenLoading.value = true
       try {
         const response = await getVisitRequestByToken(props.inviteToken)
-        console.log(response)
+        console.debug('visitRequest:', response)
         visitRequest.value = response
         if (visitRequest.value) {
           formData.value.visitorName = visitRequest.value.visitorName
@@ -284,7 +284,7 @@ export default {
           }
         }
       } catch (error) {
-        console.log(error)
+        console.debug(error)
         errorMsg.value = 'Visit Request not found or has already expired.'
       } finally {
         isGetVisitRequestByTokenLoading.value = false
@@ -317,15 +317,15 @@ export default {
           residentId: residentId.value,
           inviteLinkExpiration: expirationDate,
         }
-        console.log(
+        console.debug(
           'inviteData.inviteLinkExpiration: ',
           inviteData.inviteLinkExpiration,
         )
         const response = await postInvite(inviteData)
-        console.log(response)
+        console.debug(response)
         invitation.value = response
       } catch (error) {
-        console.log(error)
+        console.debug(error)
         errorMsg.value = 'Error extending expiration of invite link'
       }
     }

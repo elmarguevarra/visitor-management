@@ -25,7 +25,7 @@ export const useAuthorizationStore = defineStore('authorization', {
           })
           this.permissions = permissionMap
 
-          console.log('permissions: ', permissions)
+          console.debug('permissions: ', permissions)
         } else {
           console.warn('Invalid permissions result:', permissions)
         }

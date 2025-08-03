@@ -2,7 +2,7 @@ import { VISIT_REQUEST_STATUS } from '@/constants/status'
 import { RestHandler, rest } from 'msw'
 
 export const getVisitRequestByTokenHandler = (): RestHandler[] => [
-  rest.get('api/visit-request/:inviteToken', async (req, res, ctx) => {
+  rest.get('/api/visit-request/:inviteToken', async (req, res, ctx) => {
     await new Promise((resolve) => setTimeout(resolve, 1500))
     return res(
       ctx.status(200),
