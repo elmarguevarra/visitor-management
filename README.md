@@ -107,7 +107,7 @@ MSW is automatically enabled in development mode (`NODE_ENV === 'development'`) 
 export const getVisitorsHandler = (): RestHandler[] => [
   rest.get("/visitors", async (req, res, ctx) => {
     const residentId = req.url.searchParams.get("residentId");
-    console.log(`[MSW] GET /visitors - residentId: ${residentId}`);
+    console.debug(`[MSW] GET /visitors - residentId: ${residentId}`);
     return res(ctx.status(200), ctx.json(mockData));
   }),
 ];

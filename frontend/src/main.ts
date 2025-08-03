@@ -25,7 +25,7 @@ if (process.env.VUE_APP_USE_MSW === 'true') {
   require('./mocks/msw')
 }
 
-console.log('process.env.NODE_ENV', process.env.NODE_ENV)
+console.debug('process.env.NODE_ENV', process.env.NODE_ENV)
 
 const pinia = createPinia()
 const routes = [

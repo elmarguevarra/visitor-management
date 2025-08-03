@@ -57,12 +57,12 @@ export const putVisitorHandler = async (event) => {
   }
 
   const qrCodeData = `${frontEndBaseUrl}/verify-visitor/${registrationId}`;
-  console.log("process.env.APP_FRONTEND_BASE_URL", frontEndBaseUrl);
+  console.debug("process.env.APP_FRONTEND_BASE_URL", frontEndBaseUrl);
 
   let qrCodeDataURL = null;
   try {
     qrCodeDataURL = await QRCode.toDataURL(qrCodeData);
-    console.log("QR Code Data URL generated:", qrCodeDataURL);
+    console.debug("QR Code Data URL generated:", qrCodeDataURL);
   } catch (error) {
     console.error("Error generating QR code:", error);
     // Decide how to handle QR code generation failure.
@@ -92,7 +92,7 @@ export const putVisitorHandler = async (event) => {
 
   try {
     const data = await ddbDocClient.send(new PutCommand(params));
-    console.log("Success - item added or updated", data);
+    console.debug("Success - item added or updated", data);
   } catch (err) {
     console.error("Error adding or updating item:", err.message);
     console.error("Error code:", err.code);

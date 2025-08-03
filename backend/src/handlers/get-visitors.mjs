@@ -29,7 +29,7 @@ export const getVisitorsHandler = async (event) => {
   const residentId = event.queryStringParameters
     ? event.queryStringParameters.residentId
     : undefined;
-  console.log("residentId from query:", residentId);
+  console.debug("residentId from query:", residentId);
 
   var params = {
     TableName: tableName,

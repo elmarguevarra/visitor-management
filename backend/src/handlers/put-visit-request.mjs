@@ -55,9 +55,12 @@ export const putVisitRequestHandler = async (event) => {
     zone: "Asia/Manila",
   }).startOf("day");
 
-  console.log("localDateTime: ", localDateTime.toString());
-  console.log("localDateTime.toISO(): ", localDateTime.toISO());
-  console.log("localDateTime.toUTC().toISO(): ", localDateTime.toUTC().toISO());
+  console.debug("localDateTime: ", localDateTime.toString());
+  console.debug("localDateTime.toISO(): ", localDateTime.toISO());
+  console.debug(
+    "localDateTime.toUTC().toISO(): ",
+    localDateTime.toUTC().toISO()
+  );
 
   const inviteLinkExpirationTimeInHours = 24;
   const ttlInSeconds = calculateTTLInSeconds(
@@ -65,7 +68,7 @@ export const putVisitRequestHandler = async (event) => {
     inviteLinkExpirationTimeInHours
   );
 
-  console.log("ttlInSeconds", ttlInSeconds);
+  console.debug("ttlInSeconds", ttlInSeconds);
 
   const params = {
     TableName: tableName,
@@ -84,7 +87,7 @@ export const putVisitRequestHandler = async (event) => {
 
   try {
     const data = await ddbDocClient.send(new PutCommand(params));
-    console.log("Success - item added or updated", data);
+    console.debug("Success - item added or updated", data);
   } catch (err) {
     console.error("Error adding or updating item:", err.message);
     console.error("Error code:", err.code);

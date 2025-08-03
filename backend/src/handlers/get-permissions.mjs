@@ -46,13 +46,13 @@ export const getPermissionsHandler = async (event) => {
     })),
   };
 
-  console.log("batchIsAuthorizedInput: ", batchIsAuthorizedInput);
+  console.debug("batchIsAuthorizedInput: ", batchIsAuthorizedInput);
   const command = new BatchIsAuthorizedCommand(batchIsAuthorizedInput);
 
   var batchIsAuthorizedOutput;
   try {
     batchIsAuthorizedOutput = await verifiedPermissionsClient.send(command);
-    console.log("batchIsAuthorizedOutput: ", batchIsAuthorizedOutput);
+    console.debug("batchIsAuthorizedOutput: ", batchIsAuthorizedOutput);
   } catch (err) {
     console.error("Error checking batch authorization:", err);
     throw new Error("Failed to evaluate access");

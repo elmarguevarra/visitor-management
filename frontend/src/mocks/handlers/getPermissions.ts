@@ -95,13 +95,13 @@ const getPermissionsByGroup = (userGroup: string) => {
 
 export function getPermissionsHandler() {
   return [
-    rest.get('api/permissions', (req, res, ctx) => {
+    rest.get('/api/permissions', (req, res, ctx) => {
       // Get principalId (user group) from query parameters
       const principalId =
         req.url.searchParams.get('principalId') || 'unassigned'
       const actionsParam = req.url.searchParams.get('actions')
 
-      console.log(
+      console.debug(
         `[MSW] GET /permissions - principalId: ${principalId}, actions: ${actionsParam}`,
       )
 
@@ -125,12 +125,12 @@ export function getPermissionsHandler() {
     }),
 
     // Handle the case where API_BASE is empty (fallback to relative path)
-    rest.get('api/permissions', (req, res, ctx) => {
+    rest.get('/api/permissions', (req, res, ctx) => {
       const principalId =
         req.url.searchParams.get('principalId') || 'unassigned'
       const actionsParam = req.url.searchParams.get('actions')
 
-      console.log(
+      console.debug(
         `[MSW] GET /permissions (fallback) - principalId: ${principalId}, actions: ${actionsParam}`,
       )
 

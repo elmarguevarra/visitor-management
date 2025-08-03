@@ -38,7 +38,7 @@ export const getVisitRequestsHandler = async (event) => {
   const residentId = event.queryStringParameters
     ? event.queryStringParameters.residentId
     : undefined;
-  console.log("residentId from query:", residentId);
+  console.debug("residentId from query:", residentId);
 
   // get all items from the table (only first 1MB data, you can use `LastEvaluatedKey` to get the rest of data)
   // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#scan-property

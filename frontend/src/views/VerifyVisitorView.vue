@@ -193,7 +193,7 @@ export default {
       }
       try {
         const response = await postVisitor(updateData)
-        console.log('Update successful:', response.data)
+        console.debug('Update successful:', response.data)
         visitor.value = response
         errorMsg.value = ''
         await sendNotification({
@@ -208,7 +208,7 @@ export default {
           },
         })
       } catch (error) {
-        console.log(error)
+        console.debug(error)
         errorMsg.value = 'Error updating check-in status'
       } finally {
         isSetArrivedDataLoading.value = false
@@ -225,7 +225,7 @@ export default {
       }
       try {
         const response = await postVisitor(updateData)
-        console.log('Update successful:', response.data)
+        console.debug('Update successful:', response.data)
         visitor.value = response
         errorMsg.value = ''
         await sendNotification({
@@ -240,7 +240,7 @@ export default {
           },
         })
       } catch (error) {
-        console.log(error)
+        console.debug(error)
         errorMsg.value = 'Error updating check-in status'
       } finally {
         isSetDepartedDataLoading.value = false
