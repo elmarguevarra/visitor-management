@@ -1,7 +1,7 @@
 import { RestHandler, rest } from 'msw'
 
 export const getVisitRequestsHandler = (): RestHandler[] => [
-  rest.get('visit-requests?residentId', async (req, res, ctx) => {
+  rest.get('api/visit-requests?residentId', async (req, res, ctx) => {
     await new Promise((resolve) => setTimeout(resolve, 1500))
     return res(
       ctx.status(200),

@@ -25,12 +25,13 @@ module.exports = defineConfig({
       ],
     },
   },
-  devServer: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-      },
-    },
-  },
+  // NOTE: Uncomment the following lines to enable proxying API requests during development
+  // devServer: {
+  //   proxy: {
+  //     '/api': {
+  //       target: 'http://localhost:3000',
+  //       changeOrigin: true,
+  //     },
+  //   },
+  // },
 })

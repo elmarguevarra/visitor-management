@@ -1,7 +1,7 @@
 import { RestHandler, rest } from 'msw'
 
 export const getInviteByTokenHandler = (): RestHandler[] => [
-  rest.get('invite/:inviteToken', async (req, res, ctx) => {
+  rest.get('api/invite/:inviteToken', async (req, res, ctx) => {
     await new Promise((resolve) => setTimeout(resolve, 1500))
     return res(
       ctx.status(200),
