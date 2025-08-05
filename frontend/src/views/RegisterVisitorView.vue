@@ -62,29 +62,6 @@
           </button>
         </div>
       </form>
-
-      <div
-        v-if="visitor && visitor.qrCodeDataURL"
-        class="mt-4 d-flex flex-column align-items-center"
-      >
-        <p class="mt-2 mb-2 text-center">{{ visitor.visitorName }}</p>
-        <img
-          :src="visitor.qrCodeDataURL"
-          alt="Visitor QR Code"
-          width="150"
-          height="150"
-          class="img-thumbnail mb-2"
-        />
-        <p class="mt-2 mb-0 text-center">
-          Registration ID: {{ visitor.registrationId }}
-        </p>
-        <h6 class="alert alert-success mt-3">
-          Registered for visit on
-          <strong>{{ formatDate(new Date(visitor.visitDate)) }}</strong>
-        </h6>
-      </div>
-
-      <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
     </div>
   </div>
 </template>
@@ -136,13 +113,8 @@ export default {
         visitor.value = result
 
         notificationsStore.addNotification(
-          `Visitor ${visitor.value.visitorName} has been registered successfully.`,
+          `${visitor.value.visitorName} has been registered for visit on ${visitor.value.visitDate} .`,
         )
-
-        formData.visitorName = ''
-        formData.visitorEmail = ''
-        formData.visitDate = today
-        formData.purpose = ''
 
         try {
           await sendEmailNotification({
@@ -157,7 +129,6 @@ export default {
               visit_qrCodeDataURL: visitor.value.qrCodeDataURL,
             },
           })
-          errorMsg.value = ''
 
           notificationsStore.addNotification(
             `Invitation has been sent to ${visitor.value.visitorEmail}.`,
@@ -165,7 +136,7 @@ export default {
         } catch (error) {
           console.error(error)
           errorMsg.value =
-            'Failed to send invitation email. Please try again later.'
+            'Failed to send invitation email. Please share QR code manually.'
           notificationsStore.addNotification(errorMsg.value, 'error')
         }
       } catch (error) {
@@ -173,6 +144,12 @@ export default {
         errorMsg.value = 'Failed to register visitor. Please try again later.'
         notificationsStore.addNotification(errorMsg.value, 'error')
       } finally {
+        formData.visitorName = ''
+        formData.visitorEmail = ''
+        formData.visitDate = today
+        formData.purpose = ''
+        errorMsg.value = ''
+
         isLoading.value = false
       }
     }
