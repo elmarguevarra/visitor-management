@@ -17,4 +17,7 @@ export const sendEmailHandler = (): RestHandler[] => [
       }),
     )
   }),
+  // rest.post('/api/send-email', (req, res, ctx) => {
+  //   throw new Error('Simulated network/server failure')
+  // }),
 ]

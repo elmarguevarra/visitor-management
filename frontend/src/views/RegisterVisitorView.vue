@@ -91,7 +91,10 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { postVisitor, sendNotification } from '@/services/handlerServices'
+import {
+  postVisitor,
+  sendNotification as sendEmailNotification,
+} from '@/services/handlerServices'
 import { getYearMonthDay, formatDate } from '@/utils'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { useNotificationsStore } from '@/stores/notificationsStore'
@@ -140,27 +143,35 @@ export default {
         formData.visitorEmail = ''
         formData.visitDate = today
         formData.purpose = ''
-        errorMsg.value = ''
 
-        await sendNotification({
-          template: 'VisitorInviteNotification',
-          data: {
-            resident_givenName: authenticationStore.userGivenName,
-            resident_familyName: authenticationStore.userFamilyName,
-            resident_email: visitor.value.residentId,
-            visitor_email: visitor.value.visitorEmail,
-            visitor_name: visitor.value.visitorName,
-            visit_date: formatDate(new Date(visitor.value.visitDate)),
-            visit_qrCodeDataURL: visitor.value.qrCodeDataURL,
-          },
-        })
+        try {
+          await sendEmailNotification({
+            template: 'VisitorInviteNotification',
+            data: {
+              resident_givenName: authenticationStore.userGivenName,
+              resident_familyName: authenticationStore.userFamilyName,
+              resident_email: visitor.value.residentId,
+              visitor_email: visitor.value.visitorEmail,
+              visitor_name: visitor.value.visitorName,
+              visit_date: formatDate(new Date(visitor.value.visitDate)),
+              visit_qrCodeDataURL: visitor.value.qrCodeDataURL,
+            },
+          })
+          errorMsg.value = ''
 
-        notificationsStore.addNotification(
-          `Invitation has been sent to ${visitor.value.visitorEmail}.`,
-        )
+          notificationsStore.addNotification(
+            `Invitation has been sent to ${visitor.value.visitorEmail}.`,
+          )
+        } catch (error) {
+          console.error(error)
+          errorMsg.value =
+            'Failed to send invitation email. Please try again later.'
+          notificationsStore.addNotification(errorMsg.value, 'error')
+        }
       } catch (error) {
         console.error(error)
-        errorMsg.value = 'Error posting data'
+        errorMsg.value = 'Failed to register visitor. Please try again later.'
+        notificationsStore.addNotification(errorMsg.value, 'error')
       } finally {
         isLoading.value = false
       }

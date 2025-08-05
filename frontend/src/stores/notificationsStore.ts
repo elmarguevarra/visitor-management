@@ -3,7 +3,10 @@ import { defineStore } from 'pinia'
 type Notification = {
   id: number
   message: string
+  type: NotificationType
 }
+
+type NotificationType = 'success' | 'error' | 'info'
 
 export const useNotificationsStore = defineStore('notifications', {
   state: () => ({
@@ -12,14 +15,14 @@ export const useNotificationsStore = defineStore('notifications', {
   }),
 
   actions: {
-    addNotification(message: string) {
+    addNotification(message: string, type: NotificationType = 'info') {
       const id = this.nextId++
-      const notification: Notification = { id, message }
+      const notification: Notification = { id, message, type }
       this.notifications.push(notification)
 
       setTimeout(() => {
         this.removeNotification(id)
-      }, 3000)
+      }, 5000)
     },
 
     removeNotification(id: number) {
