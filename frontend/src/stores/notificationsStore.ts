@@ -6,7 +6,7 @@ type Notification = {
   type: NotificationType
 }
 
-type NotificationType = 'success' | 'error'
+type NotificationType = 'success' | 'error' | 'info' | 'warning'
 
 export const useNotificationsStore = defineStore('notifications', {
   state: () => ({
@@ -15,7 +15,7 @@ export const useNotificationsStore = defineStore('notifications', {
   }),
 
   actions: {
-    addNotification(message: string, type: NotificationType = 'success') {
+    addNotification(message: string, type: NotificationType = 'info') {
       const id = this.nextId++
       const notification: Notification = { id, message, type }
       this.notifications.push(notification)
