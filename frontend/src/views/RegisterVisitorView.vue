@@ -94,7 +94,7 @@ import { ref, reactive } from 'vue'
 import { postVisitor, sendNotification } from '@/services/handlerServices'
 import { getYearMonthDay, formatDate } from '@/utils'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
-import { useNotificationsStore } from '@/stores/notificationStore'
+import { useNotificationsStore } from '@/stores/notificationsStore'
 
 export default {
   name: 'CreateVisitor',
