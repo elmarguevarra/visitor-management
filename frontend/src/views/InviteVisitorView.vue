@@ -5,28 +5,6 @@
     </h4>
     <div>
       <form @submit.prevent="generateInviteLink" class="row g-3">
-        <div class="form-floating mb-1">
-          <input
-            type="text"
-            class="form-control"
-            id="residentName"
-            placeholder="Juan Delacruz"
-            v-model="formData.residentName"
-            readonly
-          />
-          <label for="floatingInput">Resident name</label>
-        </div>
-        <div class="form-floating mb-1">
-          <input
-            type="text"
-            class="form-control"
-            id="residentContact"
-            placeholder="+6391234567890"
-            v-model="formData.residentContact"
-            readonly
-          />
-          <label for="floatingInput">Resident contact</label>
-        </div>
         <div class="col-12">
           <button type="submit" class="btn btn-primary" :disabled="isLoading">
             <span
@@ -69,8 +47,6 @@
           not used.
         </p>
       </div>
-
-      <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
     </div>
   </div>
 </template>
@@ -80,11 +56,13 @@ import { ref, reactive } from 'vue'
 import { postInvite } from '@/services/handlerServices'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { formatDateAndTime } from '@/utils'
+import { useNotificationsStore } from '@/stores/notificationsStore'
 
 export default {
   name: 'InviteVisitorView',
   setup() {
     const authenticationStore = useAuthenticationStore()
+    const notificationsStore = useNotificationsStore()
 
     const invitation = ref(null)
     const formData = reactive({
@@ -103,9 +81,15 @@ export default {
         }
         const response = await postInvite(inviteData)
         invitation.value = response
+
+        notificationsStore.addNotification(
+          `Invite link generated successfully.`,
+          'success',
+        )
       } catch (error) {
         console.error(error)
-        errorMsg.value = 'Error generating invite link'
+        errorMsg.value = 'Failed to generate invite link. Please try again.'
+        notificationsStore.addNotification(errorMsg.value, 'error')
       } finally {
         isLoading.value = false
       }

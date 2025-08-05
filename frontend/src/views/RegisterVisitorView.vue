@@ -113,7 +113,8 @@ export default {
         visitor.value = result
 
         notificationsStore.addNotification(
-          `${visitor.value.visitorName} has been registered for visit on ${visitor.value.visitDate} .`,
+          `${visitor.value.visitorName} has been registered for visit on ${formatDate(new Date(visitor.value.visitDate))}.`,
+          'success',
         )
 
         try {
@@ -132,6 +133,7 @@ export default {
 
           notificationsStore.addNotification(
             `Invitation has been sent to ${visitor.value.visitorEmail}.`,
+            'success',
           )
         } catch (error) {
           console.error(error)

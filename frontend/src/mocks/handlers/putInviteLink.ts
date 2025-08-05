@@ -13,4 +13,7 @@ export const putInviteLinkHandler = (): RestHandler[] => [
       }),
     )
   }),
+  // rest.post('/api/invite', (req, res, ctx) => {
+  //   throw new Error('Simulated network/server failure')
+  // }),
 ]
