@@ -94,11 +94,13 @@ import { ref, reactive } from 'vue'
 import { postVisitor, sendNotification } from '@/services/handlerServices'
 import { getYearMonthDay, formatDate } from '@/utils'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
+import { useNotificationsStore } from '@/stores/notificationStore'
 
 export default {
   name: 'CreateVisitor',
   setup() {
     const authenticationStore = useAuthenticationStore()
+    const notificationsStore = useNotificationsStore()
 
     const today = getYearMonthDay(new Date())
 
@@ -120,13 +122,20 @@ export default {
 
     const visitor = ref(null)
     const errorMsg = ref('')
+    const notifMsg = ref('')
     const isLoading = ref(false)
+    const showToast = ref(false)
 
     const registerVisitor = async () => {
       isLoading.value = true
       try {
         const result = await postVisitor(formData)
         visitor.value = result
+
+        notificationsStore.addNotification(
+          `Visitor ${visitor.value.visitorName} has been registered successfully.`,
+        )
+
         formData.visitorName = ''
         formData.visitorEmail = ''
         formData.visitDate = today
@@ -145,6 +154,10 @@ export default {
             visit_qrCodeDataURL: visitor.value.qrCodeDataURL,
           },
         })
+
+        notificationsStore.addNotification(
+          `Invitation has been sent to ${visitor.value.visitorEmail}.`,
+        )
       } catch (error) {
         console.error(error)
         errorMsg.value = 'Error posting data'
@@ -162,11 +175,16 @@ export default {
       maxCalendarDate,
       registerVisitor,
       formatDate,
+      showToast,
+      notifMsg,
     }
   },
 }
 </script>
 
 <style scoped>
-/* You can add component-specific styles here if needed */
+.btn-close-sm {
+  /* This is a common way to resize the SVG, adjust as needed */
+  background-size: 1em 1em;
+}
 </style>

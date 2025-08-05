@@ -11,6 +11,7 @@ export const putVisitorHandler = (): RestHandler[] => [
         registrationId: '2fb3plj5xef',
         visitorName: 'Lengleng',
         visitDate: '04/23/2025',
+        visitorEmail: 'sample@email.com',
       }),
     )
   }),

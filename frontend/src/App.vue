@@ -1,4 +1,5 @@
 <template>
+  <Toast />
   <div id="app" class="d-flex flex-column min-vh-100">
     <header class="bg-light">
       <div class="container py-2">
@@ -201,9 +202,13 @@ import { useAuthorizationStore } from './stores/authorizationStore'
 import { ACTIONS } from './constants/actions'
 import { useUiStore } from './stores/uiStore'
 import { Collapse } from 'bootstrap'
+import Toast from '@/components/Toast.vue'
 
 export default {
   name: 'App',
+  components: {
+    Toast,
+  },
   setup() {
     const authenticationStore = useAuthenticationStore()
     const authorizationStore = useAuthorizationStore()
