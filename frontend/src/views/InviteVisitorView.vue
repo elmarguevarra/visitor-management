@@ -24,7 +24,7 @@
         <p class="mb-1 text-center text-secondary">
           Share this link to register:
         </p>
-        <div class="alert alert-info mt-1">
+        <div class="alert alert-success mt-1">
           <div class="d-flex align-items-center flex-wrap">
             <p class="mb-0 me-2 flex-grow-1 text-break small">
               {{ invitation.inviteLink }}
@@ -81,11 +81,6 @@ export default {
         }
         const response = await postInvite(inviteData)
         invitation.value = response
-
-        notificationsStore.addNotification(
-          `Invite link generated successfully.`,
-          'success',
-        )
       } catch (error) {
         console.error(error)
         errorMsg.value = 'Failed to generate invite link. Please try again.'

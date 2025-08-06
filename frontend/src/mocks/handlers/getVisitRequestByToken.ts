@@ -11,6 +11,7 @@ export const getVisitRequestByTokenHandler = (): RestHandler[] => [
         inviteToken: 'token',
         registrationId: 'fsfsdsdfs',
         visitorName: 'visitorName',
+        visitorEmail: 'sample@email.com',
         visitDate: new Date(new Date().setDate(new Date().getDate() + 1)),
         purpose: 'coaching',
         requestStatus: VISIT_REQUEST_STATUS.PENDING,
