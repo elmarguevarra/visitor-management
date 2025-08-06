@@ -19,6 +19,18 @@
           <input
             type="text"
             class="form-control"
+            id="visitorEmail"
+            placeholder="sample@emal.com"
+            v-model="formData.visitorEmail"
+            required
+            :readonly="visitRequest"
+          />
+          <label for="floatingInput">Visitor email</label>
+        </div>
+        <div class="form-floating mb-1">
+          <input
+            type="text"
+            class="form-control"
             id="purpose"
             placeholder="visit"
             v-model="formData.purpose"
@@ -178,6 +190,7 @@ export default {
 
     const formData = ref({
       visitorName: null,
+      visitorEmail: null,
       visitDate: yearMonthDateToday,
       purpose: null,
     })
@@ -196,6 +209,7 @@ export default {
         residentId: residentId.value,
         inviteToken: props.inviteToken,
         visitorName: formData.value.visitorName,
+        visitorEmail: formData.value.visitorEmail,
         visitDate: formData.value.visitDate,
         purpose: formData.value.purpose,
         requestStatus: VISIT_REQUEST_STATUS.PENDING,
@@ -249,6 +263,7 @@ export default {
         visitRequest.value = response
         if (visitRequest.value) {
           formData.value.visitorName = visitRequest.value.visitorName
+          formData.value.visitorEmail = visitRequest.value.visitorEmail
           formData.value.purpose = visitRequest.value.purpose
           formData.value.visitDate = getYearMonthDay(
             new Date(visitRequest.value.visitDate),

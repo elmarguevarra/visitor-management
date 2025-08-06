@@ -204,8 +204,6 @@
       >
         No past visitors.
       </p>
-
-      <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
     </div>
   </div>
 </template>
@@ -223,6 +221,9 @@ import { useVisitRequestStore } from '@/stores/visitRequestStore'
 import { useVisitorStore } from '@/stores/visitorStore'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { VISIT_REQUEST_STATUS } from '@/constants/status'
+import { useNotificationsStore } from '@/stores/notificationsStore'
+
+import { sendNotification as sendEmailNotification } from '@/services/handlerServices'
 
 export default {
   name: 'GetResidentVisitors',
@@ -235,6 +236,7 @@ export default {
     const authenticationStore = useAuthenticationStore()
     const visitRequestStore = useVisitRequestStore()
     const visitorStore = useVisitorStore()
+    const notificationsStore = useNotificationsStore()
 
     const visitRequests = computed(() => visitRequestStore.visitRequests)
     const visitors = computed(() => visitorStore.visitors)
@@ -267,9 +269,39 @@ export default {
         visitorStore.addVisitor(newVisitor)
 
         errorMsg.value = ''
+        notificationsStore.addNotification(
+          `Approved visit request for ${newVisitor.visitorName} on ${formatDate(new Date(newVisitor.visitDate))}.`,
+          'success',
+        )
+
+        try {
+          await sendEmailNotification({
+            template: 'VisitorInviteNotification',
+            data: {
+              resident_givenName: authenticationStore.userGivenName,
+              resident_familyName: authenticationStore.userFamilyName,
+              resident_email: visitRequest.residentId,
+              visitor_email: newVisitor.visitorEmail,
+              visitor_name: newVisitor.visitorName,
+              visit_date: formatDate(new Date(newVisitor.visitDate)),
+              visit_qrCodeDataURL: newVisitor.qrCodeDataURL,
+            },
+          })
+
+          notificationsStore.addNotification(
+            `Notification has been sent to ${newVisitor.visitorEmail}.`,
+            'success',
+          )
+        } catch (error) {
+          console.error(error)
+          errorMsg.value =
+            'Failed to send invitation email. Please share QR code manually.'
+          notificationsStore.addNotification(errorMsg.value, 'error')
+        }
       } catch (error) {
         console.debug(error)
-        errorMsg.value = 'Error posting data'
+        errorMsg.value = 'Error approving visit request. Please try again.'
+        notificationsStore.addNotification(errorMsg.value, 'error')
         requestSubmittedState[visitRequest.inviteToken] = false
       } finally {
         requestLoadingStates[visitRequest.inviteToken] = { approve: false }
@@ -289,9 +321,14 @@ export default {
         visitRequestStore.removeVisitRequest(visitRequest.inviteToken)
 
         errorMsg.value = ''
+        notificationsStore.addNotification(
+          `Declined visit request for ${visitRequest.visitorName}.`,
+          'success',
+        )
       } catch (error) {
         console.debug(error)
-        errorMsg.value = 'Error posting data'
+        errorMsg.value = 'Error declining visit request. Please try again.'
+        notificationsStore.addNotification(errorMsg.value, 'error')
         requestSubmittedState[visitRequest.inviteToken] = false
       } finally {
         requestLoadingStates[visitRequest.inviteToken] = { decline: false }
