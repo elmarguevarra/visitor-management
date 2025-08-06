@@ -77,7 +77,7 @@
           visitRequest.requestStatus === VISIT_REQUEST_STATUS.PENDING &&
           !isGetInviteByTokenLoading
         "
-        class="alert alert-info mt-3"
+        class="alert alert-warning mt-3"
       >
         <span
           class="spinner-grow spinner-grow-sm me-2"
@@ -85,28 +85,6 @@
           aria-hidden="true"
         ></span>
         Waiting for Approval...
-      </div>
-      <div
-        v-if="
-          !isGetVisitRequestByTokenLoading &&
-          visitRequest &&
-          visitRequest.requestStatus === VISIT_REQUEST_STATUS.DECLINED &&
-          !isGetInviteByTokenLoading
-        "
-        class="alert alert-danger mt-3 text-center"
-      >
-        Request has been declined!
-      </div>
-      <div
-        v-if="
-          !isGetVisitRequestByTokenLoading &&
-          visitRequest &&
-          visitRequest.requestStatus === VISIT_REQUEST_STATUS.APPROVED &&
-          !isGetInviteByTokenLoading
-        "
-        class="alert alert-success mt-3 text-center"
-      >
-        Request has been approved!
       </div>
       <div v-if="isGetVisitorLoading" aria-hidden="true">
         <div class="card-body">
@@ -157,17 +135,6 @@
         Expires on
         {{ formatDateAndTime(new Date(invitation.inviteLinkExpiration)) }}.
       </p>
-      <h6
-        class="alert alert-danger mt-4"
-        v-if="
-          errorMsg &&
-          !isRequestVisitLoading &&
-          !isGetInviteByTokenLoading &&
-          !isGetVisitRequestByTokenLoading
-        "
-      >
-        {{ errorMsg }}
-      </h6>
     </div>
   </div>
 </template>
@@ -184,6 +151,7 @@ import {
 import { useVisitRequestStore } from '@/stores/visitRequestStore'
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils'
 import { VISIT_REQUEST_STATUS } from '@/constants/status'
+import { useNotificationsStore } from '@/stores/notificationsStore'
 
 export default {
   name: 'InviteVisitorView',
@@ -195,6 +163,8 @@ export default {
   },
   setup(props) {
     const visitRequestStore = useVisitRequestStore()
+    const notificationsStore = useNotificationsStore()
+
     const yearMonthDateToday = getYearMonthDay(new Date())
 
     const maxCalendarDateObject = new Date(yearMonthDateToday)
@@ -237,9 +207,15 @@ export default {
         visitRequestStore.addVisitRequest(response)
         await extendInviteLinkExpiration(response)
         errorMsg.value = ''
+
+        notificationsStore.addNotification(
+          `Visit request submitted successfully. Please wait for approval.`,
+          'success',
+        )
       } catch (error) {
         console.debug(error)
-        errorMsg.value = 'Error posting data'
+        errorMsg.value = 'Error submitting visit request. Please try again.'
+        notificationsStore.addNotification(errorMsg.value, 'error')
       } finally {
         isRequestVisitLoading.value = false
       }
@@ -259,6 +235,7 @@ export default {
       } catch (error) {
         console.debug(error)
         errorMsg.value = 'Invite not found or has already expired.'
+        notificationsStore.addNotification(errorMsg.value, 'error')
       } finally {
         isGetInviteByTokenLoading.value = false
       }
@@ -280,12 +257,24 @@ export default {
           if (
             visitRequest.value.requestStatus === VISIT_REQUEST_STATUS.APPROVED
           ) {
+            notificationsStore.addNotification(
+              `Visit request has been approved.`,
+              'success',
+            )
             await getVisitor(visitRequest.value.registrationId)
+          } else if (
+            visitRequest.value.requestStatus === VISIT_REQUEST_STATUS.DECLINED
+          ) {
+            notificationsStore.addNotification(
+              `Visit request has been declined.`,
+              'error',
+            )
           }
         }
       } catch (error) {
         console.debug(error)
         errorMsg.value = 'Visit Request not found or has already expired.'
+        notificationsStore.addNotification(errorMsg.value, 'error')
       } finally {
         isGetVisitRequestByTokenLoading.value = false
       }
