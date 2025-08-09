@@ -231,7 +231,7 @@ export default {
           await sendEmailNotification({
             template: 'VisitRequestNotificationForResident',
             data: {
-              toaddresses: [visitRequest.value.residentId],
+              toAddresses: [visitRequest.value.residentId],
               resident_email: visitRequest.value.residentId,
               visitor_email: visitRequest.value.visitorEmail,
               visitor_name: visitRequest.value.visitorName,
