@@ -53,10 +53,10 @@ export const sendEmailHandler = async (event) => {
   let visitDate = body.data.visit_date;
   let visitQrCodeDataURL = body.data.visit_qrCodeDataURL;
 
-  const qrCodeImageUrl = await generateUploadQRCode(
-    visitQrCodeDataURL,
-    visitDate
-  );
+  const qrCodeImageUrl = null;
+  if (visitQrCodeDataURL) {
+    qrCodeImageUrl = await generateUploadQRCode(visitQrCodeDataURL, visitDate);
+  }
 
   const params = {
     Source: sysNotifEmailAddress,
