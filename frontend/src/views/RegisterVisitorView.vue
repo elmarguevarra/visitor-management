@@ -123,7 +123,7 @@ export default {
             data: {
               resident_givenName: authenticationStore.userGivenName,
               resident_familyName: authenticationStore.userFamilyName,
-              resident_email: visitor.value.residentId,
+              resident_email: authenticationStore.userEmail,
               visitor_email: visitor.value.visitorEmail,
               visitor_name: visitor.value.visitorName,
               visit_date: formatDate(new Date(visitor.value.visitDate)),
@@ -138,7 +138,7 @@ export default {
         } catch (error) {
           console.error(error)
           errorMsg.value =
-            'Failed to send invitation email. Please share QR code manually.'
+            'Failed to send invitation email. Please inform the visitor directly.'
           notificationsStore.addNotification(errorMsg.value, 'error')
         }
       } catch (error) {

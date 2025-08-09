@@ -200,7 +200,7 @@ export default {
           template: 'VisitorArrivalNotification',
           data: {
             resident_givenName: authenticationStore.userGivenName,
-            resident_email: visitor.value.residentId,
+            resident_email: authenticationStore.userEmail,
             visitor_name: visitor.value.visitorName,
             arrival_time: formatDateAndTime(
               new Date(visitor.value.arrivalTime),
@@ -232,7 +232,7 @@ export default {
           template: 'VisitorDepartureNotification',
           data: {
             resident_givenName: authenticationStore.userGivenName,
-            resident_email: visitor.value.residentId,
+            resident_email: authenticationStore.userEmail,
             visitor_name: visitor.value.visitorName,
             departure_time: formatDateAndTime(
               new Date(visitor.value.departureTime),

@@ -223,24 +223,31 @@ export default {
         visitRequest.value = response
         visitRequestStore.addVisitRequest(response)
         await extendInviteLinkExpiration(response)
-        errorMsg.value = ''
-
-        await sendEmailNotification({
-          template: 'VisitRequestNotificationForResident',
-          data: {
-            resident_givenName: authenticationStore.userGivenName,
-            resident_familyName: authenticationStore.userFamilyName,
-            resident_email: authenticationStore.userEmail,
-            visitor_email: visitor.value.visitorEmail,
-            visitor_name: visitor.value.visitorName,
-            visit_date: formatDate(new Date(visitor.value.visitDate)),
-          },
-        })
 
         notificationsStore.addNotification(
           `Visit request submitted successfully. Please wait for approval.`,
           'success',
         )
+
+        try {
+          await sendEmailNotification({
+            template: 'VisitRequestNotificationForResident',
+            data: {
+              resident_givenName: authenticationStore.userGivenName,
+              resident_familyName: authenticationStore.userFamilyName,
+              resident_email: authenticationStore.userEmail,
+              visitor_email: visitRequest.value.visitorEmail,
+              visitor_name: visitRequest.value.visitorName,
+              visit_date: formatDate(new Date(visitRequest.value.visitDate)),
+            },
+          })
+        } catch (error) {
+          console.error(error)
+          errorMsg.value =
+            'Failed to send visit request email. Please inform the resident directly.'
+          notificationsStore.addNotification(errorMsg.value, 'error')
+        }
+        errorMsg.value = ''
       } catch (error) {
         console.debug(error)
         errorMsg.value = 'Error submitting visit request. Please try again.'
