@@ -70,6 +70,7 @@ export const sendEmailHandler = async (event) => {
       resident_fullName: `${residentGivenName} ${residentFamilyName}`,
       resident_email: residentEmail,
       visitor_name: visitorName,
+      visitor_email: visitorEmail,
       arrival_time: arrivalTime,
       departure_time: departureTime,
       visit_date: visitDate,
