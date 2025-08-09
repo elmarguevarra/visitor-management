@@ -143,7 +143,7 @@ Resources:
         TemplateName: VisitRequestNotificationForResident
         SubjectPart: "New visit request from {{visitor_name}}"
         TextPart: |
-          Hello {{resident_givenName}},
+          Hello,
 
           A new visit request has been submitted by {{visitor_name}} for {{visit_date}}.
 
@@ -180,7 +180,7 @@ Resources:
               <div class="header">
                 <h2>New Visit Request</h2>
               </div>
-              <p>Hello {{resident_givenName}},</p>
+              <p>Hello,</p>
               <p>You have a new visit request from <strong>{{visitor_name}}</strong> for <strong>{{visit_date}}</strong> at <strong>{{visit_time}}</strong>.</p>
               
               <h3>Visitor Details:</h3>
