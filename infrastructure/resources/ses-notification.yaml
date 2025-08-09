@@ -70,3 +70,68 @@ Resources:
             <p>We look forward to seeing you!</p>
           </body>
           </html>
+
+  VisitRequestApprovalSESTemplate:
+    Type: AWS::SES::Template
+    Properties:
+      Template:
+        TemplateName: VisitRequestApprovalNotification
+        SubjectPart: "Your visit request has been approved!"
+        TextPart: |
+          Hello {{visitor_name}},
+
+          Your visit request to {{resident_fullName}} on {{visit_date}} has been approved.
+
+          Please present the attached QR code upon arrival for verification.
+
+          We look forward to your visit!
+        HtmlPart: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>Visit Request Approved</title>
+          </head>
+          <body>
+            <h1>Hello {{visitor_name}},</h1>
+            <p>Your visit request to <b>{{resident_fullName}}</b> on <b>{{visit_date}}</b> has been <span style="color: green;"><b>approved</b></span>.</p>
+            <p>Please present the QR code below upon arrival:</p>
+            <p style="text-align: center;">
+              <img 
+                src="{{visit_qrCodeImageURL}}" 
+                alt="QR Code for Visit Approval" 
+                style="display: block; margin: 0 auto; border: 1px solid #ccc; max-width: 200px; height: auto;"
+              >
+            </p>
+            <p>We look forward to your visit!</p>
+          </body>
+          </html>
+
+  VisitRequestDeclineSESTemplate:
+    Type: AWS::SES::Template
+    Properties:
+      Template:
+        TemplateName: VisitRequestDeclineNotification
+        SubjectPart: "Your visit request has been declined"
+        TextPart: |
+          Hello {{visitor_name}},
+
+          Unfortunately, your request to visit {{resident_fullName}} on {{visit_date}} has been declined.
+
+          If you have any questions, please reach out to the resident directly.
+
+          Thank you for your understanding.
+        HtmlPart: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>Visit Request Declined</title>
+          </head>
+          <body>
+            <h1>Hello {{visitor_name}},</h1>
+            <p>We regret to inform you that your request to visit <b>{{resident_fullName}}</b> on <b>{{visit_date}}</b> has been <span style="color: red;"><b>declined</b></span>.</p>
+            <p>If you have any questions, feel free to contact the resident directly.</p>
+            <p>Thank you for your understanding.</p>
+          </body>
+          </html>
