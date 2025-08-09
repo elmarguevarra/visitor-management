@@ -181,7 +181,7 @@ Resources:
                 <h2>New Visit Request</h2>
               </div>
               <p>Hello,</p>
-              <p>You have a new visit request from <strong>{{visitor_name}}</strong> for <strong>{{visit_date}}</strong> at <strong>{{visit_time}}</strong>.</p>
+              <p>You have a new visit request from <strong>{{visitor_name}}</strong> for <strong>{{visit_date}}</strong>.</p>
               
               <h3>Visitor Details:</h3>
               <table class="details-table">
