@@ -278,6 +278,7 @@ export default {
           await sendEmailNotification({
             template: 'VisitRequestApprovalNotification',
             data: {
+              toaddresses: [visitRequest.visitorEmail],
               resident_givenName: authenticationStore.userGivenName,
               resident_familyName: authenticationStore.userFamilyName,
               resident_email: authenticationStore.userEmail,
@@ -328,6 +329,7 @@ export default {
           await sendEmailNotification({
             template: 'VisitRequestDeclineNotification',
             data: {
+              toaddresses: [visitRequest.visitorEmail],
               resident_givenName: authenticationStore.userGivenName,
               resident_familyName: authenticationStore.userFamilyName,
               resident_email: authenticationStore.userEmail,

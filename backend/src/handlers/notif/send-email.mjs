@@ -24,13 +24,7 @@ export const sendEmailHandler = async (event) => {
   const body = JSON.parse(event.body);
   console.debug("Received body:", body);
 
-  let residentEmail = body.data.resident_email;
-  let visitorEmail = body.data.visitor_email;
-
-  let toAddresses = [residentEmail];
-  if (visitorEmail) {
-    toAddresses = [visitorEmail];
-  }
+  let toAddresses = body.data.toAddresses;
 
   if (!toAddresses || !Array.isArray(toAddresses) || toAddresses.length === 0) {
     return {
@@ -45,6 +39,8 @@ export const sendEmailHandler = async (event) => {
   }
 
   let template = body.template;
+  let residentEmail = body.data.resident_email;
+  let visitorEmail = body.data.visitor_email;
   let residentGivenName = body.data.resident_givenName;
   let residentFamilyName = body.data.resident_familyName;
   let visitorName = body.data.visitor_name;

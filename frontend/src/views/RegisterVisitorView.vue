@@ -121,6 +121,7 @@ export default {
           await sendEmailNotification({
             template: 'VisitorInviteNotification',
             data: {
+              toaddresses: [visitor.value.visitorEmail],
               resident_givenName: authenticationStore.userGivenName,
               resident_familyName: authenticationStore.userFamilyName,
               resident_email: authenticationStore.userEmail,
