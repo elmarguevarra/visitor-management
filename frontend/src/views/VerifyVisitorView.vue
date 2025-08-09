@@ -199,7 +199,7 @@ export default {
         await sendNotification({
           template: 'VisitorArrivalNotification',
           data: {
-            toaddresses: [authenticationStore.userEmail],
+            toAddresses: [authenticationStore.userEmail],
             resident_givenName: authenticationStore.userGivenName,
             resident_email: authenticationStore.userEmail,
             visitor_name: visitor.value.visitorName,
@@ -232,7 +232,7 @@ export default {
         await sendNotification({
           template: 'VisitorDepartureNotification',
           data: {
-            toaddresses: [authenticationStore.userEmail],
+            toAddresses: [authenticationStore.userEmail],
             resident_givenName: authenticationStore.userGivenName,
             resident_email: authenticationStore.userEmail,
             visitor_name: visitor.value.visitorName,
