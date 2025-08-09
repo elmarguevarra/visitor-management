@@ -241,6 +241,10 @@ export default {
               visit_date: formatDate(new Date(visitRequest.value.visitDate)),
             },
           })
+          notificationsStore.addNotification(
+            `Visit request has been sent to resident ${authenticationStore.userGivenName}.`,
+            'success',
+          )
         } catch (error) {
           console.error(error)
           errorMsg.value =
