@@ -135,3 +135,67 @@ Resources:
             <p>Thank you for your understanding.</p>
           </body>
           </html>
+
+  VisitRequestNotificationForResident:
+    Type: AWS::SES::Template
+    Properties:
+      Template:
+        TemplateName: VisitRequestNotificationForResident
+        SubjectPart: "New visit request from {{visitor_name}}"
+        TextPart: |
+          Hello {{resident_givenName}},
+
+          A new visit request has been submitted by {{visitor_name}} for {{visit_date}}.
+
+          Visitor Details:
+          Name: {{visitor_name}}
+          Email: {{visitor_email}}
+          Visit Date: {{visit_date}}
+
+          Please log in to your resident portal to approve or decline this request.
+
+          Thank you.
+        HtmlPart: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>New Visit Request</title>
+            <style>
+              body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+              .container { max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+              .header { background-color: #f4f4f4; padding: 10px; text-align: center; border-bottom: 1px solid #ddd; }
+              .details-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+              .details-table th, .details-table td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+              .details-table th { background-color: #f9f9f9; width: 30%; }
+              .button-container { text-align: center; margin-top: 20px; }
+              .button-container a { display: inline-block; padding: 10px 20px; color: white; text-decoration: none; border-radius: 5px; }
+              .approve-btn { background-color: #28a745; margin-right: 10px; }
+              .decline-btn { background-color: #dc3545; }
+              .note { margin-top: 20px; font-style: italic; color: #666; }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="header">
+                <h2>New Visit Request</h2>
+              </div>
+              <p>Hello {{resident_givenName}},</p>
+              <p>You have a new visit request from <strong>{{visitor_name}}</strong> for <strong>{{visit_date}}</strong> at <strong>{{visit_time}}</strong>.</p>
+              
+              <h3>Visitor Details:</h3>
+              <table class="details-table">
+                <tr>
+                  <th>Name</th>
+                  <td>{{visitor_name}}</td>
+                </tr>
+                <tr>
+                  <th>Email</th>
+                  <td>{{visitor_email}}</td>
+                </tr>
+              </table>
+
+              <p class="note">Please log in to your resident portal to approve or decline this request.</p>
+            </div>
+          </body>
+          </html>
