@@ -280,7 +280,7 @@ export default {
             data: {
               resident_givenName: authenticationStore.userGivenName,
               resident_familyName: authenticationStore.userFamilyName,
-              resident_email: visitRequest.residentId,
+              resident_email: authenticationStore.userEmail,
               visitor_email: visitRequest.visitorEmail,
               visitor_name: visitRequest.visitorName,
               visit_date: formatDate(new Date(visitRequest.visitDate)),
@@ -296,7 +296,7 @@ export default {
         } catch (error) {
           console.error(error)
           errorMsg.value =
-            'Failed to send invitation email. Please share QR code manually.'
+            'Failed to send invitation email. Please inform the visitor directly.'
           notificationsStore.addNotification(errorMsg.value, 'error')
         }
       } catch (error) {
@@ -330,7 +330,7 @@ export default {
             data: {
               resident_givenName: authenticationStore.userGivenName,
               resident_familyName: authenticationStore.userFamilyName,
-              resident_email: visitRequest.residentId,
+              resident_email: authenticationStore.userEmail,
               visitor_email: visitRequest.visitorEmail,
               visitor_name: visitRequest.visitorName,
               visit_date: formatDate(new Date(visitRequest.visitDate)),
