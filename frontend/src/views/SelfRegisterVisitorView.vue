@@ -222,6 +222,18 @@ export default {
         await extendInviteLinkExpiration(response)
         errorMsg.value = ''
 
+        await sendEmailNotification({
+          template: 'VisitRequestNotificationForResident',
+          data: {
+            resident_givenName: authenticationStore.userGivenName,
+            resident_familyName: authenticationStore.userFamilyName,
+            resident_email: visitor.value.residentId,
+            visitor_email: visitor.value.visitorEmail,
+            visitor_name: visitor.value.visitorName,
+            visit_date: formatDate(new Date(visitor.value.visitDate)),
+          },
+        })
+
         notificationsStore.addNotification(
           `Visit request submitted successfully. Please wait for approval.`,
           'success',
