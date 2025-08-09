@@ -165,7 +165,6 @@ import { useVisitRequestStore } from '@/stores/visitRequestStore'
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils'
 import { VISIT_REQUEST_STATUS } from '@/constants/status'
 import { useNotificationsStore } from '@/stores/notificationsStore'
-import { useAuthenticationStore } from '@/stores/authenticationStore'
 
 export default {
   name: 'InviteVisitorView',
@@ -178,7 +177,6 @@ export default {
   setup(props) {
     const visitRequestStore = useVisitRequestStore()
     const notificationsStore = useNotificationsStore()
-    const authenticationStore = useAuthenticationStore()
 
     const yearMonthDateToday = getYearMonthDay(new Date())
 
@@ -233,16 +231,14 @@ export default {
           await sendEmailNotification({
             template: 'VisitRequestNotificationForResident',
             data: {
-              resident_givenName: authenticationStore.userGivenName,
-              resident_familyName: authenticationStore.userFamilyName,
-              resident_email: authenticationStore.userEmail,
+              resident_email: visitRequest.value.residentId,
               visitor_email: visitRequest.value.visitorEmail,
               visitor_name: visitRequest.value.visitorName,
               visit_date: formatDate(new Date(visitRequest.value.visitDate)),
             },
           })
           notificationsStore.addNotification(
-            `Visit request has been sent to resident ${authenticationStore.userGivenName}.`,
+            `Visit request notification has been sent to resident`,
             'success',
           )
         } catch (error) {
