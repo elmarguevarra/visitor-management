@@ -46,6 +46,7 @@ export const putVisitRequestHandler = async (event) => {
   let inviteToken = body.inviteToken;
   let registrationId = body.registrationId;
   let visitorName = body.visitorName;
+  let visitorEmail = body.visitorEmail;
   let visitDate = body.visitDate;
   let purpose = body.purpose;
   let requestStatus = body.requestStatus;
@@ -77,6 +78,7 @@ export const putVisitRequestHandler = async (event) => {
       inviteToken: inviteToken,
       registrationId: registrationId,
       visitorName: visitorName,
+      visitorEmail: visitorEmail,
       visitDate: localDateTime.toUTC().toISO(),
       purpose: purpose,
       requestStatus: requestStatus,
@@ -102,6 +104,7 @@ export const putVisitRequestHandler = async (event) => {
     inviteToken: params.Item.inviteToken,
     registrationId: params.Item.registrationId,
     visitorName: params.Item.visitorName,
+    visitorEmail: params.Item.visitorEmail,
     visitDate: params.Item.visitDate,
     purpose: params.Item.purpose,
     requestStatus: params.Item.requestStatus,

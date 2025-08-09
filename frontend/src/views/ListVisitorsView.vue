@@ -251,6 +251,7 @@ export default {
         const newVisitorData = {
           residentId: visitRequest.residentId,
           visitorName: visitRequest.visitorName,
+          visitorEmail: visitRequest.visitorEmail,
           purpose: visitRequest.purpose,
           visitDate: visitRequest.visitDate,
         }
@@ -268,7 +269,6 @@ export default {
         visitRequestStore.removeVisitRequest(visitRequest.inviteToken)
         visitorStore.addVisitor(newVisitor)
 
-        errorMsg.value = ''
         notificationsStore.addNotification(
           `Approved visit request for ${newVisitor.visitorName} on ${formatDate(new Date(newVisitor.visitDate))}.`,
           'success',
@@ -276,22 +276,23 @@ export default {
 
         try {
           await sendEmailNotification({
-            template: 'VisitorInviteNotification',
+            template: 'VisitRequestApprovalNotification',
             data: {
               resident_givenName: authenticationStore.userGivenName,
               resident_familyName: authenticationStore.userFamilyName,
               resident_email: visitRequest.residentId,
-              visitor_email: newVisitor.visitorEmail,
-              visitor_name: newVisitor.visitorName,
-              visit_date: formatDate(new Date(newVisitor.visitDate)),
+              visitor_email: visitRequest.visitorEmail,
+              visitor_name: visitRequest.visitorName,
+              visit_date: formatDate(new Date(visitRequest.visitDate)),
               visit_qrCodeDataURL: newVisitor.qrCodeDataURL,
             },
           })
 
           notificationsStore.addNotification(
-            `Notification has been sent to ${newVisitor.visitorEmail}.`,
+            `Notification has been sent to ${visitRequest.visitorEmail}.`,
             'success',
           )
+          errorMsg.value = ''
         } catch (error) {
           console.error(error)
           errorMsg.value =
@@ -318,13 +319,37 @@ export default {
       try {
         await postVisitRequest(requestVisitData)
 
-        visitRequestStore.removeVisitRequest(visitRequest.inviteToken)
-
-        errorMsg.value = ''
         notificationsStore.addNotification(
           `Declined visit request for ${visitRequest.visitorName}.`,
           'success',
         )
+
+        try {
+          await sendEmailNotification({
+            template: 'VisitRequestDeclineNotification',
+            data: {
+              resident_givenName: authenticationStore.userGivenName,
+              resident_familyName: authenticationStore.userFamilyName,
+              resident_email: visitRequest.residentId,
+              visitor_email: visitRequest.visitorEmail,
+              visitor_name: visitRequest.visitorName,
+              visit_date: formatDate(new Date(visitRequest.visitDate)),
+            },
+          })
+
+          notificationsStore.addNotification(
+            `Notification has been sent to ${visitRequest.visitorEmail}.`,
+            'success',
+          )
+
+          visitRequestStore.removeVisitRequest(visitRequest.inviteToken)
+          errorMsg.value = ''
+        } catch (error) {
+          console.error(error)
+          errorMsg.value =
+            'Failed to send invitation email. Please share QR code manually.'
+          notificationsStore.addNotification(errorMsg.value, 'error')
+        }
       } catch (error) {
         console.debug(error)
         errorMsg.value = 'Error declining visit request. Please try again.'
