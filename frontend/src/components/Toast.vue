@@ -3,11 +3,11 @@
     <div
       v-for="n in notifications.notifications"
       :key="n.id"
-      class="toast align-items-center border-0 small-toast show mb-2"
+      class="toast align-items-center border-1 show mb-2"
       :class="{
         'bg-light': n.type === 'info',
         'bg-warning-subtle': n.type === 'warning',
-        'bg-success-subtle': n.type === 'success',
+        'bg-info-subtle': n.type === 'success',
         'bg-danger-subtle': n.type === 'error',
       }"
       role="alert"
