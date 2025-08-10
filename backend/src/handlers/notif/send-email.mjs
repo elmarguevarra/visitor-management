@@ -48,6 +48,7 @@ export const sendEmailHandler = async (event) => {
   let departureTime = body.data.departure_time;
   let visitDate = body.data.visit_date;
   let visitQrCodeDataURL = body.data.visit_qrCodeDataURL;
+  let selfRegisterLink = body.data.self_register_link;
 
   let qrCodeImageUrl = null;
   if (visitQrCodeDataURL) {
@@ -71,6 +72,7 @@ export const sendEmailHandler = async (event) => {
       departure_time: departureTime,
       visit_date: visitDate,
       visit_qrCodeImageURL: qrCodeImageUrl,
+      self_register_link: selfRegisterLink,
     }),
   };
 

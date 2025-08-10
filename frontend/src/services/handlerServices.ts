@@ -168,7 +168,7 @@ export async function evaluatePermissions(
   return response.data
 }
 
-export async function sendNotification(data: any): Promise<any> {
+export async function sendEmailNotification(data: any): Promise<any> {
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
 

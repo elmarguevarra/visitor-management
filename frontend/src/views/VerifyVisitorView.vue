@@ -109,7 +109,7 @@ import { ref, computed, onMounted } from 'vue'
 import {
   getVisitorByRegistrationId,
   postVisitor,
-  sendNotification,
+  sendEmailNotification,
 } from '@/services/handlerServices'
 import { formatDateAndTime } from '@/utils'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
@@ -196,7 +196,7 @@ export default {
         console.debug('Update successful:', response.data)
         visitor.value = response
         errorMsg.value = ''
-        await sendNotification({
+        await sendEmailNotification({
           template: 'VisitorArrivalNotification',
           data: {
             toAddresses: [authenticationStore.userEmail],
@@ -229,7 +229,7 @@ export default {
         console.debug('Update successful:', response.data)
         visitor.value = response
         errorMsg.value = ''
-        await sendNotification({
+        await sendEmailNotification({
           template: 'VisitorDepartureNotification',
           data: {
             toAddresses: [authenticationStore.userEmail],
