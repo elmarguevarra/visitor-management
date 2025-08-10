@@ -8,7 +8,8 @@ export const putInviteLinkHandler = (): RestHandler[] => [
       ctx.json({
         residentId: '1234',
         inviteToken: 'token',
-        inviteLink: 'http://localhost:8080/self-register-visitor/inviteToken',
+        inviteLink:
+          'http://localhost:8080/self-register-visitor/a94201af-81f0-4b78-904e-e488fa4b1ed9',
         inviteLinkExpiration: new Date(),
       }),
     )

@@ -159,7 +159,7 @@ import {
   getInviteByToken,
   getVisitRequestByToken,
   getVisitorByRegistrationId,
-  sendNotification as sendEmailNotification,
+  sendEmailNotification,
 } from '@/services/handlerServices'
 import { useVisitRequestStore } from '@/stores/visitRequestStore'
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils'

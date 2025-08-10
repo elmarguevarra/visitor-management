@@ -223,7 +223,7 @@ import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { VISIT_REQUEST_STATUS } from '@/constants/status'
 import { useNotificationsStore } from '@/stores/notificationsStore'
 
-import { sendNotification as sendEmailNotification } from '@/services/handlerServices'
+import { sendEmailNotification } from '@/services/handlerServices'
 
 export default {
   name: 'GetResidentVisitors',

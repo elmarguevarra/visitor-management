@@ -71,6 +71,42 @@ Resources:
           </body>
           </html>
 
+  VisitorInviteSelfRegisterSESTemplate:
+    Type: AWS::SES::Template
+    Properties:
+      Template:
+        TemplateName: VisitorInviteSelfRegisterNotification
+        SubjectPart: "You're invited to visit!"
+        TextPart: |
+          Hello,
+
+          You're invited by {{resident_fullName}}.
+
+          If you have any questions, you can contact {{resident_givenName}} at {{resident_email}}.
+
+          You can pre-register for your visit using this link:
+          {{self_register_link}}
+
+          We look forward to seeing you!
+        HtmlPart: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>Your Visit Invitation</title>
+          </head>
+          <body>
+            <h1>Hello {{visitor_name}},</h1>
+            <p>You're invited by <b>{{resident_fullName}}</b></b>.</p>
+            <p>If you have any questions, you can contact {{resident_givenName}} at 
+            <a href="mailto:{{resident_email}}">{{resident_email}}</a>.</p>
+            <p>You can pre-register for your visit with this link:
+              <a href="{{self_register_link}}">Self-Register Here</a>
+            </p>
+            <p>We look forward to seeing you!</p>
+          </body>
+          </html>
+
   VisitRequestApprovalSESTemplate:
     Type: AWS::SES::Template
     Properties:
