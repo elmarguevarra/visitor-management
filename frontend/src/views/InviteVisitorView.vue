@@ -6,19 +6,9 @@
     <div>
       <form @submit.prevent="generateInviteLink" class="row g-3">
         <div class="col-12">
-          <button
-            type="submit"
-            class="btn btn-primary"
-            :disabled="isLoading"
-            :hidden="invitation && invitation.inviteLink"
-          >
-            <span
-              v-if="isLoading"
-              class="spinner-grow spinner-grow-sm me-2"
-              role="status"
-              aria-hidden="true"
-            ></span>
+          <button type="submit" class="btn btn-primary" :disabled="isLoading">
             Generate Link
+            <Spinner v-if="isLoading" />
           </button>
         </div>
       </form>
@@ -27,7 +17,7 @@
           v-if="invitation && invitation.inviteLink"
           class="mt-4 d-flex flex-column align-items-center"
         >
-          <p class="mb-1 text-center text-secondary">
+          <p class="mb-1 mt-2 text-center text-secondary">
             Share this link to register:
           </p>
           <div class="alert alert-success mt-1">
@@ -38,7 +28,14 @@
                 :title="invitation.inviteLink"
               >
                 {{ invitation.inviteLink }}
+                <span
+                  v-if="!isInviteLinkShared"
+                  class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
+                >
+                  <span class="visually-hidden">New alerts</span>
+                </span>
               </div>
+
               <button
                 class="btn btn-outline-secondary btn-sm"
                 @click="copyToClipboard(invitation.inviteLink)"
@@ -81,8 +78,12 @@ import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { formatDateAndTime } from '@/utils'
 import { useNotificationsStore } from '@/stores/notificationsStore'
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import Spinner from '@/components/Spinner.vue'
 
 export default {
+  components: {
+    Spinner,
+  },
   name: 'InviteVisitorView',
   setup() {
     const authenticationStore = useAuthenticationStore()
@@ -91,6 +92,7 @@ export default {
     const invitation = ref(null)
     const emailAddressToSend = ref('')
     const errorMsg = ref('')
+    const isInviteLinkShared = ref(false)
     const isLoading = ref(false)
 
     const generateInviteLink = async () => {
@@ -101,6 +103,7 @@ export default {
         }
         const response = await postInvite(inviteData)
         invitation.value = response
+        isInviteLinkShared.value = false
       } catch (error) {
         console.error(error)
         errorMsg.value = 'Failed to generate invite link. Please try again.'
@@ -137,6 +140,7 @@ export default {
           'success',
         )
         emailAddressToSend.value = ''
+        isInviteLinkShared.value = true
       } catch (error) {
         notificationsStore.addNotification(
           'Failed to send invitation email.',
@@ -150,6 +154,7 @@ export default {
       errorMsg,
       isLoading,
       emailAddressToSend,
+      isInviteLinkShared,
       generateInviteLink,
       copyToClipboard,
       sendInviteEmail,

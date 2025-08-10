@@ -52,13 +52,8 @@
         </div>
         <div class="col-12">
           <button type="submit" class="btn btn-primary" :disabled="isLoading">
-            <span
-              v-if="isLoading"
-              class="spinner-grow spinner-grow-sm me-2"
-              role="status"
-              aria-hidden="true"
-            ></span>
             Register
+            <Spinner v-if="isLoading" />
           </button>
         </div>
       </form>
@@ -72,9 +67,13 @@ import { postVisitor, sendEmailNotification } from '@/services/handlerServices'
 import { getYearMonthDay, formatDate } from '@/utils'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { useNotificationsStore } from '@/stores/notificationsStore'
+import Spinner from '@/components/Spinner.vue'
 
 export default {
   name: 'CreateVisitor',
+  components: {
+    Spinner,
+  },
   setup() {
     const authenticationStore = useAuthenticationStore()
     const notificationsStore = useNotificationsStore()
