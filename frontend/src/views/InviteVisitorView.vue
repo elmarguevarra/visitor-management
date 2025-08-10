@@ -6,8 +6,12 @@
     <div>
       <form @submit.prevent="generateInviteLink" class="row g-3">
         <div class="col-12">
-          <button type="submit" class="btn btn-primary" :disabled="isLoading">
-            Generate Link
+          <button
+            type="submit"
+            class="mb-2 btn btn-primary"
+            :disabled="isLoading"
+          >
+            <i class="bi bi-link-45deg"></i> Generate Link
             <Spinner v-if="isLoading" />
           </button>
         </div>
@@ -17,13 +21,13 @@
           v-if="invitation && invitation.inviteLink"
           class="mt-4 d-flex flex-column align-items-center"
         >
-          <p class="mb-1 mt-2 text-center text-secondary">
+          <p class="mb-1 mt-2 text-center small text-secondary">
             Share this link to register:
           </p>
           <div class="alert alert-info mt-1">
             <div class="d-flex align-items-center">
               <div
-                class="border rounded px-2 py-1 bg-white small text-truncate flex-grow-1 me-2"
+                class="px-2 py-1 small text-truncate text-secondary flex-grow-1 me-2 non-selectable-text"
                 style="max-width: 250px"
                 :title="invitation.inviteLink"
               >
@@ -32,7 +36,7 @@
                   v-if="!isInviteLinkShared"
                   class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
                 >
-                  <span class="visually-hidden">New alerts</span>
+                  <span class="visually-hidden">Fresh link</span>
                 </span>
               </div>
 
@@ -165,5 +169,15 @@ export default {
 </script>
 
 <style scoped>
-/* You can add more subtle styling here if needed */
+.btn-primary {
+  background: linear-gradient(90deg, #1e90ff, #0077cc);
+  border: none;
+}
+
+.non-selectable-text {
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+}
 </style>
