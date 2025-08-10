@@ -26,16 +26,20 @@
             Share this link to register:
           </p>
           <div class="alert alert-success mt-1">
-            <div class="d-flex align-items-center flex-wrap">
-              <p class="mb-0 me-2 flex-grow-1 text-break small">
+            <div class="d-flex align-items-center">
+              <div
+                class="border rounded px-2 py-1 bg-white small text-truncate flex-grow-1 me-2"
+                style="max-width: 250px"
+                :title="invitation.inviteLink"
+              >
                 {{ invitation.inviteLink }}
-              </p>
+              </div>
               <button
                 class="btn btn-outline-secondary btn-sm"
                 @click="copyToClipboard(invitation.inviteLink)"
                 title="Copy to clipboard"
               >
-                Copy
+                <i class="bi bi-clipboard"></i>
               </button>
             </div>
             <div class="input-group mt-2">
@@ -46,8 +50,8 @@
                 v-model="emailAddressToSend"
                 placeholder="Enter email to send invite"
               />
-              <button class="btn btn-outline-primary" type="submit">
-                Send
+              <button class="btn btn-outline-secondary btn-sm" type="submit">
+                <i class="bi bi-envelope"></i>
               </button>
             </div>
           </div>
@@ -71,6 +75,7 @@ import { postInvite, sendEmailNotification } from '@/services/handlerServices'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { formatDateAndTime } from '@/utils'
 import { useNotificationsStore } from '@/stores/notificationsStore'
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 export default {
   name: 'InviteVisitorView',
