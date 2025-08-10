@@ -96,8 +96,8 @@ Resources:
             <title>Your Visit Invitation</title>
           </head>
           <body>
-            <h1>Hello {{visitor_name}},</h1>
-            <p>You're invited by <b>{{resident_fullName}}</b></b>.</p>
+            <h1>Hello,</h1>
+            <p>You're invited by <b>{{resident_fullName}}</b>.</p>
             <p>If you have any questions, you can contact {{resident_givenName}} at 
             <a href="mailto:{{resident_email}}">{{resident_email}}</a>.</p>
             <p>You can pre-register for your visit with this link:
