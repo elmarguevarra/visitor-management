@@ -6,7 +6,12 @@
     <div>
       <form @submit.prevent="generateInviteLink" class="row g-3">
         <div class="col-12">
-          <button type="submit" class="btn btn-primary" :disabled="isLoading">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            :disabled="isLoading"
+            :hidden="invitation && invitation.inviteLink"
+          >
             <span
               v-if="isLoading"
               class="spinner-grow spinner-grow-sm me-2"
