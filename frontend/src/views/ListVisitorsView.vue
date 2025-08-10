@@ -46,14 +46,10 @@
                 requestSubmittedState[visitRequest.inviteToken]
               "
             >
-              <span
-                v-if="requestLoadingStates[visitRequest.inviteToken]?.approve"
-                class="spinner-grow spinner-grow-sm me-2"
-                role="status"
-                aria-hidden="true"
-              >
-              </span>
               Approve
+              <Spinner
+                v-if="requestLoadingStates[visitRequest.inviteToken]?.approve"
+              />
             </button>
             <button
               @click="declineVisitRequest(visitRequest)"
@@ -63,14 +59,10 @@
                 requestSubmittedState[visitRequest.inviteToken]
               "
             >
-              <span
-                v-if="requestLoadingStates[visitRequest.inviteToken]?.decline"
-                class="spinner-grow spinner-grow-sm me-2"
-                role="status"
-                aria-hidden="true"
-              >
-              </span>
               Decline
+              <Spinner
+                v-if="requestLoadingStates[visitRequest.inviteToken]?.decline"
+              />
             </button>
           </div>
         </div>
@@ -224,9 +216,13 @@ import { VISIT_REQUEST_STATUS } from '@/constants/status'
 import { useNotificationsStore } from '@/stores/notificationsStore'
 
 import { sendEmailNotification } from '@/services/handlerServices'
+import Spinner from '@/components/Spinner.vue'
 
 export default {
   name: 'GetResidentVisitors',
+  components: {
+    Spinner,
+  },
   setup() {
     const errorMsg = ref('')
     const isGetVisitorsLoading = ref(false)

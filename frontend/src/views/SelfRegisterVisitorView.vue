@@ -64,23 +64,14 @@
             class="mb-3 btn btn-primary"
             :disabled="isRequestVisitLoading"
           >
-            <span
-              v-if="isRequestVisitLoading"
-              class="spinner-grow spinner-grow-sm me-2"
-              role="status"
-              aria-hidden="true"
-            ></span>
             Submit
+            <Spinner v-if="isRequestVisitLoading" />
           </button>
         </div>
       </form>
       <div v-if="isGetInviteByTokenLoading" class="alert alert-info mt-3">
-        <span
-          class="spinner-grow spinner-grow-sm me-2"
-          role="status"
-          aria-hidden="true"
-        ></span>
         Verifying Invitation...
+        <Spinner />
       </div>
       <div
         v-if="
@@ -91,12 +82,8 @@
         "
         class="alert alert-warning mt-3"
       >
-        <span
-          class="spinner-grow spinner-grow-sm me-2"
-          role="status"
-          aria-hidden="true"
-        ></span>
         Waiting for Approval...
+        <Spinner />
       </div>
       <div v-if="isGetVisitorLoading" aria-hidden="true">
         <div class="card-body">
@@ -165,9 +152,13 @@ import { useVisitRequestStore } from '@/stores/visitRequestStore'
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils'
 import { VISIT_REQUEST_STATUS } from '@/constants/status'
 import { useNotificationsStore } from '@/stores/notificationsStore'
+import Spinner from '@/components/Spinner.vue'
 
 export default {
   name: 'InviteVisitorView',
+  components: {
+    Spinner,
+  },
   props: {
     inviteToken: {
       type: String,

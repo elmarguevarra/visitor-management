@@ -8,12 +8,7 @@
         <div class="col-12">
           <button type="submit" class="btn btn-primary" :disabled="isLoading">
             Generate Link
-            <span
-              v-if="isLoading"
-              class="spinner-grow spinner-grow-sm me-2"
-              role="status"
-              aria-hidden="true"
-            ></span>
+            <Spinner v-if="isLoading" />
           </button>
         </div>
       </form>
@@ -22,7 +17,7 @@
           v-if="invitation && invitation.inviteLink"
           class="mt-4 d-flex flex-column align-items-center"
         >
-          <p class="mb-1 text-center text-secondary">
+          <p class="mb-1 mt-2 text-center text-secondary">
             Share this link to register:
           </p>
           <div class="alert alert-success mt-1">
@@ -83,8 +78,12 @@ import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { formatDateAndTime } from '@/utils'
 import { useNotificationsStore } from '@/stores/notificationsStore'
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import Spinner from '@/components/Spinner.vue'
 
 export default {
+  components: {
+    Spinner,
+  },
   name: 'InviteVisitorView',
   setup() {
     const authenticationStore = useAuthenticationStore()
