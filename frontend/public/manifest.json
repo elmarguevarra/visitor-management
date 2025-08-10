@@ -1,6 +1,6 @@
 {
-  "name": "My App Name",
-  "short_name": "MyApp",
+  "name": "Visitor Management App",
+  "short_name": "Visitors",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
