@@ -51,10 +51,9 @@
           <label for="floatingInput">Visit date</label>
         </div>
         <div class="col-12">
-          <button type="submit" class="btn btn-primary" :disabled="isLoading">
+          <Button :loading="isLoading" icon="bi bi-person-plus">
             Register
-            <Spinner v-if="isLoading" />
-          </button>
+          </Button>
         </div>
       </form>
     </div>
@@ -67,12 +66,12 @@ import { postVisitor, sendEmailNotification } from '@/services/handlerServices'
 import { getYearMonthDay, formatDate } from '@/utils'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { useNotificationsStore } from '@/stores/notificationsStore'
-import Spinner from '@/components/Spinner.vue'
+import Button from '@/components/Button.vue'
 
 export default {
   name: 'CreateVisitor',
   components: {
-    Spinner,
+    Button,
   },
   setup() {
     const authenticationStore = useAuthenticationStore()

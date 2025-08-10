@@ -6,14 +6,9 @@
     <div>
       <form @submit.prevent="generateInviteLink" class="row g-3">
         <div class="col-12">
-          <button
-            type="submit"
-            class="mb-2 btn btn-primary"
-            :disabled="isLoading"
-          >
-            <i class="bi bi-link-45deg"></i> Generate Link
-            <Spinner v-if="isLoading" />
-          </button>
+          <Button :loading="isLoading" icon="bi bi-link-45deg">
+            Generate Link
+          </Button>
         </div>
       </form>
       <form @submit.prevent="sendInviteEmail" class="row g-3">
@@ -21,7 +16,7 @@
           v-if="invitation && invitation.inviteLink"
           class="mt-4 d-flex flex-column align-items-center"
         >
-          <p class="mb-1 mt-2 text-center small text-secondary">
+          <p class="mb-1 mt-3 text-center small text-secondary">
             Share this link to register:
           </p>
           <div class="alert alert-info mt-1">
@@ -82,11 +77,11 @@ import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { formatDateAndTime } from '@/utils'
 import { useNotificationsStore } from '@/stores/notificationsStore'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import Spinner from '@/components/Spinner.vue'
+import Button from '@/components/Button.vue'
 
 export default {
   components: {
-    Spinner,
+    Button,
   },
   name: 'InviteVisitorView',
   setup() {
