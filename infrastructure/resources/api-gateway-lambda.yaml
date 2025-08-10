@@ -9,6 +9,9 @@ Parameters:
   SysNotifEmailAddress:
     Type: String
     Description: Email address for SES notifications
+  AdminEmailAddress:
+    Type: String
+    Description: Email address for admin notifications
 
 Resources:
   ApiGatewayApi:
@@ -367,6 +370,7 @@ Resources:
         Variables:
           APP_FRONTEND_BASE_URL: !Sub "https://${SubDomain}"
           SYS_NOTIF_EMAIL_ADDRESS: !Ref SysNotifEmailAddress
+          ADMINISTRATOR_EMAIL_ADDRESS: !Ref AdminEmailAddress
       Events:
         Api:
           Type: Api

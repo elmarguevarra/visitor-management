@@ -40,7 +40,7 @@ export const useAuthenticationStore = defineStore('authentication', {
         this.userGroup = groups.find((g) => !g.endsWith('_Google'))
       } catch (err) {
         this.isLoggedIn = false
-        console.error('Auth check failed:', err)
+        console.error('Authentication check failed:', err)
       }
     },
     async signIn() {
