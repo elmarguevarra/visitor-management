@@ -11,6 +11,7 @@ const ses = new SESClient();
 const s3Client = new S3Client();
 
 const frontEndBaseUrl = process.env.APP_FRONTEND_BASE_URL;
+const adminEmailAddress = process.env.ADMINISTRATOR_EMAIL_ADDRESS;
 
 export const sendEmailHandler = async (event) => {
   const sysNotifEmailAddress = process.env.SYS_NOTIF_EMAIL_ADDRESS;
@@ -59,7 +60,7 @@ export const sendEmailHandler = async (event) => {
     Source: sysNotifEmailAddress,
     Destination: {
       ToAddresses: toAddresses,
-      BccAddresses: ["admin@alphinecodetech.click"], //TODO: Fetch this from environment variables
+      BccAddresses: [adminEmailAddress],
     },
     Template: template,
     TemplateData: JSON.stringify({

@@ -25,7 +25,11 @@ env:
   APP_FRONTEND_BASE_URL: https://vms.alphinecodetech.click
   COGNITO_CUSTOM_DOMAIN_NAME: login.vms.alphinecodetech.click
   COGNITO_USERS_INIT_PASSWORD: ${{ secrets.COGNITO_USERS_INIT_PASSWORD }}
+  GLOBAL_CLOUDFRONT_HOSTED_ZONE_ID: Z2FDTNDATAQYW2
+  GLOBAL_CLOUDFRONT_NO_CACHE_POLICY: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+  GLOBAL_CLOUDFRONT_ORIGIN_REQUEST_POLICY: b689b0a8-53d0-40ab-baf2-68738e2966ac
   SYS_NOTIF_EMAIL_ADDRESS: vms.alerts@alphinecodetech.click
+  ADMINISTRATOR_EMAIL_ADDRESS: admin@alphinecodetech.click
 
 jobs:
   deploy-backend-and-infra:
