@@ -54,19 +54,17 @@
           <label for="floatingInput">Visit date</label>
         </div>
         <div class="col-12">
-          <button
+          <Button
             v-if="
               !isGetVisitRequestByTokenLoading &&
               !visitRequest &&
               !isGetInviteByTokenLoading
             "
-            type="submit"
-            class="mb-3 btn btn-primary"
-            :disabled="isRequestVisitLoading"
+            :loading="isRequestVisitLoading"
+            icon="bi bi-send"
           >
             Submit
-            <Spinner v-if="isRequestVisitLoading" />
-          </button>
+          </Button>
         </div>
       </form>
       <div v-if="isGetInviteByTokenLoading" class="alert alert-info mt-3">
@@ -152,12 +150,12 @@ import { useVisitRequestStore } from '@/stores/visitRequestStore'
 import { getYearMonthDay, formatDate, formatDateAndTime } from '@/utils'
 import { VISIT_REQUEST_STATUS } from '@/constants/status'
 import { useNotificationsStore } from '@/stores/notificationsStore'
-import Spinner from '@/components/Spinner.vue'
+import Button from '@/components/Button.vue'
 
 export default {
   name: 'InviteVisitorView',
   components: {
-    Spinner,
+    Button,
   },
   props: {
     inviteToken: {

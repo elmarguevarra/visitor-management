@@ -16,15 +16,7 @@
         <label for="floatingInput">Registration id</label>
       </div>
       <div class="col-12">
-        <button type="submit" class="btn btn-primary" :disabled="isLoading">
-          <span
-            v-if="isLoading"
-            class="spinner-grow spinner-grow-sm me-2"
-            role="status"
-            aria-hidden="true"
-          ></span>
-          Get registration
-        </button>
+        <Button :loading="isLoading" icon="bi bi-search"> Search </Button>
       </div>
     </form>
 
@@ -64,8 +56,12 @@
 <script>
 import { getVisitorByRegistrationId } from '@/services/handlerServices'
 import { formatDate, formatDateAndTime } from '@/utils'
+import Button from '@/components/Button.vue'
 
 export default {
+  components: {
+    Button,
+  },
   name: 'SearchVisitorView',
   data() {
     return {
