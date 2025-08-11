@@ -39,15 +39,16 @@ export default {
 
 <style scoped>
 .full-page-image-container {
-  position: relative; /* Use relative to contain absolute children */
-  width: 100%;
-  min-height: 100vh; /* Use min-height for flexible content */
-}
-
-.full-page-image {
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.full-page-image {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -57,7 +58,7 @@ export default {
 .button-overlay {
   position: absolute;
   bottom: 67%;
-  left: 22%;
+  left: 24%;
   transform: translateX(-50%);
   z-index: 2;
   text-align: center;
@@ -70,7 +71,7 @@ export default {
   color: white;
   border: none;
   cursor: pointer;
-  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   z-index: 2;
 }
 
