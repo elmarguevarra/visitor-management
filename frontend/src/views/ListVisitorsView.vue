@@ -69,9 +69,7 @@
           <h6
             class="card-title text-center mb-2"
             :class="{ 'text-muted': visitor.hasDeparted }"
-          >
-            {{ visitor.visitorName }}
-          </h6>
+          ></h6>
           <img
             :src="visitor.qrCodeDataURL"
             alt="Visitor QR Code"
@@ -80,6 +78,8 @@
             class="mb-2 border-0 rounded"
             :class="{ 'opacity-50': visitor.hasDeparted }"
           />
+          {{ visitor.visitorName }}
+
           <p
             class="card-text text-center mb-0"
             :class="{ 'text-muted': visitor.hasDeparted }"
@@ -101,9 +101,9 @@
         </div>
         <div
           v-else-if="visitor.hasDeparted"
-          class="card-footer text-muted text-center small"
+          class="badge bg-light text-secondary px-3 py-2"
         >
-          Departed
+          <i class="bi bi-door-open me-1"></i> Departed
         </div>
       </div>
       <p
@@ -122,10 +122,6 @@
         class="card border-0 shadow-sm mb-3"
       >
         <div class="card-body d-flex flex-column align-items-center">
-          <h6 class="card-title text-center mb-2">
-            {{ visitor.visitorName }} on
-            {{ formatDate(new Date(visitor.visitDate)) }}
-          </h6>
           <img
             :src="visitor.qrCodeDataURL"
             alt="Visitor QR Code"
@@ -133,6 +129,10 @@
             height="100"
             class="mb-2 border-0 rounded"
           />
+          <h7 class="card-title text-center mb-2">
+            {{ visitor.visitorName }} on
+            {{ formatDate(new Date(visitor.visitDate)) }}
+          </h7>
           <p class="card-text text-center mb-0">
             Registration ID: {{ visitor.registrationId }}
           </p>
@@ -149,7 +149,7 @@
       <div
         v-for="visitor in expiredVisitors"
         :key="visitor.registrationId"
-        class="card border-0 shadow-smmb-3"
+        class="card border-0 shadow-sm mb-3"
       >
         <div class="card-body d-flex flex-column text-muted align-items-center">
           <h6 class="card-title text-center mb-2">
@@ -168,7 +168,7 @@
         </div>
         <div
           v-else-if="visitor.hasArrived && !visitor.hasDeparted"
-          class="card-footer text-muted text-center small"
+          class="badge bg-light text-secondary px-3 py-2"
         >
           <i class="bi bi-person-check-fill me-1"></i> Arrived
         </div>

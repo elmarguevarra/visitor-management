@@ -19,7 +19,7 @@
           <p class="mb-1 mt-3 text-center small text-secondary">
             Share this link to register:
           </p>
-          <div class="alert alert-info mt-1">
+          <div class="alert alert-info mt-1 border-0 shadow-sm p-3">
             <div class="d-flex align-items-center">
               <div
                 class="px-2 py-1 small text-truncate text-secondary flex-grow-1 me-2 non-selectable-text"

@@ -43,11 +43,13 @@ function onClick(event: Event) {
 .btn-primary {
   background: linear-gradient(90deg, #1e90ff, #0077cc);
   border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary {
   background: linear-gradient(90deg, #6c757d, #5a6268);
   border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 /* Enter animation (spinner appears) */
