@@ -26,7 +26,7 @@
       <div
         v-for="visitRequest in visitRequests"
         :key="visitRequest.inviteToken"
-        class="card mb-3"
+        class="card border-0 shadow-sm mb-3"
       >
         <div
           class="card-body d-flex justify-content-between align-items-center flex-column flex-md-row"
@@ -38,32 +38,22 @@
             </p>
           </div>
           <div class="d-flex flex-column flex-md-row gap-2">
-            <button
+            <Button
               @click="approveVisitRequest(visitRequest)"
-              class="btn btn-sm btn-primary"
-              :disabled="
-                requestLoadingStates[visitRequest.inviteToken]?.approve ||
-                requestSubmittedState[visitRequest.inviteToken]
-              "
+              class="btn btn-primary btn-sm me-2"
+              icon="bi bi-check-circle"
+              :loading="requestLoadingStates[visitRequest.inviteToken]?.approve"
             >
               Approve
-              <Spinner
-                v-if="requestLoadingStates[visitRequest.inviteToken]?.approve"
-              />
-            </button>
-            <button
+            </Button>
+            <Button
               @click="declineVisitRequest(visitRequest)"
-              class="btn btn-sm btn-secondary"
-              :disabled="
-                requestLoadingStates[visitRequest.inviteToken]?.decline ||
-                requestSubmittedState[visitRequest.inviteToken]
-              "
+              class="btn btn-secondary btn-sm me-2"
+              icon="bi bi-x-circle"
+              :loading="requestLoadingStates[visitRequest.inviteToken]?.decline"
             >
               Decline
-              <Spinner
-                v-if="requestLoadingStates[visitRequest.inviteToken]?.decline"
-              />
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -73,7 +63,7 @@
       <div
         v-for="visitor in todayVisitors"
         :key="visitor.registrationId"
-        class="card mb-3"
+        class="card border-0 shadow-sm mb-3"
       >
         <div class="card-body d-flex flex-column align-items-center">
           <h6
@@ -85,9 +75,9 @@
           <img
             :src="visitor.qrCodeDataURL"
             alt="Visitor QR Code"
-            width="150"
-            height="150"
-            class="img-thumbnail mb-2"
+            width="100"
+            height="100"
+            class="mb-2 border-0 rounded"
             :class="{ 'opacity-50': visitor.hasDeparted }"
           />
           <p
@@ -99,16 +89,15 @@
         </div>
         <div
           v-if="!visitor.hasArrived"
-          class="card-footer text-muted text-center small"
+          class="badge bg-light text-secondary px-3 py-2"
         >
-          Scheduled
+          <i class="bi bi-clock me-1"></i> Scheduled
         </div>
         <div
           v-else-if="visitor.hasArrived && !visitor.hasDeparted"
-          class="card-footer text-secondary text-center small"
-          style="background-color: #e2e3e5"
+          class="badge bg-light text-secondary px-3 py-2"
         >
-          Arrived
+          <i class="bi bi-person-check-fill me-1"></i> Arrived
         </div>
         <div
           v-else-if="visitor.hasDeparted"
@@ -130,7 +119,7 @@
       <div
         v-for="visitor in upcomingVisitors"
         :key="visitor.registrationId"
-        class="card mb-3"
+        class="card border-0 shadow-sm mb-3"
       >
         <div class="card-body d-flex flex-column align-items-center">
           <h6 class="card-title text-center mb-2">
@@ -140,9 +129,9 @@
           <img
             :src="visitor.qrCodeDataURL"
             alt="Visitor QR Code"
-            width="150"
-            height="150"
-            class="img-thumbnail mb-2"
+            width="100"
+            height="100"
+            class="mb-2 border-0 rounded"
           />
           <p class="card-text text-center mb-0">
             Registration ID: {{ visitor.registrationId }}
@@ -160,7 +149,7 @@
       <div
         v-for="visitor in expiredVisitors"
         :key="visitor.registrationId"
-        class="card mb-3"
+        class="card border-0 shadow-smmb-3"
       >
         <div class="card-body d-flex flex-column text-muted align-items-center">
           <h6 class="card-title text-center mb-2">
@@ -173,15 +162,15 @@
         </div>
         <div
           v-if="!visitor.hasArrived"
-          class="card-footer text-muted text-center small"
+          class="badge bg-light text-secondary px-3 py-2"
         >
-          Scheduled
+          <i class="bi bi-person-check-fill me-1"></i> Arrived
         </div>
         <div
           v-else-if="visitor.hasArrived && !visitor.hasDeparted"
           class="card-footer text-muted text-center small"
         >
-          Arrived
+          <i class="bi bi-person-check-fill me-1"></i> Arrived
         </div>
         <div
           v-else-if="visitor.hasDeparted"
@@ -216,12 +205,12 @@ import { VISIT_REQUEST_STATUS } from '@/constants/status'
 import { useNotificationsStore } from '@/stores/notificationsStore'
 
 import { sendEmailNotification } from '@/services/handlerServices'
-import Spinner from '@/components/Spinner.vue'
+import Button from '@/components/Button.vue'
 
 export default {
   name: 'GetResidentVisitors',
   components: {
-    Spinner,
+    Button,
   },
   setup() {
     const errorMsg = ref('')

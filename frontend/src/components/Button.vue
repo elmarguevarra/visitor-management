@@ -45,6 +45,11 @@ function onClick(event: Event) {
   border: none;
 }
 
+.btn-secondary {
+  background: linear-gradient(90deg, #6c757d, #5a6268);
+  border: none;
+}
+
 /* Enter animation (spinner appears) */
 .pulse-enter-from {
   transform: scale(0.5);
