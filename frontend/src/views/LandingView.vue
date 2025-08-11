@@ -1,54 +1,53 @@
 <template>
   <div class="full-page-image-container">
     <picture>
-      <source srcset="/landing-mobile.png" media="(max-width: 768px)">
-      <img
-        src="/landing.png"
-        alt="Full Page Image"
-        class="full-page-image"
-      >
+      <source srcset="/landing-mobile.png" media="(max-width: 768px)" />
+      <img src="/landing.png" alt="Full Page Image" class="full-page-image" />
     </picture>
 
     <!-- Button Overlay at Bottom -->
     <div class="button-overlay">
-      <button @click='signIn' class="btn">Get Started</button>
+      <Button @click="signIn"> Get Started </Button>
     </div>
   </div>
 </template>
 
 <script>
-import { useAuthenticationStore } from '@/stores/authenticationStore';
-import { onMounted } from 'vue';
+import Button from '@/components/Button.vue'
+import { useAuthenticationStore } from '@/stores/authenticationStore'
+import { onMounted } from 'vue'
 
 export default {
+  components: {
+    Button,
+  },
   name: 'LandingView',
-  setup(){
+  setup() {
     const authenticationStore = useAuthenticationStore()
 
     onMounted(() => {
-      window.scrollTo(0, 0);
-    });
+      window.scrollTo(0, 0)
+    })
 
     return {
       authenticationStore,
-      signIn: authenticationStore.signIn
+      signIn: authenticationStore.signIn,
     }
-  }
-};
+  },
+}
 </script>
 
 <style scoped>
 .full-page-image-container {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative; /* Use relative to contain absolute children */
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh; /* Use min-height for flexible content */
 }
 
 .full-page-image {
-  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -70,10 +69,9 @@ export default {
   background-color: #479ffc;
   color: white;
   border: none;
-  border-radius: 15px;
   cursor: pointer;
   /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); */
-  z-index: 2
+  z-index: 2;
 }
 
 .btn:active {
