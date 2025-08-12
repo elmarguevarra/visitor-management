@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-2">
-    <h4 class="mb-3 text-muted" style="margin-left: -0.2rem">Visitor Access</h4>
+    <h4 class="mb-3" style="margin-left: -0.2rem">Visitor Access</h4>
     <form @submit.prevent="getItemsById" class="row g-3 mb-3">
       <div class="form-floating mb-1">
         <input
@@ -14,7 +14,10 @@
       </div>
     </form>
 
-    <div v-if="isFetchDataLoading" class="alert alert-info mt-3">
+    <div
+      v-if="isFetchDataLoading"
+      class="alert alert-info mt-3 border-0 shadow-sm p-3"
+    >
       <span
         class="spinner-grow spinner-grow-sm me-2"
         role="status"
@@ -24,7 +27,7 @@
     </div>
     <div
       v-else-if="visitor.registrationId && !isFetchDataLoading && isVisitToday"
-      class="alert alert-success mt-3"
+      class="alert alert-success mt-3 border-0 shadow-sm p-3"
     >
       <span
         ><strong>{{ visitor.visitorName }}</strong> is scheduled to visit
@@ -38,7 +41,7 @@
         !isVisitToday &&
         errorMsg === ''
       "
-      class="alert alert-warning mt-3"
+      class="alert alert-warning mt-3 border-0 shadow-sm p-3"
     >
       No scheduled visit for today.
     </div>
@@ -47,23 +50,17 @@
       v-if="visitor.registrationId && isVisitToday && !visitor.hasArrived"
       class="col-12"
     >
-      <button
+      <Button
         @click="setVisitorArrived"
-        class="btn btn-primary"
-        :disabled="isSetArrivedDataLoading"
+        icon="bi bi-box-arrow-in-right"
+        :loading="isSetArrivedDataLoading"
       >
-        <span
-          v-if="isSetArrivedDataLoading"
-          class="spinner-grow spinner-grow-sm me-2"
-          role="status"
-          aria-hidden="true"
-        ></span>
         Check-in
-      </button>
+      </Button>
     </div>
     <div
       v-if="visitor.hasArrived && !errorMsg"
-      class="alert alert-success mt-3"
+      class="alert alert-success mt-3 border-0 shadow-sm p-3"
     >
       Arrived on
       <strong>{{ formatDateAndTime(new Date(visitor.arrivalTime)) }}</strong>
@@ -78,19 +75,14 @@
       "
       class="col-12"
     >
-      <button
+      <Button
         @click="setVisitorDeparted"
+        icon="bi bi-box-arrow-right"
         class="btn btn-secondary"
-        :disabled="isSetDepartedDataLoading"
+        :loading="isSetDepartedDataLoading"
       >
-        <span
-          v-if="isSetDepartedDataLoading"
-          class="spinner-grow spinner-grow-sm me-2"
-          role="status"
-          aria-hidden="true"
-        ></span>
         Check-out
-      </button>
+      </Button>
     </div>
     <div
       v-if="visitor.hasDeparted && !errorMsg"
@@ -113,9 +105,13 @@ import {
 } from '@/services/handlerServices'
 import { formatDateAndTime } from '@/utils'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
+import Button from '@/components/Button.vue'
 
 export default {
   name: 'VerifyVisitorView',
+  components: {
+    Button,
+  },
   props: {
     registrationId: {
       type: String,

@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-2">
-    <h4 class="mb-3 text-muted" style="margin-left: -0.2rem">Profile</h4>
+    <h4 class="mb-3" style="margin-left: -0.2rem">Profile</h4>
     <div>
       <form class="row g-3">
         <div class="form-floating mb-1">
@@ -53,7 +53,7 @@
         </div>
         <div
           v-if="!authenticationStore.userGroup"
-          class="alert alert-info mt-3"
+          class="alert alert-info mt-3 border-0 shadow-sm p-3"
         >
           <span
             class="spinner-grow spinner-grow-sm me-2"
