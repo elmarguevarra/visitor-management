@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-2">
-    <h4 class="mb-3 text-muted" style="margin-left: -0.2rem">My Visitors</h4>
+    <h4 class="mb-3" style="margin-left: -0.2rem">My Visitors</h4>
     <div>
       <p class="card-text placeholder-glow">
         <span v-if="isGetVisitorsLoading" class="placeholder col-5"></span>
@@ -91,7 +91,7 @@
           v-if="!visitor.hasArrived"
           class="badge bg-light text-secondary px-3 py-2"
         >
-          <i class="bi bi-clock me-1"></i> Scheduled
+          <i class="bi bi-calendar-event me-1"></i> Scheduled
         </div>
         <div
           v-else-if="visitor.hasArrived && !visitor.hasDeparted"
@@ -176,7 +176,7 @@
           v-else-if="visitor.hasDeparted"
           class="card-footer text-muted text-center small"
         >
-          Departed
+          <i class="bi bi-door-open me-1"></i> Departed
         </div>
       </div>
       <p
