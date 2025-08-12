@@ -26,11 +26,16 @@
       Verifying visitor...
     </div>
     <div
-      v-else-if="visitor.registrationId && !isFetchDataLoading && isVisitToday"
+      v-else-if="
+        visitor.registrationId &&
+        !isFetchDataLoading &&
+        isVisitToday &&
+        !visitor.hasArrived
+      "
       class="alert alert-success mt-3 border-0 shadow-sm p-3"
     >
-      <span
-        ><strong>{{ visitor.visitorName }}</strong> is scheduled to visit
+      <span>
+        <strong>{{ visitor.visitorName }}</strong> is scheduled to visit
         today.</span
       >
     </div>
@@ -59,7 +64,7 @@
       </Button>
     </div>
     <div
-      v-if="visitor.hasArrived && !errorMsg"
+      v-if="visitor.hasArrived && !visitor.hasDeparted && !errorMsg"
       class="alert alert-success mt-3 border-0 shadow-sm p-3"
     >
       Arrived on
@@ -86,7 +91,7 @@
     </div>
     <div
       v-if="visitor.hasDeparted && !errorMsg"
-      class="alert alert-success mt-3"
+      class="alert alert-success mt-3 border-0 shadow-sm p-3"
     >
       Departed on
       <strong>{{ formatDateAndTime(new Date(visitor.departureTime)) }}</strong>
@@ -106,6 +111,7 @@ import {
 import { formatDateAndTime } from '@/utils'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import Button from '@/components/Button.vue'
+import { useNotificationsStore } from '@/stores/notificationsStore'
 
 export default {
   name: 'VerifyVisitorView',
@@ -120,6 +126,7 @@ export default {
   },
   setup(props) {
     const authenticationStore = useAuthenticationStore()
+    const notificationsStore = useNotificationsStore()
 
     const visitor = ref({
       residentId: null,
@@ -191,19 +198,33 @@ export default {
         const response = await postVisitor(updateData)
         console.debug('Update successful:', response.data)
         visitor.value = response
+        notificationsStore.addNotification(
+          `${visitor.value.visitorName} has been successfully checked in.`,
+          'success',
+        )
+        try {
+          await sendEmailNotification({
+            template: 'VisitorArrivalNotification',
+            data: {
+              toAddresses: [authenticationStore.userEmail],
+              resident_givenName: authenticationStore.userGivenName,
+              resident_email: authenticationStore.userEmail,
+              visitor_name: visitor.value.visitorName,
+              arrival_time: formatDateAndTime(
+                new Date(visitor.value.arrivalTime),
+              ),
+            },
+          })
+          notificationsStore.addNotification(
+            `Resident has been notified at ${authenticationStore.userEmail}`,
+            'success',
+          )
+        } catch (error) {
+          console.error(error)
+          errorMsg.value = 'Failed to send arrival notification email.'
+          notificationsStore.addNotification(errorMsg.value, 'error')
+        }
         errorMsg.value = ''
-        await sendEmailNotification({
-          template: 'VisitorArrivalNotification',
-          data: {
-            toAddresses: [authenticationStore.userEmail],
-            resident_givenName: authenticationStore.userGivenName,
-            resident_email: authenticationStore.userEmail,
-            visitor_name: visitor.value.visitorName,
-            arrival_time: formatDateAndTime(
-              new Date(visitor.value.arrivalTime),
-            ),
-          },
-        })
       } catch (error) {
         console.debug(error)
         errorMsg.value = 'Error updating check-in status'
@@ -224,19 +245,36 @@ export default {
         const response = await postVisitor(updateData)
         console.debug('Update successful:', response.data)
         visitor.value = response
+
+        notificationsStore.addNotification(
+          `${visitor.value.visitorName} has been successfully checked out.`,
+          'success',
+        )
+
+        try {
+          await sendEmailNotification({
+            template: 'VisitorDepartureNotification',
+            data: {
+              toAddresses: [authenticationStore.userEmail],
+              resident_givenName: authenticationStore.userGivenName,
+              resident_email: authenticationStore.userEmail,
+              visitor_name: visitor.value.visitorName,
+              departure_time: formatDateAndTime(
+                new Date(visitor.value.departureTime),
+              ),
+            },
+          })
+          notificationsStore.addNotification(
+            `Resident has been notified at ${authenticationStore.userEmail}`,
+            'success',
+          )
+        } catch (error) {
+          console.error(error)
+          errorMsg.value = 'Failed to send departure notification email.'
+          notificationsStore.addNotification(errorMsg.value, 'error')
+        }
+
         errorMsg.value = ''
-        await sendEmailNotification({
-          template: 'VisitorDepartureNotification',
-          data: {
-            toAddresses: [authenticationStore.userEmail],
-            resident_givenName: authenticationStore.userGivenName,
-            resident_email: authenticationStore.userEmail,
-            visitor_name: visitor.value.visitorName,
-            departure_time: formatDateAndTime(
-              new Date(visitor.value.departureTime),
-            ),
-          },
-        })
       } catch (error) {
         console.debug(error)
         errorMsg.value = 'Error updating check-in status'
