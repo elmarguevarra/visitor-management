@@ -6,6 +6,8 @@ const defaultUserGroup = 'unassigned'
 
 // NOTE: Add `/` before `api` to use the correct root base URL
 
+const enableEmailNotifications = process.env.VUE_APP_ENABLE_EMAIL_NOTIFICATIONS
+
 export async function postVisitor(data: any): Promise<any> {
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
@@ -169,6 +171,12 @@ export async function evaluatePermissions(
 }
 
 export async function sendEmailNotification(data: any): Promise<any> {
+  if (!enableEmailNotifications) {
+    console.warn(
+      'Email notifications are disabled. Skipping sendEmailNotification.',
+    )
+    return
+  }
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
 
