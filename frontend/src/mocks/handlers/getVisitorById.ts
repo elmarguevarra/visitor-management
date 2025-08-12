@@ -16,6 +16,7 @@ export const getVisitorByIdHandler = (): RestHandler[] => [
           new Date().setDate(new Date().getDate() - 1),
         ),
         hasArrived: false,
+        hasDeparted: false,
       }),
     )
   }),
