@@ -3,7 +3,7 @@
     <div
       v-for="n in notifications.notifications"
       :key="n.id"
-      class="toast align-items-center border-0 show mb-2 text-white"
+      class="toast align-items-center border-0 show mb-2 text-white fw-light"
       :class="{
         'toast-info': n.type === 'info',
         'toast-warning': n.type === 'warning',
@@ -54,7 +54,7 @@ const notifications = useNotificationsStore()
 .toast-success {
   background: linear-gradient(
     90deg,
-    rgba(30, 144, 255, 0.85),
+    rgba(30, 144, 255, 0.9),
     rgba(0, 119, 204, 0.8)
   );
   color: #fff;
