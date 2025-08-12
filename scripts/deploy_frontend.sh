@@ -61,6 +61,11 @@ echo "VUE_APP_COGNITO_AUTHORITY_URL=$authority_url" >> .env
 echo "Adding Frontend base url to .env..."
 echo "VUE_APP_FRONTEND_BASE_URL=$APP_FRONTEND_BASE_URL" >> .env
 
+# Add Email notification toggle
+echo "Adding email notification toggle to .env..."
+# Default to true if not set
+echo "VUE_APP_ENABLE_EMAIL_NOTIFICATIONS=${ENABLE_EMAIL_NOTIFICATIONS:-true}" >> .env
+
 # Confirm that the endpoint has been added to the .env file
 echo "Contents of .env:"
 cat .env
