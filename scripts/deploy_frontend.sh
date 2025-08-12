@@ -64,7 +64,7 @@ echo "VUE_APP_FRONTEND_BASE_URL=$APP_FRONTEND_BASE_URL" >> .env
 # Add Email notification toggle
 echo "Adding email notification toggle to .env..."
 # Default to true if not set
-echo "VUE_APP_ENABLE_EMAIL_NOTIFICATIONS=${ENABLE_EMAIL_NOTIFICATIONS:-true}" >> .env
+echo "VUE_APP_SEND_EMAIL_NOTIFICATIONS=$SEND_EMAIL_NOTIFICATIONS" >> .env
 
 # Confirm that the endpoint has been added to the .env file
 echo "Contents of .env:"
