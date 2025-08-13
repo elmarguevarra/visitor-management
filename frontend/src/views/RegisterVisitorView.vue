@@ -167,8 +167,28 @@ export default {
 </script>
 
 <style scoped>
-.btn-close-sm {
-  /* This is a common way to resize the SVG, adjust as needed */
-  background-size: 1em 1em;
+.form-floating > .form-control {
+  border-radius: 12px;
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  padding: 1rem 0.75rem;
+  box-shadow: none;
+  transition: all 0.2s ease;
+}
+
+.form-floating > .form-control:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  background-color: white;
+}
+
+.form-floating > label {
+  padding-left: 0.75rem;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.form-floating > .form-control:focus + label {
+  color: #2563eb;
 }
 </style>
