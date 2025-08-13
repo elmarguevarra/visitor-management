@@ -20,7 +20,7 @@
 
     <div
       v-if="searchPerformed && visitor.registrationId && !isLoading"
-      class="card mt-3"
+      class="card mt-3 border-0 shadow-sm"
     >
       <div class="card-body">
         <h5 class="card-title">
@@ -42,12 +42,14 @@
     </div>
     <div
       v-else-if="searchPerformed && !visitor.registrationId && !isLoading"
-      class="alert alert-warning mt-3"
+      class="alert alert-warning mt-3 border-0 shadow-sm p-3"
     >
       No registration found.
     </div>
 
-    <h6 class="alert alert-danger mt-4" v-if="errorMsg">{{ errorMsg }}</h6>
+    <h6 class="alert alert-danger mt-3 border-0 shadow-sm p-3" v-if="errorMsg">
+      {{ errorMsg }}
+    </h6>
   </div>
 </template>
 
