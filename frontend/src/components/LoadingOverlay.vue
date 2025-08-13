@@ -1,35 +1,34 @@
 <template>
   <div class="loading-overlay">
-    <div class="spinner-grow text-primary opacity-25" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+    <div class="spinner"></div>
   </div>
 </template>
-
-<script setup></script>
 
 <style scoped>
 .loading-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.6
-  ); /* Semi-transparent white background */
-  z-index: 9999; /* Ensure it's on top of most other content */
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4); /* darker backdrop for white spinner */
+  backdrop-filter: blur(2px);
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
 }
 
-/* Add any additional spinner styling if needed, or rely on Bootstrap's spinner styles */
-.spinner-border {
-  width: 2rem;
-  height: 2rem;
+/* Sleek White Spinner */
+.spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff; /* solid white top */
+  border-radius: 50%;
+  animation: spin 0.8s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

@@ -2,24 +2,7 @@
   <div class="container mt-2">
     <h4 class="mb-3" style="margin-left: -0.2rem">My Visitors</h4>
     <div>
-      <p class="card-text placeholder-glow">
-        <span v-if="isGetVisitorsLoading" class="placeholder col-5"></span>
-      </p>
-      <div v-if="isGetVisitorsLoading" class="card" aria-hidden="true">
-        <div class="card-body">
-          <h6 class="card-title placeholder-glow text-center mb-2">
-            <span class="placeholder col-4"></span>
-          </h6>
-          <div class="mb-2 placeholder-box"></div>
-          <p class="card-text placeholder-glow text-center mb-0">
-            <span class="placeholder col-8"></span>
-          </p>
-        </div>
-        <div class="card-footer text-muted text-center small">
-          <span class="placeholder col-3"></span>
-        </div>
-      </div>
-
+      <LoadingOverlay v-if="isGetVisitorsLoading" />
       <h6 v-if="visitRequests.length > 0" class="mt-4 text-muted">
         Visit Requests
       </h6>
@@ -206,11 +189,13 @@ import { useNotificationsStore } from '@/stores/notificationsStore'
 
 import { sendEmailNotification } from '@/services/handlerServices'
 import Button from '@/components/Button.vue'
+import LoadingOverlay from '@/components/LoadingOverlay.vue'
 
 export default {
   name: 'GetResidentVisitors',
   components: {
     Button,
+    LoadingOverlay,
   },
   setup() {
     const errorMsg = ref('')
