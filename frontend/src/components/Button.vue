@@ -46,10 +46,34 @@ function onClick(event: Event) {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
+button.btn-primary {
+  border-radius: 12px;
+  padding: 0.65rem 1.25rem;
+  font-weight: 500;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.25);
+  transition: transform 0.1s ease;
+}
+
+button.btn-primary:hover {
+  transform: translateY(-1px);
+}
+
 .btn-secondary {
   background: linear-gradient(90deg, #6c757d, #5a6268);
   border: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+button.btn-secondary {
+  border-radius: 12px;
+  padding: 0.65rem 1.25rem;
+  font-weight: 500;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.25);
+  transition: transform 0.1s ease;
+}
+
+button.btn-secondary:hover {
+  transform: translateY(-1px);
 }
 
 /* Enter animation (spinner appears) */
