@@ -196,13 +196,14 @@
 </template>
 
 <script>
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { useAuthenticationStore } from './stores/authenticationStore'
 import { useAuthorizationStore } from './stores/authorizationStore'
 import { ACTIONS } from './constants/actions'
 import { useUiStore } from './stores/uiStore'
 import { Collapse } from 'bootstrap'
 import Toast from '@/components/Toast.vue'
+import PullToRefresh from 'pulltorefreshjs'
 
 export default {
   name: 'App',
@@ -215,7 +216,25 @@ export default {
     const uiStore = useUiStore()
 
     onMounted(async () => {
+      // Load user session
       await authenticationStore.loadUser()
+
+      // Enable Pull-to-Refresh
+      PullToRefresh.init({
+        mainElement: '#app', // scope only to your app container
+        onRefresh() {
+          window.location.reload() // refresh entire PWA
+        },
+        instructionsPullToRefresh: 'Pull down to refresh',
+        instructionsReleaseToRefresh: 'Release to refresh',
+        instructionsRefreshing: 'Refreshing...',
+        iconArrow: '↓',
+        iconRefreshing: '⟳',
+      })
+    })
+
+    onUnmounted(() => {
+      PullToRefresh.destroyAll()
     })
 
     const closeNavbar = () => {
