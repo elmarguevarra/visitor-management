@@ -8,7 +8,6 @@
 .loading-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4); /* darker backdrop for white spinner */
   backdrop-filter: blur(2px);
   display: flex;
   justify-content: center;
