@@ -175,12 +175,12 @@
 
     <main
       class="flex-grow-1 py-1"
-      :class="{ 'pointer-events-none': uiStore.isLoading }"
+      :class="{ 'loading-state': uiStore.isLoading }"
     >
       <div class="container">
         <div
           class="router-view-fade"
-          :class="{ 'opacity-25': uiStore.isLoading }"
+          :class="{ 'is-loading': uiStore.isLoading }"
         >
           <router-view />
         </div>
@@ -346,5 +346,35 @@ footer {
     );
     z-index: 2; /* Ensure it's above the image */
   }
+}
+
+.router-view-fade {
+  transition: all 0.3s ease-in-out;
+}
+
+.router-view-fade.is-loading {
+  opacity: 0.4; /* Fades out */
+  filter: blur(3px); /* Apply blur */
+  pointer-events: none; /* Prevent clicks */
+}
+
+.loading-state {
+  position: relative;
+}
+
+/* Optional overlay while loading */
+.loading-state::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.3); /* faint overlay */
+  backdrop-filter: blur(2px);
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.loading-state:not(.loading-state)::after {
+  opacity: 0;
 }
 </style>

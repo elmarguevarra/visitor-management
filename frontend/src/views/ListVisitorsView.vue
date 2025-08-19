@@ -2,7 +2,6 @@
   <div class="container mt-2">
     <h4 class="mb-3" style="margin-left: -0.2rem">My Visitors</h4>
     <div>
-      <LoadingOverlay v-if="false" />
       <h6 v-if="visitRequests.length > 0" class="mt-4 text-muted">
         Visit Requests
       </h6>
@@ -189,17 +188,15 @@ import { useNotificationsStore } from '@/stores/notificationsStore'
 
 import { sendEmailNotification } from '@/services/handlerServices'
 import Button from '@/components/Button.vue'
-import LoadingOverlay from '@/components/LoadingOverlay.vue'
+import { useUiStore } from '@/stores/uiStore'
 
 export default {
   name: 'GetResidentVisitors',
   components: {
     Button,
-    LoadingOverlay,
   },
   setup() {
     const errorMsg = ref('')
-    const isGetVisitorsLoading = ref(false)
     const requestLoadingStates = reactive({})
     const requestSubmittedState = reactive({})
 
@@ -207,6 +204,7 @@ export default {
     const visitRequestStore = useVisitRequestStore()
     const visitorStore = useVisitorStore()
     const notificationsStore = useNotificationsStore()
+    const uiStore = useUiStore()
 
     const visitRequests = computed(() => visitRequestStore.visitRequests)
     const visitors = computed(() => visitorStore.visitors)
@@ -333,7 +331,7 @@ export default {
     }
 
     const getVisitors = async () => {
-      isGetVisitorsLoading.value = true
+      uiStore.isLoading = true
       try {
         const response = await getVisitorsByResidentId(
           authenticationStore.userEmail,
@@ -343,7 +341,7 @@ export default {
         console.debug(error)
         errorMsg.value = 'Error retrieving data'
       } finally {
-        isGetVisitorsLoading.value = false
+        uiStore.isLoading = false
       }
     }
 
@@ -362,14 +360,17 @@ export default {
       }
     }
 
-    onMounted(() => {
-      getVisitors()
-      getVisitRequests()
+    onMounted(async () => {
+      try {
+        uiStore.isLoading = true
+        await Promise.all([getVisitors(), getVisitRequests()])
+      } finally {
+        uiStore.isLoading = false
+      }
     })
 
     return {
       errorMsg,
-      isGetVisitorsLoading,
       visitRequests,
       visitors,
       upcomingVisitors,
