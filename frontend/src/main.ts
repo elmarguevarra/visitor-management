@@ -135,33 +135,33 @@ const uiStore = useUiStore()
 
 app.mount('#app')
 
-if (process.env.NODE_ENV !== 'development') {
-  router.beforeEach(async (to, from, next) => {
-    uiStore.isLoading = true
-    if (!to.meta.requiresAuthentication) {
-      return next()
+router.beforeEach(async (to, from, next) => {
+  uiStore.isLoading = true
+  if (!to.meta.requiresAuthentication) {
+    return next()
+  }
+  await authenticationStore.loadUser()
+  if (authenticationStore.isLoggedIn) {
+    await authorizationStore.loadUserPermissions()
+    const action = to.meta.requiresPermissionOnAction as Action
+    if (action && !authorizationStore.hasPermissionOnAction(action)) {
+      return next('/restricted')
     }
-    await authenticationStore.loadUser()
-    if (authenticationStore.isLoggedIn) {
-      await authorizationStore.loadUserPermissions()
-      const action = to.meta.requiresPermissionOnAction as Action
-      if (action && !authorizationStore.hasPermissionOnAction(action)) {
-        return next('/restricted')
-      }
-      next()
+    next()
+  } else {
+    await authenticationStore.removeUser()
+    if (to.name !== 'SignInCallback') {
+      sessionStorage.setItem('postLoginRedirectPath', to.fullPath)
+      await authenticationStore.signIn()
     } else {
-      await authenticationStore.removeUser()
-      if (to.name !== 'SignInCallback') {
-        sessionStorage.setItem('postLoginRedirectPath', to.fullPath)
-        await authenticationStore.signIn()
-      } else {
-        next()
-      }
+      next()
     }
-  })
-  router.afterEach(() => {
-    setTimeout(() => {
-      uiStore.isLoading = false
-    }, 300) //For percieved performance
-  })
-}
+  }
+})
+router.afterEach(() => {
+  uiStore.isLoading = false
+
+  // setTimeout(() => {
+  //   uiStore.isLoading = false
+  // }, 300) //For percieved performance
+})
