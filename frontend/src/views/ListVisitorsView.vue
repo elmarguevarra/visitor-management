@@ -2,7 +2,7 @@
   <div class="container mt-2">
     <h4 class="mb-3" style="margin-left: -0.2rem">My Visitors</h4>
     <div>
-      <LoadingOverlay v-if="isGetVisitorsLoading" />
+      <LoadingOverlay v-if="false" />
       <h6 v-if="visitRequests.length > 0" class="mt-4 text-muted">
         Visit Requests
       </h6>
@@ -157,7 +157,7 @@
         </div>
         <div
           v-else-if="visitor.hasDeparted"
-          class="card-footer text-muted text-center small"
+          class="badge bg-light text-secondary px-3 py-2"
         >
           <i class="bi bi-door-open me-1"></i> Departed
         </div>
