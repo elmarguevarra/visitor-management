@@ -159,8 +159,7 @@ router.beforeEach(async (to, from, next) => {
   }
 })
 router.afterEach(() => {
-  uiStore.isLoading = false
-  // setTimeout(() => {
-  //   uiStore.isLoading = false
-  // }, 300) //For percieved performance
+  setTimeout(() => {
+     uiStore.isLoading = false
+  }, 300) //For percieved performance
 })
