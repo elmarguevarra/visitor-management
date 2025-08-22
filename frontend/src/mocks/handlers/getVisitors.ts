@@ -69,6 +69,7 @@ export const getVisitorsHandler = (): RestHandler[] => [
           registrationId: '2fb3plj5xef',
           registrationTime: '2025-04-19T06:27:53.226Z',
           hasArrived: true,
+          hasDeparted: true,
         },
         {
           residentId: '1234',

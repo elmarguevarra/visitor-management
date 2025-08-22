@@ -1,173 +1,85 @@
 <template>
   <div class="container mt-2">
     <h4 class="mb-3" style="margin-left: -0.2rem">My Visitors</h4>
-    <div>
-      <h6 v-if="visitRequests.length > 0" class="mt-4 text-muted">
-        Visit Requests
-      </h6>
+
+    <template v-if="visitRequests.length > 0">
+      <h6 class="sticky-header mt-4 mb-2 text-muted">Visit Requests</h6>
       <div
         v-for="visitRequest in visitRequests"
         :key="visitRequest.inviteToken"
-        class="card border-0 shadow-sm mb-3"
+        class="visitor-card shadow-sm mb-3"
       >
         <div
-          class="card-body d-flex justify-content-between align-items-center flex-column flex-md-row"
+          class="card-content d-flex justify-content-between align-items-center"
         >
-          <div class="mb-2 mb-md-0">
-            <h6 class="card-title mb-1">{{ visitRequest.visitorName }}</h6>
-            <p class="card-text text-muted small">
-              on {{ formatDate(new Date(visitRequest.visitDate)) }}
-            </p>
+          <div class="d-flex align-items-center">
+            <i class="bi bi-person-circle fs-3 me-3 text-primary"></i>
+            <div>
+              <h6 class="card-title fw-bold mb-0">
+                {{ visitRequest.visitorName }}
+              </h6>
+              <p class="card-text text-muted small mb-0">
+                on {{ formatDate(new Date(visitRequest.visitDate)) }}
+              </p>
+            </div>
           </div>
           <div class="d-flex flex-column flex-md-row gap-2">
             <Button
               @click="approveVisitRequest(visitRequest)"
-              class="btn btn-primary btn-sm me-2"
-              icon="bi bi-check-circle"
+              class="btn btn-primary btn-xs"
               :loading="requestLoadingStates[visitRequest.inviteToken]?.approve"
-            >
-              Approve
+              >Approve
             </Button>
             <Button
               @click="declineVisitRequest(visitRequest)"
-              class="btn btn-secondary btn-sm me-2"
-              icon="bi bi-x-circle"
+              class="btn btn-secondary btn-xs"
               :loading="requestLoadingStates[visitRequest.inviteToken]?.decline"
-            >
-              Decline
+              >Decline
             </Button>
           </div>
         </div>
       </div>
+    </template>
+    <p v-else-if="allVisitors.length > 0" class="text-muted">
+      No pending visit requests.
+    </p>
 
-      <p v-if="visitors.length === 0" class="text-muted">No visitors.</p>
-      <h6 v-if="todayVisitors.length > 0" class="text-muted">Today</h6>
+    <template v-if="allVisitors.length > 0">
+      <h6 class="sticky-header mt-4 mb-2 text-muted">Visitors</h6>
       <div
-        v-for="visitor in todayVisitors"
+        v-for="visitor in allVisitors"
         :key="visitor.registrationId"
-        class="card border-0 shadow-sm mb-3"
+        class="visitor-card shadow-sm mb-3 position-relative"
+        :class="{ 'visitor-card-past': isPastVisitor(visitor) }"
       >
-        <div class="card-body d-flex flex-column align-items-center">
-          <h6
-            class="card-title text-center mb-2"
-            :class="{ 'text-muted': visitor.hasDeparted }"
-          ></h6>
+        <span
+          class="status-badge position-absolute top-0 end-0 mt-2 me-2"
+          :class="getVisitorStatusClass(visitor)"
+        >
+          <i class="bi" :class="getVisitorStatusIcon(visitor)"></i>
+        </span>
+
+        <div class="card-content d-flex align-items-center">
           <img
             :src="visitor.qrCodeDataURL"
             alt="Visitor QR Code"
-            width="100"
-            height="100"
-            class="mb-2 border-0 rounded"
+            class="visitor-qr me-3"
             :class="{ 'opacity-50': visitor.hasDeparted }"
           />
-          {{ visitor.visitorName }}
-
-          <p
-            class="card-text text-center mb-0"
-            :class="{ 'text-muted': visitor.hasDeparted }"
-          >
-            Registration ID: {{ visitor.registrationId }}
-          </p>
-        </div>
-        <div
-          v-if="!visitor.hasArrived"
-          class="badge bg-light text-secondary px-3 py-2"
-        >
-          <i class="bi bi-calendar-event me-1"></i> Scheduled
-        </div>
-        <div
-          v-else-if="visitor.hasArrived && !visitor.hasDeparted"
-          class="badge bg-light text-secondary px-3 py-2"
-        >
-          <i class="bi bi-person-check-fill me-1"></i> Arrived
-        </div>
-        <div
-          v-else-if="visitor.hasDeparted"
-          class="badge bg-light text-secondary px-3 py-2"
-        >
-          <i class="bi bi-door-open me-1"></i> Departed
+          <div class="flex-grow-1">
+            <h6 class="card-title fw-bold mb-0">
+              {{ visitor.visitorName }}
+            </h6>
+            <p class="card-text text-muted small mb-0">
+              {{ formatDate(new Date(visitor.visitDate)) }}
+            </p>
+          </div>
         </div>
       </div>
-      <p
-        v-if="todayVisitors.length === 0 && visitors.length > 0"
-        class="text-muted"
-      >
-        No visitors today.
-      </p>
-
-      <h6 v-if="upcomingVisitors.length > 0" class="mt-4 text-muted">
-        Upcoming
-      </h6>
-      <div
-        v-for="visitor in upcomingVisitors"
-        :key="visitor.registrationId"
-        class="card border-0 shadow-sm mb-3"
-      >
-        <div class="card-body d-flex flex-column align-items-center">
-          <img
-            :src="visitor.qrCodeDataURL"
-            alt="Visitor QR Code"
-            width="100"
-            height="100"
-            class="mb-2 border-0 rounded"
-          />
-          <h7 class="card-title text-center mb-2">
-            {{ visitor.visitorName }} on
-            {{ formatDate(new Date(visitor.visitDate)) }}
-          </h7>
-          <p class="card-text text-center mb-0">
-            Registration ID: {{ visitor.registrationId }}
-          </p>
-        </div>
-      </div>
-      <p
-        v-if="upcomingVisitors.length === 0 && visitors.length > 0"
-        class="text-muted"
-      >
-        No upcoming visitors.
-      </p>
-
-      <h6 v-if="expiredVisitors.length > 0" class="mt-4 text-muted">Past</h6>
-      <div
-        v-for="visitor in expiredVisitors"
-        :key="visitor.registrationId"
-        class="card border-0 shadow-sm mb-3"
-      >
-        <div class="card-body d-flex flex-column text-muted align-items-center">
-          <h6 class="card-title text-center mb-2">
-            {{ visitor.visitorName }} on
-            {{ formatDate(new Date(visitor.visitDate)) }}
-          </h6>
-          <p class="card-text text-center mb-0">
-            Registration ID: {{ visitor.registrationId }}
-          </p>
-        </div>
-        <div
-          v-if="!visitor.hasArrived"
-          class="badge bg-light text-secondary px-3 py-2"
-        >
-          <i class="bi bi-person-check-fill me-1"></i> Arrived
-        </div>
-        <div
-          v-else-if="visitor.hasArrived && !visitor.hasDeparted"
-          class="badge bg-light text-secondary px-3 py-2"
-        >
-          <i class="bi bi-person-check-fill me-1"></i> Arrived
-        </div>
-        <div
-          v-else-if="visitor.hasDeparted"
-          class="badge bg-light text-secondary px-3 py-2"
-        >
-          <i class="bi bi-door-open me-1"></i> Departed
-        </div>
-      </div>
-      <p
-        v-if="expiredVisitors.length === 0 && visitors.length > 0"
-        class="text-muted"
-      >
-        No past visitors.
-      </p>
-    </div>
+    </template>
+    <p v-else-if="visitRequests.length === 0" class="text-muted">
+      No visitors.
+    </p>
   </div>
 </template>
 
@@ -178,6 +90,7 @@ import {
   getVisitRequestsByResidentId,
   postVisitRequest,
   postVisitor,
+  sendEmailNotification,
 } from '@/services/handlerServices'
 import { formatDate } from '@/utils'
 import { useVisitRequestStore } from '@/stores/visitRequestStore'
@@ -185,10 +98,8 @@ import { useVisitorStore } from '@/stores/visitorStore'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { VISIT_REQUEST_STATUS } from '@/constants/status'
 import { useNotificationsStore } from '@/stores/notificationsStore'
-
-import { sendEmailNotification } from '@/services/handlerServices'
-import Button from '@/components/Button.vue'
 import { useUiStore } from '@/stores/uiStore'
+import Button from '@/components/Button.vue'
 
 export default {
   name: 'GetResidentVisitors',
@@ -198,7 +109,6 @@ export default {
   setup() {
     const errorMsg = ref('')
     const requestLoadingStates = reactive({})
-    const requestSubmittedState = reactive({})
 
     const authenticationStore = useAuthenticationStore()
     const visitRequestStore = useVisitRequestStore()
@@ -207,14 +117,37 @@ export default {
     const uiStore = useUiStore()
 
     const visitRequests = computed(() => visitRequestStore.visitRequests)
-    const visitors = computed(() => visitorStore.visitors)
-    const upcomingVisitors = computed(() => visitorStore.filterUpcoming())
-    const todayVisitors = computed(() => visitorStore.filterToday())
-    const expiredVisitors = computed(() => visitorStore.filterPast())
+
+    const allVisitors = computed(() => {
+      return [
+        ...visitorStore.filterToday(),
+        ...visitorStore.filterUpcoming(),
+        ...visitorStore.filterPast(),
+      ]
+    })
+
+    const isPastVisitor = (visitor) => {
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const visitDate = new Date(visitor.visitDate)
+      visitDate.setHours(0, 0, 0, 0)
+      return visitDate < today
+    }
+
+    const getVisitorStatusClass = (visitor) => {
+      if (visitor.hasDeparted) return 'departed-status'
+      if (visitor.hasArrived) return 'arrived-status'
+      return 'upcoming-status'
+    }
+
+    const getVisitorStatusIcon = (visitor) => {
+      if (visitor.hasDeparted) return 'bi-door-open'
+      if (visitor.hasArrived) return 'bi-person-check'
+      return 'bi-calendar-event'
+    }
 
     const approveVisitRequest = async (visitRequest) => {
       requestLoadingStates[visitRequest.inviteToken] = { approve: true }
-      requestSubmittedState[visitRequest.inviteToken] = true
       try {
         const newVisitorData = {
           residentId: visitRequest.residentId,
@@ -225,7 +158,6 @@ export default {
         }
 
         const newVisitor = await postVisitor(newVisitorData)
-
         const requestVisitData = {
           ...visitRequest,
           requestStatus: VISIT_REQUEST_STATUS.APPROVED,
@@ -233,12 +165,10 @@ export default {
         }
 
         await postVisitRequest(requestVisitData)
-
         visitRequestStore.removeVisitRequest(visitRequest.inviteToken)
         visitorStore.addVisitor(newVisitor)
-
         notificationsStore.addNotification(
-          `Approved visit request for ${newVisitor.visitorName} on ${formatDate(new Date(newVisitor.visitDate))}.`,
+          `Approved visit request for ${newVisitor.visitorName}.`,
           'success',
         )
 
@@ -256,23 +186,21 @@ export default {
               visit_qrCodeDataURL: newVisitor.qrCodeDataURL,
             },
           })
-
           notificationsStore.addNotification(
-            `Notification has been sent to ${visitRequest.visitorEmail}.`,
+            `Notification sent to ${visitRequest.visitorEmail}.`,
             'success',
           )
-          errorMsg.value = ''
         } catch (error) {
-          console.error(error)
-          errorMsg.value =
-            'Failed to send invitation email. Please inform the visitor directly.'
-          notificationsStore.addNotification(errorMsg.value, 'error')
+          notificationsStore.addNotification(
+            'Failed to send email. Inform the visitor directly.',
+            'error',
+          )
         }
       } catch (error) {
-        console.debug(error)
-        errorMsg.value = 'Error approving visit request. Please try again.'
-        notificationsStore.addNotification(errorMsg.value, 'error')
-        requestSubmittedState[visitRequest.inviteToken] = false
+        notificationsStore.addNotification(
+          'Error approving visit request. Please try again.',
+          'error',
+        )
       } finally {
         requestLoadingStates[visitRequest.inviteToken] = { approve: false }
       }
@@ -280,14 +208,12 @@ export default {
 
     const declineVisitRequest = async (visitRequest) => {
       requestLoadingStates[visitRequest.inviteToken] = { decline: true }
-      requestSubmittedState[visitRequest.inviteToken] = true
-      const requestVisitData = {
-        ...visitRequest,
-        requestStatus: VISIT_REQUEST_STATUS.DECLINED,
-      }
       try {
+        const requestVisitData = {
+          ...visitRequest,
+          requestStatus: VISIT_REQUEST_STATUS.DECLINED,
+        }
         await postVisitRequest(requestVisitData)
-
         notificationsStore.addNotification(
           `Declined visit request for ${visitRequest.visitorName}.`,
           'success',
@@ -306,61 +232,45 @@ export default {
               visit_date: formatDate(new Date(visitRequest.visitDate)),
             },
           })
-
           notificationsStore.addNotification(
-            `Notification has been sent to ${visitRequest.visitorEmail}.`,
+            `Notification sent to ${visitRequest.visitorEmail}.`,
             'success',
           )
-
           visitRequestStore.removeVisitRequest(visitRequest.inviteToken)
-          errorMsg.value = ''
         } catch (error) {
-          console.error(error)
-          errorMsg.value =
-            'Failed to send invitation email. Please share QR code manually.'
-          notificationsStore.addNotification(errorMsg.value, 'error')
+          notificationsStore.addNotification(
+            'Failed to send email. Please inform the visitor directly.',
+            'error',
+          )
         }
       } catch (error) {
-        console.debug(error)
-        errorMsg.value = 'Error declining visit request. Please try again.'
-        notificationsStore.addNotification(errorMsg.value, 'error')
-        requestSubmittedState[visitRequest.inviteToken] = false
+        notificationsStore.addNotification(
+          'Error declining visit request. Please try again.',
+          'error',
+        )
       } finally {
         requestLoadingStates[visitRequest.inviteToken] = { decline: false }
       }
     }
 
-    const getVisitors = async () => {
+    onMounted(async () => {
+      uiStore.isLoading = true
       try {
-        const response = await getVisitorsByResidentId(
-          authenticationStore.userEmail,
-        )
-        visitorStore.setVisitors(response)
-      } catch (error) {
-        console.debug(error)
-        errorMsg.value = 'Error retrieving data'
-      }
-    }
-
-    const getVisitRequests = async () => {
-      try {
-        const response = await getVisitRequestsByResidentId(
-          authenticationStore.userEmail,
-        )
-        const pendingVisitRequests = response.filter(
+        const [visitorsResponse, requestsResponse] = await Promise.all([
+          getVisitorsByResidentId(authenticationStore.userEmail),
+          getVisitRequestsByResidentId(authenticationStore.userEmail),
+        ])
+        visitorStore.setVisitors(visitorsResponse)
+        const pendingRequests = requestsResponse.filter(
           (v) => v.requestStatus === VISIT_REQUEST_STATUS.PENDING,
         )
-        visitRequestStore.setVisitRequests(pendingVisitRequests)
+        visitRequestStore.setVisitRequests(pendingRequests)
       } catch (error) {
-        console.debug(error)
-        errorMsg.value = 'Error retrieving data'
-      }
-    }
-
-    onMounted(async () => {
-      try {
-        uiStore.isLoading = true
-        await Promise.all([getVisitors(), getVisitRequests()])
+        console.error('Error fetching data:', error)
+        notificationsStore.addNotification(
+          'Failed to load visitor data.',
+          'error',
+        )
       } finally {
         uiStore.isLoading = false
       }
@@ -369,27 +279,89 @@ export default {
     return {
       errorMsg,
       visitRequests,
-      visitors,
-      upcomingVisitors,
-      todayVisitors,
-      expiredVisitors,
+      allVisitors,
       approveVisitRequest,
       declineVisitRequest,
       formatDate,
       requestLoadingStates,
-      requestSubmittedState,
+      getVisitorStatusClass,
+      getVisitorStatusIcon,
+      isPastVisitor,
     }
   },
 }
 </script>
 
 <style scoped>
-.placeholder-box {
-  width: 150px;
-  height: 150px;
-  background-color: #f8f9fa; /* Very light gray */
-  border: 1px solid #eee;
-  border-radius: 5px; /* Optional: slight rounding */
-  margin: 0 auto; /* Centers the box horizontally */
+/* Unified Card Style */
+.visitor-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1rem;
+  background-color: #fff;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.visitor-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.visitor-card-past {
+  filter: grayscale(100%);
+  opacity: 0.7;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.visitor-qr {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Custom extra-small button class */
+.btn-xs {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+}
+
+/* Updated badge style for icon-only display */
+.status-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Color for upcoming/scheduled */
+.status-badge.upcoming-status {
+  background-color: #e0f2fe;
+  color: #0b68a8;
+}
+
+/* Color for arrived (the active/highlighted state) */
+.status-badge.arrived-status {
+  background-color: #d1fae5;
+  color: #047857;
+}
+
+/* Color for departed/past (inactive/completed state) */
+.status-badge.departed-status,
+.status-badge.past-status {
+  background-color: #f3f4f6;
+  color: #6b7280;
 }
 </style>
