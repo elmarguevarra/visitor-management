@@ -1,7 +1,12 @@
 <template>
   <Toast />
   <div id="app" class="d-flex flex-column min-vh-100">
-    <header class="bg-light mb-3">
+    <header
+      :class="{
+        'header-default': $route.name !== 'Landing',
+        'header-landing': $route.name === 'Landing',
+      }"
+    >
       <div class="container py-2">
         <nav class="navbar navbar-expand-lg navbar-light">
           <router-link
@@ -243,11 +248,27 @@ export default {
 </script>
 
 <style scoped>
-/* Optional: Style for rounded corners at the bottom of the hero image */
-
-header {
-  z-index: 3;
+/* Default header (all pages except Landing) */
+.header-default {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
   background-color: #f2fdff !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Landing page header (not fixed, no shadow) */
+.header-landing {
+  position: relative;
+  background-color: #f2fdff !important;
+  box-shadow: none !important;
+  z-index: 20; /* make sure it's above landing image */
+}
+
+main {
+  margin-top: 90px; /* adjust to match header height */
 }
 
 /* Target the navbar brand text */
