@@ -256,12 +256,7 @@ export default {
 
 header {
   z-index: 3;
-  background-color: #effafe !important;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(239, 250, 254, 0.9) 75%
-  );
+  background-color: #f2fdff !important;
 }
 
 /* Target the navbar brand text */
