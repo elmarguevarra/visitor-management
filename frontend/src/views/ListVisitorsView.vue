@@ -15,7 +15,7 @@
           <div class="d-flex align-items-center">
             <i class="bi bi-person-circle fs-3 me-3 text-primary"></i>
             <div>
-              <h6 class="card-title fw-bold mb-0">
+              <h6 class="card-title mb-0">
                 {{ visitRequest.visitorName }}
               </h6>
               <p class="card-text text-muted small mb-0">
@@ -67,7 +67,7 @@
             :class="{ 'opacity-50': visitor.hasDeparted }"
           />
           <div class="flex-grow-1">
-            <h6 class="card-title fw-bold mb-0">
+            <h6 class="card-title mb-0">
               {{ visitor.visitorName }}
             </h6>
             <p class="card-text text-muted small mb-0">
