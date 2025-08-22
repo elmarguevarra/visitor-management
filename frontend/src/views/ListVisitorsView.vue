@@ -348,20 +348,20 @@ export default {
 
 /* Color for upcoming/scheduled */
 .status-badge.upcoming-status {
-  background-color: #e0f2fe;
-  color: #0b68a8;
+  background-color: #e0f2fe; /* Light blue */
+  color: #0b68a8; /* Dark blue text */
 }
 
-/* Color for arrived (the active/highlighted state) */
+/* Updated color for arrived */
 .status-badge.arrived-status {
-  background-color: #d1fae5;
-  color: #047857;
+  background-color: #1a73e8; /* A vibrant, deep blue */
+  color: #fff; /* White text for contrast */
 }
 
 /* Color for departed/past (inactive/completed state) */
 .status-badge.departed-status,
 .status-badge.past-status {
-  background-color: #f3f4f6;
-  color: #6b7280;
+  background-color: #f3f4f6; /* A clean, light gray */
+  color: #6b7280; /* Gray text */
 }
 </style>
