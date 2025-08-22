@@ -331,7 +331,6 @@ export default {
     }
 
     const getVisitors = async () => {
-      uiStore.isLoading = true
       try {
         const response = await getVisitorsByResidentId(
           authenticationStore.userEmail,
@@ -340,8 +339,6 @@ export default {
       } catch (error) {
         console.debug(error)
         errorMsg.value = 'Error retrieving data'
-      } finally {
-        uiStore.isLoading = false
       }
     }
 
