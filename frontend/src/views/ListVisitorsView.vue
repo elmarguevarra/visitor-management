@@ -41,7 +41,7 @@
       </div>
 
       <p v-if="visitors.length === 0" class="text-muted">No visitors.</p>
-      <h6 v-if="todayVisitors.length > 0" class="text-muted">Today's</h6>
+      <h6 v-if="todayVisitors.length > 0" class="text-muted">Today</h6>
       <div
         v-for="visitor in todayVisitors"
         :key="visitor.registrationId"
@@ -331,7 +331,6 @@ export default {
     }
 
     const getVisitors = async () => {
-      uiStore.isLoading = true
       try {
         const response = await getVisitorsByResidentId(
           authenticationStore.userEmail,
@@ -340,8 +339,6 @@ export default {
       } catch (error) {
         console.debug(error)
         errorMsg.value = 'Error retrieving data'
-      } finally {
-        uiStore.isLoading = false
       }
     }
 
