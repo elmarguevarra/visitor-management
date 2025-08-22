@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-2">
-    <h4 class="mb-3" style="margin-left: -0.2rem">Invite a Visitor</h4>
+    <h4 class="mb-4" style="margin-left: -0.2rem">Invite a Visitor</h4>
     <div>
       <form @submit.prevent="generateInviteLink" class="row g-3">
         <div class="col-12">
@@ -14,16 +14,19 @@
           v-if="invitation && invitation.inviteLink"
           class="mt-4 d-flex flex-column align-items-center"
         >
-          <div class="alert alert-info mt-4 border-0 shadow-sm p-3">
+          <div
+            class="alert alert-info mt-4 border-0 shadow-sm p-3"
+            :class="{ 'opacity-50': isLoading }"
+          >
             <div class="d-flex align-items-center">
               <div
                 class="px-2 py-1 small text-truncate text-secondary flex-grow-1 me-2 non-selectable-text"
                 style="max-width: 250px"
                 :title="invitation.inviteLink"
               >
-                {{ invitation.inviteLink }}
+                {{ shortenLink(invitation.inviteLink) }}
                 <span
-                  v-if="!isInviteLinkShared"
+                  v-if="!isInviteLinkShared && !isLoading"
                   class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
                 >
                   <span class="visually-hidden">Fresh link</span>
@@ -66,13 +69,14 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { postInvite, sendEmailNotification } from '@/services/handlerServices'
 import { useAuthenticationStore } from '@/stores/authenticationStore'
 import { formatDateAndTime } from '@/utils'
 import { useNotificationsStore } from '@/stores/notificationsStore'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import Button from '@/components/Button.vue'
+import { useUiStore } from '@/stores/uiStore'
 
 export default {
   components: {
@@ -82,6 +86,7 @@ export default {
   setup() {
     const authenticationStore = useAuthenticationStore()
     const notificationsStore = useNotificationsStore()
+    const uiStore = useUiStore()
 
     const invitation = ref(null)
     const emailAddressToSend = ref('')
@@ -143,6 +148,22 @@ export default {
       }
     }
 
+    const shortenLink = (link, startLength = 20, endLength = 10) => {
+      if (!link) return ''
+      if (link.length <= startLength + endLength) return link
+      return (
+        link.substring(0, startLength) +
+        '...' +
+        link.substring(link.length - endLength)
+      )
+    }
+
+    onMounted(async () => {
+      uiStore.isLoading = true
+      await generateInviteLink()
+      uiStore.isLoading = false
+    })
+
     return {
       invitation,
       errorMsg,
@@ -153,6 +174,7 @@ export default {
       copyToClipboard,
       sendInviteEmail,
       formatDateAndTime,
+      shortenLink,
     }
   },
 }

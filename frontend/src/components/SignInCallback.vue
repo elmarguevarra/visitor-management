@@ -1,7 +1,3 @@
-<template>
-  <LoadingOverlay />
-</template>
-
 <script setup>
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -9,7 +5,6 @@ import { userManager } from '../auth/authConfig'
 import { useAuthenticationStore } from '../stores/authenticationStore'
 import { useAuthorizationStore } from '../stores/authorizationStore'
 import { ACTIONS } from '../constants/actions'
-import LoadingOverlay from './LoadingOverlay.vue'
 
 const router = useRouter()
 const authenticationStore = useAuthenticationStore()
