@@ -268,7 +268,7 @@ export default {
 }
 
 main {
-  margin-top: 90px; /* adjust to match header height */
+  margin-top: 85px; /* adjust to match header height */
 }
 
 /* Target the navbar brand text */

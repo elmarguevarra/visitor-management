@@ -57,7 +57,7 @@ export default {
 
 .button-overlay {
   position: absolute;
-  bottom: 9%; /* Moves the button up from the bottom */
+  bottom: 10%; /* Moves the button up from the bottom */
   left: 50%;
   transform: translateX(-50%);
   width: 72%; /* Makes the button wider for better tap target */
