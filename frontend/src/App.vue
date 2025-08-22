@@ -1,7 +1,7 @@
 <template>
   <Toast />
   <div id="app" class="d-flex flex-column min-vh-100">
-    <header class="bg-light">
+    <header class="bg-light mb-3">
       <div class="container py-2">
         <nav class="navbar navbar-expand-lg navbar-light">
           <router-link
@@ -153,7 +153,7 @@
       </div>
     </header>
 
-    <div
+    <!-- <div
       v-if="$route.path !== '/'"
       class="container-fluid p-0 mb-0 hero-image-container"
     >
@@ -171,7 +171,7 @@
           "
         />
       </div>
-    </div>
+    </div> -->
 
     <main
       class="flex-grow-1 py-1"
@@ -244,15 +244,6 @@ export default {
 
 <style scoped>
 /* Optional: Style for rounded corners at the bottom of the hero image */
-.hero-image-container {
-  position: relative;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-  /* Add the box-shadow property here */
-  /* box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1); */
-  z-index: 1;
-  overflow: hidden;
-}
 
 header {
   z-index: 3;
@@ -316,36 +307,6 @@ header {
 footer {
   z-index: 2;
   background-color: transparent !important;
-}
-
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-  .hero-image {
-    max-height: 300px; /* Adjust height for smaller screens */
-  }
-}
-
-@media (max-width: 576px) {
-  .hero-image {
-    max-height: 200px; /* Further adjust height for very small screens */
-  }
-}
-
-@media (max-width: 767px) {
-  .hero-image-container::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1.2rem; /* Adjust the height of the gradient area for mobile */
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 1) 100%
-    );
-    z-index: 2; /* Ensure it's above the image */
-  }
 }
 
 .router-view-fade {
