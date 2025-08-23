@@ -76,7 +76,6 @@ import { formatDateAndTime } from '@/utils'
 import { useNotificationsStore } from '@/stores/notificationsStore'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import Button from '@/components/Button.vue'
-import { useUiStore } from '@/stores/uiStore'
 
 export default {
   components: {
@@ -86,7 +85,6 @@ export default {
   setup() {
     const authenticationStore = useAuthenticationStore()
     const notificationsStore = useNotificationsStore()
-    const uiStore = useUiStore()
 
     const invitation = ref(null)
     const emailAddressToSend = ref('')
@@ -159,9 +157,7 @@ export default {
     }
 
     onMounted(async () => {
-      uiStore.isLoading = true
       await generateInviteLink()
-      uiStore.isLoading = false
     })
 
     return {
