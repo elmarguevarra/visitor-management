@@ -64,7 +64,6 @@
             :src="visitor.qrCodeDataURL"
             alt="Visitor QR Code"
             class="visitor-qr me-3"
-            :class="{ 'opacity-50': visitor.hasDeparted }"
           />
           <div class="flex-grow-1">
             <h6 class="card-title mb-0">
@@ -310,7 +309,7 @@ export default {
 
 .visitor-card-past {
   filter: grayscale(100%);
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 .card-content {

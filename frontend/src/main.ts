@@ -136,7 +136,7 @@ const uiStore = useUiStore()
 app.mount('#app')
 
 router.beforeEach(async (to, from, next) => {
-  uiStore.isLoading = true
+  // uiStore.isLoading = true
   if (!to.meta.requiresAuthentication) {
     return next()
   }
@@ -158,9 +158,9 @@ router.beforeEach(async (to, from, next) => {
     }
   }
 })
-router.afterEach(() => {
-  uiStore.isLoading = false
-  // setTimeout(() => {
-  //   uiStore.isLoading = false
-  // }, 300) //For percieved performance
-})
+// router.afterEach(() => {
+//   uiStore.isLoading = false
+//   // setTimeout(() => {
+//   //   uiStore.isLoading = false
+//   // }, 300) //For percieved performance
+// })
