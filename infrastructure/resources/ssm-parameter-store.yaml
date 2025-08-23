@@ -6,12 +6,15 @@ Parameters:
   SendEmailValue:
     Type: String
     Default: "false"
+  StackName:
+    Type: String
+    Description: The name of the parent stack
 
 Resources:
   SendEmailParameter:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Sub "/${AWS::StackName}/notification/send-email/"
+      Name: !Sub "/${StackName}/notification/send-email/"
       Type: String
       Value: !Ref SendEmailValue
       Description: "Enable or disable email notifications"
