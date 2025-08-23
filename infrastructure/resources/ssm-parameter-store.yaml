@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: SAM template to create a Parameter Store entries
+
+Parameters:
+  SendEmailValue:
+    Type: String
+    Description: !Sub "The value for the /${AWS::StackName}/notification/send-email/ parameter"
+    Default: "false"
+
+Resources:
+  SendEmailParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub "/${AWS::StackName}/notification/send-email/"
+      Type: String
+      Value: !Ref SendEmailValue
+      Description: "Enable or disable email notifications"
+
+Outputs:
+  SendEmailParameterName:
+    Description: "The SSM Parameter name"
+    Value: !Ref SendEmailParameter
+
+  SendEmailParameterValue:
+    Description: "The value of the parameter"
+    Value: !Ref SendEmailValue

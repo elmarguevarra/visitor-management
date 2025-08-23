@@ -58,6 +58,11 @@ Parameters:
   AllViewerExceptHostHeader:
     Type: String
     Description: Global Origin Request Policy ID for CloudFront (AllViewerExceptHostHeader)
+  SenddEmailNotifications:
+    Type: String
+    AllowedValues: ["true", "false"]
+    Default: "false"
+    Description: Whether to enable email notifications
 
 Conditions:
   CreateHostedZoneCondition: !Equals [!Ref CreateHostedZone, "true"]
@@ -167,6 +172,13 @@ Resources:
       TemplateURL: ./infrastructure/resources/ses-notification.yaml
       Parameters:
         SysNotifEmailAddress: !Ref SysNotifEmailAddress
+
+  SSMParameterStoreStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./infrastructure/resources/ssm-parameter-store.yaml
+      Parameters:
+        SendEmailValue: !Ref SenddEmailNotifications
 
 Outputs:
   APIGatewayEndpoint:
