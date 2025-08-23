@@ -179,6 +179,7 @@ Resources:
       TemplateURL: ./infrastructure/resources/ssm-parameter-store.yaml
       Parameters:
         SendEmailValue: !Ref SenddEmailNotifications
+        StackName: !Ref AWS::StackName
 
 Outputs:
   APIGatewayEndpoint:
