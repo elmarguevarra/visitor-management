@@ -457,6 +457,7 @@ Resources:
                     VisitorManagement::Action::"getPermissions",
                     VisitorManagement::Action::"getVisitorsByResidentId",
                     VisitorManagement::Action::"getInviteByToken",
+                    VisitorManagement::Action::"postVisitor",
                     VisitorManagement::Action::"getVisitRequestByToken"],
                 resource == VisitorManagement::Resource::"visitorResource"
             );
