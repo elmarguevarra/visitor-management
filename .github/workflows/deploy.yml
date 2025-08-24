@@ -31,7 +31,7 @@ env:
   SYS_NOTIF_EMAIL_ADDRESS: vms.alerts@alphinecodetech.click
   ADMINISTRATOR_EMAIL_ADDRESS: admin@alphinecodetech.click
   SEND_EMAIL_NOTIFICATIONS_PARAM: "/visitor-management/notification/send-email"
-  SEND_EMAIL_NOTIFICATIONS: "true"
+  SEND_EMAIL_NOTIFICATIONS_VALUE: "true"
 
 jobs:
   deploy-backend-and-infra:

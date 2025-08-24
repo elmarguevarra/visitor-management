@@ -58,7 +58,7 @@ Parameters:
   AllViewerExceptHostHeader:
     Type: String
     Description: Global Origin Request Policy ID for CloudFront (AllViewerExceptHostHeader)
-  SendEmailNotifications:
+  SendEmailNotificationsValue:
     Type: String
     AllowedValues: ["true", "false"]
     Description: Whether to enable email notifications
@@ -180,7 +180,7 @@ Resources:
     Properties:
       TemplateURL: ./infrastructure/resources/ssm-parameter-store.yaml
       Parameters:
-        SendEmailNotifcationsValue: !Ref SendEmailNotifications
+        SendEmailNotifcationsValue: !Ref SendEmailNotificationsValue
         SendEmailNotificationsParameter: !Ref SendEmailNotificationsParameter
 
 Outputs:

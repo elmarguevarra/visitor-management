@@ -73,7 +73,8 @@ sam_deploy_output=$(
         GlobalCloudFrontHostedZoneId=$GLOBAL_CLOUDFRONT_HOSTED_ZONE_ID \
         SysNotifEmailAddress=$SYS_NOTIF_EMAIL_ADDRESS \
         AdminEmailAddress=$ADMINISTRATOR_EMAIL_ADDRESS \
-        SendEmailNotifications=$SEND_EMAIL_NOTIFICATIONS \
+        SendEmailNotificationsValue=$SEND_EMAIL_NOTIFICATIONS \
+        SendEmailNotificationsParameter=$SEND_EMAIL_NOTIFICATIONS_PARAM \
     2>&1
 )
 
