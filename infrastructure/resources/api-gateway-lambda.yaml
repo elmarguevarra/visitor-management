@@ -380,6 +380,33 @@ Resources:
             RestApiId: !Ref ApiGatewayApi
             Auth:
               Authorizer: NONE
+  getParameterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../../backend/
+      Handler: src/handlers/ssm/get-parameter.getParameterhandler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64 # Cheaper and often better performance for Lambda
+      MemorySize: 512 # Better baseline for Node.js
+      Timeout: 15 # More reasonable default
+      Description: HTTP post method to send an email using
+        AWS SES.
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ssm:GetParameter
+              Resource: "*"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /api/ssm/parameter
+            Method: GET
+            RestApiId: !Ref ApiGatewayApi
+            Auth:
+              Authorizer: NONE
 
 Outputs:
   ApiGatewayApi:
