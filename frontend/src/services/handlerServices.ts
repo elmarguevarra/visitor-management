@@ -181,9 +181,11 @@ export async function sendEmailNotification(data: any): Promise<any> {
       headers: { Authorization: `Bearer ${token}` },
     },
   )
-  const lambdaResponse = res.data
-  const payload = JSON.parse(lambdaResponse.body)
-  const sendEmailNotifications = payload.sendEmailNotifications
+
+  const sendEmailNotifications = res.data.sendEmailNotifications
+
+  console.debug('sendEmailNotifications:', res.data.sendEmailNotifications)
+
   if (sendEmailNotifications === 'false') {
     console.warn(
       'Email notifications are disabled. Skipping sendEmailNotification.',
