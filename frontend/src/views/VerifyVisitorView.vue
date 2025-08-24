@@ -109,7 +109,6 @@ import {
   sendEmailNotification,
 } from '@/services/handlerServices'
 import { formatDateAndTime } from '@/utils'
-import { useAuthenticationStore } from '@/stores/authenticationStore'
 import Button from '@/components/Button.vue'
 import { useNotificationsStore } from '@/stores/notificationsStore'
 
@@ -125,7 +124,6 @@ export default {
     },
   },
   setup(props) {
-    const authenticationStore = useAuthenticationStore()
     const notificationsStore = useNotificationsStore()
 
     const visitor = ref({
@@ -206,9 +204,9 @@ export default {
           await sendEmailNotification({
             template: 'VisitorArrivalNotification',
             data: {
-              toAddresses: [authenticationStore.userEmail],
-              resident_givenName: authenticationStore.userGivenName,
-              resident_email: authenticationStore.userEmail,
+              toAddresses: [visitor.value.residentId],
+              resident_givenName: visitor.value.residentName,
+              resident_email: visitor.value.residentId,
               visitor_name: visitor.value.visitorName,
               arrival_time: formatDateAndTime(
                 new Date(visitor.value.arrivalTime),
@@ -216,7 +214,7 @@ export default {
             },
           })
           notificationsStore.addNotification(
-            `Resident has been notified at ${authenticationStore.userEmail}`,
+            `Resident has been notified at ${visitor.value.residentId}`,
             'success',
           )
         } catch (error) {
@@ -255,9 +253,9 @@ export default {
           await sendEmailNotification({
             template: 'VisitorDepartureNotification',
             data: {
-              toAddresses: [authenticationStore.userEmail],
-              resident_givenName: authenticationStore.userGivenName,
-              resident_email: authenticationStore.userEmail,
+              toAddresses: [visitor.value.residentId],
+              resident_givenName: visitor.value.residentName,
+              resident_email: visitor.value.residentId,
               visitor_name: visitor.value.visitorName,
               departure_time: formatDateAndTime(
                 new Date(visitor.value.departureTime),
@@ -265,7 +263,7 @@ export default {
             },
           })
           notificationsStore.addNotification(
-            `Resident has been notified at ${authenticationStore.userEmail}`,
+            `Resident has been notified at ${visitor.value.residentId}`,
             'success',
           )
         } catch (error) {
