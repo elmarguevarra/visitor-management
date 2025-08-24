@@ -6,9 +6,6 @@ const defaultUserGroup = 'unassigned'
 
 // NOTE: Add `/` before `api` to use the correct root base URL
 
-const sendEmailNotifications =
-  process.env.VUE_APP_SEND_EMAIL_NOTIFICATIONS || 'false'
-
 export async function postVisitor(data: any): Promise<any> {
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
@@ -171,8 +168,22 @@ export async function evaluatePermissions(
   return response.data
 }
 
+const ssmParameterName = process.env.VUE_APP_SEND_EMAIL_NOTIFICATIONS_PARAMETER
+
 export async function sendEmailNotification(data: any): Promise<any> {
-  if (sendEmailNotifications === 'false') {
+  const authenticationStore = useAuthenticationStore()
+  const token = authenticationStore.user?.access_token
+
+  const sendEmailNotifications = await axios.get(
+    `/api/ssm-parameter?param=${ssmParameterName}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  )
+
+  if (sendEmailNotifications.data === 'false') {
     console.warn(
       'Email notifications are disabled. Skipping sendEmailNotification.',
     )
@@ -182,8 +193,6 @@ export async function sendEmailNotification(data: any): Promise<any> {
     'Sending email notification with data:',
     JSON.stringify(data, null, 2),
   )
-  const authenticationStore = useAuthenticationStore()
-  const token = authenticationStore.user?.access_token
 
   const response = await axios.post(`/api/send-email`, data, {
     headers: {

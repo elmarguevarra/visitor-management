@@ -11,7 +11,7 @@ Parameters:
     Description: The name of the parent stack
 
 Resources:
-  SendEmailParameter:
+  SendEmailNotificationsParameter:
     Type: AWS::SSM::Parameter
     Properties:
       Name: !Sub "/${StackName}/notification/send-email"
@@ -22,7 +22,7 @@ Resources:
 Outputs:
   SendEmailParameterName:
     Description: "The SSM Parameter name"
-    Value: !Ref SendEmailParameter
+    Value: !Ref SendEmailNotificationsParameter
 
   SendEmailParameterValue:
     Description: "The value of the parameter"
