@@ -62,6 +62,9 @@ Parameters:
     Type: String
     AllowedValues: ["true", "false"]
     Description: Whether to enable email notifications
+  SendEmailNotificationsParameter:
+    Type: String
+    Description: The SSM Parameter name for email notifications
 
 Conditions:
   CreateHostedZoneCondition: !Equals [!Ref CreateHostedZone, "true"]
@@ -177,7 +180,8 @@ Resources:
     Properties:
       TemplateURL: ./infrastructure/resources/ssm-parameter-store.yaml
       Parameters:
-        StackName: !Ref AWS::StackName
+        SendEmailNotifcationsValue: !Ref SendEmailNotifications
+        SendEmailNotificationsParameter: !Ref SendEmailNotificationsParameter
 
 Outputs:
   APIGatewayEndpoint:

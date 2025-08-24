@@ -3,20 +3,20 @@ Transform: AWS::Serverless-2016-10-31
 Description: SAM template to create a Parameter Store entries
 
 Parameters:
-  SendEmailValue:
+  SendEmailNotifcationsValue:
     Type: String
     Default: "false"
-  StackName:
+  SendEmailNotificationsParameter:
     Type: String
-    Description: The name of the parent stack
+    Description: The name of the SSM Parameter to toggle email notifications
 
 Resources:
   SendEmailParameter:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Sub "/${StackName}/notification/send-email"
+      Name: !Ref SendEmailNotificationsParameter
       Type: String
-      Value: !Ref SendEmailValue
+      Value: !Ref SendEmailNotifcationsValue
       Description: "Enable or disable email notifications"
 
 Outputs:
@@ -26,4 +26,4 @@ Outputs:
 
   SendEmailParameterValue:
     Description: "The value of the parameter"
-    Value: !Ref SendEmailValue
+    Value: !Ref SendEmailNotifcationsValue
