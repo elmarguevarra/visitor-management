@@ -9,12 +9,7 @@ export const getParameterHandler = (): RestHandler[] => [
     return res(
       ctx.status(200),
       ctx.json({
-        statusCode: 200,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sendEmailNotifications: 'false', // mock value
-        }),
-        isBase64Encoded: false,
+        sendEmailNotifications: 'false',
       }),
     )
   }),
