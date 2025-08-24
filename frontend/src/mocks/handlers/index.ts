@@ -8,6 +8,7 @@ import { getInviteByTokenHandler } from './getInviteByToken'
 import { getVisitRequestByTokenHandler } from './getVisitRequestByToken'
 import { getPermissionsHandler } from './getPermissions'
 import { sendEmailHandler } from './notif/sendEmail'
+import { getParameterHandler } from './ssm/get-parameter'
 
 export function getHandlers() {
   return [
@@ -21,5 +22,6 @@ export function getHandlers() {
     ...getVisitRequestByTokenHandler(),
     ...getPermissionsHandler(),
     ...sendEmailHandler(),
+    ...getParameterHandler(),
   ]
 }

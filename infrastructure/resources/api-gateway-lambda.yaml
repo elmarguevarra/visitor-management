@@ -402,7 +402,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /api/ssm/parameter
+            Path: /api/ssm-parameter
             Method: GET
             RestApiId: !Ref ApiGatewayApi
             Auth:

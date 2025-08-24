@@ -168,22 +168,23 @@ export async function evaluatePermissions(
   return response.data
 }
 
-const ssmParameterName = process.env.VUE_APP_SEND_EMAIL_NOTIFICATIONS_PARAMETER
+const SEND_EMAIL_NOTIFICATIONS_PARAMETER =
+  process.env.VUE_APP_SEND_EMAIL_NOTIFICATIONS_PARAMETER
 
 export async function sendEmailNotification(data: any): Promise<any> {
   const authenticationStore = useAuthenticationStore()
   const token = authenticationStore.user?.access_token
 
-  const sendEmailNotifications = await axios.get(
-    `/api/ssm-parameter?param=${ssmParameterName}`,
+  const res = await axios.get(
+    `/api/ssm-parameter?param=${SEND_EMAIL_NOTIFICATIONS_PARAMETER}`,
     {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     },
   )
-
-  if (sendEmailNotifications.data === 'false') {
+  const lambdaResponse = res.data
+  const payload = JSON.parse(lambdaResponse.body)
+  const sendEmailNotifications = payload.sendEmailNotifications
+  if (sendEmailNotifications === 'false') {
     console.warn(
       'Email notifications are disabled. Skipping sendEmailNotification.',
     )
