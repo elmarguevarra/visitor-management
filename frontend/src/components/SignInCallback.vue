@@ -20,7 +20,7 @@ onMounted(async () => {
 
     const redirectPath =
       sessionStorage.getItem('postLoginRedirectPath') ||
-      (authorizationStore.hasPermissionOnAction(ACTIONS.BROWSE_VISITORS)
+      (authorizationStore.hasPermissionOnAction(ACTIONS.UI.BROWSE_VISITORS)
         ? '/visitors'
         : '/profile')
 
