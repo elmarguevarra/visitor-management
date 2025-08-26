@@ -10,7 +10,11 @@
       <div class="container py-2">
         <nav class="navbar navbar-expand-lg navbar-light">
           <router-link
-            to="/profile"
+            :to="
+              hasPermission(ACTIONS.UI.BROWSE_VISITORS)
+                ? '/visitors'
+                : '/profile'
+            "
             class="navbar-brand d-flex flex-column align-items-start"
           >
             <div class="d-flex align-items-center">
